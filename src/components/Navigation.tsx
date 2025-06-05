@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, TrendingUp, CheckCircle } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle } from 'lucide-react'
 import './Navigation.css'
 
 const Navigation: React.FC = () => {
@@ -15,6 +15,7 @@ const Navigation: React.FC = () => {
     { path: '/solution', label: 'Архитектурные решения', icon: Lightbulb },
     { path: '/testing', label: 'Технологии тестирования', icon: Zap },
     { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
+    { path: '/market-analysis', label: 'Анализ рынка', icon: BarChart3 },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]

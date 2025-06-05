@@ -1,0 +1,309 @@
+import React, { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import * as d3 from 'd3'
+import './MarketAnalysisSlide.scss'
+
+interface MetricCardProps {
+  title: string
+  children: React.ReactNode
+  delay?: number
+  variant: 'metrics' | 'trends' | 'insights'
+}
+
+const MetricCard: React.FC<MetricCardProps> = ({ title, children, delay = 0, variant }) => (
+  <motion.div 
+    className={`glass-card ${variant}`}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay }}
+  >
+    <div className="card-title">{title}</div>
+    {children}
+  </motion.div>
+)
+
+export const MarketAnalysisSlide: React.FC = () => {
+  const chartRef = useRef<HTMLDivElement>(null)
+  const animationFrameId = useRef<number | null>(null)
+  const animationTimeoutId = useRef<number | null>(null)
+  const nextDotIndexRef = useRef<number>(0)
+
+  useEffect(() => {
+    if (!chartRef.current) {
+      console.log("[MarketAnalysisSlide] chartRef.current is null, returning.");
+      return;
+    }
+
+    const container = chartRef.current;
+    if (container.hasAttribute('data-chart-initialized')) {
+      console.log("[MarketAnalysisSlide] Chart already initialized, returning.");
+      return;
+    }
+    container.setAttribute('data-chart-initialized', 'true');
+    console.log("[MarketAnalysisSlide] Initializing chart and animations...");
+
+    nextDotIndexRef.current = 0;
+
+    const data = [
+      { year: 2023, relational: 70.76, nosql: 7.55, graph: 2.9, cloud: 12.64, total: 100.79 },
+      { year: 2024, relational: 79.61, nosql: 9.82, graph: 3.5, cloud: 16.08, total: 129.01 },
+      { year: 2025, relational: 89.57, nosql: 12.77, graph: 4.2, cloud: 20.44, total: 150.38 },
+      { year: 2026, relational: 100.75, nosql: 16.6, graph: 5.0, cloud: 26.02, total: 173.37 },
+      { year: 2027, relational: 113.34, nosql: 21.58, graph: 6.0, cloud: 33.09, total: 199.01 },
+      { year: 2028, relational: 127.51, nosql: 28.05, graph: 7.2, cloud: 42.09, total: 229.85 },
+      { year: 2029, relational: 143.45, nosql: 36.47, graph: 8.6, cloud: 53.49, total: 267.01 },
+      { year: 2030, relational: 161.38, nosql: 47.41, graph: 10.9, cloud: 68.03, total: 292.22 }
+    ];
+    const categories = [
+      { key: "relational", name: "Реляционные СУБД", color: "#1E3A8A" },
+      { key: "nosql", name: "NoSQL СУБД", color: "#3B82F6" },
+      { key: "cloud", name: "Облачные СУБД", color: "#60A5FA" },
+      { key: "graph", name: "Графовые СУБД", color: "#93C5FD" }
+    ];
+
+    d3.select(chartRef.current).selectAll("*").remove();
+
+    const containerWidth = chartRef.current.offsetWidth;
+    const containerHeight = chartRef.current.offsetHeight;
+    const margin = { top: 20, right: 30, bottom: 60, left: 60 };
+    const width = containerWidth - margin.left - margin.right;
+    const height = containerHeight - margin.top - margin.bottom;
+
+    if (width <= 0 || height <= 0) {
+        console.warn("[MarketAnalysisSlide] Chart dimensions are invalid, skipping render.", { width, height });
+        return;
+    }
+
+    const svg = d3.select(chartRef.current).append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom);
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.year) as [number, number]).range([0, width]);
+    const yScale = d3.scaleLinear().domain([0, d3.max(data, d => d.total)! * 1.1]).range([height, 0]);
+
+    g.append("g").attr("class", "grid").attr("transform", `translate(0,${height})`).call(d3.axisBottom(xScale).tickSize(-height).tickFormat("" as any));
+    g.append("g").attr("class", "grid").call(d3.axisLeft(yScale).tickSize(-width).tickFormat("" as any));
+
+    const stack = d3.stack<any>().keys(categories.map(d => d.key)).order(d3.stackOrderNone).offset(d3.stackOffsetNone);
+    const stackedData = stack(data);
+    const areaGenerator = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(d[0])).y1(d => yScale(d[1])).curve(d3.curveCardinal);
+
+    const defs = svg.append("defs");
+    categories.forEach(category => {
+      const gradient = defs.append("linearGradient").attr("id", `gradient-${category.key}`).attr("gradientUnits", "userSpaceOnUse").attr("x1", 0).attr("y1", height).attr("x2", 0).attr("y2", 0);
+      gradient.append("stop").attr("offset", "0%").attr("stop-color", category.color).attr("stop-opacity", 0.3);
+      gradient.append("stop").attr("offset", "100%").attr("stop-color", category.color).attr("stop-opacity", 0.8);
+    });
+
+    const areas = g.selectAll(".area").data(stackedData).enter().append("path").attr("class", "area").style("fill", (d, i) => `url(#gradient-${categories[i].key})`).style("stroke", (d, i) => categories[i].color).style("stroke-width", 1.5);
+
+    areas.each(function(areaData, i) {
+      const path = d3.select(this); const originalPath = areaGenerator(areaData as any);
+      const startArea = d3.area<any>().x(d => xScale(d.data.year)).y0(_ => yScale(0)).y1(_ => yScale(0)).curve(d3.curveCardinal);
+      path.attr("d", startArea(areaData as any));
+      let progress = 0, currentAmplitude = 8, currentPhase = 0;
+      const frequency = 0.015, areaTotalDuration = 2000, areaStartTime = Date.now() + (i * 400);
+      
+      function animateRise() {
+        const now = Date.now(); 
+        if (now < areaStartTime) { animationFrameId.current = requestAnimationFrame(animateRise); return; }
+        const elapsed = now - areaStartTime; progress = Math.min(elapsed / areaTotalDuration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        currentAmplitude = 8 * (1 - progress * 0.7); currentPhase += 0.2;
+        const risingArea = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(0) + (yScale(d[0]) - yScale(0)) * easeProgress).y1(d => { const finalY = yScale(d[1]); const currentY = yScale(0) + (finalY - yScale(0)) * easeProgress; const wave = currentAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase); return currentY + wave; }).curve(d3.curveCardinal);
+        path.attr("d", risingArea(areaData as any));
+        if (progress < 1) { animationFrameId.current = requestAnimationFrame(animateRise); } else {
+          let settleAmplitude = 5, oscillationTime = 0; const maxOscillationTime = 3000;
+          const settle = () => {
+            oscillationTime += 50; const dampingFactor = Math.max(0.1, 1 - (oscillationTime / maxOscillationTime)); settleAmplitude = 5 * dampingFactor; currentPhase += 0.15;
+            if (oscillationTime < maxOscillationTime) { const settleArea = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(d[0])).y1(d => yScale(d[1]) + settleAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase)).curve(d3.curveCardinal); path.attr("d", settleArea(areaData as any)); setTimeout(settle, 50); } else { path.transition().duration(500).attr("d", originalPath); }
+          }; setTimeout(settle, 200);
+        }
+      }
+      animationFrameId.current = requestAnimationFrame(animateRise);
+    });
+
+    g.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d"))).selectAll("text").style("fill", "#475569").style("font-size", "12px");
+    g.append("g").call(d3.axisLeft(yScale)).selectAll("text").style("fill", "#475569").style("font-size", "12px");
+    g.selectAll(".domain").style("stroke", "#64748B"); g.selectAll(".tick line").style("stroke", "#64748B");
+    g.append("text").attr("x", width / 2).attr("y", height + 50).attr("fill", "#475569").style("text-anchor", "middle").style("font-size", "14px").style("font-weight", "bold").text("Год");
+    g.append("text").attr("transform", "rotate(-90)").attr("y", -50).attr("x", -height / 2).attr("fill", "#475569").style("text-anchor", "middle").style("font-size", "14px").style("font-weight", "bold").text("Объем рынка (млрд USD)");
+
+    const line = d3.line<any>().x(d => xScale(d.year)).y(d => yScale(d.total)).curve(d3.curveCardinal);
+    const totalLinePath = g.append("path").datum(data).attr("d", line).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 3).style("visibility", "hidden");
+
+    animationTimeoutId.current = setTimeout(() => {
+      console.log("[MarketAnalysisSlide] Starting line and dot animation after 4s delay...");
+      const pathNode = totalLinePath.node() as SVGPathElement;
+      if (!pathNode) { console.error("[MarketAnalysisSlide] totalLinePath.node() is null!"); return; }
+      const totalLength = pathNode.getTotalLength();
+      if (totalLength === 0) { console.error("[MarketAnalysisSlide] totalLength is 0 for totalLinePath!"); return; }
+      console.log(`[MarketAnalysisSlide] Total line path length: ${totalLength}`);
+
+      totalLinePath.style("visibility", "hidden");
+      
+      const lineAnimationStartTime = Date.now();
+      const lineDuration = 3000;
+      const dashLength = 8, gapLength = 7, segmentLength = dashLength + gapLength;
+      
+      const dotPositions: number[] = []; const dotSpacing = 150;
+      for (let pos = 0; pos <= totalLength; pos += dotSpacing) { dotPositions.push(pos); }
+      
+      const EUCLIDEAN_TRIGGER_DISTANCE = 50; // Pixels
+      console.log(`[MarketAnalysisSlide] Dots will trigger when line tip is within ${EUCLIDEAN_TRIGGER_DISTANCE}px (Euclidean).`);
+      
+      const lineDots = g.selectAll(".line-dot").data(dotPositions).enter().append("circle")
+        .attr("class", "line-dot")
+        .attr("cx", d => pathNode.getPointAtLength(d).x)
+        .attr("cy", d => pathNode.getPointAtLength(d).y)
+        .attr("r", 0).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 4).style("opacity", 0);
+      console.log(`[MarketAnalysisSlide] Created ${lineDots.nodes().length} dot elements.`);
+      
+      const easeInOutCubic = (t: number): number => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            
+      function animateLineAndDots() {
+        const elapsed = Date.now() - lineAnimationStartTime;
+        const linearProgress = Math.min(elapsed / lineDuration, 1);
+        const easedProgress = easeInOutCubic(linearProgress);
+        const drawnLength = totalLength * easedProgress;
+        
+        const currentLineTipPoint = pathNode.getPointAtLength(drawnLength);
+
+        if (nextDotIndexRef.current < lineDots.nodes().length) {
+          const dotNodeToAnimate = lineDots.nodes()[nextDotIndexRef.current] as SVGCircleElement;
+          const dotCX = dotNodeToAnimate.cx.baseVal.value;
+          const dotCY = dotNodeToAnimate.cy.baseVal.value;
+
+          const dx = currentLineTipPoint.x - dotCX;
+          const dy = currentLineTipPoint.y - dotCY;
+          const euclideanDistanceToDot = Math.sqrt(dx*dx + dy*dy);
+
+          if (euclideanDistanceToDot <= EUCLIDEAN_TRIGGER_DISTANCE) {
+            console.log(`[MarketAnalysisSlide] Triggering dot ${nextDotIndexRef.current} by Euclidean distance: ${euclideanDistanceToDot.toFixed(2)}px (threshold: ${EUCLIDEAN_TRIGGER_DISTANCE}px)`);
+            
+            d3.select(dotNodeToAnimate)
+              .attr("r", 0)
+              .style("opacity", 0)
+              .transition()
+              .duration(250)      
+              .attr("r", 12)
+              .style("opacity", 1)
+              .transition()
+              .duration(250)      
+              .attr("r", 8);
+
+            nextDotIndexRef.current++;
+          }
+        }
+        
+        g.selectAll(".trace-segment").remove();
+        let currentDrawnSegmentLength = 0;
+        while (currentDrawnSegmentLength < drawnLength) {
+          const segmentStart = currentDrawnSegmentLength;
+          const segmentEnd = Math.min(currentDrawnSegmentLength + dashLength, drawnLength);
+          if (segmentEnd > segmentStart) {
+            const startPoint = pathNode.getPointAtLength(segmentStart);
+            const endPoint = pathNode.getPointAtLength(segmentEnd);
+            g.append("line").attr("class", "trace-segment")
+              .attr("x1", startPoint.x).attr("y1", startPoint.y).attr("x2", endPoint.x).attr("y2", endPoint.y)
+              .style("stroke", "#1E293B").style("stroke-width", 3).style("stroke-linecap", "round");
+          }
+          currentDrawnSegmentLength += segmentLength;
+        }
+        
+        if (linearProgress < 1) {
+          animationFrameId.current = requestAnimationFrame(animateLineAndDots);
+        } else {
+          console.log("[MarketAnalysisSlide] Line animation completed. Final nextDotIndex:", nextDotIndexRef.current);
+        }
+      }
+      animationFrameId.current = requestAnimationFrame(animateLineAndDots);
+    }, 4000);
+
+    const yearMarkerPoints = g.selectAll(".total-point").data(data).enter().append("circle")
+      .attr("class", "total-point")
+      .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.total))
+      .attr("r", 0).style("fill", "#FFFFFF").style("stroke", "#3B82F6").style("stroke-width", 2).style("opacity", 0);
+
+    yearMarkerPoints.each(function(d, i) {
+      const point = d3.select(this);
+      const pointDelay = 4000 + (i / (data.length - 1)) * 3000;
+      point.transition().duration(200).delay(pointDelay).attr("r", 4).style("opacity", 1)
+        .on("start", function() {
+          d3.select(this).transition().duration(150).attr("r", 7).transition().duration(150).attr("r", 4);
+        });
+    });
+
+    return () => {
+      console.log("[MarketAnalysisSlide] Cleanup: Clearing timeouts and animation frames, removing initialized flag.");
+      if (animationTimeoutId.current) {
+        clearTimeout(animationTimeoutId.current);
+        animationTimeoutId.current = null;
+      }
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+        animationFrameId.current = null;
+      }
+      if (container) {
+        container.removeAttribute('data-chart-initialized');
+      }
+    };
+  }, []);
+
+  return (
+    <div className="market-analysis-slide">
+      <motion.div 
+        className="slide-title-container"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="slide-title">А Н А Л И З&nbsp;&nbsp;Р Ы Н К А&nbsp;&nbsp;И Н С Т Р У М Е Н Т О В&nbsp;&nbsp;Б Е Н Ч М А Р К И Н Г А</h1>
+        <p className="slide-subtitle">ГЛОБАЛЬНЫЕ ТЕНДЕНЦИИ И СТРУКТУРНЫЕ ИЗМЕНЕНИЯ РЫНКА СУБД</p>
+      </motion.div>
+      <div className="content-container">
+        <motion.div 
+          className="chart-section"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <h3 className="chart-title">📈 Динамика роста рынка СУБД по типам (2023-2030)</h3>
+          <div className="chart-container" ref={chartRef}></div>
+          <div className="legend">
+            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#1E3A8A' }}></div><span>Реляционные СУБД</span></div>
+            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#3B82F6' }}></div><span>NoSQL СУБД</span></div>
+            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#60A5FA' }}></div><span>Облачные СУБД</span></div>
+            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#93C5FD' }}></div><span>Графовые СУБД</span></div>
+            <div className="legend-item"><div className="legend-color total-line"></div><span>Общий объем рынка</span></div>
+          </div>
+        </motion.div>
+        <div className="sidebar">
+          <div className="sidebar-top-row">
+            <MetricCard title="🎯 КЛЮЧЕВЫЕ МЕТРИКИ" variant="metrics" delay={0.4}>
+              <div className="metric-item"><div className="metric-label">Общий рост рынка:</div><div className="metric-value">100.79 → 292.22 млрд USD</div></div>
+              <div className="metric-item"><div className="metric-label">Темп роста (CAGR):</div><div className="metric-value">14.21% в год</div></div>
+              <div className="metric-item"><div className="metric-label">NoSQL рост:</div><div className="metric-value"><span className="growth-highlight">6-кратный</span></div></div>
+              <div className="metric-item"><div className="metric-label">Облачные решения:</div><div className="metric-value">5.4x рост к 2030</div></div>
+            </MetricCard>
+            <MetricCard title="📊 СТРУКТУРНЫЕ ИЗМЕНЕНИЯ" variant="trends" delay={0.6}>
+              <div className="trend-item"><div className="trend-title">Реляционные СУБД</div><div className="trend-desc">Снижение доли с 70% до 55%</div></div>
+              <div className="trend-item"><div className="trend-title">NoSQL системы</div><div className="trend-desc">Взрывной рост: 7.55 → 47.41 млрд USD</div></div>
+              <div className="trend-item"><div className="trend-title">Облачные платформы</div><div className="trend-desc">Удвоение доли рынка</div></div>
+              <div className="trend-item"><div className="trend-title">Графовые БД</div><div className="trend-desc">Новая ниша с 4x ростом</div></div>
+            </MetricCard>
+          </div>
+          <div className="sidebar-bottom-row">
+            <MetricCard title="💡 ДРАЙВЕРЫ РОСТА" variant="insights" delay={0.8}>
+              <div className="insight-item"><strong>Цифровая трансформация</strong> предприятий</div>
+              <div className="insight-item"><strong>Экспоненциальный рост</strong> объемов данных</div>
+              <div className="insight-item"><strong>Потребность в масштабируемости</strong> и гибкости</div>
+              <div className="insight-item"><strong>Развитие IoT и Big Data</strong> технологий</div>
+            </MetricCard>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+} 

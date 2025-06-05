@@ -143,6 +143,25 @@ export const YCSBJustificationSlide: React.FC = () => {
               </ul>
             </JustificationCard>
           </div>
+
+          {/* BMSTU Logo Emblem */}
+          <motion.div 
+            className="emblem-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+          >
+            <img 
+              src="/assets/bmstu/bmstu-logo-white.png" 
+              alt="BMSTU Logo" 
+              className="bmstu-emblem"
+              onError={(e) => {
+                // Fallback to SVG if PNG fails
+                const target = e.target as HTMLImageElement;
+                target.src = "/assets/bmstu/bmstu-logo-white.svg";
+              }}
+            />
+          </motion.div>
         </div>
       </div>
     </div>
