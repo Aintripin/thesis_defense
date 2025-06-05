@@ -117,11 +117,71 @@ export const TrendsDeepDiveSlide: React.FC = () => {
         <MetricCard title="Ключевые показатели" variant="metrics" delay={0.2}>
           <div className="key-metrics-grid-s8">
             {keyMetricsData.map((metric, index) => (
-              <div key={index} className="metric-item-s8">
-                <span className="metric-icon-s8">{metric.icon}</span>
-                <span className="metric-value-s8">{metric.value}</span>
-                <span className="metric-label-s8">{metric.label}</span>
-              </div>
+              <motion.div 
+                key={index} 
+                className="metric-item-s8"
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: 0.3 + index * 0.1,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 10
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.span 
+                  className="metric-icon-s8"
+                  initial={{ rotate: -180, scale: 0 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: 0.5 + index * 0.1,
+                    type: "spring",
+                    stiffness: 200
+                  }}
+                >
+                  {metric.icon}
+                </motion.span>
+                <motion.span 
+                  className="metric-value-s8"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ 
+                    opacity: 1, 
+                    x: 0,
+                    scale: [1, 1.05, 1]
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.4, delay: 0.7 + index * 0.1 },
+                    x: { duration: 0.4, delay: 0.7 + index * 0.1 },
+                    scale: { 
+                      duration: 2, 
+                      delay: 1.5 + index * 0.2,
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                      ease: "easeInOut"
+                    }
+                  }}
+                >
+                  {metric.value}
+                </motion.span>
+                <motion.span 
+                  className="metric-label-s8"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ 
+                    duration: 0.4, 
+                    delay: 0.8 + index * 0.1 
+                  }}
+                >
+                  {metric.label}
+                </motion.span>
+              </motion.div>
             ))}
           </div>
         </MetricCard>

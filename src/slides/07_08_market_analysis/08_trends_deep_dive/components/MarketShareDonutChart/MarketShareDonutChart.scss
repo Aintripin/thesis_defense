@@ -34,40 +34,58 @@
 // Styles for the legend
 .legend-s8-donut {
   margin-bottom: 0; // Ensure legend stays at bottom of its container
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 8px 12px; // row gap, column gap
   padding-left: 0;
   flex-shrink: 0;   // Prevent legend from shrinking
-  margin-top: -60px;   // NEW - Small negative margin to bring legend closer without overlap
+  margin-top: -40px;   // Reduced negative margin since grid is more compact
 
   .legend-item-s8 { // This class is shared, but its context is specific here
     display: flex;
     align-items: center;
-    font-size: 1.05em; 
+    font-size: 1.05em; // Increased back for better readability
     color: #475569;
-    padding-bottom: 6px; // Reduced from 8px
-    margin-bottom: 6px; // Reduced from 8px
+    padding: 6px; // Slightly more padding for bigger text
+    border-radius: 4px; // Add slight rounding
+    transition: background-color 0.2s ease;
+    position: relative; // For positioning delimiter lines
 
-    span {
-      font-weight: 500;
+    &:hover {
+      background-color: rgba(59, 130, 246, 0.05);
     }
 
-    .legend-color-s8 { // This class is shared
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-      margin-right: 10px;
-      flex-shrink: 0;
-    }
-
-    &:not(:last-child) {
+    // Add delimiter lines for grid layout
+    &:nth-child(1) {
+      // Top-left: right and bottom borders
+      border-right: 1px solid #e2e8f0;
       border-bottom: 1px solid #e2e8f0;
     }
     
-    &:last-child {
-      padding-bottom: 0;
-      margin-bottom: 0;
-      border-bottom: none;
+    &:nth-child(2) {
+      // Top-right: bottom border only
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    &:nth-child(3) {
+      // Bottom-left: right border only
+      border-right: 1px solid #e2e8f0;
+    }
+    
+    // Bottom-right (4th child) gets no borders
+
+    span {
+      font-weight: 500;
+      line-height: 1.3; // Slightly more breathing room for bigger text
+    }
+
+    .legend-color-s8 { // This class is shared
+      width: 14px; // Increased back to match bigger text
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 10px; // Increased back for better proportion
+      flex-shrink: 0;
     }
   }
 } 

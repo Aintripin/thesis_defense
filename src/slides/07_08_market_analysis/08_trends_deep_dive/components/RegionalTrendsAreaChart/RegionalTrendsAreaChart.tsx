@@ -5,6 +5,7 @@ import { regionTrendsData, regionalChartCategories } from '../../data';
 
 export const RegionalTrendsAreaChart: React.FC = () => {
   const regionalTrendsChartRef = useRef<HTMLDivElement>(null);
+  const animationFrameId = useRef<number | null>(null);
 
   useEffect(() => {
     if (regionalTrendsChartRef.current && !regionalTrendsChartRef.current.hasAttribute('data-chart-initialized-s8-region-trends')) {
@@ -55,24 +56,94 @@ export const RegionalTrendsAreaChart: React.FC = () => {
         .style("stroke", (_d, i) => d3.color(regionalChartCategories[i].color)?.darker(0.7).toString() || regionalChartCategories[i].color)
         .style("stroke-width", 1);
 
+      // Enhanced animations with wavy effects and oscillation
       areas.each(function(areaData, i) {
         const path = d3.select(this);
-        const originalPathD = areaGenerator(areaData as any);
-        const startArea = d3.area<any>().x(d => xScale(d.data.year)).y0(_ => yScale(0)).y1(_ => yScale(0)).curve(d3.curveCardinal.tension(0.5));
+        const originalPath = areaGenerator(areaData as any);
+        const startArea = d3.area<any>()
+          .x(d => xScale(d.data.year))
+          .y0(_ => yScale(0))
+          .y1(_ => yScale(0))
+          .curve(d3.curveCardinal.tension(0.5));
+        
         path.attr("d", startArea(areaData as any));
-        let progress = 0; const areaTotalDuration = 1500; const areaStartTime = Date.now() + (i * 200);
+        
+        let progress = 0;
+        let currentAmplitude = 8;
+        let currentPhase = 0;
+        const frequency = 0.015;
+        const areaTotalDuration = 2000;
+        const areaStartTime = Date.now() + (i * 400);
+        
         function animateRise() {
-          const now = Date.now(); if (now < areaStartTime) { requestAnimationFrame(animateRise); return; }
-          const elapsed = now - areaStartTime; progress = Math.min(elapsed / areaTotalDuration, 1);
+          const now = Date.now();
+          if (now < areaStartTime) {
+            animationFrameId.current = requestAnimationFrame(animateRise);
+            return;
+          }
+          
+          const elapsed = now - areaStartTime;
+          progress = Math.min(elapsed / areaTotalDuration, 1);
           const easeProgress = 1 - Math.pow(1 - progress, 3);
-          const risingArea = d3.area<any>().x(d => xScale(d.data.year))
+          
+          // Reduce wave amplitude as we get closer to final position
+          currentAmplitude = 8 * (1 - progress * 0.7);
+          currentPhase += 0.2;
+          
+          const risingArea = d3.area<any>()
+            .x(d => xScale(d.data.year))
             .y0(d => yScale(0) + (yScale(d[0]) - yScale(0)) * easeProgress)
-            .y1(d => yScale(0) + (yScale(d[1]) - yScale(0)) * easeProgress)
+            .y1(d => {
+              const finalY = yScale(d[1]);
+              const currentY = yScale(0) + (finalY - yScale(0)) * easeProgress;
+              const wave = currentAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase);
+              return currentY + wave;
+            })
             .curve(d3.curveCardinal.tension(0.5));
+          
           path.attr("d", risingArea(areaData as any));
-          if (progress < 1) { requestAnimationFrame(animateRise); } else { path.transition().duration(300).ease(d3.easeLinear).attr("d", originalPathD); }
+          
+          if (progress < 1) {
+            animationFrameId.current = requestAnimationFrame(animateRise);
+          } else {
+            // Start settling oscillation that continues forever
+            let settleAmplitude = 5;
+            let oscillationTime = 0;
+            
+            const settle = () => {
+              oscillationTime += 50;
+              const dampingFactor = Math.max(0.3, 1 - (oscillationTime / 8000)); // Slower, less damping
+              settleAmplitude = 5 * dampingFactor;
+              currentPhase += 0.15;
+              
+              const settleArea = d3.area<any>()
+                .x(d => xScale(d.data.year))
+                .y0(d => {
+                  const baseY0 = yScale(d[0]);
+                  const wave = settleAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase);
+                  // For bottom area (where d[0] = 0), don't let it go below the X-axis
+                  if (d[0] === 0) {
+                    return Math.min(baseY0 + wave, yScale(0));
+                  }
+                  // For other areas, make them thicker by pushing y0 further down
+                  return baseY0 + wave + 5;
+                })
+                .y1(d => {
+                  const baseY1 = yScale(d[1]);
+                  const wave = settleAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase);
+                  // Make area thicker by pushing y1 further up (away from y0)
+                  return baseY1 + wave - 5;
+                })
+                .curve(d3.curveCardinal.tension(0.5));
+              
+              path.attr("d", settleArea(areaData as any));
+              setTimeout(settle, 50); // Keep oscillating forever
+            };
+            setTimeout(settle, 200);
+          }
         }
-        requestAnimationFrame(animateRise);
+        
+        animationFrameId.current = requestAnimationFrame(animateRise);
       });
 
       const xAxisGroup = g.append("g")
@@ -102,6 +173,10 @@ export const RegionalTrendsAreaChart: React.FC = () => {
     }
 
     return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+        animationFrameId.current = null;
+      }
       if (regionalTrendsChartRef.current) {
         d3.select(regionalTrendsChartRef.current).selectAll("*").remove();
         regionalTrendsChartRef.current.removeAttribute('data-chart-initialized-s8-region-trends');
