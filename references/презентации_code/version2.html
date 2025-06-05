@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>КОНФИГУРАЦИЯ YCSB</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #334155;
+        line-height: 1.6;
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        min-height: 80vh;
+      }
+
+      .slide-header {
+        margin-bottom: 50px;
+      }
+
+      .slide-title {
+        font-size: 48px;
+        font-weight: 300;
+        letter-spacing: 8px;
+        color: #1e293b;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 20px;
+        color: #2563eb;
+        font-weight: 500;
+        letter-spacing: 2px;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .config-block {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-radius: 20px;
+        padding: 30px;
+        border: 1px solid #93c5fd;
+      }
+
+      .config-block.primary {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+      }
+
+      .config-block.accent {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        border: 1px solid #cbd5e1;
+      }
+
+      .block-title {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .config-list {
+        list-style: none;
+      }
+
+      .config-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .config-block:not(.primary) .config-item {
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .config-item:last-child {
+        border-bottom: none;
+      }
+
+      .config-label {
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      .config-value {
+        font-weight: 600;
+        font-size: 16px;
+        font-family: "Courier New", monospace;
+      }
+
+      .primary .config-value {
+        color: #dbeafe;
+      }
+
+      .benchmark-section {
+        margin-top: 40px;
+      }
+
+      .benchmark-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .benchmark-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        border: 2px solid #f1f5f9;
+        transition: all 0.3s ease;
+      }
+
+      .benchmark-card:hover {
+        border-color: #2563eb;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+      }
+
+      .benchmark-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 15px;
+      }
+
+      .benchmark-description {
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 15px;
+      }
+
+      .metric {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .metric-name {
+        font-size: 14px;
+        color: #475569;
+      }
+
+      .metric-value {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .section-title {
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 4px;
+        color: #1e293b;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      .highlight-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2563eb;
+      }
+
+      .note {
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 30px;
+      }
+
+      .note-title {
+        font-weight: 600;
+        color: #92400e;
+        margin-bottom: 8px;
+      }
+
+      .note-text {
+        color: #92400e;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .slide {
+          padding: 40px 30px;
+        }
+
+        .slide-title {
+          font-size: 36px;
+          letter-spacing: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">К О Н Ф И Г У Р А Ц И Я&nbsp;&nbsp;Y C S B</h1>
+        <p class="slide-subtitle">Параметры тестирования производительности</p>
+      </div>
+
+      <div class="content-grid">
+        <div class="config-block primary">
+          <h3 class="block-title">Основные параметры</h3>
+          <ul class="config-list">
+            <li class="config-item">
+              <span class="config-label">Workload</span>
+              <span class="config-value">workloada</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Record Count</span>
+              <span class="config-value">1,000,000</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Operation Count</span>
+              <span class="config-value">100,000</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Thread Count</span>
+              <span class="config-value">16</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Target OPS</span>
+              <span class="config-value">1000</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="config-block">
+          <h3 class="block-title">Свойства данных</h3>
+          <ul class="config-list">
+            <li class="config-item">
+              <span class="config-label">Field Count</span>
+              <span class="config-value">10</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Field Length</span>
+              <span class="config-value">100</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Key Distribution</span>
+              <span class="config-value">zipfian</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Request Distribution</span>
+              <span class="config-value">uniform</span>
+            </li>
+            <li class="config-item">
+              <span class="config-label">Read Proportion</span>
+              <span class="config-value">0.5</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="benchmark-section">
+        <h2 class="section-title">
+          Р А З Н О В И Д Н О С Т И&nbsp;&nbsp;W O R K L O A D
+        </h2>
+
+        <div class="benchmark-grid">
+          <div class="benchmark-card">
+            <h4 class="benchmark-title">Workload A</h4>
+            <p class="benchmark-description">
+              Read/Update интенсивный. Соотношение 50/50
+            </p>
+            <div class="metric">
+              <span class="metric-name">Read:</span>
+              <span class="metric-value">50%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-name">Update:</span>
+              <span class="metric-value">50%</span>
+            </div>
+          </div>
+
+          <div class="benchmark-card">
+            <h4 class="benchmark-title">Workload B</h4>
+            <p class="benchmark-description">
+              Read интенсивный. Преимущественно чтение
+            </p>
+            <div class="metric">
+              <span class="metric-name">Read:</span>
+              <span class="metric-value">95%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-name">Update:</span>
+              <span class="metric-value">5%</span>
+            </div>
+          </div>
+
+          <div class="benchmark-card">
+            <h4 class="benchmark-title">Workload C</h4>
+            <p class="benchmark-description">
+              Read-only. Только операции чтения
+            </p>
+            <div class="metric">
+              <span class="metric-name">Read:</span>
+              <span class="metric-value">100%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-name">Scan:</span>
+              <span class="metric-value">0%</span>
+            </div>
+          </div>
+
+          <div class="benchmark-card">
+            <h4 class="benchmark-title">Workload D</h4>
+            <p class="benchmark-description">
+              Read-latest. Чтение последних записей
+            </p>
+            <div class="metric">
+              <span class="metric-name">Read:</span>
+              <span class="metric-value">95%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-name">Insert:</span>
+              <span class="metric-value">5%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="note-title">ВАЖНО</div>
+        <div class="note-text">
+          Конфигурация может варьироваться в зависимости от целей тестирования и
+          характеристик тестируемой системы
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

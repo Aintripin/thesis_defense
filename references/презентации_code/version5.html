@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>АВТОМАТИЗАЦИЯ СБОРА РЕЗУЛЬТАТОВ</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        line-height: 1.5;
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .slide-header {
+        margin-bottom: 45px;
+      }
+
+      .slide-title {
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 8px;
+        color: #1e293b;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 16px;
+        color: #2563eb;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        height: calc(100% - 140px);
+      }
+
+      .content-section {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .section-block {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 30px;
+        border: 1px solid #e2e8f0;
+        flex: 1;
+      }
+
+      .block-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #2563eb;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin-bottom: 25px;
+      }
+
+      .feature-item {
+        padding: 10px 0;
+        font-size: 14px;
+        color: #475569;
+        border-bottom: 1px solid #e2e8f0;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .feature-item:last-child {
+        border-bottom: none;
+      }
+
+      .feature-item:before {
+        content: "•";
+        color: #2563eb;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 10px;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .metric-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid #cbd5e1;
+        text-align: center;
+      }
+
+      .metric-title {
+        font-size: 11px;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .metric-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2563eb;
+        line-height: 1.3;
+      }
+
+      .output-section {
+        margin-top: 25px;
+      }
+
+      .output-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 15px;
+      }
+
+      .output-item {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        border-left: 3px solid #2563eb;
+        border-right: 1px solid #e2e8f0;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .output-title {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      .output-desc {
+        font-size: 12px;
+        color: #64748b;
+        line-height: 1.4;
+      }
+
+      .script-info {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #93c5fd;
+      }
+
+      .script-name {
+        font-family: "Courier New", monospace;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 8px;
+      }
+
+      .script-desc {
+        font-size: 13px;
+        color: #1e293b;
+      }
+
+      .category-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 8px;
+      }
+
+      .metrics-section {
+        margin-top: 20px;
+      }
+
+      .metric-group {
+        margin-bottom: 15px;
+      }
+
+      .group-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .group-items {
+        font-size: 11px;
+        color: #64748b;
+        line-height: 1.4;
+        padding-left: 12px;
+      }
+
+      .highlight {
+        background: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">
+          А В Т О М А Т И З А Ц И Я&nbsp;&nbsp;С Б О Р А&nbsp;&nbsp;Р Е З У Л Ь
+          Т А Т О В
+        </h1>
+        <p class="slide-subtitle">Python-скрипт для обработки данных</p>
+      </div>
+
+      <div class="content-grid">
+        <!-- Левая колонка: Функциональность -->
+        <div class="content-section">
+          <div class="section-block">
+            <div class="script-info">
+              <div class="script-name">parse_ycsb.py</div>
+              <div class="script-desc">
+                Автоматизированный парсинг результатов YCSB тестирования
+              </div>
+            </div>
+
+            <div class="category-title">Функциональность скрипта:</div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <strong>Автоматическое извлечение</strong> метрик из отчетов
+                YCSB
+              </li>
+              <li class="feature-item">
+                <strong>Парсинг различных форматов</strong> выходных данных
+              </li>
+              <li class="feature-item">
+                <strong>Агрегация результатов</strong> по СУБД, workload'ам и
+                потокам
+              </li>
+              <li class="feature-item">
+                <strong>Расчет статистических показателей</strong> (среднее,
+                медиана, стандартное отклонение)
+              </li>
+            </ul>
+
+            <div class="output-section">
+              <div class="category-title">Структура выходных данных:</div>
+              <div class="output-grid">
+                <div class="output-item">
+                  <div class="output-title">CSV-файлы</div>
+                  <div class="output-desc">
+                    Агрегированные результаты для каждой СУБД
+                  </div>
+                </div>
+                <div class="output-item">
+                  <div class="output-title">Сводные таблицы</div>
+                  <div class="output-desc">
+                    Данные для сравнительного анализа
+                  </div>
+                </div>
+                <div class="output-item">
+                  <div class="output-title">JSON-файлы</div>
+                  <div class="output-desc">
+                    Интеграция с системами визуализации
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка: Извлекаемые метрики -->
+        <div class="content-section">
+          <div class="section-block">
+            <div class="category-title">Извлекаемые метрики:</div>
+
+            <div class="metrics-section">
+              <div class="metric-group">
+                <div class="group-title">Общие метрики</div>
+                <div class="group-items">
+                  • Время выполнения (RunTime)<br />
+                  • Пропускная способность (Throughput, ops/sec)
+                </div>
+              </div>
+
+              <div class="metric-group">
+                <div class="group-title">Метрики сборки мусора</div>
+                <div class="group-items">
+                  • G1 Young Generation (количество, время, %)<br />
+                  • G1 Old Generation (количество, время, %)
+                </div>
+              </div>
+
+              <div class="metric-group">
+                <div class="group-title">Операции YCSB</div>
+                <div class="group-items">
+                  • READ, UPDATE, INSERT, SCAN<br />
+                  • READ-MODIFY-WRITE, CLEANUP
+                </div>
+              </div>
+
+              <div class="metric-group">
+                <div class="group-title">Задержки операций</div>
+                <div class="group-items">
+                  • Среднее значение (AverageLatency)<br />
+                  • Минимум и максимум<br />
+                  • Перцентили: P95, P99
+                </div>
+              </div>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-title">Всего метрик</div>
+                <div class="metric-value">60+<br />параметров</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-title">Формат вывода</div>
+                <div class="metric-value">CSV<br />структура</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-title">Автоматизация</div>
+                <div class="metric-value">100%<br />процесса</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-title">Точность</div>
+                <div class="metric-value">Микросекунды<br />(μs)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

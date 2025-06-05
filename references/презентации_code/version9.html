@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>МАСШТАБИРУЕМОСТЬ И ЗАДЕРЖКИ</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        line-height: 1.5;
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .slide-header {
+        margin-bottom: 30px;
+      }
+
+      .slide-title {
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 6px;
+        color: #1e293b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 16px;
+        color: #2563eb;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .content-container {
+        height: calc(100% - 120px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .db-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: white;
+        border: 2px solid;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .db-toggle.postgresql {
+        border-color: #8b5cf6;
+        color: #8b5cf6;
+      }
+
+      .db-toggle.mongodb {
+        border-color: #10b981;
+        color: #10b981;
+      }
+
+      .db-toggle.cassandra {
+        border-color: #f59e0b;
+        color: #f59e0b;
+      }
+
+      .db-toggle.active.postgresql {
+        background: #8b5cf6;
+        color: white;
+      }
+
+      .db-toggle.active.mongodb {
+        background: #10b981;
+        color: white;
+      }
+
+      .db-toggle.active.cassandra {
+        background: #f59e0b;
+        color: white;
+      }
+
+      .toggle-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .chart-container {
+        flex: 1;
+        display: flex;
+        gap: 30px;
+      }
+
+      .main-chart {
+        flex: 2;
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 25px;
+        border: 1px solid #e2e8f0;
+        position: relative;
+      }
+
+      .sidebar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .summary-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+        flex: 1;
+      }
+
+      .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .line-chart {
+        width: 100%;
+        height: 400px;
+        position: relative;
+      }
+
+      .chart-svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .grid-line {
+        stroke: #e2e8f0;
+        stroke-width: 1;
+        opacity: 0.5;
+      }
+
+      .axis-line {
+        stroke: #94a3b8;
+        stroke-width: 2;
+      }
+
+      .axis-label {
+        font-size: 11px;
+        fill: #64748b;
+        font-weight: 500;
+      }
+
+      .data-line {
+        fill: none;
+        stroke-width: 3;
+        transition: all 0.3s ease;
+      }
+
+      .data-line.postgresql {
+        stroke: #8b5cf6;
+      }
+
+      .data-line.mongodb {
+        stroke: #10b981;
+      }
+
+      .data-line.cassandra {
+        stroke: #f59e0b;
+      }
+
+      .data-point {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .data-point:hover {
+        transform: scale(1.5);
+      }
+
+      .data-point.postgresql {
+        fill: #8b5cf6;
+      }
+
+      .data-point.mongodb {
+        fill: #10b981;
+      }
+
+      .data-point.cassandra {
+        fill: #f59e0b;
+      }
+
+      .tooltip {
+        position: absolute;
+        background: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        font-size: 11px;
+        font-weight: 600;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+      }
+
+      .insights {
+        list-style: none;
+      }
+
+      .insight-item {
+        padding: 8px 0;
+        font-size: 12px;
+        color: #475569;
+        border-bottom: 1px solid #e2e8f0;
+        position: relative;
+        padding-left: 16px;
+        line-height: 1.4;
+      }
+
+      .insight-item:last-child {
+        border-bottom: none;
+      }
+
+      .insight-item:before {
+        content: "→";
+        color: #2563eb;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 8px;
+      }
+
+      .highlight {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .scalability-stats {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .stat-db {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-peak {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2563eb;
+      }
+
+      .postgresql-color {
+        color: #8b5cf6;
+      }
+      .mongodb-color {
+        color: #10b981;
+      }
+      .cassandra-color {
+        color: #f59e0b;
+      }
+
+      .hidden {
+        opacity: 0.2;
+        stroke-dasharray: 5, 5;
+      }
+
+      .chart-title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 20px;
+      }
+
+      @keyframes drawLine {
+        from {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+        }
+        to {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 0;
+        }
+      }
+
+      .data-line {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
+        animation: drawLine 2s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">
+          М А С Ш Т А Б И Р У Е М О С Т Ь&nbsp;&nbsp;И&nbsp;&nbsp;З А Д Е Р Ж К
+          И
+        </h1>
+        <p class="slide-subtitle">Поведение при увеличении параллелизма</p>
+      </div>
+
+      <div class="content-container">
+        <div class="controls">
+          <div
+            class="db-toggle active postgresql"
+            onclick="toggleDB('postgresql')"
+          >
+            <div class="toggle-indicator"></div>
+            <span>PostgreSQL</span>
+          </div>
+          <div class="db-toggle active mongodb" onclick="toggleDB('mongodb')">
+            <div class="toggle-indicator"></div>
+            <span>MongoDB</span>
+          </div>
+          <div
+            class="db-toggle active cassandra"
+            onclick="toggleDB('cassandra')"
+          >
+            <div class="toggle-indicator"></div>
+            <span>Cassandra</span>
+          </div>
+        </div>
+
+        <div class="chart-container">
+          <div class="main-chart">
+            <div class="chart-title">
+              Пропускная способность vs Количество потоков
+            </div>
+            <div class="line-chart">
+              <svg class="chart-svg" viewBox="0 0 600 350">
+                <!-- Grid lines -->
+                <g class="grid">
+                  <!-- Horizontal grid -->
+                  <line
+                    class="grid-line"
+                    x1="60"
+                    y1="50"
+                    x2="550"
+                    y2="50"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="60"
+                    y1="100"
+                    x2="550"
+                    y2="100"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="60"
+                    y1="150"
+                    x2="550"
+                    y2="150"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="60"
+                    y1="200"
+                    x2="550"
+                    y2="200"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="60"
+                    y1="250"
+                    x2="550"
+                    y2="250"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="60"
+                    y1="300"
+                    x2="550"
+                    y2="300"
+                  ></line>
+
+                  <!-- Vertical grid -->
+                  <line
+                    class="grid-line"
+                    x1="110"
+                    y1="50"
+                    x2="110"
+                    y2="300"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="180"
+                    y1="50"
+                    x2="180"
+                    y2="300"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="250"
+                    y1="50"
+                    x2="250"
+                    y2="300"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="320"
+                    y1="50"
+                    x2="320"
+                    y2="300"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="390"
+                    y1="50"
+                    x2="390"
+                    y2="300"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="460"
+                    y1="50"
+                    x2="460"
+                    y2="300"
+                  ></line>
+                  <line
+                    class="grid-line"
+                    x1="530"
+                    y1="50"
+                    x2="530"
+                    y2="300"
+                  ></line>
+                </g>
+
+                <!-- Axes -->
+                <line
+                  class="axis-line"
+                  x1="60"
+                  y1="300"
+                  x2="550"
+                  y2="300"
+                ></line>
+                <line class="axis-line" x1="60" y1="50" x2="60" y2="300"></line>
+
+                <!-- Y-axis labels -->
+                <text class="axis-label" x="45" y="305" text-anchor="end">
+                  0
+                </text>
+                <text class="axis-label" x="45" y="255" text-anchor="end">
+                  10
+                </text>
+                <text class="axis-label" x="45" y="205" text-anchor="end">
+                  20
+                </text>
+                <text class="axis-label" x="45" y="155" text-anchor="end">
+                  30
+                </text>
+                <text class="axis-label" x="45" y="105" text-anchor="end">
+                  40
+                </text>
+                <text class="axis-label" x="45" y="55" text-anchor="end">
+                  50
+                </text>
+
+                <!-- X-axis labels -->
+                <text class="axis-label" x="110" y="320" text-anchor="middle">
+                  4
+                </text>
+                <text class="axis-label" x="180" y="320" text-anchor="middle">
+                  8
+                </text>
+                <text class="axis-label" x="250" y="320" text-anchor="middle">
+                  16
+                </text>
+                <text class="axis-label" x="320" y="320" text-anchor="middle">
+                  32
+                </text>
+                <text class="axis-label" x="390" y="320" text-anchor="middle">
+                  64
+                </text>
+                <text class="axis-label" x="460" y="320" text-anchor="middle">
+                  128
+                </text>
+                <text class="axis-label" x="530" y="320" text-anchor="middle">
+                  256
+                </text>
+
+                <!-- Axis titles -->
+                <text
+                  class="axis-label"
+                  x="305"
+                  y="340"
+                  text-anchor="middle"
+                  font-weight="600"
+                >
+                  Количество потоков
+                </text>
+                <text
+                  class="axis-label"
+                  x="25"
+                  y="175"
+                  text-anchor="middle"
+                  font-weight="600"
+                  transform="rotate(-90, 25, 175)"
+                >
+                  ops/sec (k)
+                </text>
+
+                <!-- Data lines -->
+                <!-- PostgreSQL: 9.68, 14.2, 15.1, 14.7, 18.5, 32.8, 27.6 -->
+                <polyline
+                  class="data-line postgresql"
+                  id="postgresql-line"
+                  points="110,252 180,215 250,198 320,206 390,163 460,34 530,75"
+                  data-values="9.68,14.2,15.1,14.7,18.5,32.8,27.6"
+                ></polyline>
+
+                <!-- MongoDB: 9.72, 15.4, 23.0, 25.0, 27.0, 27.0, 25.1 -->
+                <polyline
+                  class="data-line mongodb"
+                  id="mongodb-line"
+                  points="110,251 180,185 250,115 320,100 390,85 460,85 530,100"
+                  data-values="9.72,15.4,23.0,25.0,27.0,27.0,25.1"
+                ></polyline>
+
+                <!-- Cassandra: 8.33, 13.3, 19.6, 23.2, 20.4, 18.4, 19.0 -->
+                <polyline
+                  class="data-line cassandra"
+                  id="cassandra-line"
+                  points="110,267 180,235 250,152 320,117 390,148 460,184 530,190"
+                  data-values="8.33,13.3,19.6,23.2,20.4,18.4,19.0"
+                ></polyline>
+
+                <!-- Data points -->
+                <!-- PostgreSQL points -->
+                <g id="postgresql-points">
+                  <circle
+                    class="data-point postgresql"
+                    cx="110"
+                    cy="252"
+                    r="4"
+                    data-value="9.68"
+                    data-threads="4"
+                    data-db="PostgreSQL"
+                  ></circle>
+                  <circle
+                    class="data-point postgresql"
+                    cx="180"
+                    cy="215"
+                    r="4"
+                    data-value="14.2"
+                    data-threads="8"
+                    data-db="PostgreSQL"
+                  ></circle>
+                  <circle
+                    class="data-point postgresql"
+                    cx="250"
+                    cy="198"
+                    r="4"
+                    data-value="15.1"
+                    data-threads="16"
+                    data-db="PostgreSQL"
+                  ></circle>
+                  <circle
+                    class="data-point postgresql"
+                    cx="320"
+                    cy="206"
+                    r="4"
+                    data-value="14.7"
+                    data-threads="32"
+                    data-db="PostgreSQL"
+                  ></circle>
+                  <circle
+                    class="data-point postgresql"
+                    cx="390"
+                    cy="163"
+                    r="4"
+                    data-value="18.5"
+                    data-threads="64"
+                    data-db="PostgreSQL"
+                  ></circle>
+                  <circle
+                    class="data-point postgresql"
+                    cx="460"
+                    cy="34"
+                    r="4"
+                    data-value="32.8"
+                    data-threads="128"
+                    data-db="PostgreSQL"
+                  ></circle>
+                  <circle
+                    class="data-point postgresql"
+                    cx="530"
+                    cy="75"
+                    r="4"
+                    data-value="27.6"
+                    data-threads="256"
+                    data-db="PostgreSQL"
+                  ></circle>
+                </g>
+
+                <!-- MongoDB points -->
+                <g id="mongodb-points">
+                  <circle
+                    class="data-point mongodb"
+                    cx="110"
+                    cy="251"
+                    r="4"
+                    data-value="9.72"
+                    data-threads="4"
+                    data-db="MongoDB"
+                  ></circle>
+                  <circle
+                    class="data-point mongodb"
+                    cx="180"
+                    cy="185"
+                    r="4"
+                    data-value="15.4"
+                    data-threads="8"
+                    data-db="MongoDB"
+                  ></circle>
+                  <circle
+                    class="data-point mongodb"
+                    cx="250"
+                    cy="115"
+                    r="4"
+                    data-value="23.0"
+                    data-threads="16"
+                    data-db="MongoDB"
+                  ></circle>
+                  <circle
+                    class="data-point mongodb"
+                    cx="320"
+                    cy="100"
+                    r="4"
+                    data-value="25.0"
+                    data-threads="32"
+                    data-db="MongoDB"
+                  ></circle>
+                  <circle
+                    class="data-point mongodb"
+                    cx="390"
+                    cy="85"
+                    r="4"
+                    data-value="27.0"
+                    data-threads="64"
+                    data-db="MongoDB"
+                  ></circle>
+                  <circle
+                    class="data-point mongodb"
+                    cx="460"
+                    cy="85"
+                    r="4"
+                    data-value="27.0"
+                    data-threads="128"
+                    data-db="MongoDB"
+                  ></circle>
+                  <circle
+                    class="data-point mongodb"
+                    cx="530"
+                    cy="100"
+                    r="4"
+                    data-value="25.1"
+                    data-threads="256"
+                    data-db="MongoDB"
+                  ></circle>
+                </g>
+
+                <!-- Cassandra points -->
+                <g id="cassandra-points">
+                  <circle
+                    class="data-point cassandra"
+                    cx="110"
+                    cy="267"
+                    r="4"
+                    data-value="8.33"
+                    data-threads="4"
+                    data-db="Cassandra"
+                  ></circle>
+                  <circle
+                    class="data-point cassandra"
+                    cx="180"
+                    cy="235"
+                    r="4"
+                    data-value="13.3"
+                    data-threads="8"
+                    data-db="Cassandra"
+                  ></circle>
+                  <circle
+                    class="data-point cassandra"
+                    cx="250"
+                    cy="152"
+                    r="4"
+                    data-value="19.6"
+                    data-threads="16"
+                    data-db="Cassandra"
+                  ></circle>
+                  <circle
+                    class="data-point cassandra"
+                    cx="320"
+                    cy="117"
+                    r="4"
+                    data-value="23.2"
+                    data-threads="32"
+                    data-db="Cassandra"
+                  ></circle>
+                  <circle
+                    class="data-point cassandra"
+                    cx="390"
+                    cy="148"
+                    r="4"
+                    data-value="20.4"
+                    data-threads="64"
+                    data-db="Cassandra"
+                  ></circle>
+                  <circle
+                    class="data-point cassandra"
+                    cx="460"
+                    cy="184"
+                    r="4"
+                    data-value="18.4"
+                    data-threads="128"
+                    data-db="Cassandra"
+                  ></circle>
+                  <circle
+                    class="data-point cassandra"
+                    cx="530"
+                    cy="190"
+                    r="4"
+                    data-value="19.0"
+                    data-threads="256"
+                    data-db="Cassandra"
+                  ></circle>
+                </g>
+              </svg>
+              <div class="tooltip" id="tooltip"></div>
+            </div>
+          </div>
+
+          <div class="sidebar">
+            <div class="summary-card">
+              <div class="card-title">Пиковые значения</div>
+              <div class="scalability-stats">
+                <div class="stat-row">
+                  <div class="stat-db postgresql-color">PostgreSQL</div>
+                  <div class="stat-peak">32.8k @ 128 потоков</div>
+                </div>
+                <div class="stat-row">
+                  <div class="stat-db mongodb-color">MongoDB</div>
+                  <div class="stat-peak">27.0k @ 64-128 потоков</div>
+                </div>
+                <div class="stat-row">
+                  <div class="stat-db cassandra-color">Cassandra</div>
+                  <div class="stat-peak">23.2k @ 32 потока</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="card-title">Характеристики масштабируемости</div>
+              <ul class="insights">
+                <li class="insight-item">
+                  <span class="highlight">MongoDB:</span> плавный рост до 27.0k
+                  ops/sec при 64-128 потоках
+                </li>
+                <li class="insight-item">
+                  <span class="highlight">Cassandra:</span> пик 23.2k ops/sec
+                  при 32 потоках, затем снижение
+                </li>
+                <li class="insight-item">
+                  <span class="highlight">PostgreSQL:</span> нелинейное
+                  поведение с максимумом 32.8k ops/sec при 128 потоков
+                </li>
+              </ul>
+            </div>
+
+            <div class="summary-card">
+              <div class="card-title">Практическая значимость</div>
+              <ul class="insights">
+                <li class="insight-item">
+                  Не существует
+                  <span class="highlight">универсального решения</span> для всех
+                  типов нагрузок
+                </li>
+                <li class="insight-item">
+                  Выбор СУБД должен основываться на
+                  <span class="highlight">конкретных требованиях</span>
+                  приложения
+                </li>
+                <li class="insight-item">
+                  Важность
+                  <span class="highlight">предварительного тестирования</span>
+                  на реальных данных
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let activeDBs = new Set(["postgresql", "mongodb", "cassandra"]);
+
+      function toggleDB(dbName) {
+        const toggle = document.querySelector(`.db-toggle.${dbName}`);
+        const line = document.getElementById(`${dbName}-line`);
+        const points = document.getElementById(`${dbName}-points`);
+
+        if (activeDBs.has(dbName)) {
+          activeDBs.delete(dbName);
+          toggle.classList.remove("active");
+          line.classList.add("hidden");
+          points.classList.add("hidden");
+        } else {
+          activeDBs.add(dbName);
+          toggle.classList.add("active");
+          line.classList.remove("hidden");
+          points.classList.remove("hidden");
+        }
+      }
+
+      // Tooltip functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const tooltip = document.getElementById("tooltip");
+        const dataPoints = document.querySelectorAll(".data-point");
+
+        dataPoints.forEach((point) => {
+          point.addEventListener("mouseenter", function (e) {
+            const value = this.getAttribute("data-value");
+            const threads = this.getAttribute("data-threads");
+            const db = this.getAttribute("data-db");
+
+            tooltip.innerHTML = `<strong>${db}</strong><br>${threads} потоков: ${value}k ops/sec`;
+            tooltip.style.opacity = "1";
+
+            const rect = this.getBoundingClientRect();
+            const chartRect =
+              this.closest(".line-chart").getBoundingClientRect();
+
+            tooltip.style.left = rect.left - chartRect.left + 10 + "px";
+            tooltip.style.top = rect.top - chartRect.top - 50 + "px";
+          });
+
+          point.addEventListener("mouseleave", function () {
+            tooltip.style.opacity = "0";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

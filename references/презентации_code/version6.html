@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ВИЗУАЛИЗАЦИЯ И РЕКОМЕНДАЦИИ</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        line-height: 1.5;
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .slide-header {
+        margin-bottom: 40px;
+      }
+
+      .slide-title {
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 6px;
+        color: #1e293b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 16px;
+        color: #2563eb;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        height: calc(100% - 130px);
+      }
+
+      .content-section {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .section-block {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 25px;
+        border: 1px solid #e2e8f0;
+        flex: 1;
+      }
+
+      .block-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 18px;
+        color: #2563eb;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .visualization-list {
+        list-style: none;
+        margin-bottom: 20px;
+      }
+
+      .viz-item {
+        padding: 8px 0;
+        font-size: 13px;
+        color: #475569;
+        border-bottom: 1px solid #e2e8f0;
+        position: relative;
+        padding-left: 16px;
+      }
+
+      .viz-item:last-child {
+        border-bottom: none;
+      }
+
+      .viz-item:before {
+        content: "•";
+        color: #2563eb;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 8px;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .dashboard-item {
+        background: white;
+        border-radius: 8px;
+        padding: 12px;
+        border-left: 3px solid #2563eb;
+        border-right: 1px solid #e2e8f0;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .dashboard-name {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
+
+      .dashboard-desc {
+        font-size: 11px;
+        color: #64748b;
+        line-height: 1.3;
+      }
+
+      .db-section {
+        margin-bottom: 20px;
+      }
+
+      .db-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 12px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .db-subtitle {
+        font-size: 12px;
+        color: #2563eb;
+        margin-bottom: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .db-features {
+        list-style: none;
+        margin-bottom: 12px;
+      }
+
+      .db-feature {
+        padding: 4px 0;
+        font-size: 12px;
+        color: #475569;
+        position: relative;
+        padding-left: 12px;
+        line-height: 1.3;
+      }
+
+      .db-feature:before {
+        content: "•";
+        color: #16a34a;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 4px;
+      }
+
+      .performance-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin: 8px 0;
+      }
+
+      .metric-card {
+        background: white;
+        border-radius: 6px;
+        padding: 8px;
+        border: 1px solid #cbd5e1;
+        text-align: center;
+      }
+
+      .metric-label {
+        font-size: 9px;
+        color: #64748b;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .metric-value {
+        font-size: 11px;
+        font-weight: 600;
+        color: #2563eb;
+      }
+
+      .mongodb-color {
+        color: #10b981;
+      }
+      .cassandra-color {
+        color: #f59e0b;
+      }
+      .postgresql-color {
+        color: #8b5cf6;
+      }
+
+      .db-mongodb .db-title {
+        border-bottom-color: #10b981;
+      }
+      .db-cassandra .db-title {
+        border-bottom-color: #f59e0b;
+      }
+      .db-postgresql .db-title {
+        border-bottom-color: #8b5cf6;
+      }
+
+      .limitations {
+        background: #fef2f2;
+        border-radius: 6px;
+        padding: 8px;
+        margin-top: 8px;
+        border-left: 3px solid #ef4444;
+      }
+
+      .limitations-title {
+        font-size: 10px;
+        color: #dc2626;
+        font-weight: 600;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+      }
+
+      .limitations-text {
+        font-size: 10px;
+        color: #7f1d1d;
+        line-height: 1.3;
+      }
+
+      .superset-header {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #93c5fd;
+        text-align: center;
+      }
+
+      .superset-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 4px;
+      }
+
+      .superset-desc {
+        font-size: 12px;
+        color: #1e293b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">
+          В И З У А Л И З А Ц И Я&nbsp;&nbsp;И&nbsp;&nbsp;Р Е К О М Е Н Д А Ц И
+          И
+        </h1>
+        <p class="slide-subtitle">Apache Superset дашборды</p>
+      </div>
+
+      <div class="content-grid">
+        <!-- Левая колонка: Визуализация -->
+        <div class="content-section">
+          <div class="section-block">
+            <div class="superset-header">
+              <div class="superset-title">Apache Superset</div>
+              <div class="superset-desc">
+                Платформа для интерактивной визуализации данных
+              </div>
+            </div>
+
+            <div class="block-title">Типы созданных визуализаций:</div>
+            <ul class="visualization-list">
+              <li class="viz-item">
+                Линейные графики пропускной способности по количеству потоков
+              </li>
+              <li class="viz-item">
+                Гистограммы сравнения производительности по workload'ам
+              </li>
+              <li class="viz-item">Тепловые карты задержек операций</li>
+              <li class="viz-item">
+                Сравнительные диаграммы масштабируемости СУБД
+              </li>
+            </ul>
+
+            <div class="block-title">Ключевые дашборды:</div>
+            <div class="dashboard-grid">
+              <div class="dashboard-item">
+                <div class="dashboard-name">"Обзор производительности"</div>
+                <div class="dashboard-desc">
+                  Сравнение всех СУБД по основным метрикам
+                </div>
+              </div>
+              <div class="dashboard-item">
+                <div class="dashboard-name">"Анализ масштабируемости"</div>
+                <div class="dashboard-desc">
+                  Поведение при увеличении параллелизма
+                </div>
+              </div>
+              <div class="dashboard-item">
+                <div class="dashboard-name">"Детализация по операциям"</div>
+                <div class="dashboard-desc">
+                  Задержки для различных типов операций
+                </div>
+              </div>
+              <div class="dashboard-item">
+                <div class="dashboard-name">
+                  "Workload-специфичные паттерны"
+                </div>
+                <div class="dashboard-desc">
+                  Оптимальные сценарии для каждой СУБД
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка: Рекомендации -->
+        <div class="content-section">
+          <div class="section-block">
+            <div class="block-title">Рекомендации по выбору СУБД:</div>
+
+            <div class="db-section db-mongodb">
+              <div class="db-title mongodb-color">MongoDB</div>
+              <div class="db-subtitle">Оптимальные сценарии:</div>
+              <ul class="db-features">
+                <li class="db-feature">Приложения с гибкой схемой данных</li>
+                <li class="db-feature">
+                  Системы с преобладанием операций чтения
+                </li>
+                <li class="db-feature">Сложные вложенные документы</li>
+              </ul>
+              <div class="performance-metrics">
+                <div class="metric-card">
+                  <div class="metric-label">Workload D</div>
+                  <div class="metric-value">47.7k ops/sec</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Workload E</div>
+                  <div class="metric-value">23.9k ops/sec</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="db-section db-cassandra">
+              <div class="db-title cassandra-color">Cassandra</div>
+              <div class="db-subtitle">Сильные стороны:</div>
+              <ul class="db-features">
+                <li class="db-feature">
+                  Системы с высокой интенсивностью записи
+                </li>
+                <li class="db-feature">
+                  Лидер по пропускной способности Workload A-C
+                </li>
+                <li class="db-feature">Низкие задержки операций обновления</li>
+              </ul>
+              <div class="performance-metrics">
+                <div class="metric-card">
+                  <div class="metric-label">Workload A-C</div>
+                  <div class="metric-value">24.2-29.2k ops/sec</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Workload E</div>
+                  <div class="metric-value">1.81k ops/sec</div>
+                </div>
+              </div>
+              <div class="limitations">
+                <div class="limitations-title">Ограничения:</div>
+                <div class="limitations-text">
+                  Низкая эффективность сканирования
+                </div>
+              </div>
+            </div>
+
+            <div class="db-section db-postgresql">
+              <div class="db-title postgresql-color">PostgreSQL</div>
+              <div class="db-subtitle">Универсальность:</div>
+              <ul class="db-features">
+                <li class="db-feature">
+                  Исключительная производительность Workload D
+                </li>
+                <li class="db-feature">Полноценная ACID-совместимость</li>
+                <li class="db-feature">
+                  Нелинейная масштабируемость с пиком при 128 потоков
+                </li>
+              </ul>
+              <div class="performance-metrics">
+                <div class="metric-card">
+                  <div class="metric-label">Workload D</div>
+                  <div class="metric-value">55.8k ops/sec</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Workload E</div>
+                  <div class="metric-value">9.62k ops/sec</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

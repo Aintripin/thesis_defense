@@ -1,0 +1,136 @@
+import React, { useState, useEffect } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, TrendingUp, CheckCircle } from 'lucide-react'
+import './Navigation.css'
+
+const Navigation: React.FC = () => {
+  const location = useLocation()
+  const [isNavVisible, setIsNavVisible] = useState(false)
+  
+  const slides = [
+    { path: '/title', label: 'Титульный слайд', icon: Home },
+    { path: '/problem', label: 'Постановка задачи', icon: Target },
+    { path: '/market', label: 'Решённые задачи', icon: CheckSquare },
+    { path: '/solution', label: 'Архитектурные решения', icon: Lightbulb },
+    { path: '/testing', label: 'Технологии тестирования', icon: Zap },
+    { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
+    { path: '/results', label: 'Результаты', icon: TrendingUp },
+    { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
+  ]
+
+  const currentIndex = slides.findIndex(slide => slide.path === location.pathname)
+  const prevSlide = currentIndex > 0 ? slides[currentIndex - 1] : null
+  const nextSlide = currentIndex < slides.length - 1 ? slides[currentIndex + 1] : null
+
+  // Handle mouse movement for nav trigger - MUST be called on every render
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Show nav when mouse is near the left edge of the screen
+      if (e.clientX <= 80) {
+        setIsNavVisible(true)
+      } else if (e.clientX > 350) {
+        // Hide when mouse is far from the nav area
+        setIsNavVisible(false)
+      }
+    }
+
+    const handleMouseLeave = () => {
+      // Hide nav when mouse leaves the window
+      setIsNavVisible(false)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseleave', handleMouseLeave)
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [])
+
+  // Hide navigation on title slide to keep it clean - AFTER all hooks
+  if (location.pathname === '/title') {
+    return null
+  }
+
+  return (
+    <>
+      {/* Invisible trigger area at left of screen */}
+      <div 
+        className="nav-trigger"
+        onMouseEnter={() => setIsNavVisible(true)}
+      />
+      
+      <motion.nav 
+        className={`navigation ${isNavVisible ? 'show' : ''}`}
+        initial={{ x: -280, opacity: 0 }}
+        animate={{ x: isNavVisible ? 0 : -280, opacity: isNavVisible ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        onMouseEnter={() => setIsNavVisible(true)}
+        onMouseLeave={() => setIsNavVisible(false)}
+      >
+        <div className="nav-content">
+          {/* Logo/Title */}
+          <div className="nav-brand">
+            <span className="bmstu-logo">МГТУ</span>
+            <span className="nav-title">Дипломная презентация</span>
+          </div>
+
+          {/* Slide indicators */}
+          <div className="slide-indicators">
+            {slides.map((slide, index) => {
+              const IconComponent = slide.icon
+              return (
+                <NavLink
+                  key={slide.path}
+                  to={slide.path}
+                  className={({ isActive }) => `slide-indicator ${isActive ? 'active' : ''}`}
+                  title={slide.label}
+                >
+                  <div className="slide-indicator-content">
+                    <div className="slide-icon-wrapper">
+                      <IconComponent size={20} />
+                      <span className="slide-number">{index + 1}</span>
+                    </div>
+                    <span className="slide-label">{slide.label}</span>
+                  </div>
+                  {location.pathname === slide.path && (
+                    <motion.div
+                      className="active-indicator"
+                      layoutId="activeIndicator"
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
+                </NavLink>
+              )
+            })}
+          </div>
+
+          {/* Navigation controls */}
+          <div className="nav-controls">
+            <div className="nav-arrows">
+              {prevSlide && (
+                <NavLink to={prevSlide.path} className="nav-arrow prev">
+                  <ChevronLeft size={20} />
+                </NavLink>
+              )}
+              
+              {nextSlide && (
+                <NavLink to={nextSlide.path} className="nav-arrow next">
+                  <ChevronRight size={20} />
+                </NavLink>
+              )}
+            </div>
+            
+            <div className="slide-counter">
+              {currentIndex + 1} / {slides.length}
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+    </>
+  )
+}
+
+export default Navigation 

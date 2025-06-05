@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ОСНОВНЫЕ РЕЗУЛЬТАТЫ ИССЛЕДОВАНИЯ</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        line-height: 1.5;
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .slide-header {
+        margin-bottom: 30px;
+      }
+
+      .slide-title {
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 6px;
+        color: #1e293b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 16px;
+        color: #2563eb;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .content-container {
+        height: calc(100% - 120px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 25px;
+      }
+
+      .control-btn {
+        padding: 8px 16px;
+        border: 2px solid #e2e8f0;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        color: #64748b;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .control-btn.active {
+        background: #2563eb;
+        color: white;
+        border-color: #2563eb;
+      }
+
+      .control-btn:hover {
+        border-color: #2563eb;
+        color: #2563eb;
+      }
+
+      .control-btn.active:hover {
+        color: white;
+      }
+
+      .chart-container {
+        flex: 1;
+        display: flex;
+        gap: 30px;
+      }
+
+      .main-chart {
+        flex: 2;
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 25px;
+        border: 1px solid #e2e8f0;
+        position: relative;
+      }
+
+      .sidebar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .summary-card {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .bars-chart {
+        width: 100%;
+        height: 400px;
+        display: flex;
+        align-items: end;
+        justify-content: space-around;
+        gap: 30px;
+        padding: 20px 0;
+      }
+
+      .workload-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+      }
+
+      .workload-bars {
+        display: flex;
+        gap: 8px;
+        align-items: end;
+        height: 300px;
+      }
+
+      .bar {
+        width: 25px;
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: growUp 1.5s ease-out;
+      }
+
+      .bar:hover {
+        transform: scaleY(1.05);
+        filter: brightness(1.1);
+      }
+
+      .bar-postgresql {
+        background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
+      }
+      .bar-mongodb {
+        background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+      }
+      .bar-cassandra {
+        background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+      }
+
+      .bar-value {
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
+        font-weight: 600;
+        color: #374151;
+        background: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        opacity: 1;
+        transition: all 0.3s ease;
+      }
+
+      .bar:hover .bar-value {
+        transform: translateX(-50%) scale(1.1);
+        font-weight: 700;
+      }
+
+      .workload-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #374151;
+        margin-top: 10px;
+      }
+
+      .legend {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+      }
+
+      .legend-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #374151;
+      }
+
+      .insights {
+        list-style: none;
+      }
+
+      .insight-item {
+        padding: 8px 0;
+        font-size: 12px;
+        color: #475569;
+        border-bottom: 1px solid #e2e8f0;
+        position: relative;
+        padding-left: 16px;
+        line-height: 1.4;
+      }
+
+      .insight-item:last-child {
+        border-bottom: none;
+      }
+
+      .insight-item:before {
+        content: "→";
+        color: #2563eb;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 8px;
+      }
+
+      .highlight {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .radar-container {
+        display: none;
+        height: 400px;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .radar-chart {
+        width: 180px;
+        height: 180px;
+        position: relative;
+      }
+
+      .radar-title {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 10px;
+      }
+
+      @keyframes growUp {
+        from {
+          height: 0;
+        }
+        to {
+          height: var(--bar-height);
+        }
+      }
+
+      .performance-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        text-align: center;
+      }
+
+      .stat-label {
+        font-size: 10px;
+        color: #64748b;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2563eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">
+          О С Н О В Н Ы Е&nbsp;&nbsp;Р Е З У Л Ь Т А Т Ы&nbsp;&nbsp;И С С Л Е Д
+          О В А Н И Я
+        </h1>
+        <p class="slide-subtitle">Сравнительный анализ производительности</p>
+      </div>
+
+      <div class="content-container">
+        <div class="controls">
+          <button class="control-btn active" onclick="showChart('bars')">
+            Столбчатая диаграмма
+          </button>
+          <button class="control-btn" onclick="showChart('radar')">
+            Радарные диаграммы
+          </button>
+        </div>
+
+        <div class="chart-container">
+          <div class="main-chart">
+            <div id="bars-chart" class="bars-chart">
+              <div class="workload-group">
+                <div class="workload-bars">
+                  <div
+                    class="bar bar-postgresql"
+                    style="--bar-height: 64px; height: 64px"
+                  >
+                    <div class="bar-value">8.06k</div>
+                  </div>
+                  <div
+                    class="bar bar-mongodb"
+                    style="--bar-height: 89px; height: 89px"
+                  >
+                    <div class="bar-value">11.2k</div>
+                  </div>
+                  <div
+                    class="bar bar-cassandra"
+                    style="--bar-height: 193px; height: 193px"
+                  >
+                    <div class="bar-value">24.2k</div>
+                  </div>
+                </div>
+                <div class="workload-label">Workload A</div>
+              </div>
+
+              <div class="workload-group">
+                <div class="workload-bars">
+                  <div
+                    class="bar bar-postgresql"
+                    style="--bar-height: 114px; height: 114px"
+                  >
+                    <div class="bar-value">14.3k</div>
+                  </div>
+                  <div
+                    class="bar bar-mongodb"
+                    style="--bar-height: 132px; height: 132px"
+                  >
+                    <div class="bar-value">16.5k</div>
+                  </div>
+                  <div
+                    class="bar bar-cassandra"
+                    style="--bar-height: 216px; height: 216px"
+                  >
+                    <div class="bar-value">27.0k</div>
+                  </div>
+                </div>
+                <div class="workload-label">Workload B</div>
+              </div>
+
+              <div class="workload-group">
+                <div class="workload-bars">
+                  <div
+                    class="bar bar-postgresql"
+                    style="--bar-height: 148px; height: 148px"
+                  >
+                    <div class="bar-value">18.5k</div>
+                  </div>
+                  <div
+                    class="bar bar-mongodb"
+                    style="--bar-height: 153px; height: 153px"
+                  >
+                    <div class="bar-value">19.1k</div>
+                  </div>
+                  <div
+                    class="bar bar-cassandra"
+                    style="--bar-height: 234px; height: 234px"
+                  >
+                    <div class="bar-value">29.2k</div>
+                  </div>
+                </div>
+                <div class="workload-label">Workload C</div>
+              </div>
+
+              <div class="workload-group">
+                <div class="workload-bars">
+                  <div
+                    class="bar bar-postgresql"
+                    style="--bar-height: 300px; height: 300px"
+                  >
+                    <div class="bar-value">55.8k</div>
+                  </div>
+                  <div
+                    class="bar bar-mongodb"
+                    style="--bar-height: 256px; height: 256px"
+                  >
+                    <div class="bar-value">47.7k</div>
+                  </div>
+                  <div
+                    class="bar bar-cassandra"
+                    style="--bar-height: 61px; height: 61px"
+                  >
+                    <div class="bar-value">7.67k</div>
+                  </div>
+                </div>
+                <div class="workload-label">Workload D</div>
+              </div>
+
+              <div class="workload-group">
+                <div class="workload-bars">
+                  <div
+                    class="bar bar-postgresql"
+                    style="--bar-height: 77px; height: 77px"
+                  >
+                    <div class="bar-value">9.62k</div>
+                  </div>
+                  <div
+                    class="bar bar-mongodb"
+                    style="--bar-height: 191px; height: 191px"
+                  >
+                    <div class="bar-value">23.9k</div>
+                  </div>
+                  <div
+                    class="bar bar-cassandra"
+                    style="--bar-height: 14px; height: 14px"
+                  >
+                    <div class="bar-value">1.81k</div>
+                  </div>
+                </div>
+                <div class="workload-label">Workload E</div>
+              </div>
+
+              <div class="workload-group">
+                <div class="workload-bars">
+                  <div
+                    class="bar bar-postgresql"
+                    style="--bar-height: 59px; height: 59px"
+                  >
+                    <div class="bar-value">7.4k</div>
+                  </div>
+                  <div
+                    class="bar bar-mongodb"
+                    style="--bar-height: 97px; height: 97px"
+                  >
+                    <div class="bar-value">12.1k</div>
+                  </div>
+                  <div
+                    class="bar bar-cassandra"
+                    style="--bar-height: 119px; height: 119px"
+                  >
+                    <div class="bar-value">14.9k</div>
+                  </div>
+                </div>
+                <div class="workload-label">Workload F</div>
+              </div>
+            </div>
+
+            <div id="radar-chart" class="radar-container">
+              <div class="radar-chart">
+                <div class="radar-title">PostgreSQL</div>
+                <svg width="180" height="180" viewBox="0 0 180 180">
+                  <defs>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                      <feMerge>
+                        <feMergeNode in="coloredBlur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <!-- Grid -->
+                  <g stroke="#e2e8f0" stroke-width="1" fill="none">
+                    <polygon
+                      points="90,30 155,60 155,120 90,150 25,120 25,60"
+                      opacity="0.3"
+                    />
+                    <polygon
+                      points="90,45 140,67.5 140,112.5 90,135 40,112.5 40,67.5"
+                      opacity="0.3"
+                    />
+                    <polygon
+                      points="90,60 125,75 125,105 90,120 55,105 55,75"
+                      opacity="0.3"
+                    />
+                  </g>
+                  <!-- Data -->
+                  <polygon
+                    points="90,79 102,67.5 126,80 90,37 73,103 68,75"
+                    fill="rgba(139, 92, 246, 0.3)"
+                    stroke="#8b5cf6"
+                    stroke-width="2"
+                    filter="url(#glow)"
+                  />
+                  <!-- Labels -->
+                  <text
+                    x="90"
+                    y="25"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    A
+                  </text>
+                  <text
+                    x="160"
+                    y="65"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    B
+                  </text>
+                  <text
+                    x="160"
+                    y="125"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    C
+                  </text>
+                  <text
+                    x="90"
+                    y="165"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    D
+                  </text>
+                  <text
+                    x="20"
+                    y="125"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    E
+                  </text>
+                  <text
+                    x="20"
+                    y="65"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    F
+                  </text>
+                </svg>
+              </div>
+
+              <div class="radar-chart">
+                <div class="radar-title">MongoDB</div>
+                <svg width="180" height="180" viewBox="0 0 180 180">
+                  <!-- Grid -->
+                  <g stroke="#e2e8f0" stroke-width="1" fill="none">
+                    <polygon
+                      points="90,30 155,60 155,120 90,150 25,120 25,60"
+                      opacity="0.3"
+                    />
+                    <polygon
+                      points="90,45 140,67.5 140,112.5 90,135 40,112.5 40,67.5"
+                      opacity="0.3"
+                    />
+                    <polygon
+                      points="90,60 125,75 125,105 90,120 55,105 55,75"
+                      opacity="0.3"
+                    />
+                  </g>
+                  <!-- Data -->
+                  <polygon
+                    points="90,71 108,70 130,83 90,47 45,97 75,73"
+                    fill="rgba(16, 185, 129, 0.3)"
+                    stroke="#10b981"
+                    stroke-width="2"
+                    filter="url(#glow)"
+                  />
+                  <!-- Labels -->
+                  <text
+                    x="90"
+                    y="25"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    A
+                  </text>
+                  <text
+                    x="160"
+                    y="65"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    B
+                  </text>
+                  <text
+                    x="160"
+                    y="125"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    C
+                  </text>
+                  <text
+                    x="90"
+                    y="165"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    D
+                  </text>
+                  <text
+                    x="20"
+                    y="125"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    E
+                  </text>
+                  <text
+                    x="20"
+                    y="65"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    F
+                  </text>
+                </svg>
+              </div>
+
+              <div class="radar-chart">
+                <div class="radar-title">Cassandra</div>
+                <svg width="180" height="180" viewBox="0 0 180 180">
+                  <!-- Grid -->
+                  <g stroke="#e2e8f0" stroke-width="1" fill="none">
+                    <polygon
+                      points="90,30 155,60 155,120 90,150 25,120 25,60"
+                      opacity="0.3"
+                    />
+                    <polygon
+                      points="90,45 140,67.5 140,112.5 90,135 40,112.5 40,67.5"
+                      opacity="0.3"
+                    />
+                    <polygon
+                      points="90,60 125,75 125,105 90,120 55,105 55,75"
+                      opacity="0.3"
+                    />
+                  </g>
+                  <!-- Data -->
+                  <polygon
+                    points="90,45 130,62 135,75 90,130 90,147 80,72"
+                    fill="rgba(245, 158, 11, 0.3)"
+                    stroke="#f59e0b"
+                    stroke-width="2"
+                    filter="url(#glow)"
+                  />
+                  <!-- Labels -->
+                  <text
+                    x="90"
+                    y="25"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    A
+                  </text>
+                  <text
+                    x="160"
+                    y="65"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    B
+                  </text>
+                  <text
+                    x="160"
+                    y="125"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    C
+                  </text>
+                  <text
+                    x="90"
+                    y="165"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    D
+                  </text>
+                  <text
+                    x="20"
+                    y="125"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    E
+                  </text>
+                  <text
+                    x="20"
+                    y="65"
+                    text-anchor="middle"
+                    font-size="8"
+                    fill="#64748b"
+                  >
+                    F
+                  </text>
+                </svg>
+              </div>
+            </div>
+
+            <div class="legend">
+              <div class="legend-item">
+                <div
+                  class="legend-color"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #8b5cf6 0%,
+                      #7c3aed 100%
+                    );
+                  "
+                ></div>
+                <span class="legend-label">PostgreSQL</span>
+              </div>
+              <div class="legend-item">
+                <div
+                  class="legend-color"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #10b981 0%,
+                      #059669 100%
+                    );
+                  "
+                ></div>
+                <span class="legend-label">MongoDB</span>
+              </div>
+              <div class="legend-item">
+                <div
+                  class="legend-color"
+                  style="
+                    background: linear-gradient(
+                      135deg,
+                      #f59e0b 0%,
+                      #d97706 100%
+                    );
+                  "
+                ></div>
+                <span class="legend-label">Cassandra</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar">
+            <div class="summary-card">
+              <div class="card-title">Лидеры по workload'ам</div>
+              <div class="performance-stats">
+                <div class="stat-card">
+                  <div class="stat-label">A, B, C</div>
+                  <div class="stat-value">Cassandra</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Workload D</div>
+                  <div class="stat-value">PostgreSQL</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Workload E</div>
+                  <div class="stat-value">MongoDB</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Workload F</div>
+                  <div class="stat-value">Cassandra</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-card">
+              <div class="card-title">Ключевые выводы</div>
+              <ul class="insights">
+                <li class="insight-item">
+                  <span class="highlight">Cassandra</span> лидирует в
+                  стандартных CRUD-операциях (A, B, C)
+                </li>
+                <li class="insight-item">
+                  <span class="highlight">PostgreSQL</span> доминирует в
+                  Workload D (чтение последних записей)
+                </li>
+                <li class="insight-item">
+                  <span class="highlight">MongoDB</span> эффективен для операций
+                  сканирования (Workload E)
+                </li>
+                <li class="insight-item">
+                  Максимальная разница в производительности достигает
+                  <span class="highlight">30x</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showChart(type) {
+        const barsChart = document.getElementById("bars-chart");
+        const radarChart = document.getElementById("radar-chart");
+        const buttons = document.querySelectorAll(".control-btn");
+
+        buttons.forEach((btn) => btn.classList.remove("active"));
+
+        if (type === "bars") {
+          barsChart.style.display = "flex";
+          radarChart.style.display = "none";
+          buttons[0].classList.add("active");
+        } else {
+          barsChart.style.display = "none";
+          radarChart.style.display = "flex";
+          buttons[1].classList.add("active");
+        }
+      }
+
+      // Initialize tooltips and animations
+      document.addEventListener("DOMContentLoaded", function () {
+        // Add staggered animation delay to bars
+        const bars = document.querySelectorAll(".bar");
+        bars.forEach((bar, index) => {
+          bar.style.animationDelay = `${index * 0.1}s`;
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,366 @@
+@import '../../styles/variables';
+
+// SCSS Variables
+$light-bg: #f8f9fa;
+$white: #ffffff;
+$text-primary: #374151;
+$text-dark: #1e293b;
+$text-secondary: #4b5563;
+$text-muted: #6b7280;
+$blue-primary: #2563eb;
+$border-light: #f3f4f6;
+
+// Database colors
+$postgres-color: #3b82f6;
+$mongo-color: #10b981;
+$cassandra-color: #8b5cf6;
+
+// Font mixins
+@mixin als-font($size: 16px, $weight: 400, $line-height: 1.5) {
+  font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+.solution-slide {
+  @include als-font();
+  background: $light-bg;
+  color: $text-primary;
+  padding: 0 0 20px 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  // Title container styled like original horizontal navbar - FULL WIDTH
+  .slide-title-container {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 12px 32px;
+    text-align: center;
+    width: 100vw;
+    margin: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .slide-title {
+      @include als-font(28px, 300, 1.2);
+      letter-spacing: 4px;
+      color: $text-dark;
+      margin-bottom: 0;
+      text-transform: uppercase;
+    }
+  }
+
+  .content-container {
+    max-width: 1600px;
+    margin: 20px auto;
+    background: $white;
+    border-radius: 20px;
+    padding: 60px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 140px);
+    overflow: hidden;
+  }
+
+  .solution-content-wrapper {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    height: 100%;
+    width: 100%;
+  }
+
+  // Sidebar Styles
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .thesis-section {
+    h2 {
+      @include als-font(20px, 600, 1.2);
+      color: $text-dark;
+      margin-bottom: 16px;
+    }
+
+    p {
+      @include als-font(14px, 400, 1.6);
+      color: $text-secondary;
+      margin: 0;
+    }
+  }
+
+  .important-box {
+    background-color: #eff6ff;
+    border-left: 4px solid $blue-primary;
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+
+    h2 {
+      @include als-font(18px, 700, 1.2);
+      color: $blue-primary;
+      margin-bottom: 12px;
+    }
+
+    p {
+      @include als-font(14px, 400, 1.6);
+      color: $text-secondary;
+      margin: 0;
+    }
+  }
+
+  // Main Content Styles
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow: hidden;
+  }
+
+  .content-header {
+    .content-title {
+      @include als-font(24px, 600, 1.2);
+      color: $text-dark;
+      margin: 0;
+    }
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  // Database Card Styles
+  .database-card {
+    background: $white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid $border-light;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    &.postgres::before {
+      background: $postgres-color;
+    }
+
+    &.mongo::before {
+      background: $mongo-color;
+    }
+
+    &.cassandra {
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
+      
+      &:hover {
+        box-shadow: 0 16px 48px rgba(139, 92, 246, 0.25);
+      }
+      
+      &::before {
+        background: $cassandra-color;
+      }
+    }
+
+    &.comparison {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 2px solid #e2e8f0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      
+      &:hover {
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+      
+      &::before {
+        background: linear-gradient(90deg, $postgres-color, $mongo-color, $cassandra-color);
+        height: 6px;
+      }
+      
+      .card-title {
+        color: $text-dark;
+        @include als-font(22px, 700, 1.3);
+        text-align: center;
+        margin-bottom: 32px;
+      }
+    }
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .card-title {
+      @include als-font(20px, 600, 1.3);
+      color: $text-dark;
+      margin-bottom: 24px;
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        @include als-font(15px, 400, 1.5);
+        color: $text-secondary;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .bullet {
+    width: 12px;
+    height: 8px;
+    margin-top: 8px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    position: relative;
+
+    // Database icon style
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 4px;
+      border-radius: 6px;
+      border: 1px solid;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 0;
+      width: 12px;
+      height: 6px;
+      border-radius: 0 0 6px 6px;
+      border: 1px solid;
+      border-top: none;
+    }
+  }
+
+  // Database-specific bullet colors
+  .postgres .bullet::before,
+  .postgres .bullet::after {
+    border-color: $postgres-color;
+    background-color: #dbeafe;
+  }
+
+  .mongo .bullet::before,
+  .mongo .bullet::after {
+    border-color: $mongo-color;
+    background-color: #d1fae5;
+  }
+
+  .cassandra .bullet::before,
+  .cassandra .bullet::after {
+    border-color: $cassandra-color;
+    background-color: #ede9fe;
+  }
+
+  // Comparison card special bullet colors
+  .comparison .feature-item:nth-child(1) .bullet::before,
+  .comparison .feature-item:nth-child(1) .bullet::after {
+    border-color: $postgres-color;
+    background-color: #dbeafe;
+  }
+
+  .comparison .feature-item:nth-child(2) .bullet::before,
+  .comparison .feature-item:nth-child(2) .bullet::after {
+    border-color: $mongo-color;
+    background-color: #d1fae5;
+  }
+
+  .comparison .feature-item:nth-child(3) .bullet::before,
+  .comparison .feature-item:nth-child(3) .bullet::after {
+    border-color: $cassandra-color;
+    background-color: #ede9fe;
+  }
+}
+
+// Responsive Design
+@media (max-width: 1400px) {
+  .solution-slide {
+    .solution-content-wrapper {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    .sidebar {
+      flex-direction: row;
+      gap: 20px;
+    }
+
+    .thesis-section,
+    .important-box {
+      flex: 1;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .slide-title-container .slide-title {
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .solution-slide {
+    .solution-content-wrapper {
+      padding: 20px;
+    }
+
+    .sidebar {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .slide-title-container .slide-title {
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+  }
+} 

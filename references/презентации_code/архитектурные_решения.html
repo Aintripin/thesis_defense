@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архитектурные решения СУБД</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+        }
+        
+        .header {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: #374151;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .thesis-section h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+        
+        .thesis-section p {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .important-box {
+            background-color: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .important-box h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 0.75rem;
+        }
+        
+        .important-box p {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        
+        .content-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 2rem;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+        
+        .card ul {
+            list-style: none;
+        }
+        
+        .card li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        
+        .bullet {
+            width: 4px;
+            height: 4px;
+            background-color: black;
+            border-radius: 50%;
+            margin-top: 0.625rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .cassandra-card {
+            grid-column: 1 / -1;
+        }
+        
+        .cassandra-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .sub-item {
+            margin-left: 1.5rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cassandra-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">АРХИТЕКТУРНЫЕ РЕШЕНИЯ СУБД</h1>
+        
+        <div class="main-grid">
+            <div class="sidebar">
+                <div class="thesis-section">
+                    <h2>Тезис</h2>
+                    <p>Архитектура СУБД определяет системные возможности</p>
+                </div>
+                
+                <div class="important-box">
+                    <h3>ВАЖНО</h3>
+                    <p>Реляционные СУБД дают консистентность, NoSQL масштабируемость и гибкость</p>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <h2>Анализ архитектурных особенностей</h2>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>PostgreSQL (реляционная СУБД)</h3>
+                        <ul>
+                            <li>
+                                <span class="bullet"></span>
+                                Реляционная модель данных с определенной схемой
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                MVCC (Multiversion Concurrency Control) для изоляции транзакций
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Полная поддержка ACID-свойств (Atomicity, Consistency, Isolation, Durability)
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                JSON-поддержка для работы с полуструктурированными данными
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Расширяемость через пользовательские типы данных и функции
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>MongoDB (документоориентированная СУБД)</h3>
+                        <ul>
+                            <li>
+                                <span class="bullet"></span>
+                                Колоночная модель данных для эффективности определенных типов запросов
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Распределенная архитектура без единой точки отказа
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Линейная масштабируемость при добавлении узлов
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Настраиваемая консистентность для каждой операции
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Оптимизация для записи - архитектура, ориентированная на высокую производительность операций записи
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card cassandra-card">
+                    <h3>Cassandra (колоночная СУБД)</h3>
+                    <div class="cassandra-content">
+                        <ul>
+                            <li>
+                                <span class="bullet"></span>
+                                Колоночная модель данных для эффективности определенных типов запросов
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Распределенная архитектура без единой точки отказа
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Линейная масштабируемость при добавлении узлов
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Настраиваемая консистентность для каждой операции
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <span class="bullet"></span>
+                                Оптимизация для записи - архитектура, ориентированная на высокую производительность операций записи
+                            </li>
+                            <li>
+                                <span class="bullet"></span>
+                                Сравнение подходов к обработке данных:
+                            </li>
+                            <li class="sub-item">
+                                Реляционный подход (PostgreSQL): строгая схема, нормализация, SQL, транзакционность
+                            </li>
+                            <li class="sub-item">
+                                Документоориентированный подход (MongoDB): гибкая схема, вложенные документы, горизонтальное масштабирование
+                            </li>
+                            <li class="sub-item">
+                                Колоночный подход (Cassandra): денормализация, широкие строки, распределение данных
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

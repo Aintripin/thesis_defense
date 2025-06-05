@@ -1,0 +1,27 @@
+$primary: #1e3a8a;
+$secondary: #3b82f6;
+$accent: #60a5fa;
+$muted: #93c5fd;
+
+$text-dark: #1e293b;
+$text-medium: #475569;
+$text-light: #64748b;
+
+$glass-bg: rgba(255, 255, 255, 0.7);
+$glass-bg-light: rgba(255, 255, 255, 0.5);
+
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+
+$shadow-sm: 0 10px 25px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 20px 40px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.08);
+
+@mixin glass-effect($opacity: 0.7) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: $shadow-lg, inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}

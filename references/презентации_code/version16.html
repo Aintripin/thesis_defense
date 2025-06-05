@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Анализ рынка инструментов бенчмаркинга</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #f8fafc 0%,
+          #e2e8f0 50%,
+          #cbd5e1 100%
+        );
+        margin: 0;
+        padding: 20px;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 20%,
+            rgba(59, 130, 246, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(147, 197, 253, 0.06) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 70%,
+            rgba(29, 78, 216, 0.04) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+      }
+
+      .slide-container {
+        max-width: none;
+        width: 100%;
+        height: calc(100vh - 40px);
+        margin: 0;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1e40af, #3b82f6, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: #475569;
+        letter-spacing: 1px;
+      }
+
+      .content {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 3fr 320px;
+        gap: 25px;
+      }
+
+      .chart-section {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .chart-section::before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.1),
+          rgba(147, 197, 253, 0.05)
+        );
+        border-radius: 20px;
+        z-index: -1;
+      }
+
+      .chart-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e293b;
+        margin-bottom: 10px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .chart-container {
+        width: 100%;
+        flex: 1;
+        min-height: 500px;
+      }
+
+      .chart-container svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        position: relative;
+      }
+
+      .glass-card.metrics::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        border-radius: 16px 16px 0 0;
+      }
+
+      .glass-card.trends::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+        border-radius: 16px 16px 0 0;
+      }
+
+      .glass-card.insights::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(90deg, #1e40af, #2563eb);
+        border-radius: 16px 16px 0 0;
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e293b;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .metric-item {
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 8px;
+        border-left: 3px solid #3b82f6;
+        backdrop-filter: blur(10px);
+      }
+
+      .metric-label {
+        color: #475569;
+        font-weight: 500;
+      }
+
+      .metric-value {
+        color: #1e40af;
+        font-weight: bold;
+      }
+
+      .trend-item {
+        margin-bottom: 15px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 10px;
+        border-left: 4px solid #3b82f6;
+        backdrop-filter: blur(10px);
+      }
+
+      .trend-title {
+        font-weight: bold;
+        color: #1e293b;
+        font-size: 14px;
+      }
+
+      .trend-desc {
+        color: #64748b;
+        font-size: 13px;
+        margin-top: 4px;
+      }
+
+      .insight-item {
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        color: #475569;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
+        border-left: 2px solid #60a5fa;
+        backdrop-filter: blur(8px);
+      }
+
+      .tooltip {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        color: #1e293b;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1000;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .legend {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #475569;
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .growth-highlight {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 12px;
+        box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+      }
+
+      /* Grid lines для графика */
+      .grid line {
+        stroke: rgba(100, 116, 139, 0.2);
+        stroke-dasharray: 2, 2;
+      }
+
+      .grid path {
+        stroke-width: 0;
+      }
+
+      /* Убираем анимации для комиссии */
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      /* Добавляем только hover эффекты */
+      .glass-card:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s ease;
+      }
+
+      .trend-item:hover {
+        background: rgba(255, 255, 255, 0.6);
+        transform: translateX(3px);
+        transition: all 0.2s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">АНАЛИЗ РЫНКА ИНСТРУМЕНТОВ БЕНЧМАРКИНГА</h1>
+        <p class="subtitle">
+          ГЛОБАЛЬНЫЕ ТЕНДЕНЦИИ И СТРУКТУРНЫЕ ИЗМЕНЕНИЯ РЫНКА СУБД
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="chart-section">
+          <h3 class="chart-title">
+            📈 Динамика роста рынка СУБД по типам (2023-2030)
+          </h3>
+          <div class="chart-container" id="chart"></div>
+          <div class="legend" id="legend"></div>
+        </div>
+
+        <div class="sidebar">
+          <div class="glass-card metrics">
+            <div class="card-title">🎯 КЛЮЧЕВЫЕ МЕТРИКИ</div>
+            <div class="metric-item">
+              <div class="metric-label">Общий рост рынка:</div>
+              <div class="metric-value">100.79 → 292.22 млрд USD</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Темп роста (CAGR):</div>
+              <div class="metric-value">14.21% в год</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">NoSQL рост:</div>
+              <div class="metric-value">
+                <span class="growth-highlight">6-кратный</span>
+              </div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-label">Облачные решения:</div>
+              <div class="metric-value">5.4x рост к 2030</div>
+            </div>
+          </div>
+
+          <div class="glass-card trends">
+            <div class="card-title">📊 СТРУКТУРНЫЕ ИЗМЕНЕНИЯ</div>
+            <div class="trend-item">
+              <div class="trend-title">Реляционные СУБД</div>
+              <div class="trend-desc">Снижение доли с 70% до 55%</div>
+            </div>
+            <div class="trend-item">
+              <div class="trend-title">NoSQL системы</div>
+              <div class="trend-desc">Взрывной рост: 7.55 → 47.41 млрд USD</div>
+            </div>
+            <div class="trend-item">
+              <div class="trend-title">Облачные платформы</div>
+              <div class="trend-desc">Удвоение доли рынка</div>
+            </div>
+            <div class="trend-item">
+              <div class="trend-title">Графовые БД</div>
+              <div class="trend-desc">Новая ниша с 4x ростом</div>
+            </div>
+          </div>
+
+          <div class="glass-card insights">
+            <div class="card-title">💡 ДРАЙВЕРЫ РОСТА</div>
+            <div class="insight-item">
+              <strong>Цифровая трансформация</strong> предприятий
+            </div>
+            <div class="insight-item">
+              <strong>Экспоненциальный рост</strong> объемов данных
+            </div>
+            <div class="insight-item">
+              <strong>Потребность в масштабируемости</strong> и гибкости
+            </div>
+            <div class="insight-item">
+              <strong>Развитие IoT и Big Data</strong> технологий
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+      // Данные для графика
+      const data = [
+        {
+          year: 2023,
+          relational: 70.76,
+          nosql: 7.55,
+          graph: 2.9,
+          cloud: 12.64,
+          total: 100.79,
+        },
+        {
+          year: 2024,
+          relational: 79.61,
+          nosql: 9.82,
+          graph: 3.5,
+          cloud: 16.08,
+          total: 129.01,
+        },
+        {
+          year: 2025,
+          relational: 89.57,
+          nosql: 12.77,
+          graph: 4.2,
+          cloud: 20.44,
+          total: 150.38,
+        },
+        {
+          year: 2026,
+          relational: 100.75,
+          nosql: 16.6,
+          graph: 5.0,
+          cloud: 26.02,
+          total: 173.37,
+        },
+        {
+          year: 2027,
+          relational: 113.34,
+          nosql: 21.58,
+          graph: 6.0,
+          cloud: 33.09,
+          total: 199.01,
+        },
+        {
+          year: 2028,
+          relational: 127.51,
+          nosql: 28.05,
+          graph: 7.2,
+          cloud: 42.09,
+          total: 229.85,
+        },
+        {
+          year: 2029,
+          relational: 143.45,
+          nosql: 36.47,
+          graph: 8.6,
+          cloud: 53.49,
+          total: 267.01,
+        },
+        {
+          year: 2030,
+          relational: 161.38,
+          nosql: 47.41,
+          graph: 10.9,
+          cloud: 68.03,
+          total: 292.22,
+        },
+      ];
+
+      // Синяя палитра в стиле Бауманки для светлой темы
+      const categories = [
+        { key: "relational", name: "Реляционные СУБД", color: "#1E3A8A" },
+        { key: "nosql", name: "NoSQL СУБД", color: "#3B82F6" },
+        { key: "cloud", name: "Облачные СУБД", color: "#60A5FA" },
+        { key: "graph", name: "Графовые СУБД", color: "#93C5FD" },
+      ];
+
+      // Ждём рендера контейнера для получения правильных размеров
+      setTimeout(() => {
+        // Настройки SVG - делаем график максимально большим
+        const chartContainer = document.getElementById("chart");
+        const containerWidth = chartContainer.offsetWidth;
+        const containerHeight = chartContainer.offsetHeight;
+
+        const margin = { top: 20, right: 30, bottom: 60, left: 60 };
+        const width = containerWidth - margin.left - margin.right;
+        const height = containerHeight - margin.top - margin.bottom;
+
+        const svg = d3
+          .select("#chart")
+          .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom);
+
+        const g = svg
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Масштабы
+        const xScale = d3
+          .scaleLinear()
+          .domain(d3.extent(data, (d) => d.year))
+          .range([0, width]);
+
+        const yScale = d3
+          .scaleLinear()
+          .domain([0, d3.max(data, (d) => d.total) * 1.1])
+          .range([height, 0]);
+
+        // Добавляем сетку
+        g.append("g")
+          .attr("class", "grid")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(xScale).tickSize(-height).tickFormat(""));
+
+        g.append("g")
+          .attr("class", "grid")
+          .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(""));
+
+        // Стекированный генератор области
+        const stack = d3
+          .stack()
+          .keys(categories.map((d) => d.key))
+          .order(d3.stackOrderNone)
+          .offset(d3.stackOffsetNone);
+
+        const stackedData = stack(data);
+
+        const area = d3
+          .area()
+          .x((d) => xScale(d.data.year))
+          .y0((d) => yScale(d[0]))
+          .y1((d) => yScale(d[1]))
+          .curve(d3.curveCardinal);
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Рисуем области с градиентами
+        const defs = svg.append("defs");
+
+        categories.forEach((category, i) => {
+          const gradient = defs
+            .append("linearGradient")
+            .attr("id", `gradient-${category.key}`)
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", height)
+            .attr("x2", 0)
+            .attr("y2", 0);
+
+          gradient
+            .append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", category.color)
+            .attr("stop-opacity", 0.3);
+
+          gradient
+            .append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", category.color)
+            .attr("stop-opacity", 0.8);
+        });
+
+        g.selectAll(".area")
+          .data(stackedData)
+          .enter()
+          .append("path")
+          .attr("class", "area")
+          .attr("d", area)
+          .style("fill", (d, i) => `url(#gradient-${categories[i].key})`)
+          .style("stroke", (d, i) => categories[i].color)
+          .style("stroke-width", 1.5)
+          .style("cursor", "pointer")
+          .on("mouseover", function (event, d) {
+            d3.select(this).style("filter", "brightness(1.1)");
+            const category = categories.find((cat) => cat.key === d.key);
+            tooltip
+              .style("opacity", 1)
+              .html(
+                `<strong>${category.name}</strong><br/>Наведите на точки для деталей`
+              );
+          })
+          .on("mousemove", function (event) {
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 10 + "px");
+          })
+          .on("mouseout", function () {
+            d3.select(this).style("filter", "brightness(1)");
+            tooltip.style("opacity", 0);
+          });
+
+        // Оси
+        g.append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+          .selectAll("text")
+          .style("fill", "#475569")
+          .style("font-size", "12px");
+
+        g.append("g")
+          .call(d3.axisLeft(yScale))
+          .selectAll("text")
+          .style("fill", "#475569")
+          .style("font-size", "12px");
+
+        // Стили для осей
+        g.selectAll(".domain").style("stroke", "#64748B");
+
+        g.selectAll(".tick line").style("stroke", "#64748B");
+
+        // Подписи осей
+        g.append("text")
+          .attr("x", width / 2)
+          .attr("y", height + 50)
+          .attr("fill", "#475569")
+          .style("text-anchor", "middle")
+          .style("font-size", "14px")
+          .style("font-weight", "bold")
+          .text("Год");
+
+        g.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -50)
+          .attr("x", -height / 2)
+          .attr("fill", "#475569")
+          .style("text-anchor", "middle")
+          .style("font-size", "14px")
+          .style("font-weight", "bold")
+          .text("Объем рынка (млрд USD)");
+
+        // Линия общего рынка
+        const line = d3
+          .line()
+          .x((d) => xScale(d.year))
+          .y((d) => yScale(d.total))
+          .curve(d3.curveCardinal);
+
+        g.append("path")
+          .datum(data)
+          .attr("d", line)
+          .style("fill", "none")
+          .style("stroke", "#1E293B")
+          .style("stroke-width", 3)
+          .style("stroke-dasharray", "5,5");
+
+        // Точки на линии общего рынка
+        g.selectAll(".total-point")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("class", "total-point")
+          .attr("cx", (d) => xScale(d.year))
+          .attr("cy", (d) => yScale(d.total))
+          .attr("r", 4)
+          .style("fill", "#FFFFFF")
+          .style("stroke", "#3B82F6")
+          .style("stroke-width", 2)
+          .style("cursor", "pointer")
+          .on("mouseover", function (event, d) {
+            tooltip
+              .style("opacity", 1)
+              .html(
+                `<strong>Общий рынок ${d.year}</strong><br/>${d.total.toFixed(
+                  1
+                )} млрд USD`
+              );
+            d3.select(this).attr("r", 6);
+          })
+          .on("mousemove", function (event) {
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 10 + "px");
+          })
+          .on("mouseout", function () {
+            tooltip.style("opacity", 0);
+            d3.select(this).attr("r", 4);
+          });
+
+        // Легенда
+        const legend = d3.select("#legend");
+
+        categories.forEach((category) => {
+          const legendItem = legend.append("div").attr("class", "legend-item");
+
+          legendItem
+            .append("div")
+            .attr("class", "legend-color")
+            .style("background-color", category.color);
+
+          legendItem.append("span").text(category.name);
+        });
+
+        // Добавляем элемент для общей линии в легенду
+        const totalLegend = legend.append("div").attr("class", "legend-item");
+
+        totalLegend
+          .append("div")
+          .attr("class", "legend-color")
+          .style(
+            "background",
+            "linear-gradient(90deg, #1E293B 50%, transparent 50%)"
+          )
+          .style("background-size", "8px 2px");
+
+        totalLegend.append("span").text("Общий объем рынка");
+      }, 100); // Закрываем setTimeout
+    </script>
+  </body>
+</html>

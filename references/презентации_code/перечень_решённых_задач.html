@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Перечень решённых задач</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide-container {
+        /* max-width: 1600px; */
+        /* max-width: 1600px; */
+        margin: 0 auto;
+        background: white;
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        /* height: 900px; */
+        height: 1200px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .title {
+        font-size: 48px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: #64748b;
+        letter-spacing: 1px;
+      }
+
+      .content {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      .phase {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        border: 2px solid #e2e8f0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .phase::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--phase-color);
+      }
+
+      .phase:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .phase-1 {
+        --phase-color: #3b82f6;
+      }
+      .phase-2 {
+        --phase-color: #10b981;
+      }
+      .phase-3 {
+        --phase-color: #f59e0b;
+      }
+      .phase-4 {
+        --phase-color: #ef4444;
+      }
+
+      .phase-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .phase-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        background: var(--phase-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 24px;
+      }
+
+      .phase-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #1e293b;
+      }
+
+      .phase-subtitle {
+        font-size: 14px;
+        color: #64748b;
+        margin-top: 2px;
+      }
+
+      .tasks-list {
+        list-style: none;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border-left: 4px solid var(--phase-color);
+        transition: all 0.2s ease;
+      }
+
+      .task-item:hover {
+        background: #f1f5f9;
+        transform: translateX(5px);
+      }
+
+      .task-number {
+        background: var(--phase-color);
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .task-text {
+        font-size: 15px;
+        line-height: 1.4;
+        color: #374151;
+      }
+
+      .task-text strong {
+        color: #1e293b;
+      }
+
+      .summary {
+        margin-top: 30px;
+        text-align: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #ebf4ff, #dbeafe);
+        border-radius: 16px;
+        border: 1px solid #bfdbfe;
+      }
+
+      .summary-text {
+        font-size: 16px;
+        color: #1e40af;
+        font-weight: 600;
+      }
+
+      @media (max-width: 1400px) {
+        .slide-container {
+          padding: 40px;
+          height: auto;
+        }
+
+        .content {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .title {
+          font-size: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">ПЕРЕЧЕНЬ РЕШЁННЫХ ЗАДАЧ</h1>
+        <p class="subtitle">ЭТАПЫ ИССЛЕДОВАНИЯ И РЕАЛИЗАЦИИ</p>
+      </div>
+
+      <div class="content">
+        <!-- Фаза 1: Исследование и анализ -->
+        <div class="phase phase-1">
+          <div class="phase-header">
+            <div class="phase-icon">🔍</div>
+            <div>
+              <div class="phase-title">ИССЛЕДОВАНИЕ И АНАЛИЗ</div>
+              <div class="phase-subtitle">Теоретическое обоснование</div>
+            </div>
+          </div>
+          <ul class="tasks-list">
+            <li class="task-item">
+              <div class="task-number">1</div>
+              <div class="task-text">
+                Исследование <strong>архитектурных решений</strong> и подходов к
+                обработке больших объемов данных в PostgreSQL, MongoDB и
+                Cassandra
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">2</div>
+              <div class="task-text">
+                Сравнительный
+                <strong>анализ технологий тестирования</strong> СУБД и
+                обоснованный выбор универсального бенчмарка YCSB
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">3</div>
+              <div class="task-text">
+                Анализ рынка <strong>инструментов бенчмаркинга</strong> баз
+                данных и исследование тенденций их использования
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Фаза 2: Подготовка данных и окружения -->
+        <div class="phase phase-2">
+          <div class="phase-header">
+            <div class="phase-icon">⚙️</div>
+            <div>
+              <div class="phase-title">ПОДГОТОВКА ДАННЫХ</div>
+              <div class="phase-subtitle">Настройка окружения</div>
+            </div>
+          </div>
+          <ul class="tasks-list">
+            <li class="task-item">
+              <div class="task-number">4</div>
+              <div class="task-text">
+                Анализ и выбор реального <strong>JSON-датасета</strong> научных
+                публикаций объемом ~12 ГБ для тестирования производительности
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">5</div>
+              <div class="task-text">
+                Разработка специфических <strong>стратегий подготовки</strong> и
+                загрузки данных для каждой СУБД с учетом их архитектурных
+                особенностей
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">6</div>
+              <div class="task-text">
+                Создание и прецизионная настройка
+                <strong>изолированного тестового окружения</strong> на
+                виртуальной машине
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Фаза 3: Техническая реализация -->
+        <div class="phase phase-3">
+          <div class="phase-header">
+            <div class="phase-icon">🔧</div>
+            <div>
+              <div class="phase-title">ТЕХНИЧЕСКАЯ РЕАЛИЗАЦИЯ</div>
+              <div class="phase-subtitle">Оптимизация и настройка</div>
+            </div>
+          </div>
+          <ul class="tasks-list">
+            <li class="task-item">
+              <div class="task-number">7</div>
+              <div class="task-text">
+                Техническая реализация
+                <strong>загрузки больших объемов</strong> данных с преодолением
+                совместимости инструментов
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">8</div>
+              <div class="task-text">
+                Комплексная оптимизация
+                <strong>конфигурационных файлов</strong> PostgreSQL, MongoDB и
+                Cassandra для высокопроизводительных нагрузок
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">9</div>
+              <div class="task-text">
+                Детальная конфигурация <strong>YCSB</strong> и разработка
+                стандартизированных тестовых сценариев c широким диапазоном
+                параллелизма
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Фаза 4: Тестирование и анализ -->
+        <div class="phase phase-4">
+          <div class="phase-header">
+            <div class="phase-icon">📊</div>
+            <div>
+              <div class="phase-title">ТЕСТИРОВАНИЕ И АНАЛИЗ</div>
+              <div class="phase-subtitle">Сбор и визуализация результатов</div>
+            </div>
+          </div>
+          <ul class="tasks-list">
+            <li class="task-item">
+              <div class="task-number">10</div>
+              <div class="task-text">
+                Проведение комплексной
+                <strong>серии тестов</strong> производительности с обеспечением
+                статистической достоверности и контролем условий
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">11</div>
+              <div class="task-text">
+                Разработка специализированного
+                <strong>Python-скрипта</strong> для автоматизированного сбора и
+                обработки многомерных результатов
+              </div>
+            </li>
+            <li class="task-item">
+              <div class="task-number">12</div>
+              <div class="task-text">
+                Создание интерактивных
+                <strong>дашбордов в Apache Superset</strong> для визуализации
+                данных и формулирование практических рекомендаций
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="summary-text">
+          📈 ВСЕГО ВЫПОЛНЕНО: 12 задач | 4 этапа | 3 СУБД | 189 тестов
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

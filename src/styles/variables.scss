@@ -1,0 +1,67 @@
+// BMSTU Brand Colors
+$bmstu-blue-primary: #1662D3;
+$bmstu-blue-secondary: #1562D2;
+$bmstu-blue-light: #4A90E2;
+$bmstu-blue-dark: #0F4C8C;
+
+// Base Colors
+$white: #ffffff;
+$black: #000000;
+$gray-light: #f8f9fa;
+$gray-medium: #6c757d;
+$gray-dark: #343a40;
+
+// Transparent Colors
+$white-transparent-85: rgba(255, 255, 255, 0.85);
+$white-transparent-60: rgba(255, 255, 255, 0.6);
+$white-transparent-90: rgba(255, 255, 255, 0.9);
+$white-transparent-15: rgba(255, 255, 255, 0.15);
+$white-transparent-25: rgba(255, 255, 255, 0.25);
+
+// Font Mixins
+@mixin als-font($size: 16px, $weight: 400, $line-height: 1.4) {
+  font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+// Responsive font size mixin
+@mixin responsive-font($min, $max) {
+  font-size: clamp($min, 2.5vw, $max);
+}
+
+// Common Mixins
+@mixin slide-container {
+  @include als-font();
+  padding: 40px;
+  min-height: 100vh;
+  background: $white;
+}
+
+@mixin slide-title {
+  @include responsive-font(36px, 48px);
+  color: $bmstu-blue-primary;
+  margin-bottom: 40px;
+  text-align: center;
+  font-weight: 600;
+}
+
+@mixin slide-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  h2 {
+    @include responsive-font(24px, 32px);
+    color: $bmstu-blue-primary;
+    margin: 30px 0 15px 0;
+    font-weight: 500;
+  }
+  
+  p {
+    @include responsive-font(18px, 24px);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: $gray-dark;
+  }
+} 

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>КОНФИГУРАЦИЯ YCSB</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #334155;
+        line-height: 1.4;
+        padding: 30px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 24px;
+        padding: 45px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .slide-header {
+        margin-bottom: 30px;
+      }
+
+      .slide-title {
+        font-size: 42px;
+        font-weight: 300;
+        letter-spacing: 6px;
+        color: #1e293b;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 18px;
+        color: #2563eb;
+        font-weight: 500;
+        letter-spacing: 2px;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 25px;
+        height: calc(100% - 120px);
+      }
+
+      .config-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .config-block {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid #93c5fd;
+        flex: 1;
+      }
+
+      .config-block.primary {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+      }
+
+      .config-block.accent {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        border: 1px solid #cbd5e1;
+      }
+
+      .block-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .config-list {
+        list-style: none;
+      }
+
+      .config-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 13px;
+      }
+
+      .config-block:not(.primary) .config-item {
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .config-item:last-child {
+        border-bottom: none;
+      }
+
+      .config-label {
+        font-weight: 500;
+      }
+
+      .config-value {
+        font-weight: 600;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+      }
+
+      .primary .config-value {
+        color: #dbeafe;
+      }
+
+      .workload-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .workload-card {
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        border: 2px solid #f1f5f9;
+        transition: all 0.2s ease;
+      }
+
+      .workload-card:hover {
+        border-color: #2563eb;
+        transform: translateY(-2px);
+      }
+
+      .workload-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 8px;
+      }
+
+      .workload-description {
+        font-size: 11px;
+        color: #64748b;
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+
+      .workload-metrics {
+        font-size: 11px;
+        color: #475569;
+        font-weight: 500;
+      }
+
+      .procedure-list {
+        list-style: none;
+        font-size: 13px;
+      }
+
+      .procedure-item {
+        padding: 6px 0;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .procedure-item:before {
+        content: "•";
+        color: #2563eb;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+
+      .highlight-number {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2563eb;
+      }
+
+      .compact-note {
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 8px;
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 11px;
+        color: #92400e;
+      }
+
+      .drivers-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .driver-item {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 12px;
+      }
+
+      .driver-name {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .driver-desc {
+        color: #64748b;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">К О Н Ф И Г У Р А Ц И Я&nbsp;&nbsp;Y C S B</h1>
+        <p class="slide-subtitle">Параметры тестирования производительности</p>
+      </div>
+
+      <div class="main-grid">
+        <!-- Левая колонка -->
+        <div class="config-section">
+          <div class="config-block primary">
+            <h3 class="block-title">Основные параметры</h3>
+            <ul class="config-list">
+              <li class="config-item">
+                <span class="config-label">Record Count</span>
+                <span class="config-value">4,894,081</span>
+              </li>
+              <li class="config-item">
+                <span class="config-label">Operation Count</span>
+                <span class="config-value">4,894,081</span>
+              </li>
+              <li class="config-item">
+                <span class="config-label">Threads</span>
+                <span class="config-value">[4,8,16,32,64,128,256]</span>
+              </li>
+              <li class="config-item">
+                <span class="config-label">Распределение</span>
+                <span class="config-value">zipfian</span>
+              </li>
+              <li class="config-item">
+                <span class="config-label">Повторения</span>
+                <span class="config-value">3x</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="config-block accent">
+            <h3 class="block-title">Драйверы СУБД</h3>
+            <div class="drivers-grid">
+              <div class="driver-item">
+                <div class="driver-name">MongoDB</div>
+                <div class="driver-desc">Стандартный YCSB драйвер</div>
+              </div>
+              <div class="driver-item">
+                <div class="driver-name">Cassandra</div>
+                <div class="driver-desc">CQL-драйвер</div>
+              </div>
+              <div class="driver-item">
+                <div class="driver-name">PostgreSQL</div>
+                <div class="driver-desc">JDBC-драйвер</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Средняя колонка -->
+        <div class="config-section">
+          <div class="config-block">
+            <h3 class="block-title">Рабочие нагрузки</h3>
+            <div class="workload-grid">
+              <div class="workload-card">
+                <h4 class="workload-title">Workload A</h4>
+                <p class="workload-description">Baseline</p>
+                <div class="workload-metrics">50% read / 50% update</div>
+              </div>
+
+              <div class="workload-card">
+                <h4 class="workload-title">Workload B</h4>
+                <p class="workload-description">Read-Heavy</p>
+                <div class="workload-metrics">95% read / 5% update</div>
+              </div>
+
+              <div class="workload-card">
+                <h4 class="workload-title">Workload C</h4>
+                <p class="workload-description">Read-Only</p>
+                <div class="workload-metrics">100% read</div>
+              </div>
+
+              <div class="workload-card">
+                <h4 class="workload-title">Workload D</h4>
+                <p class="workload-description">Read-Latest</p>
+                <div class="workload-metrics">95% read latest / 5% insert</div>
+              </div>
+
+              <div class="workload-card">
+                <h4 class="workload-title">Workload E</h4>
+                <p class="workload-description">Scan-Heavy</p>
+                <div class="workload-metrics">95% scan / 5% insert</div>
+              </div>
+
+              <div class="workload-card">
+                <h4 class="workload-title">Workload F</h4>
+                <p class="workload-description">Read-Modify-Write</p>
+                <div class="workload-metrics">50% read / 50% RMW</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="config-section">
+          <div class="config-block accent">
+            <h3 class="block-title">Процедура тестирования</h3>
+            <ul class="procedure-list">
+              <li class="procedure-item">
+                Трехкратное повторение каждой комбинации
+              </li>
+              <li class="procedure-item">Перезапуск систем между тестами</li>
+              <li class="procedure-item">Продолжительность: ≥120 минут</li>
+              <li class="procedure-item">Идентичные параметры для всех СУБД</li>
+              <li class="procedure-item">Единая методология измерения</li>
+              <li class="procedure-item">Стандартизированная отчетность</li>
+            </ul>
+          </div>
+
+          <div class="config-block">
+            <h3 class="block-title">Ключевые особенности</h3>
+            <ul class="procedure-list">
+              <li class="procedure-item">
+                Zipfian распределение имитирует "горячие" точки
+              </li>
+              <li class="procedure-item">Минимизация влияния кэширования</li>
+              <li class="procedure-item">
+                Обеспечение сопоставимости результатов
+              </li>
+              <li class="procedure-item">Полный спектр нагрузок</li>
+            </ul>
+          </div>
+
+          <div class="compact-note">
+            <strong>ВАЖНО:</strong> Все параметры стандартизированы для
+            обеспечения корректного сравнения производительности СУБД
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

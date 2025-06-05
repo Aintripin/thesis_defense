@@ -1,0 +1,222 @@
+@import "./variables";
+
+.analysis {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(59, 130, 246, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(147, 197, 253, 0.06) 0%,
+        transparent 50%
+      );
+    z-index: -1;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, $primary, $secondary, $accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: $text-medium;
+  letter-spacing: 0.5px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 400px;
+  gap: 1.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.chartCard {
+  @include glass-effect();
+  border-radius: $radius-xl;
+  padding: 1.5rem;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.chartTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $text-dark;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 1200px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.pieCard {
+  @include glass-effect();
+  border-radius: $radius-lg;
+  padding: 1rem;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: $text-medium;
+  padding: 0.25rem 0.5rem;
+  background: $glass-bg-light;
+  border-radius: $radius-sm;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.metric {
+  @include glass-effect(0.6);
+  border-radius: $radius-md;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.metricIcon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.metricValue {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $primary;
+  margin-bottom: 0.25rem;
+}
+
+.metricLabel {
+  font-size: 0.8rem;
+  color: $text-light;
+}
+
+.insights {
+  @include glass-effect(0.5);
+  border-radius: $radius-lg;
+  padding: 1rem;
+}
+
+.insightsTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  color: $text-dark;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.insight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: $radius-sm;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.insightNumber {
+  font-size: 1rem;
+  font-weight: bold;
+  color: $primary;
+  min-width: 40px;
+}
+
+.insightText {
+  font-size: 0.8rem;
+  color: $text-medium;
+  flex: 1;
+}
+
+.tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  padding: 0.75rem;
+  border-radius: $radius-sm;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: $shadow-md;
+  font-size: 0.8rem;
+}
+
+.tooltipLabel {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: $text-dark;
+}

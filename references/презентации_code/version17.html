@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Анализ рынка инструментов бенчмаркинга</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #f8fafc 0%,
+          #e2e8f0 50%,
+          #cbd5e1 100%
+        );
+        margin: 0;
+        padding: 20px;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 20%,
+            rgba(59, 130, 246, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(147, 197, 253, 0.06) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 70%,
+            rgba(29, 78, 216, 0.04) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+      }
+
+      .slide-container {
+        max-width: none;
+        width: 100%;
+        height: calc(100vh - 40px);
+        margin: 0;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1e40af, #3b82f6, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: #475569;
+        letter-spacing: 1px;
+      }
+
+      .content {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr 350px;
+        gap: 25px;
+      }
+
+      .chart-section {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chart-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e293b;
+        margin-bottom: 15px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .chart-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        position: relative;
+      }
+
+      .glass-card.insights::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(90deg, #1e40af, #3b82f6);
+        border-radius: 16px 16px 0 0;
+      }
+
+      .glass-card.trends::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        border-radius: 16px 16px 0 0;
+      }
+
+      .glass-card.growth::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 16px;
+        background: linear-gradient(90deg, #1d4ed8, #2563eb);
+        border-radius: 16px 16px 0 0;
+      }
+
+      .card-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #1e293b;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .insight-item {
+        margin-bottom: 12px;
+        font-size: 13px;
+        line-height: 1.4;
+        color: #475569;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 6px;
+        border-left: 3px solid #3b82f6;
+        backdrop-filter: blur(8px);
+      }
+
+      .insight-title {
+        font-weight: bold;
+        color: #1e40af;
+        font-size: 13px;
+      }
+
+      .insight-desc {
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
+      .tooltip {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        color: #1e293b;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1000;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .growth-badge {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 10px;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+      }
+
+      .region-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .stat-item {
+        background: rgba(255, 255, 255, 0.3);
+        padding: 6px;
+        border-radius: 6px;
+        border-left: 2px solid #60a5fa;
+        font-size: 11px;
+      }
+
+      .stat-label {
+        color: #475569;
+        font-weight: 500;
+      }
+
+      .stat-value {
+        color: #1e40af;
+        font-weight: bold;
+      }
+
+      /* Убираем анимации для комиссии */
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s ease;
+      }
+
+      /* Стили для donut chart */
+      .donut-segment {
+        cursor: pointer;
+        stroke: #ffffff;
+        stroke-width: 2;
+      }
+
+      .donut-label {
+        fill: #1e293b;
+        font-size: 12px;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+
+      .donut-percentage {
+        fill: #1e40af;
+        font-size: 14px;
+        font-weight: bold;
+        text-anchor: middle;
+      }
+
+      .center-text {
+        fill: #1e293b;
+        font-size: 16px;
+        font-weight: bold;
+        text-anchor: middle;
+      }
+
+      .center-subtext {
+        fill: #64748b;
+        font-size: 12px;
+        text-anchor: middle;
+      }
+
+      /* Стили для area chart */
+      .area-path {
+        stroke-width: 1.5;
+        cursor: pointer;
+      }
+
+      .legend-donut {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 15px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #475569;
+        padding: 4px 8px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+      }
+
+      .legend-geo {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+
+      .legend-geo .legend-item {
+        font-size: 11px;
+        padding: 3px 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">АНАЛИЗ РЫНКА ИНСТРУМЕНТОВ БЕНЧМАРКИНГА</h1>
+        <p class="subtitle">РАСПРЕДЕЛЕНИЕ И ТЕНДЕНЦИИ ИСПОЛЬЗОВАНИЯ</p>
+      </div>
+
+      <div class="content">
+        <!-- Donut Chart -->
+        <div class="chart-section">
+          <h3 class="chart-title">🎯 Рыночная доля типов бенчмарков</h3>
+          <div class="chart-container" id="donut-chart"></div>
+          <div class="legend-donut" id="donut-legend"></div>
+        </div>
+
+        <!-- Stacked Area Chart -->
+        <div class="chart-section">
+          <h3 class="chart-title">🌍 Географические тенденции (2024-2030)</h3>
+          <div class="chart-container" id="geo-chart"></div>
+          <div class="legend-geo" id="geo-legend"></div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <div class="glass-card insights">
+            <div class="card-title">📊 КЛЮЧЕВЫЕ ИНСАЙТЫ</div>
+            <div class="insight-item">
+              <div class="insight-title">Лидер рынка</div>
+              <div class="insight-desc">TPC стандарты доминируют (42%)</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-title">Быстрый рост</div>
+              <div class="insight-desc">
+                YCSB показывает
+                <span class="growth-badge">динамичный рост</span>
+              </div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-title">Open Source тренд</div>
+              <div class="insight-desc">31% рынка - вторая позиция</div>
+            </div>
+          </div>
+
+          <div class="glass-card trends">
+            <div class="card-title">🚀 РЕГИОНАЛЬНЫЙ РОСТ</div>
+            <div class="region-stats">
+              <div class="stat-item">
+                <div class="stat-label">Северная Америка:</div>
+                <div class="stat-value">42% → 49%</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Азиатско-Тихоокеанский:</div>
+                <div class="stat-value">22% → 39%</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Европа:</div>
+                <div class="stat-value">28% → 34%</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-label">Остальные:</div>
+                <div class="stat-value">8% → 14%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card growth">
+            <div class="card-title">💡 ТЕНДЕНЦИИ</div>
+            <div class="insight-item">
+              <div class="insight-title">Азия лидирует</div>
+              <div class="insight-desc">Самый быстрый рост (+17%)</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-title">Open Source побеждает</div>
+              <div class="insight-desc">YCSB набирает популярность</div>
+            </div>
+            <div class="insight-item">
+              <div class="insight-title">Точка перехода</div>
+              <div class="insight-desc">2022 - смена парадигмы</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+      // Данные для donut chart
+      const benchmarkData = [
+        { type: "TPC стандарты", value: 42, color: "#1E3A8A" },
+        { type: "Open Source (YCSB)", value: 31, color: "#3B82F6" },
+        { type: "Вендорские специализированные", value: 18, color: "#60A5FA" },
+        { type: "Внутренние корпоративные", value: 9, color: "#93C5FD" },
+      ];
+
+      // Данные для географического chart
+      const geoData = [
+        {
+          year: 2024,
+          north_america: 42,
+          europe: 28,
+          asia_pacific: 22,
+          others: 8,
+        },
+        {
+          year: 2025,
+          north_america: 44,
+          europe: 29,
+          asia_pacific: 24,
+          others: 9,
+        },
+        {
+          year: 2026,
+          north_america: 45,
+          europe: 30,
+          asia_pacific: 27,
+          others: 10,
+        },
+        {
+          year: 2027,
+          north_america: 46,
+          europe: 31,
+          asia_pacific: 30,
+          others: 11,
+        },
+        {
+          year: 2028,
+          north_america: 47,
+          europe: 32,
+          asia_pacific: 33,
+          others: 12,
+        },
+        {
+          year: 2029,
+          north_america: 48,
+          europe: 33,
+          asia_pacific: 36,
+          others: 13,
+        },
+        {
+          year: 2030,
+          north_america: 49,
+          europe: 34,
+          asia_pacific: 39,
+          others: 14,
+        },
+      ];
+
+      const geoCategories = [
+        { key: "north_america", name: "Северная Америка", color: "#1E3A8A" },
+        { key: "europe", name: "Европа", color: "#3B82F6" },
+        {
+          key: "asia_pacific",
+          name: "Азиатско-Тихоокеанский",
+          color: "#60A5FA",
+        },
+        { key: "others", name: "Остальные регионы", color: "#93C5FD" },
+      ];
+
+      const tooltip = d3.select("#tooltip");
+
+      // Ждём рендера для правильных размеров
+      setTimeout(() => {
+        createDonutChart();
+        createGeoChart();
+      }, 100);
+
+      function createDonutChart() {
+        const container = d3.select("#donut-chart");
+        const width = 300;
+        const height = 300;
+        const radius = Math.min(width, height) / 2 - 20;
+
+        const svg = container
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        const g = svg
+          .append("g")
+          .attr("transform", `translate(${width / 2},${height / 2})`);
+
+        const pie = d3
+          .pie()
+          .value((d) => d.value)
+          .sort(null);
+
+        const arc = d3
+          .arc()
+          .innerRadius(radius * 0.5)
+          .outerRadius(radius);
+
+        const arcs = g
+          .selectAll(".arc")
+          .data(pie(benchmarkData))
+          .enter()
+          .append("g")
+          .attr("class", "arc");
+
+        arcs
+          .append("path")
+          .attr("d", arc)
+          .attr("class", "donut-segment")
+          .style("fill", (d) => d.data.color)
+          .on("mouseover", function (event, d) {
+            d3.select(this).style("filter", "brightness(1.1)");
+            tooltip
+              .style("opacity", 1)
+              .html(
+                `<strong>${d.data.type}</strong><br/>${d.data.value}% рынка`
+              );
+          })
+          .on("mousemove", function (event) {
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 10 + "px");
+          })
+          .on("mouseout", function () {
+            d3.select(this).style("filter", "brightness(1)");
+            tooltip.style("opacity", 0);
+          });
+
+        // Центральный текст
+        g.append("text")
+          .attr("class", "center-text")
+          .attr("y", -8)
+          .text("Типы");
+
+        g.append("text")
+          .attr("class", "center-subtext")
+          .attr("y", 8)
+          .text("бенчмарков");
+
+        // Легенда для donut
+        const legend = d3.select("#donut-legend");
+        benchmarkData.forEach((item) => {
+          const legendItem = legend.append("div").attr("class", "legend-item");
+
+          legendItem
+            .append("div")
+            .attr("class", "legend-color")
+            .style("background-color", item.color);
+
+          legendItem.append("span").text(`${item.type} (${item.value}%)`);
+        });
+      }
+
+      function createGeoChart() {
+        const chartContainer = document.getElementById("geo-chart");
+        const containerWidth = chartContainer.offsetWidth;
+        const containerHeight = chartContainer.offsetHeight;
+
+        const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+        const width = containerWidth - margin.left - margin.right;
+        const height = containerHeight - margin.top - margin.bottom;
+
+        const svg = d3
+          .select("#geo-chart")
+          .append("svg")
+          .attr("width", containerWidth)
+          .attr("height", containerHeight);
+
+        const g = svg
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Масштабы
+        const xScale = d3
+          .scaleLinear()
+          .domain(d3.extent(geoData, (d) => d.year))
+          .range([0, width]);
+
+        const yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+
+        // Стекированные данные
+        const stack = d3.stack().keys(geoCategories.map((d) => d.key));
+
+        const stackedData = stack(geoData);
+
+        const area = d3
+          .area()
+          .x((d) => xScale(d.data.year))
+          .y0((d) => yScale(d[0]))
+          .y1((d) => yScale(d[1]))
+          .curve(d3.curveCardinal);
+
+        // Добавляем градиенты
+        const defs = svg.append("defs");
+        geoCategories.forEach((category, i) => {
+          const gradient = defs
+            .append("linearGradient")
+            .attr("id", `geo-gradient-${category.key}`)
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", height)
+            .attr("x2", 0)
+            .attr("y2", 0);
+
+          gradient
+            .append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", category.color)
+            .attr("stop-opacity", 0.3);
+
+          gradient
+            .append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", category.color)
+            .attr("stop-opacity", 0.8);
+        });
+
+        // Рисуем области
+        g.selectAll(".geo-area")
+          .data(stackedData)
+          .enter()
+          .append("path")
+          .attr("class", "geo-area area-path")
+          .attr("d", area)
+          .style("fill", (d, i) => `url(#geo-gradient-${geoCategories[i].key})`)
+          .style("stroke", (d, i) => geoCategories[i].color)
+          .on("mouseover", function (event, d) {
+            d3.select(this).style("filter", "brightness(1.1)");
+            const category = geoCategories.find((cat) => cat.key === d.key);
+            tooltip
+              .style("opacity", 1)
+              .html(
+                `<strong>${category.name}</strong><br/>Наведите на точки для деталей`
+              );
+          })
+          .on("mousemove", function (event) {
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY - 10 + "px");
+          })
+          .on("mouseout", function () {
+            d3.select(this).style("filter", "brightness(1)");
+            tooltip.style("opacity", 0);
+          });
+
+        // Оси
+        g.append("g")
+          .attr("transform", `translate(0,${height})`)
+          .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+          .selectAll("text")
+          .style("fill", "#475569")
+          .style("font-size", "11px");
+
+        g.append("g")
+          .call(d3.axisLeft(yScale).tickFormat((d) => d + "%"))
+          .selectAll("text")
+          .style("fill", "#475569")
+          .style("font-size", "11px");
+
+        // Стили для осей
+        g.selectAll(".domain").style("stroke", "#64748B");
+
+        g.selectAll(".tick line").style("stroke", "#64748B");
+
+        // Подписи осей
+        g.append("text")
+          .attr("x", width / 2)
+          .attr("y", height + 35)
+          .attr("fill", "#475569")
+          .style("text-anchor", "middle")
+          .style("font-size", "12px")
+          .style("font-weight", "bold")
+          .text("Год");
+
+        g.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -35)
+          .attr("x", -height / 2)
+          .attr("fill", "#475569")
+          .style("text-anchor", "middle")
+          .style("font-size", "12px")
+          .style("font-weight", "bold")
+          .text("Доля рынка (%)");
+
+        // Легенда для географического графика
+        const geoLegend = d3.select("#geo-legend");
+        geoCategories.forEach((category) => {
+          const legendItem = geoLegend
+            .append("div")
+            .attr("class", "legend-item");
+
+          legendItem
+            .append("div")
+            .attr("class", "legend-color")
+            .style("background-color", category.color);
+
+          legendItem.append("span").text(category.name);
+        });
+      }
+    </script>
+  </body>
+</html>

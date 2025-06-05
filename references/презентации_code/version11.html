@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ЗАКЛЮЧЕНИЕ</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        line-height: 1.5;
+        padding: 40px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        height: 90vh;
+        overflow: hidden;
+      }
+
+      .slide-header {
+        margin-bottom: 40px;
+        text-align: center;
+      }
+
+      .slide-title {
+        font-size: 36px;
+        font-weight: 300;
+        letter-spacing: 8px;
+        color: #1e293b;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+      }
+
+      .slide-subtitle {
+        font-size: 18px;
+        color: #2563eb;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 35px;
+        height: calc(100% - 140px);
+      }
+
+      .section-column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .section-block {
+        background: #f8fafc;
+        border-radius: 16px;
+        padding: 30px;
+        border: 1px solid #e2e8f0;
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section-block.scientific {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-color: #93c5fd;
+      }
+
+      .section-block.practical {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        border-color: #cbd5e1;
+      }
+
+      .section-block.future {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-color: #94a3b8;
+      }
+
+      .section-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: white;
+      }
+
+      .scientific .section-icon {
+        background: #2563eb;
+      }
+
+      .practical .section-icon {
+        background: #64748b;
+      }
+
+      .future .section-icon {
+        background: #475569;
+      }
+
+      .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #1e293b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-right: 60px;
+      }
+
+      .contribution-list {
+        list-style: none;
+      }
+
+      .contribution-item {
+        padding: 12px 0;
+        font-size: 13px;
+        color: #475569;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        position: relative;
+        padding-left: 20px;
+        line-height: 1.4;
+        transition: all 0.3s ease;
+      }
+
+      .contribution-item:last-child {
+        border-bottom: none;
+      }
+
+      .contribution-item:before {
+        content: "✓";
+        color: #2563eb;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 12px;
+        font-size: 14px;
+      }
+
+      .scientific .contribution-item:before {
+        color: #2563eb;
+      }
+
+      .practical .contribution-item:before {
+        color: #64748b;
+      }
+
+      .future .contribution-item:before {
+        content: "→";
+        color: #475569;
+      }
+
+      .contribution-item:hover {
+        transform: translateX(5px);
+        color: #1e293b;
+      }
+
+      .highlight {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .stats-highlight {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        padding: 12px;
+        margin: 15px 0;
+        border-left: 4px solid;
+      }
+
+      .scientific .stats-highlight {
+        border-left-color: #2563eb;
+      }
+
+      .practical .stats-highlight {
+        border-left-color: #64748b;
+      }
+
+      .future .stats-highlight {
+        border-left-color: #475569;
+      }
+
+      .stats-number {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+      }
+
+      .stats-label {
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .research-impact {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .impact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 15px;
+      }
+
+      .impact-card {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      .impact-number {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 4px;
+      }
+
+      .impact-label {
+        font-size: 10px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-block {
+        animation: fadeInUp 0.6s ease-out;
+      }
+
+      .section-block:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .section-block:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .section-block:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+
+      .footer-note {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: #94a3b8;
+        text-align: center;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">З А К Л Ю Ч Е Н И Е</h1>
+        <p class="slide-subtitle">Вклад исследования и перспективы</p>
+      </div>
+
+      <div class="content-grid">
+        <!-- Научный вклад -->
+        <div class="section-column">
+          <div class="section-block scientific">
+            <div class="section-icon">🔬</div>
+            <div class="section-title">Научный вклад</div>
+
+            <ul class="contribution-list">
+              <li class="contribution-item">
+                <span class="highlight">Комплексное сравнение</span> трех
+                различных архитектурных подходов к СУБД
+              </li>
+              <li class="contribution-item">
+                Использование
+                <span class="highlight">реального большого датасета</span> (~12
+                ГБ) вместо синтетических данных
+              </li>
+              <li class="contribution-item">
+                <span class="highlight">Стандартизированная методология</span>
+                тестирования с обеспечением воспроизводимости
+              </li>
+              <li class="contribution-item">
+                Детальный анализ поведения при
+                <span class="highlight">различных уровнях параллелизма</span>
+              </li>
+            </ul>
+
+            <div class="stats-highlight">
+              <div class="stats-number">189</div>
+              <div class="stats-label">Проведено тестов</div>
+            </div>
+
+            <div class="impact-grid">
+              <div class="impact-card">
+                <div class="impact-number">3</div>
+                <div class="impact-label">СУБД</div>
+              </div>
+              <div class="impact-card">
+                <div class="impact-number">6</div>
+                <div class="impact-label">Workloads</div>
+              </div>
+              <div class="impact-card">
+                <div class="impact-number">7</div>
+                <div class="impact-label">Уровней потоков</div>
+              </div>
+              <div class="impact-card">
+                <div class="impact-number">~12</div>
+                <div class="impact-label">ГБ данных</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Практическая ценность -->
+        <div class="section-column">
+          <div class="section-block practical">
+            <div class="section-icon">💡</div>
+            <div class="section-title">Практическая ценность</div>
+
+            <ul class="contribution-list">
+              <li class="contribution-item">
+                <span class="highlight">Обоснованные рекомендации</span> по
+                выбору СУБД для конкретных сценариев
+              </li>
+              <li class="contribution-item">
+                Выявление
+                <span class="highlight">оптимальных конфигураций</span> для
+                каждой системы
+              </li>
+              <li class="contribution-item">
+                Понимание
+                <span class="highlight">ограничений и особенностей</span>
+                масштабирования
+              </li>
+            </ul>
+
+            <div class="stats-highlight">
+              <div class="stats-number">30x</div>
+              <div class="stats-label">
+                Максимальная разница производительности
+              </div>
+            </div>
+
+            <div class="research-impact">
+              <div class="impact-grid">
+                <div class="impact-card">
+                  <div class="impact-number">Cassandra</div>
+                  <div class="impact-label">CRUD лидер</div>
+                </div>
+                <div class="impact-card">
+                  <div class="impact-number">PostgreSQL</div>
+                  <div class="impact-label">Workload D</div>
+                </div>
+                <div class="impact-card">
+                  <div class="impact-number">MongoDB</div>
+                  <div class="impact-label">Сканирование</div>
+                </div>
+                <div class="impact-card">
+                  <div class="impact-number">100%</div>
+                  <div class="impact-label">Воспроизводимость</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Направления дальнейших исследований -->
+        <div class="section-column">
+          <div class="section-block future">
+            <div class="section-icon">🚀</div>
+            <div class="section-title">Направления дальнейших исследований</div>
+
+            <ul class="contribution-list">
+              <li class="contribution-item">
+                Тестирование в
+                <span class="highlight">распределенных конфигурациях</span>
+              </li>
+              <li class="contribution-item">
+                Исследование влияния
+                <span class="highlight">различных типов данных</span>
+              </li>
+              <li class="contribution-item">
+                Анализ поведения при
+                <span class="highlight">отказах и восстановлении</span>
+              </li>
+              <li class="contribution-item">
+                Оценка
+                <span class="highlight">энергоэффективности</span> различных
+                СУБД
+              </li>
+            </ul>
+
+            <div class="stats-highlight">
+              <div class="stats-number">∞</div>
+              <div class="stats-label">Потенциал развития</div>
+            </div>
+
+            <div class="research-impact">
+              <div class="impact-grid">
+                <div class="impact-card">
+                  <div class="impact-number">Кластеры</div>
+                  <div class="impact-label">Распределенность</div>
+                </div>
+                <div class="impact-card">
+                  <div class="impact-number">Fault Tolerance</div>
+                  <div class="impact-label">Отказоустойчивость</div>
+                </div>
+                <div class="impact-card">
+                  <div class="impact-number">Green IT</div>
+                  <div class="impact-label">Экологичность</div>
+                </div>
+                <div class="impact-card">
+                  <div class="impact-number">Big Data</div>
+                  <div class="impact-label">Масштаб данных</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Исследование обеспечивает научно обоснованный подход к выбору СУБД для
+        современных высоконагруженных систем
+      </div>
+    </div>
+  </body>
+</html>

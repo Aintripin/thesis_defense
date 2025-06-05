@@ -1,0 +1,444 @@
+// SCSS Variables
+$bmstu-blue-primary: #1662D3;
+$bmstu-blue-secondary: #1562D2;
+$white: #ffffff;
+$white-transparent-85: rgba(255, 255, 255, 0.85);
+$white-transparent-60: rgba(255, 255, 255, 0.6);
+$white-transparent-90: rgba(255, 255, 255, 0.9);
+
+// Font mixins
+@mixin als-font($size: 16px, $weight: 400, $line-height: 1.4) {
+  font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+// Responsive font size mixin
+@mixin responsive-font($min, $vw, $max) {
+  font-size: clamp($min, $vw, $max);
+}
+
+/* Fullscreen Title Slide - BMSTU Official Design */
+.title-slide-fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  overflow: hidden;
+  @include als-font();
+}
+
+.title-background {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, $bmstu-blue-primary 0%, $bmstu-blue-secondary 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  // Subtle pattern overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+  }
+}
+
+/* Background Logo */
+.background-logo {
+  position: absolute;
+  bottom: -10%;
+  right: -30%;
+  z-index: 1;
+  pointer-events: none;
+  width: 70%;
+  height: 70%;
+  overflow: hidden;
+}
+
+.bmstu-logo-background {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.25;
+  filter: brightness(1.2) contrast(0.8) drop-shadow(0 0 40px rgba(255, 255, 255, 0.15));
+}
+
+.title-main-content {
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.title-content-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 60px 0 200px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  margin-left: -350px;
+}
+
+/* University Header - Fixed at top */
+.university-header {
+  flex-shrink: 0;
+  margin-bottom: 0;
+  padding-bottom: 40px;
+
+  .university-title {
+    font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    color: $white;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: left;
+    line-height: 1.2;
+    margin: 0;
+  }
+}
+
+/* Main content area - Centers the title and button vertically */
+.main-content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 0;
+  position: relative;
+}
+
+/* Title Section - Centered vertically */
+.title-section {
+  margin-bottom: 40px;
+
+  .main-title {
+    @include responsive-font(30px, 5vw, 60px);
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0;
+    color: $white;
+    letter-spacing: 0.2px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    .title-line {
+      display: block;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+/* Start Presentation Button */
+.start-button-container {
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Info Wrapper - Positioned higher from bottom */
+.info-wrapper {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Footer area - Reduced padding since info is positioned absolutely */
+.footer-area {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 160px;
+}
+
+/* Student & Supervisor Containers */
+.student-container,
+.supervisor-container {
+  margin-bottom: 0;
+}
+
+/* Info Section Layout */
+.info-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Labels Container - Right aligned */
+.labels-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 200px;
+  text-align: right;
+}
+
+/* Values Container - Left aligned */
+.values-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  text-align: left;
+}
+
+/* Label Styling */
+.label {
+  @include responsive-font(20px, 2.5vw, 30px);
+  font-weight: 400;
+  color: $white-transparent-85;
+  line-height: 1.4;
+
+  &.supervisor-label {
+    // Specific styling for supervisor label if needed
+  }
+
+  &.empty-label {
+    // Empty placeholder for alignment
+    visibility: hidden;
+  }
+}
+
+/* Value Styling */
+.value {
+  @include responsive-font(20px, 2.5vw, 28px);
+  font-weight: 500;
+  color: $white;
+  line-height: 1.4;
+
+  &.supervisor-name {
+    @include responsive-font(20px, 2.5vw, 28px);
+    font-weight: 500;
+    color: $white;
+  }
+
+  &.supervisor-title {
+    @include responsive-font(18px, 2.2vw, 26px);
+    font-weight: 400;
+    color: $white-transparent-90;
+  }
+}
+
+.start-presentation-btn {
+  @include als-font(20px, 500);
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: $white;
+  padding: 18px 36px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: $white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  span {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    font-size: 20px;
+  }
+  
+  svg {
+    transition: transform 0.3s ease;
+    width: 24px;
+    height: 24px;
+  }
+  
+  &:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+/* Footer Date */
+.date-footer {
+  position: absolute;
+  bottom: -10px;
+  left: 80px;
+  z-index: 5;
+
+  .date {
+    color: $white-transparent-60;
+    @include responsive-font(16px, 2vw, 22px);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .title-slide-fullscreen {
+    .title-content-container {
+      padding: 0 40px 0 150px;
+      max-width: 1200px;
+    }
+  }
+  
+  .labels-container {
+    min-width: 180px;
+  }
+  
+  .background-logo {
+    width: 75%;
+    height: 75%;
+    bottom: -8%;
+    right: -30%;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-slide-fullscreen {
+    .title-content-container {
+      padding: 0 30px 0 100px;
+      max-width: 100%;
+    }
+  }
+  
+  .title-background {
+    padding: 20px;
+  }
+  
+  .title-section .main-title {
+    max-width: 100%;
+    
+    .title-line {
+      white-space: normal;
+    }
+  }
+  
+  .info-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .labels-container {
+    min-width: auto;
+    text-align: left;
+  }
+  
+  .values-container {
+    text-align: left;
+  }
+  
+  .background-logo {
+    width: 80%;
+    height: 80%;
+    bottom: -12%;
+    right: -35%;
+  }
+  
+  .start-presentation-btn {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+  
+  .date-footer {
+    bottom: 30px;
+    left: 30px;
+  }
+  
+  .info-wrapper {
+    bottom: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-slide-fullscreen {
+    .title-content-container {
+      padding: 0 20px 0 60px;
+    }
+  }
+  
+  .university-header {
+    margin-bottom: 20px;
+  }
+  
+  .title-section {
+    margin-bottom: 20px;
+    
+    .main-title .title-line {
+      white-space: normal;
+    }
+  }
+  
+  .student-container {
+    margin-bottom: 20px;
+  }
+  
+  .supervisor-container {
+    margin-bottom: 12px;
+  }
+  
+  .info-section {
+    gap: 8px;
+  }
+  
+  .background-logo {
+    width: 85%;
+    height: 85%;
+    bottom: -15%;
+    right: -40%;
+    opacity: 0.12;
+  }
+  
+  .bmstu-logo-background {
+    opacity: 0.12;
+  }
+  
+  .start-presentation-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  .date-footer {
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .info-wrapper {
+    bottom: 140px;
+  }
+} 

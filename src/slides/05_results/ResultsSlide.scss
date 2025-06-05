@@ -1,0 +1,13 @@
+@import '../../styles/variables';
+
+.results-slide {
+  @include als-font;
+  padding: 40px;
+  text-align: center;
+  
+  h1 {
+    @include responsive-font(36px, 48px);
+    color: $bmstu-blue-primary;
+    margin-bottom: 40px;
+  }
+} 
