@@ -8,6 +8,7 @@ import { SolutionSlide } from './slides/04_solution'
 import { TestingSlide } from './slides/05_testing'
 import { YCSBJustificationSlide } from './slides/06_ycsb_justification/YCSBJustificationSlide'
 import { MarketAnalysisSlide as NewMarketAnalysisSlide } from './slides/07_market_analysis/MarketAnalysisSlide'
+import { MarketAnalysisContinuedSlide } from './slides/08_market_analysis_continued'
 import { ResultsSlide } from './slides/05_results'
 import { ConclusionSlide } from './slides/06_conclusion'
 import './App.css'
@@ -25,6 +26,7 @@ function App() {
         <Route path="/testing" element={<TestingSlide />} />
         <Route path="/ycsb" element={<YCSBJustificationSlide />} />
         <Route path="/market-analysis" element={<NewMarketAnalysisSlide />} />
+        <Route path="/market-analysis-continued" element={<MarketAnalysisContinuedSlide />} />
         <Route path="/results" element={<ResultsSlide />} />
         <Route path="/conclusion" element={<ConclusionSlide />} />
       </Routes>

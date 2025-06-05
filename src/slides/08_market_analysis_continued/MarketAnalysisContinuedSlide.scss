@@ -1,0 +1,270 @@
+// SCSS for MarketAnalysisContinuedSlide (Slide 8)
+
+// General grid styles (if not defined globally elsewhere, or to override)
+.grid .tick line {
+  stroke: #e2e8f0;
+  stroke-dasharray: 2,2;
+}
+
+.grid .domain {
+  stroke: none;
+}
+
+// Overall slide layout
+.market-analysis-continued-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100vh; // Ensure it takes at least the full viewport height
+  height: 100%; // If parent restricts, this will be restricted. min-height is safer.
+  padding: 0 0 25px 0; // Top, L/R padding removed. Bottom padding remains.
+  box-sizing: border-box;
+  gap: 20px; // This will be the space between title-container and content-container-s8
+  background-color: #f0f4f8;
+  overflow-y: auto; // Allow scrolling if content overflows
+
+  .slide-title-container {
+    text-align: center;
+    width: 100%; 
+    padding: 25px 40px; // Internal padding for text (25px T/B, 40px L/R)
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); // Subtler shadow for a banner
+    border-radius: 0; // No rounded corners for a full-width banner
+    box-sizing: border-box;
+    // margin-bottom is handled by parent's 'gap' or can be explicit if gap is removed.
+
+    .slide-title {
+      font-size: 2.1em;
+      color: #1e3a8a;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .slide-subtitle {
+      font-size: 1.05em;
+      color: #475569;
+      font-weight: 400;
+    }
+  }
+
+  .content-container-s8 {
+    display: flex;
+    width: 100%;
+    flex-grow: 1;
+    gap: 25px;
+    padding: 0 40px; // Horizontal padding for the content area. Top padding comes from parent's gap.
+    box-sizing: border-box;
+    
+    .main-charts-grid-s8 {
+      flex: 3;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px;
+      height: 100%; // Fill available height
+
+      .chart-container-s8 {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .chart-title-s8 {
+          font-size: 1.1em;
+          color: #334155;
+          font-weight: 500;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+        .chart {
+          flex-grow: 1;
+          width: 100%;
+          height: 100%;
+          min-height: 200px; 
+          padding-bottom: 0;
+          margin-bottom: 0;
+        }
+      }
+      .empty-cell-s8 {
+        background-color: transparent;
+        box-shadow: none;
+        border-radius: 12px; // Consistent rounding
+        border: 1px dashed #cbd5e1; 
+      }
+    }
+
+    .sidebar-s8 {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+
+      .glass-card { // Base MetricCard styling
+        background-color: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        flex-direction: column;
+
+        .card-title {
+          font-size: 1.1em;
+          font-weight: 600;
+          color: #1E3A8A;
+          margin-bottom: 15px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(30, 58, 138, 0.2);
+        }
+        
+        // Variant specific styles
+        &.donuts {
+          .chart-title-sidebar-s8 { // If there was a specific title for donut chart
+            font-size: 1em;
+            color: #334155;
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-align: center;
+          }
+          .sidebar-donut-chart-s8 {
+             width: 100%;
+             min-height: 180px; // Ensure it has some height
+             max-height: 220px;
+             margin: 0 auto;
+             flex-grow: 1;
+          }
+        }
+
+        &.metrics {
+          .key-metrics-grid-s8 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding-top: 5px;
+
+            .key-metric-item-s8 {
+              background-color: rgba(229, 231, 235, 0.3); // Slightly opaque background
+              border-radius: 8px;
+              padding: 12px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+              .metric-icon-s8 {
+                font-size: 1.6em;
+                margin-bottom: 6px;
+              }
+              .metric-value-s8 {
+                font-size: 1.25em;
+                font-weight: 600;
+                color: #1E3A8A;
+                line-height: 1.2;
+              }
+              .metric-label-s8 {
+                font-size: 0.8em;
+                color: #4A5568;
+                margin-top: 4px;
+              }
+            }
+          }
+        }
+
+        &.insights {
+          .insight-item {
+            font-size: 1.05em;
+            color: #334155;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            padding-left: 12px;
+            border-left: 3px solid #3B82F6;
+            strong {
+              color: #1E3A8A;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Scoped S8 specific legends, axis labels, and grid styles
+  .legend-s8-donut {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 0;
+
+    .legend-item-s8 {
+      display: flex;
+      align-items: center;
+      font-size: 0.95em;
+      color: #475569;
+      span {
+        font-weight: 500;
+      }
+
+      .legend-color-s8 {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .legend-s8-regional,
+  .legend-s8-popularity,
+  .legend-s8-energy {
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 12px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .legend-item-s8 {
+      display: flex;
+      align-items: center;
+      font-size: 0.8em;
+      color: #475569;
+
+      .legend-color-s8 {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        margin-right: 6px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .axis-label-s8 {
+    font-size: 0.8em;
+    fill: #475569;
+    font-weight: 500;
+  }
+
+  .grid-s8 .tick line {
+    stroke: #dde4ed; 
+    stroke-dasharray: 2,2;
+  }
+
+  .grid-s8 .domain {
+    stroke: none;
+  }
+} 

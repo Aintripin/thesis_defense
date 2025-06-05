@@ -16,6 +16,7 @@ const Navigation: React.FC = () => {
     { path: '/testing', label: 'Технологии тестирования', icon: Zap },
     { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
     { path: '/market-analysis', label: 'Анализ рынка', icon: BarChart3 },
+    { path: '/market-analysis-continued', label: 'Анализ рынка (Часть 2)', icon: BarChart3 },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]
