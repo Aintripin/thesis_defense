@@ -79,6 +79,10 @@ export const MarketAnalysisSlide: React.FC = () => {
       .attr("height", height + margin.top + margin.bottom);
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Create dedicated layers for drawing order control
+    const lineSegmentsLayer = g.append("g").attr("class", "line-segments-layer");
+    const dotsLayer = g.append("g").attr("class", "dots-layer");
+
     const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.year) as [number, number]).range([0, width]);
     const yScale = d3.scaleLinear().domain([0, d3.max(data, d => d.total)! * 1.1]).range([height, 0]);
 
@@ -147,57 +151,100 @@ export const MarketAnalysisSlide: React.FC = () => {
       const lineDuration = 3000;
       const dashLength = 8, gapLength = 7, segmentLength = dashLength + gapLength;
       
+      const easeInOutCubic = (t: number): number => {
+        return t < 0.5 
+          ? 4 * t * t * t 
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      };
+
+      const inverseEaseInOutCubic = (p: number): number => {
+        if (p <= 0) return 0;
+        if (p >= 1) return 1;
+        if (p < 0.5) {
+          return Math.cbrt(p / 4);
+        } else {
+          return 1 - Math.cbrt(2 * (1 - p)) / 2;
+        }
+      };
+      
       const dotPositions: number[] = []; const dotSpacing = 150;
       for (let pos = 0; pos <= totalLength; pos += dotSpacing) { dotPositions.push(pos); }
       
-      const EUCLIDEAN_TRIGGER_DISTANCE = 50; // Pixels
-      console.log(`[MarketAnalysisSlide] Dots will trigger when line tip is within ${EUCLIDEAN_TRIGGER_DISTANCE}px (Euclidean).`);
+      const distanceAhead = 100; // Path units ahead to trigger dot animation
+      const dotTriggerTimes = dotPositions.map(dotPositionOnPath => {
+        const triggerLength = Math.max(0, dotPositionOnPath - distanceAhead);
+        const targetProgressForTrigger = triggerLength / totalLength;
+        const normalizedTime_t = inverseEaseInOutCubic(targetProgressForTrigger);
+        return normalizedTime_t * lineDuration; // Actual time in ms
+      });
+      console.log("[MarketAnalysisSlide] Dots will trigger at calculated times (ms from line anim start) based on inverse easing:", dotTriggerTimes);
       
-      const lineDots = g.selectAll(".line-dot").data(dotPositions).enter().append("circle")
-        .attr("class", "line-dot")
-        .attr("cx", d => pathNode.getPointAtLength(d).x)
-        .attr("cy", d => pathNode.getPointAtLength(d).y)
-        .attr("r", 0).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 4).style("opacity", 0);
-      console.log(`[MarketAnalysisSlide] Created ${lineDots.nodes().length} dot elements.`);
+      // Create groups for each dot, each containing an outer ring and an inner fill, append to dotsLayer
+      const dotGroups = dotsLayer.selectAll(".dot-group")
+        .data(dotPositions)
+        .enter()
+        .append("g")
+        .attr("class", "dot-group")
+        .attr("transform", d => `translate(${pathNode.getPointAtLength(d).x}, ${pathNode.getPointAtLength(d).y})`);
+
+      // Append the outer ring (the donut border)
+      dotGroups.append("circle")
+        .attr("class", "dot-outer-ring")
+        .attr("r", 0)
+        .style("fill", "none")
+        .style("stroke", "#1E293B")
+        .style("stroke-width", 4)
+        .style("opacity", 0);
+
+      // Append the inner fill (to hide the line under the dot)
+      dotGroups.append("circle")
+        .attr("class", "dot-inner-fill")
+        .attr("r", 0)
+        .style("fill", "#FFFFFF") // Assuming a white background for the chart area
+        .style("opacity", 0);
       
-      const easeInOutCubic = (t: number): number => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-            
+      console.log(`[MarketAnalysisSlide] Created ${dotGroups.nodes().length} dot groups.`);
+                  
       function animateLineAndDots() {
         const elapsed = Date.now() - lineAnimationStartTime;
         const linearProgress = Math.min(elapsed / lineDuration, 1);
-        const easedProgress = easeInOutCubic(linearProgress);
+        const easedProgress = easeInOutCubic(linearProgress); 
         const drawnLength = totalLength * easedProgress;
         
-        const currentLineTipPoint = pathNode.getPointAtLength(drawnLength);
-
-        if (nextDotIndexRef.current < lineDots.nodes().length) {
-          const dotNodeToAnimate = lineDots.nodes()[nextDotIndexRef.current] as SVGCircleElement;
-          const dotCX = dotNodeToAnimate.cx.baseVal.value;
-          const dotCY = dotNodeToAnimate.cy.baseVal.value;
-
-          const dx = currentLineTipPoint.x - dotCX;
-          const dy = currentLineTipPoint.y - dotCY;
-          const euclideanDistanceToDot = Math.sqrt(dx*dx + dy*dy);
-
-          if (euclideanDistanceToDot <= EUCLIDEAN_TRIGGER_DISTANCE) {
-            console.log(`[MarketAnalysisSlide] Triggering dot ${nextDotIndexRef.current} by Euclidean distance: ${euclideanDistanceToDot.toFixed(2)}px (threshold: ${EUCLIDEAN_TRIGGER_DISTANCE}px)`);
+        if (nextDotIndexRef.current < dotTriggerTimes.length && elapsed >= dotTriggerTimes[nextDotIndexRef.current]) {
+          console.log(`[MarketAnalysisSlide] Triggering dot group ${nextDotIndexRef.current} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[nextDotIndexRef.current].toFixed(2)}ms)`);
             
-            d3.select(dotNodeToAnimate)
-              .attr("r", 0)
-              .style("opacity", 0)
-              .transition()
-              .duration(250)      
-              .attr("r", 12)
-              .style("opacity", 1)
-              .transition()
-              .duration(250)      
-              .attr("r", 8);
+          const currentDotGroup = d3.select(dotGroups.nodes()[nextDotIndexRef.current]);
 
-            nextDotIndexRef.current++;
-          }
+          // Animate outer ring
+          currentDotGroup.select(".dot-outer-ring")
+            .attr("r", 0) // Start from r=0 if re-triggering, though opacity handles visibility
+            .style("opacity", 0)
+            .transition()
+            .duration(250)      
+            .attr("r", 12)       // Pulse max radius
+            .style("opacity", 1)
+            .transition()
+            .duration(250)      
+            .attr("r", 8);       // Final radius
+
+          // Animate inner fill (radius is outerRadius - strokeWidth/2 for perfect fit)
+          currentDotGroup.select(".dot-inner-fill")
+            .attr("r", 0) // Start from r=0
+            .style("opacity", 0)
+            .transition()
+            .duration(250)      
+            .attr("r", 12 - 2)  // Pulse max radius (12 - 4/2)
+            .style("opacity", 1)
+            .transition()
+            .duration(250)      
+            .attr("r", 8 - 2);   // Final radius (8 - 4/2)
+
+          nextDotIndexRef.current++;
         }
         
-        g.selectAll(".trace-segment").remove();
+        // Draw segments in their dedicated layer
+        lineSegmentsLayer.selectAll(".trace-segment").remove();
         let currentDrawnSegmentLength = 0;
         while (currentDrawnSegmentLength < drawnLength) {
           const segmentStart = currentDrawnSegmentLength;
@@ -205,7 +252,7 @@ export const MarketAnalysisSlide: React.FC = () => {
           if (segmentEnd > segmentStart) {
             const startPoint = pathNode.getPointAtLength(segmentStart);
             const endPoint = pathNode.getPointAtLength(segmentEnd);
-            g.append("line").attr("class", "trace-segment")
+            lineSegmentsLayer.append("line").attr("class", "trace-segment") // Append to lineSegmentsLayer
               .attr("x1", startPoint.x).attr("y1", startPoint.y).attr("x2", endPoint.x).attr("y2", endPoint.y)
               .style("stroke", "#1E293B").style("stroke-width", 3).style("stroke-linecap", "round");
           }
@@ -216,6 +263,21 @@ export const MarketAnalysisSlide: React.FC = () => {
           animationFrameId.current = requestAnimationFrame(animateLineAndDots);
         } else {
           console.log("[MarketAnalysisSlide] Line animation completed. Final nextDotIndex:", nextDotIndexRef.current);
+          for (let i = nextDotIndexRef.current; i < dotTriggerTimes.length; i++) {
+            if (elapsed >= dotTriggerTimes[i]) { 
+              console.log(`[MarketAnalysisSlide] Triggering tail-end dot group ${i} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[i].toFixed(2)}ms)`);
+              const tailDotGroup = d3.select(dotGroups.nodes()[i]);
+              tailDotGroup.select(".dot-outer-ring")
+                .attr("r", 0).style("opacity", 0)
+                .transition().duration(250).attr("r", 12).style("opacity", 1)
+                .transition().duration(250).attr("r", 8);
+              tailDotGroup.select(".dot-inner-fill")
+                .attr("r", 0).style("opacity", 0)
+                .transition().duration(250).attr("r", 12 - 2).style("opacity", 1)
+                .transition().duration(250).attr("r", 8 - 2);
+              nextDotIndexRef.current = i + 1;
+            }
+          }
         }
       }
       animationFrameId.current = requestAnimationFrame(animateLineAndDots);
