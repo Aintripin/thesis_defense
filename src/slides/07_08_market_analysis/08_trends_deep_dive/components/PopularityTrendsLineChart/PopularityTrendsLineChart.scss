@@ -1,0 +1,36 @@
+// Styles for PopularityTrendsLineChart.tsx
+
+.legend-s8-popularity {
+  margin-top: -10px;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 10px;
+  padding: 6px 0 4px 0;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+
+  .legend-item-s8 {
+    display: flex;
+    align-items: center;
+    font-size: 1.0em;
+    color: #475569;
+
+    .legend-color-s8 {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.chart {
+  width: 100%;
+  flex: 1000;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+} 

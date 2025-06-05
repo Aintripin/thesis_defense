@@ -4,24 +4,34 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle } from 'lucide-react'
 import './Navigation.css'
 
+interface SlideEntry {
+  path: string;
+  label: string;
+  icon: React.ElementType;
+  end?: boolean;
+}
+
 const Navigation: React.FC = () => {
   const location = useLocation()
   const [isNavVisible, setIsNavVisible] = useState(false)
   
-  const slides = [
+  const slides: SlideEntry[] = [
     { path: '/title', label: 'Титульный слайд', icon: Home },
     { path: '/problem', label: 'Постановка задачи', icon: Target },
     { path: '/market', label: 'Решённые задачи', icon: CheckSquare },
     { path: '/solution', label: 'Архитектурные решения', icon: Lightbulb },
     { path: '/testing', label: 'Технологии тестирования', icon: Zap },
     { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
-    { path: '/market-analysis', label: 'Анализ рынка', icon: BarChart3 },
-    { path: '/market-analysis-continued', label: 'Анализ рынка (Часть 2)', icon: BarChart3 },
+    { path: '/market-analysis', label: 'Анализ рынка: Обзор', icon: BarChart3, end: true },
+    { path: '/market-analysis/trends-deep-dive', label: 'Анализ рынка: Детали', icon: BarChart3 },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]
 
-  const currentIndex = slides.findIndex(slide => slide.path === location.pathname)
+  const currentIndex = slides.findIndex(slide => {
+    if (slide.end) return location.pathname === slide.path;
+    return location.pathname.startsWith(slide.path);
+  });
   const prevSlide = currentIndex > 0 ? slides[currentIndex - 1] : null
   const nextSlide = currentIndex < slides.length - 1 ? slides[currentIndex + 1] : null
 
@@ -89,6 +99,7 @@ const Navigation: React.FC = () => {
                   to={slide.path}
                   className={({ isActive }) => `slide-indicator ${isActive ? 'active' : ''}`}
                   title={slide.label}
+                  end={slide.end}
                 >
                   <div className="slide-indicator-content">
                     <div className="slide-icon-wrapper">
@@ -97,7 +108,7 @@ const Navigation: React.FC = () => {
                     </div>
                     <span className="slide-label">{slide.label}</span>
                   </div>
-                  {location.pathname === slide.path && (
+                  {(location.pathname === slide.path || (slide.end !== true && location.pathname.startsWith(slide.path) && location.pathname !== slides[index-1]?.path && !slides.slice(0,index).some(s=>location.pathname.startsWith(s.path) && s.end))) && (
                     <motion.div
                       className="active-indicator"
                       layoutId="activeIndicator"
@@ -113,20 +124,20 @@ const Navigation: React.FC = () => {
           <div className="nav-controls">
             <div className="nav-arrows">
               {prevSlide && (
-                <NavLink to={prevSlide.path} className="nav-arrow prev">
+                <NavLink to={prevSlide.path} className="nav-arrow prev" end>
                   <ChevronLeft size={20} />
                 </NavLink>
               )}
               
               {nextSlide && (
-                <NavLink to={nextSlide.path} className="nav-arrow next">
+                <NavLink to={nextSlide.path} className="nav-arrow next" end>
                   <ChevronRight size={20} />
                 </NavLink>
               )}
             </div>
             
             <div className="slide-counter">
-              {currentIndex + 1} / {slides.length}
+              {currentIndex !== -1 ? currentIndex + 1 : '-'} / {slides.length}
             </div>
           </div>
         </div>

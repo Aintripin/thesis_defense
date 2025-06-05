@@ -1,0 +1,39 @@
+// Styles for RegionalTrendsAreaChart.tsx
+
+.legend-s8-regional {
+  margin-top: -20px;
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 10px;
+  padding: 6px 0 4px 0;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+
+  // .legend-item-s8 and .legend-color-s8 are used by other legends too.
+  // For now, we are scoping them under .legend-s8-regional for this component.
+  // If they remain identical, consider a global/shared style or mixin later.
+  .legend-item-s8 {
+    display: flex;
+    align-items: center;
+    font-size: 1.0em;
+    color: #475569;
+
+    .legend-color-s8 {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.chart {
+  width: 100%;
+  flex: 1000;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+} 

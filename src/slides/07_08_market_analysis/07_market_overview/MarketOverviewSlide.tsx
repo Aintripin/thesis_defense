@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import * as d3 from 'd3'
-import './MarketAnalysisSlide.scss'
+import './MarketOverviewSlide.scss' // SCSS Import updated
 
 interface MetricCardProps {
   title: string
@@ -22,7 +22,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ title, children, delay = 0, var
   </motion.div>
 )
 
-export const MarketAnalysisSlide: React.FC = () => {
+export const MarketOverviewSlide: React.FC = () => { // Component name updated
   const chartRef = useRef<HTMLDivElement>(null)
   const animationFrameId = useRef<number | null>(null)
   const animationTimeoutId = useRef<number | null>(null)
@@ -30,17 +30,17 @@ export const MarketAnalysisSlide: React.FC = () => {
 
   useEffect(() => {
     if (!chartRef.current) {
-      console.log("[MarketAnalysisSlide] chartRef.current is null, returning.");
+      console.log("[MarketOverviewSlide] chartRef.current is null, returning.");
       return;
     }
 
     const container = chartRef.current;
     if (container.hasAttribute('data-chart-initialized')) {
-      console.log("[MarketAnalysisSlide] Chart already initialized, returning.");
+      console.log("[MarketOverviewSlide] Chart already initialized, returning.");
       return;
     }
     container.setAttribute('data-chart-initialized', 'true');
-    console.log("[MarketAnalysisSlide] Initializing chart and animations...");
+    console.log("[MarketOverviewSlide] Initializing chart and animations...");
 
     nextDotIndexRef.current = 0;
 
@@ -70,7 +70,7 @@ export const MarketAnalysisSlide: React.FC = () => {
     const height = containerHeight - margin.top - margin.bottom;
 
     if (width <= 0 || height <= 0) {
-        console.warn("[MarketAnalysisSlide] Chart dimensions are invalid, skipping render.", { width, height });
+        console.warn("[MarketOverviewSlide] Chart dimensions are invalid, skipping render.", { width, height });
         return;
     }
 
@@ -79,7 +79,6 @@ export const MarketAnalysisSlide: React.FC = () => {
       .attr("height", height + margin.top + margin.bottom);
     const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Create dedicated layers for drawing order control
     const lineSegmentsLayer = g.append("g").attr("class", "line-segments-layer");
     const dotsLayer = g.append("g").attr("class", "dots-layer");
 
@@ -138,12 +137,12 @@ export const MarketAnalysisSlide: React.FC = () => {
     const totalLinePath = g.append("path").datum(data).attr("d", line).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 3).style("visibility", "hidden");
 
     animationTimeoutId.current = setTimeout(() => {
-      console.log("[MarketAnalysisSlide] Starting line and dot animation after 4s delay...");
+      console.log("[MarketOverviewSlide] Starting line and dot animation after 4s delay...");
       const pathNode = totalLinePath.node() as SVGPathElement;
-      if (!pathNode) { console.error("[MarketAnalysisSlide] totalLinePath.node() is null!"); return; }
+      if (!pathNode) { console.error("[MarketOverviewSlide] totalLinePath.node() is null!"); return; }
       const totalLength = pathNode.getTotalLength();
-      if (totalLength === 0) { console.error("[MarketAnalysisSlide] totalLength is 0 for totalLinePath!"); return; }
-      console.log(`[MarketAnalysisSlide] Total line path length: ${totalLength}`);
+      if (totalLength === 0) { console.error("[MarketOverviewSlide] totalLength is 0 for totalLinePath!"); return; }
+      console.log(`[MarketOverviewSlide] Total line path length: ${totalLength}`);
 
       totalLinePath.style("visibility", "hidden");
       
@@ -170,16 +169,15 @@ export const MarketAnalysisSlide: React.FC = () => {
       const dotPositions: number[] = []; const dotSpacing = 150;
       for (let pos = 0; pos <= totalLength; pos += dotSpacing) { dotPositions.push(pos); }
       
-      const distanceAhead = 100; // Path units ahead to trigger dot animation
+      const distanceAhead = 100;
       const dotTriggerTimes = dotPositions.map(dotPositionOnPath => {
         const triggerLength = Math.max(0, dotPositionOnPath - distanceAhead);
         const targetProgressForTrigger = triggerLength / totalLength;
         const normalizedTime_t = inverseEaseInOutCubic(targetProgressForTrigger);
-        return normalizedTime_t * lineDuration; // Actual time in ms
+        return normalizedTime_t * lineDuration;
       });
-      console.log("[MarketAnalysisSlide] Dots will trigger at calculated times (ms from line anim start) based on inverse easing:", dotTriggerTimes);
+      console.log("[MarketOverviewSlide] Dots will trigger at calculated times (ms from line anim start) based on inverse easing:", dotTriggerTimes);
       
-      // Create groups for each dot, each containing an outer ring and an inner fill, append to dotsLayer
       const dotGroups = dotsLayer.selectAll(".dot-group")
         .data(dotPositions)
         .enter()
@@ -187,7 +185,6 @@ export const MarketAnalysisSlide: React.FC = () => {
         .attr("class", "dot-group")
         .attr("transform", d => `translate(${pathNode.getPointAtLength(d).x}, ${pathNode.getPointAtLength(d).y})`);
 
-      // Append the outer ring (the donut border)
       dotGroups.append("circle")
         .attr("class", "dot-outer-ring")
         .attr("r", 0)
@@ -196,14 +193,13 @@ export const MarketAnalysisSlide: React.FC = () => {
         .style("stroke-width", 4)
         .style("opacity", 0);
 
-      // Append the inner fill (to hide the line under the dot)
       dotGroups.append("circle")
         .attr("class", "dot-inner-fill")
         .attr("r", 0)
-        .style("fill", "#FFFFFF") // Assuming a white background for the chart area
+        .style("fill", "#FFFFFF")
         .style("opacity", 0);
       
-      console.log(`[MarketAnalysisSlide] Created ${dotGroups.nodes().length} dot groups.`);
+      console.log(`[MarketOverviewSlide] Created ${dotGroups.nodes().length} dot groups.`);
                   
       function animateLineAndDots() {
         const elapsed = Date.now() - lineAnimationStartTime;
@@ -212,38 +208,35 @@ export const MarketAnalysisSlide: React.FC = () => {
         const drawnLength = totalLength * easedProgress;
         
         if (nextDotIndexRef.current < dotTriggerTimes.length && elapsed >= dotTriggerTimes[nextDotIndexRef.current]) {
-          console.log(`[MarketAnalysisSlide] Triggering dot group ${nextDotIndexRef.current} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[nextDotIndexRef.current].toFixed(2)}ms)`);
+          console.log(`[MarketOverviewSlide] Triggering dot group ${nextDotIndexRef.current} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[nextDotIndexRef.current].toFixed(2)}ms)`);
             
           const currentDotGroup = d3.select(dotGroups.nodes()[nextDotIndexRef.current]);
 
-          // Animate outer ring
           currentDotGroup.select(".dot-outer-ring")
-            .attr("r", 0) // Start from r=0 if re-triggering, though opacity handles visibility
+            .attr("r", 0)
             .style("opacity", 0)
             .transition()
             .duration(250)      
-            .attr("r", 12)       // Pulse max radius
+            .attr("r", 12)
             .style("opacity", 1)
             .transition()
             .duration(250)      
-            .attr("r", 8);       // Final radius
+            .attr("r", 8);
 
-          // Animate inner fill (radius is outerRadius - strokeWidth/2 for perfect fit)
           currentDotGroup.select(".dot-inner-fill")
-            .attr("r", 0) // Start from r=0
+            .attr("r", 0)
             .style("opacity", 0)
             .transition()
             .duration(250)      
-            .attr("r", 12 - 2)  // Pulse max radius (12 - 4/2)
+            .attr("r", 12 - 2)
             .style("opacity", 1)
             .transition()
             .duration(250)      
-            .attr("r", 8 - 2);   // Final radius (8 - 4/2)
+            .attr("r", 8 - 2);
 
           nextDotIndexRef.current++;
         }
         
-        // Draw segments in their dedicated layer
         lineSegmentsLayer.selectAll(".trace-segment").remove();
         let currentDrawnSegmentLength = 0;
         while (currentDrawnSegmentLength < drawnLength) {
@@ -252,7 +245,7 @@ export const MarketAnalysisSlide: React.FC = () => {
           if (segmentEnd > segmentStart) {
             const startPoint = pathNode.getPointAtLength(segmentStart);
             const endPoint = pathNode.getPointAtLength(segmentEnd);
-            lineSegmentsLayer.append("line").attr("class", "trace-segment") // Append to lineSegmentsLayer
+            lineSegmentsLayer.append("line").attr("class", "trace-segment")
               .attr("x1", startPoint.x).attr("y1", startPoint.y).attr("x2", endPoint.x).attr("y2", endPoint.y)
               .style("stroke", "#1E293B").style("stroke-width", 3).style("stroke-linecap", "round");
           }
@@ -262,10 +255,10 @@ export const MarketAnalysisSlide: React.FC = () => {
         if (linearProgress < 1) {
           animationFrameId.current = requestAnimationFrame(animateLineAndDots);
         } else {
-          console.log("[MarketAnalysisSlide] Line animation completed. Final nextDotIndex:", nextDotIndexRef.current);
+          console.log("[MarketOverviewSlide] Line animation completed. Final nextDotIndex:", nextDotIndexRef.current);
           for (let i = nextDotIndexRef.current; i < dotTriggerTimes.length; i++) {
             if (elapsed >= dotTriggerTimes[i]) { 
-              console.log(`[MarketAnalysisSlide] Triggering tail-end dot group ${i} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[i].toFixed(2)}ms)`);
+              console.log(`[MarketOverviewSlide] Triggering tail-end dot group ${i} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[i].toFixed(2)}ms)`);
               const tailDotGroup = d3.select(dotGroups.nodes()[i]);
               tailDotGroup.select(".dot-outer-ring")
                 .attr("r", 0).style("opacity", 0)
@@ -298,7 +291,7 @@ export const MarketAnalysisSlide: React.FC = () => {
     });
 
     return () => {
-      console.log("[MarketAnalysisSlide] Cleanup: Clearing timeouts and animation frames, removing initialized flag.");
+      console.log("[MarketOverviewSlide] Cleanup: Clearing timeouts and animation frames, removing initialized flag.");
       if (animationTimeoutId.current) {
         clearTimeout(animationTimeoutId.current);
         animationTimeoutId.current = null;
@@ -314,56 +307,45 @@ export const MarketAnalysisSlide: React.FC = () => {
   }, []);
 
   return (
-    <div className="market-analysis-slide">
+    <div className="content-container"> {/* Root element updated */}
       <motion.div 
-        className="slide-title-container"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        className="chart-section"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h1 className="slide-title">А Н А Л И З&nbsp;&nbsp;Р Ы Н К А&nbsp;&nbsp;И Н С Т Р У М Е Н Т О В&nbsp;&nbsp;Б Е Н Ч М А Р К И Н Г А</h1>
-        <p className="slide-subtitle">ГЛОБАЛЬНЫЕ ТЕНДЕНЦИИ И СТРУКТУРНЫЕ ИЗМЕНЕНИЯ РЫНКА СУБД</p>
+        <h3 className="chart-title">📈 Динамика роста рынка СУБД по типам (2023-2030)</h3>
+        <div className="chart-container" ref={chartRef}></div>
+        <div className="legend">
+          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#1E3A8A' }}></div><span>Реляционные СУБД</span></div>
+          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#3B82F6' }}></div><span>NoSQL СУБД</span></div>
+          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#60A5FA' }}></div><span>Облачные СУБД</span></div>
+          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#93C5FD' }}></div><span>Графовые СУБД</span></div>
+          <div className="legend-item"><div className="legend-color total-line"></div><span>Общий объем рынка</span></div>
+        </div>
       </motion.div>
-      <div className="content-container">
-        <motion.div 
-          className="chart-section"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <h3 className="chart-title">📈 Динамика роста рынка СУБД по типам (2023-2030)</h3>
-          <div className="chart-container" ref={chartRef}></div>
-          <div className="legend">
-            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#1E3A8A' }}></div><span>Реляционные СУБД</span></div>
-            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#3B82F6' }}></div><span>NoSQL СУБД</span></div>
-            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#60A5FA' }}></div><span>Облачные СУБД</span></div>
-            <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#93C5FD' }}></div><span>Графовые СУБД</span></div>
-            <div className="legend-item"><div className="legend-color total-line"></div><span>Общий объем рынка</span></div>
-          </div>
-        </motion.div>
-        <div className="sidebar">
-          <div className="sidebar-top-row">
-            <MetricCard title="🎯 КЛЮЧЕВЫЕ МЕТРИКИ" variant="metrics" delay={0.4}>
-              <div className="metric-item"><div className="metric-label">Общий рост рынка:</div><div className="metric-value">100.79 → 292.22 млрд USD</div></div>
-              <div className="metric-item"><div className="metric-label">Темп роста (CAGR):</div><div className="metric-value">14.21% в год</div></div>
-              <div className="metric-item"><div className="metric-label">NoSQL рост:</div><div className="metric-value"><span className="growth-highlight">6-кратный</span></div></div>
-              <div className="metric-item"><div className="metric-label">Облачные решения:</div><div className="metric-value">5.4x рост к 2030</div></div>
-            </MetricCard>
-            <MetricCard title="📊 СТРУКТУРНЫЕ ИЗМЕНЕНИЯ" variant="trends" delay={0.6}>
-              <div className="trend-item"><div className="trend-title">Реляционные СУБД</div><div className="trend-desc">Снижение доли с 70% до 55%</div></div>
-              <div className="trend-item"><div className="trend-title">NoSQL системы</div><div className="trend-desc">Взрывной рост: 7.55 → 47.41 млрд USD</div></div>
-              <div className="trend-item"><div className="trend-title">Облачные платформы</div><div className="trend-desc">Удвоение доли рынка</div></div>
-              <div className="trend-item"><div className="trend-title">Графовые БД</div><div className="trend-desc">Новая ниша с 4x ростом</div></div>
-            </MetricCard>
-          </div>
-          <div className="sidebar-bottom-row">
-            <MetricCard title="💡 ДРАЙВЕРЫ РОСТА" variant="insights" delay={0.8}>
-              <div className="insight-item"><strong>Цифровая трансформация</strong> предприятий</div>
-              <div className="insight-item"><strong>Экспоненциальный рост</strong> объемов данных</div>
-              <div className="insight-item"><strong>Потребность в масштабируемости</strong> и гибкости</div>
-              <div className="insight-item"><strong>Развитие IoT и Big Data</strong> технологий</div>
-            </MetricCard>
-          </div>
+      <div className="sidebar">
+        <div className="sidebar-top-row">
+          <MetricCard title="🎯 КЛЮЧЕВЫЕ МЕТРИКИ" variant="metrics" delay={0.4}>
+            <div className="metric-item"><div className="metric-label">Общий рост рынка:</div><div className="metric-value">100.79 → 292.22 млрд USD</div></div>
+            <div className="metric-item"><div className="metric-label">Темп роста (CAGR):</div><div className="metric-value">14.21% в год</div></div>
+            <div className="metric-item"><div className="metric-label">NoSQL рост:</div><div className="metric-value"><span className="growth-highlight">6-кратный</span></div></div>
+            <div className="metric-item"><div className="metric-label">Облачные решения:</div><div className="metric-value">5.4x рост к 2030</div></div>
+          </MetricCard>
+          <MetricCard title="📊 СТРУКТУРНЫЕ ИЗМЕНЕНИЯ" variant="trends" delay={0.6}>
+            <div className="trend-item"><div className="trend-title">Реляционные СУБД</div><div className="trend-desc">Снижение доли с 70% до 55%</div></div>
+            <div className="trend-item"><div className="trend-title">NoSQL системы</div><div className="trend-desc">Взрывной рост: 7.55 → 47.41 млрд USD</div></div>
+            <div className="trend-item"><div className="trend-title">Облачные платформы</div><div className="trend-desc">Удвоение доли рынка</div></div>
+            <div className="trend-item"><div className="trend-title">Графовые БД</div><div className="trend-desc">Новая ниша с 4x ростом</div></div>
+          </MetricCard>
+        </div>
+        <div className="sidebar-bottom-row">
+          <MetricCard title="💡 ДРАЙВЕРЫ РОСТА" variant="insights" delay={0.8}>
+            <div className="insight-item"><strong>Цифровая трансформация</strong> предприятий</div>
+            <div className="insight-item"><strong>Экспоненциальный рост</strong> объемов данных</div>
+            <div className="insight-item"><strong>Потребность в масштабируемости</strong> и гибкости</div>
+            <div className="insight-item"><strong>Развитие IoT и Big Data</strong> технологий</div>
+          </MetricCard>
         </div>
       </div>
     </div>
