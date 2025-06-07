@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стратегии подготовки данных</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9f9f9;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 3rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        .flowchart {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            min-width: 1000px;
+            overflow-x: auto;
+        }
+        
+        .card-wrapper {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .step-box {
+            background: #374151;
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 1.3;
+            text-align: center;
+            min-width: 160px;
+            position: relative;
+        }
+        
+        .step-number {
+            background: #374151;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            position: absolute;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .highlight {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        
+        /* MongoDB section positioning */
+        .mongodb-flow .card-0 { top: 20px; left: 80px; }
+        .mongodb-flow .card-1 { top: 20px; left: 350px; }
+        .mongodb-flow .card-2 { top: 120px; left: 80px; }
+        .mongodb-flow .card-3 { top: 120px; left: 350px; }
+        .mongodb-flow .card-4 { top: 20px; right: 80px; }
+        
+        .mongodb-flow .card-0 .step-number { top: -12px; right: -12px; }
+        .mongodb-flow .card-1 .step-number { top: -12px; right: -12px; }
+        .mongodb-flow .card-2 .step-number { top: -12px; right: -12px; }
+        .mongodb-flow .card-3 .step-number { top: -12px; right: -12px; }
+        .mongodb-flow .card-4 .step-number { top: -12px; right: -12px; }
+        
+        /* PostgreSQL section positioning */
+        .postgresql-flow .card-0 { top: 20px; left: 20px; }
+        .postgresql-flow .card-1 { top: 20px; left: 200px; }
+        .postgresql-flow .card-2 { top: 180px; left: 200px; }
+        .postgresql-flow .card-3 { top: 100px; left: 520px; }
+        .postgresql-flow .card-4 { top: 20px; left: 540px; }
+        .postgresql-flow .card-5 { top: 20px; left: 820px; }
+        .postgresql-flow .card-6 { top: 180px; left: 820px; }
+        
+        .postgresql-flow .card-0 .step-number { top: -12px; right: -12px; }
+        .postgresql-flow .card-1 .step-number { top: -12px; right: -12px; }
+        .postgresql-flow .card-2 .step-number { top: -12px; right: -12px; }
+        .postgresql-flow .card-3 .step-number { top: -12px; right: -12px; }
+        .postgresql-flow .card-4 .step-number { top: -12px; right: -12px; }
+        .postgresql-flow .card-5 .step-number { top: -12px; right: -12px; }
+        .postgresql-flow .card-6 .step-number { top: -12px; right: -12px; }
+        
+        /* Arrows */
+        .arrow {
+            position: absolute;
+            background: #6b7280;
+            z-index: 1;
+        }
+        
+        .arrow-h {
+            height: 2px;
+        }
+        
+        .arrow-v {
+            width: 2px;
+        }
+        
+        .arrow-head {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        
+        .arrow-head-right {
+            border-left: 6px solid #6b7280;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+        
+        .arrow-head-down {
+            border-top: 6px solid #6b7280;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+        }
+        
+        .arrow-head-up {
+            border-bottom: 6px solid #6b7280;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+        }
+        
+        /* MongoDB arrows */
+        .mongodb-flow .arrow-0-1 {
+            top: 41px;
+            left: 240px;
+            width: 90px;
+        }
+        .mongodb-flow .arrow-0-1 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .mongodb-flow .arrow-1-4 {
+            top: 41px;
+            left: 510px;
+            width: 90px;
+        }
+        .mongodb-flow .arrow-1-4 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .mongodb-flow .arrow-0-2 {
+            top: 60px;
+            left: 161px;
+            height: 60px;
+        }
+        .mongodb-flow .arrow-0-2 .arrow-head {
+            bottom: -6px;
+            left: -4px;
+        }
+        
+        .mongodb-flow .arrow-2-3 {
+            top: 141px;
+            left: 240px;
+            width: 90px;
+        }
+        .mongodb-flow .arrow-2-3 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .mongodb-flow .arrow-3-4 {
+            top: 100px;
+            left: 431px;
+            height: 40px;
+        }
+        .mongodb-flow .arrow-3-4 .arrow-head {
+            top: -6px;
+            left: -4px;
+        }
+        
+        /* PostgreSQL arrows */
+        .postgresql-flow .arrow-0-1 {
+            top: 41px;
+            left: 120px;
+            width: 60px;
+        }
+        .postgresql-flow .arrow-0-1 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .postgresql-flow .arrow-1-2 {
+            top: 60px;
+            left: 281px;
+            height: 100px;
+        }
+        .postgresql-flow .arrow-1-2 .arrow-head {
+            bottom: -6px;
+            left: -4px;
+        }
+        
+        .postgresql-flow .arrow-2-3 {
+            top: 201px;
+            left: 380px;
+            width: 120px;
+        }
+        .postgresql-flow .arrow-2-3 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .postgresql-flow .arrow-1-4 {
+            top: 41px;
+            left: 380px;
+            width: 140px;
+        }
+        .postgresql-flow .arrow-1-4 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .postgresql-flow .arrow-4-5 {
+            top: 41px;
+            left: 720px;
+            width: 80px;
+        }
+        .postgresql-flow .arrow-4-5 .arrow-head {
+            right: -6px;
+            top: -4px;
+        }
+        
+        .postgresql-flow .arrow-5-6 {
+            top: 60px;
+            left: 901px;
+            height: 100px;
+        }
+        .postgresql-flow .arrow-5-6 .arrow-head {
+            bottom: -6px;
+            left: -4px;
+        }
+        
+        .postgresql-flow .arrow-6-2 {
+            top: 240px;
+            left: 280px;
+            width: 640px;
+            height: 2px;
+        }
+        
+        @media (max-width: 1200px) {
+            .flowchart {
+                overflow-x: auto;
+                min-width: 900px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Стратегии подготовки данных</h1>
+        
+        <div class="section">
+            <div class="section-title">mongoDB, прямой импорт JSON</div>
+            <div class="flowchart mongodb-flow">
+                <div class="card-wrapper card-0">
+                    <div class="step-box">
+                        предварительный анализ структуры
+                        <div class="step-number">0</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-1">
+                    <div class="step-box">
+                        импорт данных
+                        <div class="step-number">1</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-2">
+                    <div class="step-box">
+                        создание таблицы ч/з YCSB
+                        <div class="step-number">2</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-3">
+                    <div class="step-box">
+                        заполнение реальными данными
+                        <div class="step-number">3</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-4">
+                    <div class="step-box">
+                        создание индексов
+                        <div class="step-number">4</div>
+                    </div>
+                </div>
+                
+                <!-- Arrows -->
+                <div class="arrow arrow-h arrow-0-1">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-h arrow-1-4">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-v arrow-0-2">
+                    <div class="arrow-head arrow-head-down"></div>
+                </div>
+                <div class="arrow arrow-h arrow-2-3">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-v arrow-3-4">
+                    <div class="arrow-head arrow-head-up"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">PostgreSQL, многоэтапный процесс</div>
+            <div class="flowchart postgresql-flow">
+                <div class="card-wrapper card-0">
+                    <div class="step-box">
+                        предвари-<br>тельный<br>анализ<br>структуры
+                        <div class="step-number">0</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-1">
+                    <div class="step-box">
+                        создание первичной<br>таблицы <span class="highlight">A</span> с колонками<br><span class="highlight">_id</span> и <span class="highlight">data</span> (JSONB)
+                        <div class="step-number">1</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-2">
+                    <div class="step-box">
+                        создание таблицы <span class="highlight">B</span><br>через YCSB
+                        <div class="step-number">2</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-3">
+                    <div class="step-box">
+                        создание таблицы <span class="highlight">C</span> со<br>структурированными<br>колонками
+                        <div class="step-number">3</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-4">
+                    <div class="step-box">
+                        импорт данных<br>из mongoDB
+                        <div class="step-number">4</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-5">
+                    <div class="step-box">
+                        парсинг данных и<br>заполнение<br>таблицы <span class="highlight">C</span>
+                        <div class="step-number">5</div>
+                    </div>
+                </div>
+                
+                <div class="card-wrapper card-6">
+                    <div class="step-box">
+                        заполнение таблицы<br><span class="highlight">B</span> реальными<br>данными
+                        <div class="step-number">6</div>
+                    </div>
+                </div>
+                
+                <!-- Arrows -->
+                <div class="arrow arrow-h arrow-0-1">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-v arrow-1-2">
+                    <div class="arrow-head arrow-head-down"></div>
+                </div>
+                <div class="arrow arrow-h arrow-2-3">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-h arrow-1-4">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-h arrow-4-5">
+                    <div class="arrow-head arrow-head-right"></div>
+                </div>
+                <div class="arrow arrow-v arrow-5-6">
+                    <div class="arrow-head arrow-head-down"></div>
+                </div>
+                <div class="arrow arrow-h arrow-6-2"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

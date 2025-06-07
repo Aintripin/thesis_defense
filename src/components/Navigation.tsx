@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings } from 'lucide-react'
 import './Navigation.css'
 
 interface SlideEntry {
@@ -24,6 +24,11 @@ const Navigation: React.FC = () => {
     { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
     { path: '/market-analysis', label: 'Анализ рынка: Обзор', icon: BarChart3, end: true },
     { path: '/market-analysis/trends-deep-dive', label: 'Анализ рынка: Детали', icon: BarChart3 },
+    { path: '/dataset-selection', label: 'Выбор и анализ датасета', icon: Database, end: true },
+    { path: '/dataset-selection/details', label: 'Выбранный датасет', icon: Database },
+    { path: '/data-preparation', label: 'Стратегии подготовки данных', icon: Zap, end: true },
+    { path: '/data-preparation/cassandra', label: 'Подготовка данных для Cassandra', icon: Zap },
+    { path: '/test-environment', label: 'Тестовое окружение', icon: Settings },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]

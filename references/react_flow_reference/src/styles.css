@@ -1,0 +1,21 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  height: 100vh;
+}
+
+.add-node-button {
+  height: 10px;
+  align-self: center;
+  justify-self: center;
+  border-radius: 100%;
+  user-select: none;
+}
+
+.add-node-button:focus {
+  outline: none;
+}
+
+.custom-node-title {
+  text-align: right;
+}
