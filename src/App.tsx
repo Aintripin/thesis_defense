@@ -11,6 +11,9 @@ import { MarketAnalysisLayout, MarketOverviewSlide, TrendsDeepDiveSlide } from '
 import { DatasetSlides } from './slides/09_10_dataset_selection'
 import { DataPreparationSlides } from './slides/11_12_data_preparation'
 import { TestEnvironmentSlide } from './slides/13_test_environment'
+import { TechnicalImplementationSlide } from './slides/14_technical_implementation'
+import { TechnicalOptimizationSlide } from './slides/15_technical_optimization'
+import YcsbConfigurationSlide from './slides/16_ycsb_configuration'
 import { ResultsSlide } from './slides/05_results'
 import { ConclusionSlide } from './slides/06_conclusion'
 import './App.css'
@@ -52,6 +55,9 @@ function App() {
           <Route path="cassandra" element={<DataPreparationWrapper />} />
         </Route>
         <Route path="/test-environment" element={<TestEnvironmentSlide />} />
+        <Route path="/technical-implementation" element={<TechnicalImplementationSlide />} />
+        <Route path="/technical-optimization" element={<TechnicalOptimizationSlide />} />
+        <Route path="/ycsb-configuration" element={<YcsbConfigurationSlide />} />
         <Route path="/results" element={<ResultsSlide />} />
         <Route path="/conclusion" element={<ConclusionSlide />} />
       </Routes>

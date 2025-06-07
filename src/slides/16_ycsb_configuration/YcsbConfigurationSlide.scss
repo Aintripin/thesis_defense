@@ -1,0 +1,518 @@
+@import '../../styles/variables';
+
+// Local SCSS Variables
+$font-family-heading: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
+$light-bg: #f8fafc;
+$white: #ffffff;
+
+.ycsb-configuration-slide {
+  height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  
+  .content-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-content-container {
+    width: 100%;
+    max-width: 1600px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
+  }
+  
+  .slide-title-container {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+    color: white;
+    padding: 40px 50px 30px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+    }
+  }
+  
+  .slide-title {
+    font-family: $font-family-heading;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+    margin: 0;
+  }
+  
+  .slide-subtitle {
+    font-size: 20px;
+    opacity: 0.9;
+    font-weight: 400;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    color: white;
+  }
+  
+  .slide-content {
+    flex: 1;
+    padding: 40px 50px;
+    display: grid;
+    grid-template-columns: 360px 1fr 360px;
+    gap: 35px;
+    overflow-y: auto;
+  }
+  
+  // Fix for middle column workload card - make it grow and use flex layout
+  .slide-content > .config-section:nth-child(2) > .config-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  // Make the content area within the workload card expand
+  .slide-content > .config-section:nth-child(2) > .config-block > .block-content {
+    flex: 1;
+    height: 100%;
+  }
+  
+  .config-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .config-block {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(59, 130, 246, 0.15);
+    }
+    
+    &.primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+    }
+    
+    &.accent {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #cbd5e1;
+    }
+    
+    &.workloads-block {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-height: 99%;
+    }
+  }
+  
+  .block-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .primary .block-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .block-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .primary .block-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+  }
+  
+  .block-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0;
+    font-family: $font-family-heading;
+  }
+  
+  .block-content {
+    padding: 20px 24px 24px;
+    
+    .workloads-block & {
+      height: 90%;
+    }
+  }
+  
+  .config-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .config-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+    font-size: 15px;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .primary .config-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .config-label {
+    font-weight: 700;
+    font-size: 20px;
+    color: #64748b;
+  }
+  
+  .primary .config-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 700;
+  }
+  
+  .config-value {
+    font-weight: 600;
+    font-family: $font-family-mono;
+    font-size: 15px;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #2563eb;
+  }
+  
+  .primary .config-value {
+    background: rgba(255, 255, 255, 0.2);
+    color: #dbeafe;
+  }
+  
+  .workload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: 100%;
+  }
+  
+  .workload-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid #f1f5f9;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover {
+      border-color: #3b82f6;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+      
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+  }
+  
+  .workload-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 10px 0;
+    font-family: $font-family-heading;
+  }
+  
+  .workload-letter {
+    background: #2563eb;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .workload-description {
+    font-size: 19px;
+    color: #64748b;
+    margin-bottom: 12px;
+    line-height: 1.3;
+    flex-grow: 1;
+  }
+  
+  .workload-type {
+    font-weight: 600;
+    color: #475569;
+    display: block;
+    font-size: 20px;
+  }
+  
+  .workload-detail {
+    font-style: italic;
+    display: block;
+    margin-top: 2px;
+    font-style: italic;
+  }
+  
+  .workload-metrics {
+    font-size: 19px;
+    color: #1e293b;
+    font-weight: 600;
+    background: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid #3b82f6;
+  }
+  
+  .procedure-list {
+    list-style: none;
+    font-size: 19px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .procedure-item {
+    position: relative;
+    padding-left: 20px;
+    line-height: 1.4;
+    color: #475569;
+    
+    &:before {
+      content: "▶";
+      color: #3b82f6;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 10px;
+    }
+  }
+  
+  .drivers-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .driver-item {
+    background: white;
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #3b82f6, #60a5fa);
+    }
+    
+    &:hover {
+      border-color: #3b82f6;
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+    }
+  }
+  
+  .driver-name {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 19px;
+    margin-bottom: 8px;
+  }
+  
+  .driver-desc {
+    color: #64748b;
+    font-size: 17px;
+    line-height: 1.3;
+  }
+  
+  .stat-highlight {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 1px solid #f59e0b;
+    margin-left: 10px;
+  }
+  
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 19px;
+    line-height: 1.4;
+    color: #475569;
+  }
+  
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  
+  // Responsive Design
+  @media (max-width: 1400px) {
+    .slide-content {
+      grid-template-columns: 320px 1fr 320px;
+      gap: 25px;
+      padding: 30px 40px;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .slide-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding: 30px;
+    }
+    
+    .config-section {
+      gap: 25px;
+    }
+    
+    .workload-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .slide-title-container {
+      padding: 30px 25px 20px;
+    }
+    
+    .slide-title {
+      font-size: 24px;
+      letter-spacing: 4px;
+    }
+    
+    .slide-subtitle {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    
+    .slide-content {
+      padding: 25px 20px;
+    }
+    
+    .workload-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .config-block {
+      .block-header {
+        padding: 16px 20px 12px;
+      }
+      
+      .block-content {
+        padding: 16px 20px 20px;
+      }
+    }
+  }
+} 

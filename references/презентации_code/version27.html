@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оптимизация конфигураций СУБД</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ALS Sector Regular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f8f9fa;
+            color: #1e293b;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .slide-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex; /* Use flexbox for the container */
+            flex-direction: column; /* Stack title and content vertically */
+            min-height: calc(100vh - 40px);
+        }
+
+        .slide-title {
+            font-size: 3.2rem;
+            font-weight: 300;
+            color: #1e293b;
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            flex-shrink: 0; /* Prevent title from shrinking */
+        }
+        
+        .main-content-container {
+            display: flex;
+            flex-grow: 1; /* Allow this container to fill remaining vertical space */
+        }
+
+        .databases-wrapper {
+            flex: 2; /* Left column takes ~67% of the width */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically centers the group of cards */
+            gap: 20px; /* Clean spacing between cards */
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .results-wrapper {
+            flex: 1; /* Right column takes ~33% of the width */
+            display: flex; /* Make it a flex container so its child can grow */
+        }
+
+        /* Overview Section - Results Integration */
+        .optimization-overview {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
+            color: white;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1; /* Make this section fill its parent (.results-wrapper) */
+            display: flex; /* Use flex to easily center content */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .optimization-overview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        /* === MODIFIED SECTION STARTS HERE === */
+
+        .overview-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column; /* CHANGED: Stack items vertically */
+            justify-content: center;   /* CHANGED: Center the column vertically */
+            align-items: center;     /* ADDED: Center items horizontally */
+            gap: 40px;               /* ADDED: Space between text and metrics */
+            max-width: 450px;        /* CHANGED: Make the column narrower */
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px 0;         /* ADDED: Vertical padding for spacing */
+        }
+
+        .overview-text {
+            flex: none;              /* REMOVED: flex: 1 */
+            max-width: 100%;         /* CHANGED: Allow it to fill the container */
+            text-align: center;      /* ADDED: Center the title and subtitle */
+        }
+
+        .overview-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;     /* Adjusted margin */
+            color: #e0f2fe;
+        }
+
+        .overview-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;        /* REMOVED: margin-bottom: 30px */
+        }
+
+        .metrics-grid {
+            display: flex;           /* CHANGED: from 'grid' to 'flex' */
+            flex-direction: column;  /* ADDED: Stack metric cards vertically */
+            gap: 20px;               /* CHANGED: Controls vertical spacing now */
+            width: 100%;             /* ADDED: Ensure it takes full width of parent */
+        }
+        
+        /* === MODIFIED SECTION ENDS HERE === */
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 28px 24px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .metric-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 18px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .metric-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #e0f2fe;
+        }
+
+        .metric-value {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Database Configuration Cards - BIGGER & BOLDER */
+        .db-config-section {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            background: #fafbfc;
+            position: relative;
+        }
+
+        .db-config-section:last-child {
+            border-right: none;
+        }
+
+        .postgresql-section {
+            background: linear-gradient(145deg, rgba(51, 103, 145, 0.08) 0%, rgba(74, 144, 194, 0.08) 100%);
+        }
+
+        .mongodb-section {
+            background: linear-gradient(145deg, rgba(19, 170, 82, 0.08) 0%, rgba(0, 237, 100, 0.08) 100%);
+        }
+
+        .cassandra-section {
+            background: linear-gradient(145deg, rgba(18, 135, 168, 0.08) 0%, rgba(27, 163, 198, 0.08) 100%);
+        }
+
+        .db-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .db-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.8rem;
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .postgresql-icon {
+            background: linear-gradient(135deg, #336791 0%, #4a90c2 100%);
+        }
+
+        .mongodb-icon {
+            background: linear-gradient(135deg, #13aa52 0%, #00ed64 100%);
+        }
+
+        .cassandra-icon {
+            background: linear-gradient(135deg, #1287a8 0%, #1ba3c6 100%);
+        }
+
+        .db-info h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .db-info p {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* MUCH BIGGER Terminal Styling */
+        .code-terminal {
+            width: 100%;
+            max-width: 780px;
+            background: #1e293b;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border: 2px solid #334155;
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+
+        .code-terminal:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+        }
+
+        .terminal-header {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .terminal-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .terminal-dot.red { 
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        .terminal-dot.yellow { 
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        .terminal-dot.green { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .terminal-filename {
+            color: #cbd5e1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            margin-left: 16px;
+            font-weight: 500;
+        }
+
+        .terminal-content {
+            padding: 32px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            min-height: 180px;
+        }
+
+        .comment { color: #64748b; font-style: italic; }
+        .config-key { color: #60a5fa; font-weight: 500; }
+        .config-value { color: #34d399; }
+        .config-number { color: #fbbf24; font-weight: 600; }
+
+        /* Responsive Design - UPDATED FOR FLEXBOX WRAPPER LAYOUT */
+        @media (max-width: 1200px) {
+            .main-content-container {
+                flex-direction: column; /* Stack columns vertically */
+            }
+
+            .databases-wrapper {
+                border-right: none;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+                flex: none; /* Reset flex sizing */
+            }
+
+            .results-wrapper {
+                flex: none; /* Reset flex sizing */
+            }
+
+            .optimization-overview {
+                min-height: auto; /* Allow height to be determined by content */
+                padding: 50px 40px;
+            }
+
+            .overview-content {
+                max-width: 600px;
+            }
+
+            .db-config-section {
+                padding: 40px 30px;
+            }
+
+            .code-terminal {
+                max-width: 580px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 2.4rem;
+                padding: 40px 15px;
+            }
+
+            .optimization-overview {
+                padding: 40px 25px;
+            }
+
+            .db-config-section {
+                padding: 30px 20px;
+            }
+
+            .code-terminal {
+                max-width: 100%;
+            }
+        }
+
+        /* Enhanced Animations - FOR BIGGER IMPACT */
+        .slide-container {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .metric-card {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .metric-card:nth-child(1) { animation-delay: 0.3s; }
+        .metric-card:nth-child(2) { animation-delay: 0.5s; }
+        .metric-card:nth-child(3) { animation-delay: 0.7s; }
+
+        .code-terminal {
+            animation: slideInScale 1s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9) translateY(40px);
+        }
+
+        .postgresql-section .code-terminal { animation-delay: 0.9s; }
+        .mongodb-section .code-terminal { animation-delay: 1.1s; }
+        .cassandra-section .code-terminal { animation-delay: 1.3s; }
+
+        .db-header {
+            animation: slideInLeft 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .postgresql-section .db-header { animation-delay: 0.8s; }
+        .mongodb-section .db-header { animation-delay: 1.0s; }
+        .cassandra-section .db-header { animation-delay: 1.2s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Subtle background animation */
+        .optimization-overview::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Оптимизация конфигураций СУБД</h1>
+        
+        <div class="main-content-container">
+            <!-- LEFT WRAPPER - Database Configurations (7 parts) -->
+            <div class="databases-wrapper">
+                <!-- PostgreSQL Configuration -->
+                <div class="db-config-section postgresql-section">
+                    <div class="db-header">
+                        <div class="db-icon postgresql-icon">🐘</div>
+                        <div class="db-info">
+                            <h3>PostgreSQL</h3>
+                            <p>Реляционная СУБД</p>
+                        </div>
+                    </div>
+                    <div class="code-terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div>
+                            </div>
+                            <div class="terminal-filename">postgresql.conf</div>
+                        </div>
+                        <div class="terminal-content">
+<span class="comment"># Увеличение подключений для высокого параллелизма</span>
+<span class="config-key">max_connections</span> = <span class="config-number">500</span> <span class="comment"># вместо 100</span>
+
+<span class="comment"># аутентификация для тестирования</span>
+<span class="config-key">local all all trust</span>
+<span class="config-key">host all all</span> <span class="config-value">127.0.0.1/32</span> <span class="config-key">trust</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MongoDB Configuration -->
+                <div class="db-config-section mongodb-section">
+                    <div class="db-header">
+                        <div class="db-icon mongodb-icon">🍃</div>
+                        <div class="db-info">
+                            <h3>MongoDB</h3>
+                            <p>Документоориентированная СУБД</p>
+                        </div>
+                    </div>
+                    <div class="code-terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div>
+                            </div>
+                            <div class="terminal-filename">mongod.conf</div>
+                        </div>
+                        <div class="terminal-content">
+<span class="config-key">cacheSizeGB:</span> <span class="config-number">16</span> <span class="comment"># увеличение кэша</span>
+<span class="config-key">maxIncomingConnections:</span> <span class="config-number">1000</span>
+
+<span class="config-key">wiredTigerConcurrentReadTransactions:</span> <span class="config-number">1000</span>
+<span class="config-key">wiredTigerConcurrentWriteTransactions:</span> <span class="config-number">1000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cassandra Configuration -->
+                <div class="db-config-section cassandra-section">
+                    <div class="db-header">
+                        <div class="db-icon cassandra-icon">⚡</div>
+                        <div class="db-info">
+                            <h3>Cassandra</h3>
+                            <p>Колоночная СУБД</p>
+                        </div>
+                    </div>
+                    <div class="code-terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div>
+                            </div>
+                            <div class="terminal-filename">cassandra.yaml</div>
+                        </div>
+                        <div class="terminal-content">
+<span class="comment"># Увеличение подключений для высокого параллелизма</span>
+<span class="config-key">concurrent_reads:</span> <span class="config-number">256</span> <span class="comment"># вместо 32</span>
+<span class="config-key">concurrent_writes:</span> <span class="config-number">256</span> <span class="comment"># вместо 32</span>
+<span class="config-key">concurrent_materialized_view_writes:</span> <span class="config-number">256</span> <span class="comment"># вместо 32</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT WRAPPER - Results (3 parts) -->
+            <div class="results-wrapper">
+                <div class="optimization-overview">
+                    <div class="overview-content">
+                        <div class="overview-text">
+                            <h2 class="overview-title">Результаты оптимизации</h2>
+                            <p class="overview-subtitle">
+                                Комплексная настройка конфигураций всех трех СУБД для обеспечения 
+                                максимальной производительности при высоких нагрузках
+                            </p>
+                        </div>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-title">Производительность</div>
+                                <div class="metric-value">Минимизация узких мест при высоком параллелизме</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon">📊</div>
+                                <div class="metric-title">Стабильность</div>
+                                <div class="metric-value">Стабильная производительность на всех уровнях нагрузки</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-icon">🎯</div>
+                                <div class="metric-title">Эффективность</div>
+                                <div class="metric-value">Оптимальное использование аппаратных ресурсов</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Settings, Monitor, Cloud, Layers } from 'lucide-react';
 import './TestEnvironmentSlide.scss';

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>КОНФИГУРАЦИЯ YCSB</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        color: #334155;
+        line-height: 1.5;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .slide {
+        max-width: 1600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .slide-header {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+        color: white;
+        padding: 40px 50px 30px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .slide-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        transform: translate(30%, -30%);
+      }
+
+      .slide-title {
+        font-size: 36px;
+        font-weight: 300;
+        letter-spacing: 8px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 2;
+      }
+
+      .slide-subtitle {
+        font-size: 16px;
+        opacity: 0.9;
+        font-weight: 400;
+        letter-spacing: 2px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .slide-content {
+        flex: 1;
+        padding: 40px 50px;
+        display: grid;
+        grid-template-columns: 360px 1fr 360px;
+        gap: 35px;
+      }
+
+      .config-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .config-block {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .config-block:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 40px rgba(59, 130, 246, 0.15);
+      }
+
+      .config-block.primary {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        border: none;
+      }
+
+      .config-block.accent {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border: 1px solid #cbd5e1;
+      }
+
+      .block-header {
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .primary .block-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .block-icon {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(59, 130, 246, 0.1);
+        border-radius: 8px;
+        font-size: 16px;
+      }
+
+      .primary .block-icon {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+
+      .block-title {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .block-content {
+        padding: 20px 24px 24px;
+      }
+
+      .config-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .config-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        font-size: 15px;
+      }
+
+      .primary .config-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .config-item:last-child {
+        border-bottom: none;
+      }
+
+      .config-label {
+        font-weight: 700;
+        font-size: 16px;
+        color: #64748b;
+      }
+
+      .primary .config-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 700;
+      }
+
+      .config-value {
+        font-weight: 600;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        background: rgba(59, 130, 246, 0.1);
+        padding: 6px 10px;
+        border-radius: 6px;
+        color: #2563eb;
+      }
+
+      .primary .config-value {
+        background: rgba(255, 255, 255, 0.2);
+        color: #dbeafe;
+      }
+
+      .workload-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        height: 100%;
+      }
+
+      .workload-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border: 2px solid #f1f5f9;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 120px;
+      }
+
+      .workload-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .workload-card:hover {
+        border-color: #3b82f6;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+      }
+
+      .workload-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .workload-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .workload-letter {
+        background: #2563eb;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .workload-description {
+        font-size: 17px;
+        color: #64748b;
+        margin-bottom: 12px;
+        line-height: 1.3;
+        flex-grow: 1;
+      }
+
+      .workload-type {
+        font-weight: 600;
+        color: #475569;
+        display: block;
+      }
+
+      .workload-detail {
+        font-style: italic;
+        display: block;
+        margin-top: 2px;
+      }
+
+      .workload-metrics {
+        font-size: 16px;
+        color: #1e293b;
+        font-weight: 600;
+        background: #f8fafc;
+        padding: 10px 14px;
+        border-radius: 6px;
+        border-left: 3px solid #3b82f6;
+      }
+
+      .procedure-list {
+        list-style: none;
+        font-size: 17px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .procedure-item {
+        position: relative;
+        padding-left: 20px;
+        line-height: 1.4;
+        color: #475569;
+      }
+
+      .procedure-item:before {
+        content: "▶";
+        color: #3b82f6;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 10px;
+      }
+
+      .drivers-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .driver-item {
+        background: white;
+        border-radius: 10px;
+        padding: 18px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .driver-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, #3b82f6, #60a5fa);
+      }
+
+      .driver-item:hover {
+        border-color: #3b82f6;
+        transform: translateX(4px);
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+      }
+
+      .driver-name {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 17px;
+        margin-bottom: 8px;
+      }
+
+      .driver-desc {
+        color: #64748b;
+        font-size: 15px;
+        line-height: 1.3;
+      }
+
+      .stat-highlight {
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        color: #92400e;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid #f59e0b;
+        margin-left: 10px;
+      }
+
+      .features-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 17px;
+        line-height: 1.4;
+        color: #475569;
+      }
+
+      .feature-icon {
+        width: 18px;
+        height: 18px;
+        background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 10px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">К О Н Ф И Г У Р А Ц И Я&nbsp;&nbsp;Y C S B</h1>
+        <p class="slide-subtitle">Параметры тестирования производительности СУБД</p>
+      </div>
+
+      <div class="slide-content">
+        <!-- Левая колонка -->
+        <div class="config-section">
+          <div class="config-block primary">
+            <div class="block-header">
+              <div class="block-icon">⚙</div>
+              <h3 class="block-title">Основные параметры</h3>
+            </div>
+            <div class="block-content">
+              <ul class="config-list">
+                <li class="config-item">
+                  <span class="config-label">Record Count</span>
+                  <span class="config-value">4,894,081</span>
+                </li>
+                <li class="config-item">
+                  <span class="config-label">Operation Count</span>
+                  <span class="config-value">4,894,081</span>
+                </li>
+                <li class="config-item">
+                  <span class="config-label">Threads</span>
+                  <span class="config-value">[4,8,16,32,64,128,256]</span>
+                </li>
+                <li class="config-item">
+                  <span class="config-label">Распределение</span>
+                  <span class="config-value">zipfian</span>
+                </li>
+                <li class="config-item">
+                  <span class="config-label">Повторения</span>
+                  <span class="config-value">3x</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="config-block accent">
+            <div class="block-header">
+              <div class="block-icon">🗄</div>
+              <h3 class="block-title">Драйверы СУБД</h3>
+            </div>
+            <div class="block-content">
+              <div class="drivers-grid">
+                <div class="driver-item">
+                  <div class="driver-name">MongoDB</div>
+                  <div class="driver-desc">Стандартный YCSB драйвер для документоориентированной СУБД</div>
+                </div>
+                <div class="driver-item">
+                  <div class="driver-name">Cassandra</div>
+                  <div class="driver-desc">CQL-драйвер для колоночной распределенной СУБД</div>
+                </div>
+                <div class="driver-item">
+                  <div class="driver-name">PostgreSQL</div>
+                  <div class="driver-desc">JDBC-драйвер для реляционной СУБД</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Средняя колонка -->
+        <div class="config-section">
+          <div class="config-block" style="flex: 1; display: flex; flex-direction: column;">
+            <div class="block-header">
+              <div class="block-icon">📊</div>
+              <h3 class="block-title">Рабочие нагрузки <span class="stat-highlight">6 типов</span></h3>
+            </div>
+            <div class="block-content" style="height: 100%;">
+              <div class="workload-grid">
+                <div class="workload-card">
+                  <h4 class="workload-title">
+                    <span class="workload-letter">A</span>
+                    Workload A
+                  </h4>
+                  <div class="workload-description">
+                    <span class="workload-type">Baseline</span>
+                    <span class="workload-detail">сбалансированная нагрузка</span>
+                  </div>
+                  <div class="workload-metrics">50% read / 50% update</div>
+                </div>
+
+                <div class="workload-card">
+                  <h4 class="workload-title">
+                    <span class="workload-letter">B</span>
+                    Workload B
+                  </h4>
+                  <div class="workload-description">
+                    <span class="workload-type">Read-Heavy</span>
+                    <span class="workload-detail">преимущественно чтение</span>
+                  </div>
+                  <div class="workload-metrics">95% read / 5% update</div>
+                </div>
+
+                <div class="workload-card">
+                  <h4 class="workload-title">
+                    <span class="workload-letter">C</span>
+                    Workload C
+                  </h4>
+                  <div class="workload-description">
+                    <span class="workload-type">Read-Only</span>
+                    <span class="workload-detail">только чтение</span>
+                  </div>
+                  <div class="workload-metrics">100% read</div>
+                </div>
+
+                <div class="workload-card">
+                  <h4 class="workload-title">
+                    <span class="workload-letter">D</span>
+                    Workload D
+                  </h4>
+                  <div class="workload-description">
+                    <span class="workload-type">Read-Latest</span>
+                    <span class="workload-detail">чтение последних записей</span>
+                  </div>
+                  <div class="workload-metrics">95% read latest / 5% insert</div>
+                </div>
+
+                <div class="workload-card">
+                  <h4 class="workload-title">
+                    <span class="workload-letter">E</span>
+                    Workload E
+                  </h4>
+                  <div class="workload-description">
+                    <span class="workload-type">Scan-Heavy</span>
+                    <span class="workload-detail">сканирование диапазонов</span>
+                  </div>
+                  <div class="workload-metrics">95% scan / 5% insert</div>
+                </div>
+
+                <div class="workload-card">
+                  <h4 class="workload-title">
+                    <span class="workload-letter">F</span>
+                    Workload F
+                  </h4>
+                  <div class="workload-description">
+                    <span class="workload-type">Read-Modify-Write</span>
+                    <span class="workload-detail">чтение с модификацией</span>
+                  </div>
+                  <div class="workload-metrics">50% read / 50% RMW</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="config-section">
+          <div class="config-block">
+            <div class="block-header">
+              <div class="block-icon">🔄</div>
+              <h3 class="block-title">Процедура тестирования</h3>
+            </div>
+            <div class="block-content">
+              <ul class="procedure-list">
+                <li class="procedure-item">
+                  Трехкратное повторение каждой комбинации параметров
+                </li>
+                <li class="procedure-item">
+                  Полный перезапуск СУБД между тестами
+                </li>
+                <li class="procedure-item">
+                  Продолжительность тестирования: ≥120 минут
+                </li>
+                <li class="procedure-item">
+                  Идентичные параметры для всех исследуемых СУБД
+                </li>
+                <li class="procedure-item">
+                  Единая методология измерения производительности
+                </li>
+                <li class="procedure-item">
+                  Стандартизированная форма отчетности
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="config-block accent">
+            <div class="block-header">
+              <div class="block-icon">✨</div>
+              <h3 class="block-title">Ключевые особенности</h3>
+            </div>
+            <div class="block-content">
+              <ul class="features-list">
+                <li class="feature-item">
+                  <div class="feature-icon">⚡</div>
+                  Zipfian распределение для имитации реальных "горячих" точек доступа
+                </li>
+                <li class="feature-item">
+                  <div class="feature-icon">🎯</div>
+                  Минимизация влияния кэширования на результаты измерений
+                </li>
+                <li class="feature-item">
+                  <div class="feature-icon">📐</div>
+                  Обеспечение полной сопоставимости результатов между СУБД
+                </li>
+                <li class="feature-item">
+                  <div class="feature-icon">🔍</div>
+                  Комплексное покрытие спектра рабочих нагрузок
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

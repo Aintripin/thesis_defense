@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2 } from 'lucide-react'
 import './Navigation.css'
 
 interface SlideEntry {
@@ -29,6 +29,9 @@ const Navigation: React.FC = () => {
     { path: '/data-preparation', label: 'Стратегии подготовки данных', icon: Zap, end: true },
     { path: '/data-preparation/cassandra', label: 'Подготовка данных для Cassandra', icon: Zap },
     { path: '/test-environment', label: 'Тестовое окружение', icon: Settings },
+    { path: '/technical-implementation', label: 'Техническая реализация', icon: Cog },
+    { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
+    { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]

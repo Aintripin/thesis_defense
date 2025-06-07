@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Техническая реализация загрузки</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'ALS Sector Regular', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f8f9fa;
+            color: #1e293b;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .slide-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            min-height: calc(100vh - 40px);
+        }
+
+        .slide-title {
+            font-size: 3.2rem;
+            font-weight: 300;
+            color: #1e293b;
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            letter-spacing: 1px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 0;
+            min-height: calc(100vh - 240px);
+        }
+
+        .challenges-section {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .challenges-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .challenges-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #e0f2fe;
+            text-align: center;
+        }
+
+        .results-section {
+            background: #f8fafc;
+            padding: 50px 40px;
+            border-left: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #2563eb;
+            text-align: center;
+        }
+
+        .results-content {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Mini Cards Styling */
+        .mini-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mini-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .mini-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-section .mini-card {
+            background: #ffffff;
+            border: 1px solid rgba(66, 133, 244, 0.1);
+        }
+
+        .results-section .mini-card:hover {
+            background: #eff6ff;
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+        }
+
+        .mini-card-icon {
+            width: 8px;
+            height: 8px;
+            background: #60a5fa;
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .results-section .mini-card-icon {
+            background: #2563eb;
+        }
+
+        .mini-card-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: inherit;
+        }
+
+        .results-section .mini-card-text {
+            color: #475569;
+        }
+
+        .databases-section {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0;
+        }
+
+        /* --- UPDATED FLEXBOX LAYOUT FOR DB CARDS --- */
+        .db-card {
+            padding: 50px 30px;
+            position: relative;
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            min-height: 400px;
+        }
+
+        .db-card:last-child {
+            border-right: none;
+        }
+
+        .mongodb-card {
+            background: linear-gradient(135deg, #13aa52 0%, #00ed64 100%);
+            color: white;
+        }
+
+        .postgresql-card {
+            background: linear-gradient(135deg, #336791 0%, #4a90c2 100%);
+            color: white;
+        }
+
+        .cassandra-card {
+            background: linear-gradient(135deg, #1287a8 0%, #1ba3c6 100%);
+            color: white;
+        }
+
+        .db-title-container {
+            flex: 0 0 40px;
+            position: relative;
+            align-self: stretch;
+        }
+        
+        .db-title {
+            font-size: 2rem;
+            font-weight: 600;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            white-space: nowrap;
+            letter-spacing: 2px;
+        }
+        
+        .db-content {
+            flex-grow: 1;
+            margin-left: 0;
+            max-width: none;
+            width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .db-content .mini-cards-container {
+            width: 100%;
+            max-width: 450px;
+        }
+        /* --- END OF UPDATED SECTION --- */
+
+
+        .db-card .mini-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .db-card .mini-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .db-card .mini-card-icon {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .db-card .mini-card-text {
+            font-size: 1.1rem;
+        }
+
+        /* --- UPDATED RESPONSIVE DESIGN --- */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+
+            .databases-section {
+                grid-template-columns: 1fr;
+            }
+
+            .db-card {
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                min-height: 300px;
+                padding: 40px 30px;
+                flex-direction: row;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .db-card:last-child {
+                border-bottom: none;
+            }
+
+            .db-title-container {
+                flex: 0 0 150px;
+                align-self: auto;
+                position: static;
+            }
+
+            .db-title {
+                position: static;
+                transform: none;
+                text-align: center;
+                font-size: 1.8rem;
+            }
+
+            .db-content {
+                flex: 1;
+            }
+
+            .challenges-section,
+            .results-section {
+                padding: 40px 30px;
+            }
+
+            .section-title,
+            .results-title {
+                font-size: 1.6rem;
+            }
+
+            .mini-card-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 2.4rem;
+                padding: 40px 15px;
+            }
+
+            .challenges-section,
+            .results-section,
+            .db-card {
+                padding: 30px 20px;
+            }
+
+            .section-title,
+            .results-title {
+                font-size: 1.4rem;
+            }
+
+            .mini-card {
+                padding: 16px;
+            }
+
+            .mini-card-text {
+                font-size: 1rem;
+            }
+
+            .db-card {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .db-title-container {
+                flex-basis: auto;
+            }
+
+            .db-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animation effects */
+        .slide-container {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mini-card {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .challenges-section .mini-card:nth-child(1) { animation-delay: 0.1s; }
+        .challenges-section .mini-card:nth-child(2) { animation-delay: 0.2s; }
+        .challenges-section .mini-card:nth-child(3) { animation-delay: 0.3s; }
+        .challenges-section .mini-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .results-section .mini-card:nth-child(1) { animation-delay: 0.5s; }
+        .results-section .mini-card:nth-child(2) { animation-delay: 0.6s; }
+        .results-section .mini-card:nth-child(3) { animation-delay: 0.7s; }
+
+        .db-card .mini-card:nth-child(1) { animation-delay: 0.8s; }
+        .db-card .mini-card:nth-child(2) { animation-delay: 0.9s; }
+        .db-card .mini-card:nth-child(3) { animation-delay: 1.0s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <h1 class="slide-title">Техническая реализация загрузки</h1>
+        
+        <div class="content-grid">
+            <div class="challenges-section">
+                <div class="challenges-content">
+                    <h2 class="section-title">Основные технические вызовы:</h2>
+                    <div class="mini-cards-container">
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Различия в форматах данных между СУБД</div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Совместимость драйверов и API</div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Оптимизация процесса загрузки для больших объемов</div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Обеспечение целостности данных при трансформации</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <h2 class="results-title">Результаты технической реализации:</h2>
+                <div class="results-content">
+                    <div class="mini-cards-container">
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Успешная загрузка 4,894,081 записей во все три СУБД</div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Сохранение целостности данных при всех трансформациях</div>
+                        </div>
+                        <div class="mini-card">
+                            <div class="mini-card-icon"></div>
+                            <div class="mini-card-text">Подготовка единообразных тестовых таблиц</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="databases-section">
+                <div class="db-card mongodb-card">
+                    <div class="db-title-container">
+                        <div class="db-title">MongoDB</div>
+                    </div>
+                    <div class="db-content">
+                        <div class="mini-cards-container">
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Прямое использование mongoimport для JSON</div>
+                            </div>
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Настройка параметров импорта для оптимизации скорости</div>
+                            </div>
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Создание индексов после загрузки для минимизации времени</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="db-card postgresql-card">
+                    <div class="db-title-container">
+                        <div class="db-title">PostgreSQL</div>
+                    </div>
+                    <div class="db-content">
+                        <div class="mini-cards-container">
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Пакетная загрузка с использованием psycopg2-binary</div>
+                            </div>
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Оптимизация SQL-запросов для трансформации JSON в реляционную структуру</div>
+                            </div>
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Использование COPY для быстрой загрузки больших объемов</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="db-card cassandra-card">
+                    <div class="db-title-container">
+                        <div class="db-title">Cassandra</div>
+                    </div>
+                    <div class="db-content">
+                        <div class="mini-cards-container">
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Предобработка данных (JSON → NDJSON, выравнивание, валидация данных)</div>
+                            </div>
+                            <div class="mini-card">
+                                <div class="mini-card-icon"></div>
+                                <div class="mini-card-text">Конфигурация DSBulk (создание конфигурационных файлов, настройка маппинга полей м/источником и целевой схемой, оптимизация параметров загрузки)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
