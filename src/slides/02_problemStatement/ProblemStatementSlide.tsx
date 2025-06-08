@@ -4,29 +4,29 @@ import ProblemSection from './components/ProblemSection'
 import ObjectivesSection from './components/ObjectivesSection'
 import ResearchObjectsSection from './components/ResearchObjectsSection'
 import ResearchSubjectSection from './components/ResearchSubjectSection'
-import './ProblemStatementSlide.scss'
+import styles from './ProblemStatementSlide.module.scss'
 
 const ProblemStatementSlide: React.FC = () => {
   return (
-    <div className="problem-statement-slide">
+    <div className={styles.problemStatementSlide}>
       <motion.div 
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">П О С Т А Н О В К А&nbsp;&nbsp;З А Д А Ч И</h1>
-        <p className="slide-subtitle">Проблема, цель и объекты исследования</p>
+        <h1 className={styles.slideTitle}>П О С Т А Н О В К А&nbsp;&nbsp;З А Д А Ч И</h1>
+        <p className={styles.slideSubtitle}>Проблема, цель и объекты исследования</p>
       </motion.div>
 
-      <div className="content-container">
-        <div className="content-wrapper">
-          <div className="section-row">
+      <div className={styles.contentContainer}>
+        <div className={styles.contentWrapper}>
+          <div className={styles.sectionRow}>
             <ProblemSection />
             <ObjectivesSection />
           </div>
 
-          <div className="bottom-row">
+          <div className={styles.bottomRow}>
             <ResearchObjectsSection />
             <ResearchSubjectSection />
           </div>

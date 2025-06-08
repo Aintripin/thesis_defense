@@ -1,42 +1,43 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import styles from '../ProblemStatementSlide.module.scss'
 
 const ResearchSubjectSection: React.FC = () => {
   return (
     <motion.div 
-      className="subject-section"
+      className={styles.subjectSection}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.5 }}
     >
-      <div className="section-title">
-        <div className="section-icon">📊</div>
+      <div className={styles.sectionTitle}>
+        <div className={styles.sectionIcon}>📊</div>
         Предмет исследования
       </div>
 
-      <div className="metrics-grid">
-        <div className="metric-card">
-          <div className="metric-label">Пропускная способность</div>
-          <div className="metric-value">ops/sec</div>
+      <div className={styles.metricsGrid}>
+        <div className={styles.metricCard}>
+          <div className={styles.metricLabel}>Пропускная способность</div>
+          <div className={styles.metricValue}>ops/sec</div>
         </div>
 
-        <div className="metric-card">
-          <div className="metric-label">Время отклика</div>
-          <div className="metric-value">Latency</div>
+        <div className={styles.metricCard}>
+          <div className={styles.metricLabel}>Время отклика</div>
+          <div className={styles.metricValue}>Latency</div>
         </div>
 
-        <div className="metric-card">
-          <div className="metric-label">Масштабируемость</div>
-          <div className="metric-value">Threads</div>
+        <div className={styles.metricCard}>
+          <div className={styles.metricLabel}>Масштабируемость</div>
+          <div className={styles.metricValue}>Threads</div>
         </div>
 
-        <div className="metric-card">
-          <div className="metric-label">Рабочие нагрузки</div>
-          <div className="metric-value">YCSB A-F</div>
+        <div className={styles.metricCard}>
+          <div className={styles.metricLabel}>Рабочие нагрузки</div>
+          <div className={styles.metricValue}>YCSB A-F</div>
         </div>
       </div>
 
-      <div className="ycsb-description">
+      <div className={styles.ycsbDescription}>
         Показатели при различных рабочих нагрузках<br />
         (CRUD, сканирование), генерируемых YCSB
       </div>

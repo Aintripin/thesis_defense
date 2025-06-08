@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import './MarketAnalysisSlide.scss'
+import styles from './MarketAnalysisSlide.module.scss'
 
 interface TaskItemProps {
   number: number
@@ -10,13 +10,13 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({ number, text, delay = 0 }) => (
   <motion.li 
-    className="task-item"
+    className={styles.taskItem}
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.6, delay }}
   >
-    <div className="task-number">{number}</div>
-    <div className="task-text" dangerouslySetInnerHTML={{ __html: text }} />
+    <div className={styles.taskNumber}>{number}</div>
+    <div className={styles.taskText} dangerouslySetInnerHTML={{ __html: text }} />
   </motion.li>
 )
 
@@ -31,19 +31,19 @@ interface PhaseProps {
 
 const Phase: React.FC<PhaseProps> = ({ phaseClass, icon, title, subtitle, tasks, delay = 0 }) => (
   <motion.div 
-    className={`phase ${phaseClass}`}
+    className={`${styles.phase} ${styles[phaseClass.replace('-', '')]}`}
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, delay }}
   >
-    <div className="phase-header">
-      <div className="phase-icon">{icon}</div>
+    <div className={styles.phaseHeader}>
+      <div className={styles.phaseIcon}>{icon}</div>
       <div>
-        <div className="phase-title">{title}</div>
-        <div className="phase-subtitle">{subtitle}</div>
+        <div className={styles.phaseTitle}>{title}</div>
+        <div className={styles.phaseSubtitle}>{subtitle}</div>
       </div>
     </div>
-    <ul className="tasks-list">
+    <ul className={styles.tasksList}>
       {tasks.map((task, index) => (
         <TaskItem 
           key={task.number}
@@ -141,22 +141,22 @@ export const MarketAnalysisSlide: React.FC = () => {
   ]
 
   return (
-    <div className="market-analysis-slide">
+    <div className={styles.marketAnalysisSlide}>
       {/* Title Container */}
       <motion.div 
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">П Е Р Е Ч Е Н Ь&nbsp;&nbsp;Р Е Ш Ё Н Н Ы Х&nbsp;&nbsp;З А Д А Ч</h1>
-        <p className="slide-subtitle">Этапы исследования и реализации</p>
+        <h1 className={styles.slideTitle}>П Е Р Е Ч Е Н Ь&nbsp;&nbsp;Р Е Ш Ё Н Н Ы Х&nbsp;&nbsp;З А Д А Ч</h1>
+        <p className={styles.slideSubtitle}>Этапы исследования и реализации</p>
       </motion.div>
 
       {/* Content Container */}
-      <div className="content-container">
-        <div className="content-wrapper">
-          <div className="phases-grid">
+      <div className={styles.contentContainer}>
+        <div className={styles.contentWrapper}>
+          <div className={styles.phasesGrid}>
             {phases.map((phase, index) => (
               <Phase
                 key={phase.phaseClass}
@@ -168,12 +168,12 @@ export const MarketAnalysisSlide: React.FC = () => {
 
           {/* Summary */}
           <motion.div 
-            className="summary"
+            className={styles.summary}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <div className="summary-text">
+            <div className={styles.summaryText}>
               📈 ВСЕГО ВЫПОЛНЕНО: 12 задач | 4 этапа | 3 СУБД | 189 тестов
             </div>
           </motion.div>

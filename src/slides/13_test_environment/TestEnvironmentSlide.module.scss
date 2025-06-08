@@ -1,0 +1,389 @@
+@import '../../styles/variables';
+
+// Local SCSS Variables
+$primaryColor: #4285f4;
+$fontFamilyHeading: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$fontFamilyBody: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$lightBg: #f8f9fa;
+$white: #ffffff;
+
+.testEnvironmentSlide {
+  background: $lightBg;
+  color: #374151;
+  padding: 0 0 20px 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  
+  .slideTitleContainer {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 12px 32px;
+    text-align: center;
+    width: 100vw;
+    margin: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    
+    .slideTitle {
+      font-family: $fontFamilyHeading;
+      font-size: 28px;
+      font-weight: 300;
+      color: #1e293b;
+      margin: 0;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+  }
+  
+  .contentContainer {
+    max-width: 1600px;
+    margin: 20px auto;
+    background: $white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    flex: 1;
+    padding: 0;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    
+    height: calc(100vh - 140px);
+    width: 100%;
+    box-sizing: border-box;
+    
+    // Left content area
+    .mainContentArea {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      
+      .mainContent {
+        flex: 1;
+        width: 100%;
+        overflow-y: auto;
+        padding: 60px 40px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        overflow: hidden;
+        
+        .configSection {
+          .sectionTitle {
+            font-family: $fontFamilyHeading;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: $primaryColor;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            
+            .sectionIcon {
+              width: 24px;
+              height: 24px;
+              
+              &.lucideIcon {
+                color: $primaryColor;
+              }
+              
+              // For SVG imports like ToolsIcon
+              &:not(.lucideIcon) {
+                filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(214deg) brightness(97%) contrast(97%);
+              }
+            }
+          }
+          
+          .specGrid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
+          
+          .softwareGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1rem;
+          }
+          
+          .specItem, .softwareItem {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(66, 133, 244, 0.1);
+            
+            &:hover {
+              background: #eff6ff;
+              transform: translateX(4px);
+              box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
+              
+              .specIcon, .softwareIcon {
+                background: rgba(66, 133, 244, 0.1);
+                border-color: $primaryColor;
+                box-shadow: 0 0 20px rgba(66, 133, 244, 0.3);
+                transform: scale(1.05);
+                
+                img {
+                  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(214deg) brightness(97%) contrast(97%);
+                }
+                
+                &.vmware img {
+                  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(214deg) brightness(97%) contrast(97%);
+                }
+              }
+            }
+            
+            .specIcon {
+              width: 42px;
+              height: 42px;
+              background: #f1f5f9;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              border: 2px solid rgba(66, 133, 244, 0.2);
+              transition: all 0.3s ease;
+              
+              img {
+                width: 26px;
+                height: 26px;
+                object-fit: contain;
+                transition: all 0.3s ease;
+              }
+              
+              &.vmware img {
+                width: 32px;
+                height: 32px;
+                filter: brightness(0.8);
+                transition: all 0.3s ease;
+              }
+            }
+            
+            .softwareIcon {
+              width: 42px;
+              height: 42px;
+              background: #f1f5f9;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              border: 2px solid rgba(66, 133, 244, 0.2);
+              transition: all 0.3s ease;
+              
+              img {
+                width: 28px;
+                height: 28px;
+                object-fit: contain;
+                transition: all 0.3s ease;
+              }
+            }
+            
+            .specText {
+              font-family: $fontFamilyBody;
+              font-size: 1.5rem;
+              font-weight: 500;
+              color: #1e293b;
+              line-height: 1.3;
+            }
+          }
+        }
+      }
+      
+      .emblemContainer {
+        position: absolute;
+        bottom: 2rem;
+        right: calc(520px + 2rem);
+        z-index: 1;
+        
+        .bmstuEmblem {
+          width: 120px;
+          height: 120px;
+          opacity: 0.15;
+          object-fit: contain;
+          filter: grayscale(1);
+        }
+      }
+    }
+    
+    // Right panel
+    .rightPanel {
+      width: 520px;
+      height: 100%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 2.5rem;
+      padding: 60px;
+      box-sizing: border-box;
+      border-radius: 0 20px 20px 0;
+      position: relative;
+      
+      // Subtle pattern overlay
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+          radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+          radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: 1;
+        border-radius: 0 20px 20px 0;
+      }
+      
+      .principleSection {
+        position: relative;
+        z-index: 2;
+        
+        .principleTitle {
+          font-family: $fontFamilyHeading;
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-bottom: 1.5rem;
+          color: #dbeafe;
+          line-height: 1.3;
+          
+          .highlight {
+            background: linear-gradient(135deg, #fde047 0%, #facc15 50%, #eab308 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+          }
+        }
+        
+        .principleList {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          
+          li {
+            padding: 0.3rem 0;
+            padding-left: 1.8rem;
+            position: relative;
+            line-height: 1.2;
+            font-size: 1.6rem;
+            
+            &::before {
+              content: "•";
+              position: absolute;
+              left: 0;
+              color: #60a5fa;
+              font-weight: bold;
+              font-size: 1.5rem;
+              top: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Responsive design
+  @media (max-width: 1400px) {
+    .contentContainer {
+      .mainContentArea .mainContent {
+        padding: 40px 30px;
+      }
+      
+      .rightPanel {
+        width: 460px;
+        padding: 40px;
+        
+        .principleSection .principleTitle {
+          font-size: 1.2rem;
+        }
+        
+        .principleSection .principleList li {
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .contentContainer {
+      flex-direction: column;
+      height: auto;
+      
+      .mainContentArea .mainContent {
+        padding: 40px 30px;
+        
+        .softwareGrid {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto;
+        }
+      }
+      
+      .rightPanel {
+        width: 100%;
+        order: -1;
+        padding: 40px 30px;
+        border-radius: 20px 20px 0 0;
+        
+        &::before {
+          border-radius: 20px 20px 0 0;
+        }
+        
+        .principleSection .principleTitle {
+          font-size: 1.1rem;
+        }
+        
+        .principleSection .principleList li {
+          font-size: 0.9rem;
+        }
+      }
+      
+      .emblemContainer {
+        right: 2rem;
+      }
+    }
+    
+    .slideTitleContainer .slideTitle {
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .contentContainer {
+      .mainContentArea .mainContent {
+        // padding: 30px 20px;
+      }
+      
+      .rightPanel {
+        // padding: 30px 20px;
+      }
+    }
+    
+    .slideTitleContainer .slideTitle {
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+  }
+} 

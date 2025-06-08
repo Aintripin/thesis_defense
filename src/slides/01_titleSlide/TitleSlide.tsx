@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
-import './TitleSlide.scss'
+import styles from './TitleSlide.module.scss'
 
 const TitleSlide: React.FC = () => {
   const navigate = useNavigate()
@@ -12,11 +12,11 @@ const TitleSlide: React.FC = () => {
   }
 
   return (
-    <div className="title-slide-fullscreen">
-      <div className="title-background">
+    <div className={styles.titleSlideFullscreen}>
+      <div className={styles.titleBackground}>
         {/* Background Logo - Large and positioned in corner */}
         <motion.div 
-          className="background-logo"
+          className={styles.backgroundLogo}
           initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
           animate={{ 
             opacity: 1, 
@@ -37,7 +37,7 @@ const TitleSlide: React.FC = () => {
           <img 
             src="/assets/bmstu/bmstu-logo-white.png" 
             alt="BMSTU Logo" 
-            className="bmstu-logo-background"
+            className={styles.bmstuLogoBackground}
             onError={(e) => {
               // Fallback to SVG if PNG fails
               const target = e.target as HTMLImageElement;
@@ -47,45 +47,45 @@ const TitleSlide: React.FC = () => {
         </motion.div>
 
         {/* Main Content Wrapper with Consistent Left Alignment */}
-        <div className="title-main-content">
-          <div className="title-content-container">
+        <div className={styles.titleMainContent}>
+          <div className={styles.titleContentContainer}>
             {/* University Name */}
             <motion.div 
-              className="university-header"
+              className={styles.universityHeader}
               initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <h1 className="university-title">
+              <h1 className={styles.universityTitle}>
                 Московский государственный технический университет им. Н.Э. Баумана
               </h1>
             </motion.div>
 
             {/* Main Content Area - Centers title vertically */}
-            <div className="main-content-area">
+            <div className={styles.mainContentArea}>
               {/* Main Title */}
               <motion.div 
-                className="title-section"
+                className={styles.titleSection}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
               >
-                <h2 className="main-title">
-                  <span className="title-line">Исследование производительности</span>
-                  <span className="title-line">постреляционных баз данных с</span>
-                  <span className="title-line">применением технологий тестирования</span>
+                <h2 className={styles.mainTitle}>
+                  <span className={styles.titleLine}>Исследование производительности</span>
+                  <span className={styles.titleLine}>постреляционных баз данных с</span>
+                  <span className={styles.titleLine}>применением технологий тестирования</span>
                 </h2>
               </motion.div>
 
               {/* Start Presentation Button */}
               <motion.div 
-                className="start-button-container"
+                className={styles.startButtonContainer}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.6 }}
               >
                 <button 
-                  className="start-presentation-btn"
+                  className={styles.startPresentationBtn}
                   onClick={handleStartPresentation}
                 >
                   <span>Начать презентацию</span>
@@ -95,35 +95,35 @@ const TitleSlide: React.FC = () => {
 
               {/* Student and Supervisor Info */}
               <motion.div 
-                className="info-wrapper"
+                className={styles.infoWrapper}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
                 {/* Student Info Container */}
-                <div className="student-container">
-                  <div className="info-section">
-                    <div className="labels-container">
-                      <span className="label">Студент:</span>
-                      <span className="label">Группа</span>
+                <div className={styles.studentContainer}>
+                  <div className={styles.infoSection}>
+                    <div className={styles.labelsContainer}>
+                      <span className={styles.label}>Студент:</span>
+                      <span className={styles.label}>Группа</span>
                     </div>
-                    <div className="values-container">
-                      <span className="value">Кучин Е.А.</span>
-                      <span className="value">ИУ5-44М</span>
+                    <div className={styles.valuesContainer}>
+                      <span className={styles.value}>Кучин Е.А.</span>
+                      <span className={styles.value}>ИУ5-44М</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Supervisor Info Container */}
-                <div className="supervisor-container">
-                  <div className="info-section">
-                    <div className="labels-container">
-                      <span className="label supervisor-label">Научный руководитель:</span>
-                      <span className="label empty-label"></span>
+                <div className={styles.supervisorContainer}>
+                  <div className={styles.infoSection}>
+                    <div className={styles.labelsContainer}>
+                      <span className={`${styles.label} ${styles.supervisorLabel}`}>Научный руководитель:</span>
+                      <span className={`${styles.label} ${styles.emptyLabel}`}></span>
                     </div>
-                    <div className="values-container">
-                      <span className="value supervisor-name">Виноградова М.В.</span>
-                      <span className="value supervisor-title">доцент, к.т.н.</span>
+                    <div className={styles.valuesContainer}>
+                      <span className={`${styles.value} ${styles.supervisorName}`}>Виноградова М.В.</span>
+                      <span className={`${styles.value} ${styles.supervisorTitle}`}>доцент, к.т.н.</span>
                     </div>
                   </div>
                 </div>
@@ -131,14 +131,14 @@ const TitleSlide: React.FC = () => {
             </div>
 
             {/* Footer Date */}
-            <div className="footer-area">
+            <div className={styles.footerArea}>
               <motion.div 
-                className="date-footer"
+                className={styles.dateFooter}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
               >
-                <span className="date">18.06.2025</span>
+                <span className={styles.date}>18.06.2025</span>
               </motion.div>
             </div>
           </div>

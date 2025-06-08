@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Zap, Settings, Database } from 'lucide-react'
 import screwdriverWrenchIcon from '../../assets/screwdriver-wrench-svgrepo-com.svg'
-import './TestingSlide.scss'
+import styles from './TestingSlide.module.scss'
 
 interface ToolCardProps {
   name: string
@@ -13,15 +13,15 @@ interface ToolCardProps {
 
 const ToolCard: React.FC<ToolCardProps> = ({ name, description, category, delay = 0 }) => (
   <motion.div 
-    className={`tool-card ${category}`}
+    className={`${styles.toolCard} ${styles[category]}`}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
   >
-    <div className="tool-header">
-      <span className="tool-name">{name}</span>
+    <div className={styles.toolHeader}>
+      <span className={styles.toolName}>{name}</span>
     </div>
-    <p className="tool-description">{description}</p>
+    <p className={styles.toolDescription}>{description}</p>
   </motion.div>
 )
 
@@ -33,7 +33,7 @@ interface SidebarCardProps {
 
 const SidebarCard: React.FC<SidebarCardProps> = ({ title, content, delay = 0 }) => (
   <motion.div 
-    className="sidebar-section"
+    className={styles.sidebarSection}
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.5, delay }}
@@ -75,56 +75,56 @@ export const TestingSlide: React.FC = () => {
   ]
 
   return (
-    <div className="testing-slide">
+    <div className={styles.testingSlide}>
       {/* Title Container */}
       <motion.div 
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">Т Е Х Н О Л О Г И И&nbsp;&nbsp;Т Е С Т И Р О В А Н И Я&nbsp;&nbsp;С У Б Д</h1>
+        <h1 className={styles.slideTitle}>Т Е Х Н О Л О Г И И&nbsp;&nbsp;Т Е С Т И Р О В А Н И Я&nbsp;&nbsp;С У Б Д</h1>
       </motion.div>
 
       {/* Content Container - Will become a grid parent */}
-      <div className="content-container">
+      <div className={styles.contentContainer}>
         {/* Sidebar - Now a direct child of content-container */}
         <motion.div 
-          className="sidebar"
+          className={styles.sidebar}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="sidebar-header">
-            <div className="sidebar-icon-cluster">
-              <Database size={40} className="sidebar-tool-icon database" />
+          <div className={styles.sidebarHeader}>
+            <div className={styles.sidebarIconCluster}>
+              <Database size={40} className={`${styles.sidebarToolIcon} ${styles.database}`} />
               <img 
                 src={screwdriverWrenchIcon} 
                 alt="Tools" 
-                className="sidebar-tool-icon screwdriver-wrench"
+                className={`${styles.sidebarToolIcon} ${styles.screwdriverWrench}`}
               />
             </div>
-            <h2 className="sidebar-title">ТЕХНОЛОГИИ ТЕСТИРОВАНИЯ СУБД</h2>
-            <p className="sidebar-subtitle">Обзор инструментов бенчмаркинга</p>
+            <h2 className={styles.sidebarTitle}>ТЕХНОЛОГИИ ТЕСТИРОВАНИЯ СУБД</h2>
+            <p className={styles.sidebarSubtitle}>Обзор инструментов бенчмаркинга</p>
           </div>
         </motion.div>
 
         {/* Main Content Area Wrapper - New wrapper, direct child of content-container */}
-        <div className="main-content-area-wrapper">
+        <div className={styles.mainContentAreaWrapper}>
           {/* Main Content (original structure with sections and tools) */}
-          <div className="main-content">
+          <div className={styles.mainContent}>
             {/* Specialized Benchmarks Section */}
             <motion.div 
-              className="tools-section"
+              className={styles.toolsSection}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="section-header">
-                <Zap className="section-icon" />
-                <h3 className="section-title">Специализированные бенчмарки</h3>
+              <div className={styles.sectionHeader}>
+                <Zap className={styles.sectionIcon} />
+                <h3 className={styles.sectionTitle}>Специализированные бенчмарки</h3>
               </div>
-              <div className="tools-grid specialized">
+              <div className={`${styles.toolsGrid} ${styles.specialized}`}>
                 {specializedTools.map((tool, index) => (
                   <ToolCard
                     key={tool.name}
@@ -139,16 +139,16 @@ export const TestingSlide: React.FC = () => {
 
             {/* Universal Benchmarks Section */}
             <motion.div 
-              className="tools-section"
+              className={styles.toolsSection}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <div className="section-header">
-                <Settings className="section-icon" />
-                <h3 className="section-title">Универсальные бенчмарки</h3>
+              <div className={styles.sectionHeader}>
+                <Settings className={styles.sectionIcon} />
+                <h3 className={styles.sectionTitle}>Универсальные бенчмарки</h3>
               </div>
-              <div className="tools-grid universal">
+              <div className={`${styles.toolsGrid} ${styles.universal}`}>
                 {universalTools.map((tool, index) => (
                   <ToolCard
                     key={tool.name}

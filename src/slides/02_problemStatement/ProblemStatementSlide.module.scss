@@ -22,7 +22,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   line-height: $line-height;
 }
 
-.problem-statement-slide {
+.problemStatementSlide {
   @include als-font();
   background: $light-bg;
   color: $text-primary;
@@ -33,7 +33,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   gap: 0;
 
   // Title container styled like original horizontal navbar - FULL WIDTH
-  .slide-title-container {
+  .slideTitleContainer {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
@@ -46,7 +46,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     top: 0;
     z-index: 100;
 
-    .slide-title {
+    .slideTitle {
       @include als-font(28px, 600, 1.2);
       letter-spacing: 3px;
       color: $text-dark;
@@ -54,7 +54,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
       text-transform: uppercase;
     }
 
-    .slide-subtitle {
+    .slideSubtitle {
       @include als-font(14px, 500, 1.3);
       color: $blue-primary;
       letter-spacing: 1px;
@@ -62,7 +62,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     }
   }
 
-  .content-container {
+  .contentContainer {
     max-width: 1550px;
     margin: 20px auto 20px auto;
     background: $white;
@@ -78,7 +78,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   }
 
   // Centered content wrapper
-  .content-wrapper {
+  .contentWrapper {
     width: 100%;
     max-width: 1400px;
     display: flex;
@@ -88,20 +88,20 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     justify-content: center;
   }
 
-  .section-row {
+  .sectionRow {
     display: flex;
     gap: 30px;
     width: 100%;
   }
 
-  .bottom-row {
+  .bottomRow {
     display: flex;
     gap: 30px;
     width: 100%;
   }
 
   // Problem Section - Natural height
-  .problem-section {
+  .problemSection {
     flex: 2;
     background: linear-gradient(135deg, $blue-light 0%, $blue-medium 100%);
     border-radius: 16px;
@@ -112,7 +112,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     min-height: 420px;
   }
 
-  .problems-grid {
+  .problemsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 18px;
@@ -120,7 +120,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex: 1;
   }
 
-  .problem-card {
+  .problemCard {
     background: rgba($white, 0.7);
     border-radius: 12px;
     padding: 26px;
@@ -135,7 +135,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
       box-shadow: 0 4px 12px rgba($blue-primary, 0.1);
     }
 
-    .problem-title {
+    .problemTitle {
       @include als-font(19px, 600, 1.2);
       color: $blue-primary;
       margin-bottom: 14px;
@@ -143,12 +143,12 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
       letter-spacing: 0.5px;
     }
 
-    .problem-text {
+    .problemText {
       @include als-font(16px, 400, 1.4);
       color: $text-secondary;
       flex: 1;
 
-      .highlight-number {
+      .highlightNumber {
         font-weight: 700;
         color: $text-dark;
         background: $gradient-gold;
@@ -160,7 +160,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     }
   }
 
-  .ycsb-badge {
+  .ycsbBadge {
     display: inline-block;
     background: linear-gradient(135deg, $blue-primary 0%, #1d4ed8 100%);
     color: $white;
@@ -174,14 +174,14 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   }
 
   // Objectives Section - Natural height
-  .objectives-section {
+  .objectivesSection {
     flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 420px;
   }
 
-  .objective-block {
+  .objectiveBlock {
     background: $light-bg;
     border-radius: 16px;
     padding: 30px;
@@ -191,7 +191,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex-direction: column;
   }
 
-  .objective-list {
+  .objectiveList {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -201,7 +201,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     gap: 18px;
   }
 
-  .objective-item {
+  .objectiveItem {
     padding: 16px 0;
     @include als-font(17px, 400, 1.4);
     color: $text-secondary;
@@ -230,7 +230,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   }
 
   // Common Section Styles
-  .section-title {
+  .sectionTitle {
     @include als-font(26px, 600, 1.2);
     color: $text-dark;
     margin-bottom: 25px;
@@ -241,7 +241,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     gap: 15px;
   }
 
-  .section-icon {
+  .sectionIcon {
     width: 30px;
     height: 30px;
     background: $blue-primary;
@@ -254,7 +254,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   }
 
   // Entities Section
-  .entities-section {
+  .entitiesSection {
     flex: 1;
     background: $light-bg;
     border-radius: 16px;
@@ -262,13 +262,13 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     border: 1px solid $border-light;
   }
 
-  .db-grid {
+  .dbGrid {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
 
-  .db-item {
+  .dbItem {
     display: flex;
     align-items: center;
     gap: 18px;
@@ -278,7 +278,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     border: 1px solid $border-light;
   }
 
-  .db-icon {
+  .dbIcon {
     width: 46px;
     height: 46px;
     border-radius: 8px;
@@ -288,35 +288,35 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     color: $white;
     @include als-font(20px, 600, 1);
 
-    &.db-postgresql {
+    &.dbPostgresql {
       background: linear-gradient(135deg, #8b5cf6, #7c3aed);
     }
 
-    &.db-mongodb {
+    &.dbMongodb {
       background: linear-gradient(135deg, #10b981, #059669);
     }
 
-    &.db-cassandra {
+    &.dbCassandra {
       background: linear-gradient(135deg, #f59e0b, #d97706);
     }
   }
 
-  .db-info {
+  .dbInfo {
     flex: 1;
   }
 
-  .db-name {
+  .dbName {
     @include als-font(19px, 600, 1.2);
     color: $text-dark;
   }
 
-  .db-type {
+  .dbType {
     @include als-font(15px, 400, 1.2);
     color: $text-muted;
   }
 
   // Subject Section
-  .subject-section {
+  .subjectSection {
     flex: 1;
     background: $light-bg;
     border-radius: 16px;
@@ -324,14 +324,14 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     border: 1px solid $border-light;
   }
 
-  .metrics-grid {
+  .metricsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     margin-bottom: 22px;
   }
 
-  .metric-card {
+  .metricCard {
     background: $white;
     border-radius: 8px;
     padding: 20px;
@@ -339,7 +339,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     text-align: center;
   }
 
-  .metric-label {
+  .metricLabel {
     @include als-font(13px, 400, 1.2);
     color: $text-muted;
     margin-bottom: 10px;
@@ -347,12 +347,12 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     letter-spacing: 0.5px;
   }
 
-  .metric-value {
+  .metricValue {
     @include als-font(19px, 600, 1.2);
     color: $blue-primary;
   }
 
-  .ycsb-description {
+  .ycsbDescription {
     @include als-font(15px, 400, 1.4);
     color: $text-muted;
     text-align: center;
@@ -361,67 +361,67 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
 
 // Responsive Design
 @media (max-width: 1200px) {
-  .problem-statement-slide {
+  .problemStatementSlide {
     padding: 20px;
 
-    .slide-title-container {
+    .slideTitleContainer {
       padding: 25px 30px;
       margin-bottom: 20px;
       max-width: 100%;
     }
 
-    .content-container {
+    .contentContainer {
       padding: 40px 30px;
     }
 
-    .content-wrapper {
+    .contentWrapper {
       gap: 40px;
     }
 
-    .section-row {
+    .sectionRow {
       flex-direction: column;
       gap: 20px;
     }
 
-    .bottom-row {
+    .bottomRow {
       flex-direction: column;
       gap: 20px;
     }
 
-    .problems-grid {
+    .problemsGrid {
       grid-template-columns: 1fr;
     }
 
-    .problem-section,
-    .objectives-section {
+    .problemSection,
+    .objectivesSection {
       min-height: auto;
     }
   }
 }
 
 @media (max-width: 768px) {
-  .problem-statement-slide {
-    .slide-title-container {
-      .slide-title {
+  .problemStatementSlide {
+    .slideTitleContainer {
+      .slideTitle {
         font-size: 28px;
         letter-spacing: 3px;
       }
 
-      .slide-subtitle {
+      .slideSubtitle {
         font-size: 16px;
         letter-spacing: 1px;
       }
     }
 
-    .content-container {
+    .contentContainer {
       padding: 30px 20px;
     }
 
-    .content-wrapper {
+    .contentWrapper {
       gap: 30px;
     }
 
-    .metrics-grid {
+    .metricsGrid {
       grid-template-columns: 1fr;
     }
   }

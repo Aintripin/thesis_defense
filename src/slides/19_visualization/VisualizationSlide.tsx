@@ -1,67 +1,67 @@
 import React from 'react';
-import './VisualizationSlide.scss';
+import styles from './VisualizationSlide.module.scss';
 
 const VisualizationSlide = () => {
   return (
-    <div className="visualization-slide">
+    <div className={styles.visualizationSlide}>
       {/* Header like slides 17 & 18 */}
-      <div className="slide-header">
-        <h1 className="slide-title">В И З У А Л И З А Ц И Я&nbsp;&nbsp;И&nbsp;&nbsp;Р Е К О М Е Н Д А Ц И И</h1>
-        <p className="slide-subtitle">Apache Superset дашборды</p>
+      <div className={styles.slideHeader}>
+        <h1 className={styles.slideTitle}>В И З У А Л И З А Ц И Я&nbsp;&nbsp;И&nbsp;&nbsp;Р Е К О М Е Н Д А Ц И И</h1>
+        <p className={styles.slideSubtitle}>Apache Superset дашборды</p>
       </div>
 
       {/* Main content area */}
-      <div className="content-container">
-        <div className="content-grid">
+      <div className={styles.contentContainer}>
+        <div className={styles.contentGrid}>
           {/* Left column: Visualization */}
-          <div className="content-section">
-            <div className="section-block">
-              <div className="superset-header">
-                <div className="superset-title">Apache Superset</div>
-                <div className="superset-desc">
+          <div className={styles.contentSection}>
+            <div className={styles.sectionBlock}>
+              <div className={styles.supersetHeader}>
+                <div className={styles.supersetTitle}>Apache Superset</div>
+                <div className={styles.supersetDesc}>
                   Платформа для интерактивной визуализации данных
                 </div>
               </div>
 
-              <div className="block-title">Типы созданных визуализаций:</div>
-              <ul className="visualization-list">
-                <li className="viz-item">
+              <div className={styles.blockTitle}>Типы созданных визуализаций:</div>
+              <ul className={styles.visualizationList}>
+                <li className={styles.vizItem}>
                   Линейные графики пропускной способности по количеству потоков
                 </li>
-                <li className="viz-item">
+                <li className={styles.vizItem}>
                   Гистограммы сравнения производительности по workload'ам
                 </li>
-                <li className="viz-item">Тепловые карты задержек операций</li>
-                <li className="viz-item">
+                <li className={styles.vizItem}>Тепловые карты задержек операций</li>
+                <li className={styles.vizItem}>
                   Сравнительные диаграммы масштабируемости СУБД
                 </li>
               </ul>
 
-              <div className="block-title">Ключевые дашборды:</div>
-              <div className="dashboard-grid">
-                <div className="dashboard-item">
-                  <div className="dashboard-name">"Обзор производительности"</div>
-                  <div className="dashboard-desc">
+              <div className={styles.blockTitle}>Ключевые дашборды:</div>
+              <div className={styles.dashboardGrid}>
+                <div className={styles.dashboardItem}>
+                  <div className={styles.dashboardName}>"Обзор производительности"</div>
+                  <div className={styles.dashboardDesc}>
                     Сравнение всех СУБД по основным метрикам
                   </div>
                 </div>
-                <div className="dashboard-item">
-                  <div className="dashboard-name">"Анализ масштабируемости"</div>
-                  <div className="dashboard-desc">
+                <div className={styles.dashboardItem}>
+                  <div className={styles.dashboardName}>"Анализ масштабируемости"</div>
+                  <div className={styles.dashboardDesc}>
                     Поведение при увеличении параллелизма
                   </div>
                 </div>
-                <div className="dashboard-item">
-                  <div className="dashboard-name">"Детализация по операциям"</div>
-                  <div className="dashboard-desc">
+                <div className={styles.dashboardItem}>
+                  <div className={styles.dashboardName}>"Детализация по операциям"</div>
+                  <div className={styles.dashboardDesc}>
                     Задержки для различных типов операций
                   </div>
                 </div>
-                <div className="dashboard-item">
-                  <div className="dashboard-name">
+                <div className={styles.dashboardItem}>
+                  <div className={styles.dashboardName}>
                     "Workload-специфичные паттерны"
                   </div>
-                  <div className="dashboard-desc">
+                  <div className={styles.dashboardDesc}>
                     Оптимальные сценарии для каждой СУБД
                   </div>
                 </div>
@@ -70,82 +70,82 @@ const VisualizationSlide = () => {
           </div>
 
           {/* Right column: Recommendations */}
-          <div className="content-section">
-            <div className="section-block">
-              <div className="block-title">Рекомендации по выбору СУБД:</div>
+          <div className={styles.contentSection}>
+            <div className={styles.sectionBlock}>
+              <div className={styles.blockTitle}>Рекомендации по выбору СУБД:</div>
 
-              <div className="db-section db-mongodb">
-                <div className="db-title mongodb-color">MongoDB</div>
-                <div className="db-subtitle">Оптимальные сценарии:</div>
-                <ul className="db-features">
-                  <li className="db-feature">Приложения с гибкой схемой данных</li>
-                  <li className="db-feature">
+              <div className={`${styles.dbSection} ${styles.dbMongodb}`}>
+                <div className={`${styles.dbTitle} ${styles.mongodbColor}`}>MongoDB</div>
+                <div className={styles.dbSubtitle}>Оптимальные сценарии:</div>
+                <ul className={styles.dbFeatures}>
+                  <li className={styles.dbFeature}>Приложения с гибкой схемой данных</li>
+                  <li className={styles.dbFeature}>
                     Системы с преобладанием операций чтения
                   </li>
-                  <li className="db-feature">Сложные вложенные документы</li>
+                  <li className={styles.dbFeature}>Сложные вложенные документы</li>
                 </ul>
-                <div className="performance-metrics">
-                  <div className="metric-card">
-                    <div className="metric-label">Workload D</div>
-                    <div className="metric-value">47.7k ops/sec</div>
+                <div className={styles.performanceMetrics}>
+                  <div className={styles.metricCard}>
+                    <div className={styles.metricLabel}>Workload D</div>
+                    <div className={styles.metricValue}>47.7k ops/sec</div>
                   </div>
-                  <div className="metric-card">
-                    <div className="metric-label">Workload E</div>
-                    <div className="metric-value">23.9k ops/sec</div>
+                  <div className={styles.metricCard}>
+                    <div className={styles.metricLabel}>Workload E</div>
+                    <div className={styles.metricValue}>23.9k ops/sec</div>
                   </div>
                 </div>
               </div>
 
-              <div className="db-section db-cassandra">
-                <div className="db-title cassandra-color">Cassandra</div>
-                <div className="db-subtitle">Сильные стороны:</div>
-                <ul className="db-features">
-                  <li className="db-feature">
+              <div className={`${styles.dbSection} ${styles.dbCassandra}`}>
+                <div className={`${styles.dbTitle} ${styles.cassandraColor}`}>Cassandra</div>
+                <div className={styles.dbSubtitle}>Сильные стороны:</div>
+                <ul className={styles.dbFeatures}>
+                  <li className={styles.dbFeature}>
                     Системы с высокой интенсивностью записи
                   </li>
-                  <li className="db-feature">
+                  <li className={styles.dbFeature}>
                     Лидер по пропускной способности Workload A-C
                   </li>
-                  <li className="db-feature">Низкие задержки операций обновления</li>
+                  <li className={styles.dbFeature}>Низкие задержки операций обновления</li>
                 </ul>
-                <div className="performance-metrics">
-                  <div className="metric-card">
-                    <div className="metric-label">Workload A-C</div>
-                    <div className="metric-value">24.2-29.2k ops/sec</div>
+                <div className={styles.performanceMetrics}>
+                  <div className={styles.metricCard}>
+                    <div className={styles.metricLabel}>Workload A-C</div>
+                    <div className={styles.metricValue}>24.2-29.2k ops/sec</div>
                   </div>
-                  <div className="metric-card">
-                    <div className="metric-label">Workload E</div>
-                    <div className="metric-value">1.81k ops/sec</div>
+                  <div className={styles.metricCard}>
+                    <div className={styles.metricLabel}>Workload E</div>
+                    <div className={styles.metricValue}>1.81k ops/sec</div>
                   </div>
                 </div>
-                <div className="limitations">
-                  <div className="limitations-title">Ограничения:</div>
-                  <div className="limitations-text">
+                <div className={styles.limitations}>
+                  <div className={styles.limitationsTitle}>Ограничения:</div>
+                  <div className={styles.limitationsText}>
                     Низкая эффективность сканирования
                   </div>
                 </div>
               </div>
 
-              <div className="db-section db-postgresql">
-                <div className="db-title postgresql-color">PostgreSQL</div>
-                <div className="db-subtitle">Универсальность:</div>
-                <ul className="db-features">
-                  <li className="db-feature">
+              <div className={`${styles.dbSection} ${styles.dbPostgresql}`}>
+                <div className={`${styles.dbTitle} ${styles.postgresqlColor}`}>PostgreSQL</div>
+                <div className={styles.dbSubtitle}>Универсальность:</div>
+                <ul className={styles.dbFeatures}>
+                  <li className={styles.dbFeature}>
                     Исключительная производительность Workload D
                   </li>
-                  <li className="db-feature">Полноценная ACID-совместимость</li>
-                  <li className="db-feature">
+                  <li className={styles.dbFeature}>Полноценная ACID-совместимость</li>
+                  <li className={styles.dbFeature}>
                     Нелинейная масштабируемость с пиком при 128 потоков
                   </li>
                 </ul>
-                <div className="performance-metrics">
-                  <div className="metric-card">
-                    <div className="metric-label">Workload D</div>
-                    <div className="metric-value">55.8k ops/sec</div>
+                <div className={styles.performanceMetrics}>
+                  <div className={styles.metricCard}>
+                    <div className={styles.metricLabel}>Workload D</div>
+                    <div className={styles.metricValue}>55.8k ops/sec</div>
                   </div>
-                  <div className="metric-card">
-                    <div className="metric-label">Workload E</div>
-                    <div className="metric-value">9.62k ops/sec</div>
+                  <div className={styles.metricCard}>
+                    <div className={styles.metricLabel}>Workload E</div>
+                    <div className={styles.metricValue}>9.62k ops/sec</div>
                   </div>
                 </div>
               </div>

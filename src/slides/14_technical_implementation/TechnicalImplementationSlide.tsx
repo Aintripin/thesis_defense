@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import './TechnicalImplementationSlide.scss';
+import styles from './TechnicalImplementationSlide.module.scss';
 
 // Animation variants
 const containerVariants = {
@@ -34,46 +34,46 @@ const sectionVariants = {
 
 export const TechnicalImplementationSlide = () => {
   return (
-    <div className="technical-implementation-slide">
+    <div className={styles.technicalImplementationSlide}>
       {/* Title Container */}
       <motion.div
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">ТЕХНИЧЕСКАЯ РЕАЛИЗАЦИЯ ЗАГРУЗКИ</h1>
+        <h1 className={styles.slideTitle}>ТЕХНИЧЕСКАЯ РЕАЛИЗАЦИЯ ЗАГРУЗКИ</h1>
       </motion.div>
 
       {/* Content Container */}
-      <div className="content-container">
-        <div className="content-grid">
+      <div className={styles.contentContainer}>
+        <div className={styles.contentGrid}>
           
           {/* Challenges Section */}
           <motion.div 
-            className="challenges-section"
+            className={styles.challengesSection}
             variants={sectionVariants}
             initial="hidden"
             animate="visible"
           >
-            <div className="challenges-content">
-              <h2 className="section-title">Основные технические вызовы:</h2>
-              <motion.div className="mini-cards-container" variants={containerVariants}>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Различия в форматах данных между СУБД</div>
+            <div className={styles.challengesContent}>
+              <h2 className={styles.sectionTitle}>Основные технические вызовы:</h2>
+              <motion.div className={styles.miniCardsContainer} variants={containerVariants}>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Различия в форматах данных между СУБД</div>
                 </motion.div>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Совместимость драйверов и API</div>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Совместимость драйверов и API</div>
                 </motion.div>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Оптимизация процесса загрузки для больших объемов</div>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Оптимизация процесса загрузки для больших объемов</div>
                 </motion.div>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Обеспечение целостности данных при трансформации</div>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Обеспечение целостности данных при трансформации</div>
                 </motion.div>
               </motion.div>
             </div>
@@ -81,56 +81,56 @@ export const TechnicalImplementationSlide = () => {
 
           {/* Results Section */}
           <motion.div 
-            className="results-section"
+            className={styles.resultsSection}
             variants={sectionVariants}
             initial="hidden"
             animate="visible"
           >
-            <h2 className="results-title">Результаты технической реализации:</h2>
-            <div className="results-content">
-              <motion.div className="mini-cards-container" variants={containerVariants}>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Успешная загрузка 4,894,081 записей во все три СУБД</div>
+            <h2 className={styles.resultsTitle}>Результаты технической реализации:</h2>
+            <div className={styles.resultsContent}>
+              <motion.div className={styles.miniCardsContainer} variants={containerVariants}>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Успешная загрузка 4,894,081 записей во все три СУБД</div>
                 </motion.div>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Сохранение целостности данных при всех трансформациях</div>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Сохранение целостности данных при всех трансформациях</div>
                 </motion.div>
-                <motion.div className="mini-card" variants={cardVariants}>
-                  <div className="mini-card-icon"></div>
-                  <div className="mini-card-text">Подготовка единообразных тестовых таблиц</div>
+                <motion.div className={styles.miniCard} variants={cardVariants}>
+                  <div className={styles.miniCardIcon}></div>
+                  <div className={styles.miniCardText}>Подготовка единообразных тестовых таблиц</div>
                 </motion.div>
               </motion.div>
             </div>
           </motion.div>
 
           {/* Databases Section */}
-          <div className="databases-section">
+          <div className={styles.databasesSection}>
             
             {/* MongoDB Card */}
             <motion.div 
-              className="db-card mongodb-card"
+              className={`${styles.dbCard} ${styles.mongodbCard}`}
               variants={sectionVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="db-title-container">
-                <div className="db-title">MongoDB</div>
+              <div className={styles.dbTitleContainer}>
+                <div className={styles.dbTitle}>MongoDB</div>
               </div>
-              <div className="db-content">
-                <motion.div className="mini-cards-container" variants={containerVariants}>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Прямое использование mongoimport для JSON</div>
+              <div className={styles.dbContent}>
+                <motion.div className={styles.miniCardsContainer} variants={containerVariants}>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Прямое использование mongoimport для JSON</div>
                   </motion.div>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Настройка параметров импорта для оптимизации скорости</div>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Настройка параметров импорта для оптимизации скорости</div>
                   </motion.div>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Создание индексов после загрузки для минимизации времени</div>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Создание индексов после загрузки для минимизации времени</div>
                   </motion.div>
                 </motion.div>
               </div>
@@ -138,27 +138,27 @@ export const TechnicalImplementationSlide = () => {
 
             {/* PostgreSQL Card */}
             <motion.div 
-              className="db-card postgresql-card"
+              className={`${styles.dbCard} ${styles.postgresqlCard}`}
               variants={sectionVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="db-title-container">
-                <div className="db-title">PostgreSQL</div>
+              <div className={styles.dbTitleContainer}>
+                <div className={styles.dbTitle}>PostgreSQL</div>
               </div>
-              <div className="db-content">
-                <motion.div className="mini-cards-container" variants={containerVariants}>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Пакетная загрузка с использованием psycopg2-binary</div>
+              <div className={styles.dbContent}>
+                <motion.div className={styles.miniCardsContainer} variants={containerVariants}>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Пакетная загрузка с использованием psycopg2-binary</div>
                   </motion.div>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Оптимизация SQL-запросов для трансформации JSON в реляционную структуру</div>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Оптимизация SQL-запросов для трансформации JSON в реляционную структуру</div>
                   </motion.div>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Использование COPY для быстрой загрузки больших объемов</div>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Использование COPY для быстрой загрузки больших объемов</div>
                   </motion.div>
                 </motion.div>
               </div>
@@ -166,23 +166,23 @@ export const TechnicalImplementationSlide = () => {
 
             {/* Cassandra Card */}
             <motion.div 
-              className="db-card cassandra-card"
+              className={`${styles.dbCard} ${styles.cassandraCard}`}
               variants={sectionVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="db-title-container">
-                <div className="db-title">Cassandra</div>
+              <div className={styles.dbTitleContainer}>
+                <div className={styles.dbTitle}>Cassandra</div>
               </div>
-              <div className="db-content">
-                <motion.div className="mini-cards-container" variants={containerVariants}>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Предобработка данных (JSON → NDJSON, выравнивание, валидация данных)</div>
+              <div className={styles.dbContent}>
+                <motion.div className={styles.miniCardsContainer} variants={containerVariants}>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Предобработка данных (JSON → NDJSON, выравнивание, валидация данных)</div>
                   </motion.div>
-                  <motion.div className="mini-card" variants={cardVariants}>
-                    <div className="mini-card-icon"></div>
-                    <div className="mini-card-text">Конфигурация DSBulk (создание конфигурационных файлов, настройка маппинга полей м/источником и целевой схемой, оптимизация параметров загрузки)</div>
+                  <motion.div className={styles.miniCard} variants={cardVariants}>
+                    <div className={styles.miniCardIcon}></div>
+                    <div className={styles.miniCardText}>Конфигурация DSBulk (создание конфигурационных файлов, настройка маппинга полей м/источником и целевой схемой, оптимизация параметров загрузки)</div>
                   </motion.div>
                 </motion.div>
               </div>

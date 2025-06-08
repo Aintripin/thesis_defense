@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../TestExecutionSlide.module.scss';
 
 interface NumberCardProps {
   number: string | number;
@@ -14,10 +15,10 @@ const NumberCard: React.FC<NumberCardProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`number-card ${className}`}>
-      <div className="big-number">{number}</div>
-      <div className="number-label">{label}</div>
-      <div className="calculation">{calculation}</div>
+    <div className={`${styles.numberCard} ${className}`}>
+      <div className={styles.bigNumber}>{number}</div>
+      <div className={styles.numberLabel}>{label}</div>
+      <div className={styles.calculation}>{calculation}</div>
     </div>
   );
 };

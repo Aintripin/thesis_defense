@@ -1,0 +1,518 @@
+@import '../../styles/variables';
+
+// Local SCSS Variables
+$fontFamilyHeading: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$fontFamilyBody: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$fontFamilyMono: 'JetBrains Mono', 'Courier New', monospace;
+$lightBg: #f8fafc;
+$white: #ffffff;
+
+.ycsbConfigurationSlide {
+  height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  
+  .contentContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mainContentContainer {
+    width: 100%;
+    max-width: 1600px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
+  }
+  
+  .slideTitleContainer {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+    color: white;
+    padding: 40px 50px 30px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+    }
+  }
+  
+  .slideTitle {
+    font-family: $fontFamilyHeading;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+    margin: 0;
+  }
+  
+  .slideSubtitle {
+    font-size: 20px;
+    opacity: 0.9;
+    font-weight: 400;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    color: white;
+  }
+  
+  .slideContent {
+    flex: 1;
+    padding: 40px 50px;
+    display: grid;
+    grid-template-columns: 360px 1fr 360px;
+    gap: 35px;
+    overflow-y: auto;
+  }
+  
+  // Fix for middle column workload card - make it grow and use flex layout
+  .slideContent > .configSection:nth-child(2) > .configBlock {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  // Make the content area within the workload card expand
+  .slideContent > .configSection:nth-child(2) > .configBlock > .blockContent {
+    flex: 1;
+    height: 100%;
+  }
+  
+  .configSection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .configBlock {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(59, 130, 246, 0.15);
+    }
+    
+    &.primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+    }
+    
+    &.accent {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid #cbd5e1;
+    }
+    
+    &.workloadsBlock {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-height: 99%;
+    }
+  }
+  
+  .blockHeader {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .primary .blockHeader {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .blockIcon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .primary .blockIcon {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+  }
+  
+  .blockTitle {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0;
+    font-family: $fontFamilyHeading;
+  }
+  
+  .blockContent {
+    padding: 20px 24px 24px;
+    
+    .workloadsBlock & {
+      height: 90%;
+    }
+  }
+  
+  .configList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .configItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+    font-size: 15px;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .primary .configItem {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .configLabel {
+    font-weight: 700;
+    font-size: 20px;
+    color: #64748b;
+  }
+  
+  .primary .configLabel {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 700;
+  }
+  
+  .configValue {
+    font-weight: 600;
+    font-family: $fontFamilyMono;
+    font-size: 15px;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #2563eb;
+  }
+  
+  .primary .configValue {
+    background: rgba(255, 255, 255, 0.2);
+    color: #dbeafe;
+  }
+  
+  .workloadGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: 100%;
+  }
+  
+  .workloadCard {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid #f1f5f9;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover {
+      border-color: #3b82f6;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+      
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+  }
+  
+  .workloadTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 10px 0;
+    font-family: $fontFamilyHeading;
+  }
+  
+  .workloadLetter {
+    background: #2563eb;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .workloadDescription {
+    font-size: 19px;
+    color: #64748b;
+    margin-bottom: 12px;
+    line-height: 1.3;
+    flex-grow: 1;
+  }
+  
+  .workloadType {
+    font-weight: 600;
+    color: #475569;
+    display: block;
+    font-size: 20px;
+  }
+  
+  .workloadDetail {
+    font-style: italic;
+    display: block;
+    margin-top: 2px;
+    font-style: italic;
+  }
+  
+  .workloadMetrics {
+    font-size: 19px;
+    color: #1e293b;
+    font-weight: 600;
+    background: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border-left: 3px solid #3b82f6;
+  }
+  
+  .procedureList {
+    list-style: none;
+    font-size: 19px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .procedureItem {
+    position: relative;
+    padding-left: 20px;
+    line-height: 1.4;
+    color: #475569;
+    
+    &:before {
+      content: "▶";
+      color: #3b82f6;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 10px;
+    }
+  }
+  
+  .driversGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .driverItem {
+    background: white;
+    border-radius: 10px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #3b82f6, #60a5fa);
+    }
+    
+    &:hover {
+      border-color: #3b82f6;
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+    }
+  }
+  
+  .driverName {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 19px;
+    margin-bottom: 8px;
+  }
+  
+  .driverDesc {
+    color: #64748b;
+    font-size: 17px;
+    line-height: 1.3;
+  }
+  
+  .statHighlight {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 1px solid #f59e0b;
+    margin-left: 10px;
+  }
+  
+  .featuresList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .featureItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 19px;
+    line-height: 1.4;
+    color: #475569;
+  }
+  
+  .featureIcon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  
+  // Responsive Design
+  @media (max-width: 1400px) {
+    .slideContent {
+      grid-template-columns: 320px 1fr 320px;
+      gap: 25px;
+      padding: 30px 40px;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .slideContent {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding: 30px;
+    }
+    
+    .configSection {
+      gap: 25px;
+    }
+    
+    .workloadGrid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .slideTitleContainer {
+      padding: 30px 25px 20px;
+    }
+    
+    .slideTitle {
+      font-size: 24px;
+      letter-spacing: 4px;
+    }
+    
+    .slideSubtitle {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    
+    .slideContent {
+      padding: 25px 20px;
+    }
+    
+    .workloadGrid {
+      grid-template-columns: 1fr;
+    }
+    
+    .configBlock {
+      .blockHeader {
+        padding: 16px 20px 12px;
+      }
+      
+      .blockContent {
+        padding: 16px 20px 20px;
+      }
+    }
+  }
+} 

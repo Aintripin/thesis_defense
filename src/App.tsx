@@ -17,7 +17,7 @@ import YcsbConfigurationSlide from './slides/16_ycsb_configuration'
 import TestExecutionSlide from './slides/17_test_execution'
 import AutomationSlide from './slides/18_automation/AutomationSlide'
 import VisualizationSlide from './slides/19_visualization/VisualizationSlide'
-import { ResultsSlide } from './slides/05_results'
+import { MainResultsSlide } from './slides/20_main_results'
 import { ConclusionSlide } from './slides/06_conclusion'
 import './App.css'
 
@@ -64,7 +64,7 @@ function App() {
         <Route path="/test-execution" element={<TestExecutionSlide />} />
         <Route path="/automation" element={<AutomationSlide />} />
         <Route path="/visualization" element={<VisualizationSlide />} />
-        <Route path="/results" element={<ResultsSlide />} />
+        <Route path="/main-results" element={<MainResultsSlide />} />
         <Route path="/conclusion" element={<ConclusionSlide />} />
       </Routes>
     </div>

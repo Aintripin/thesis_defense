@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import * as d3 from 'd3'
-import './MarketOverviewSlide.scss' // SCSS Import updated
+import styles from './MarketOverviewSlide.module.scss' // CSS Modules import
 
 interface MetricCardProps {
   title: string
@@ -12,12 +12,12 @@ interface MetricCardProps {
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, children, delay = 0, variant }) => (
   <motion.div 
-    className={`glass-card ${variant}`}
+    className={`${styles.glassCard} ${styles[variant]}`}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
   >
-    <div className="card-title">{title}</div>
+    <div className={styles.cardTitle}>{title}</div>
     {children}
   </motion.div>
 )
@@ -307,44 +307,44 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
   }, []);
 
   return (
-    <div className="content-container"> {/* Root element updated */}
+    <div className={styles.contentContainer}> {/* Using CSS Modules */}
       <motion.div 
-        className="chart-section"
+        className={styles.chartSection}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h3 className="chart-title">📈 Динамика роста рынка СУБД по типам (2023-2030)</h3>
-        <div className="chart-container" ref={chartRef}></div>
-        <div className="legend">
-          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#1E3A8A' }}></div><span>Реляционные СУБД</span></div>
-          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#3B82F6' }}></div><span>NoSQL СУБД</span></div>
-          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#60A5FA' }}></div><span>Облачные СУБД</span></div>
-          <div className="legend-item"><div className="legend-color" style={{ backgroundColor: '#93C5FD' }}></div><span>Графовые СУБД</span></div>
-          <div className="legend-item"><div className="legend-color total-line"></div><span>Общий объем рынка</span></div>
+        <h3 className={styles.chartTitle}>📈 Динамика роста рынка СУБД по типам (2023-2030)</h3>
+        <div className={styles.chartContainer} ref={chartRef}></div>
+        <div className={styles.legend}>
+          <div className={styles.legendItem}><div className={styles.legendColor} style={{ backgroundColor: '#1E3A8A' }}></div><span>Реляционные СУБД</span></div>
+          <div className={styles.legendItem}><div className={styles.legendColor} style={{ backgroundColor: '#3B82F6' }}></div><span>NoSQL СУБД</span></div>
+          <div className={styles.legendItem}><div className={styles.legendColor} style={{ backgroundColor: '#60A5FA' }}></div><span>Облачные СУБД</span></div>
+          <div className={styles.legendItem}><div className={styles.legendColor} style={{ backgroundColor: '#93C5FD' }}></div><span>Графовые СУБД</span></div>
+          <div className={styles.legendItem}><div className={`${styles.legendColor} ${styles.totalLine}`}></div><span>Общий объем рынка</span></div>
         </div>
       </motion.div>
-      <div className="sidebar">
-        <div className="sidebar-top-row">
+      <div className={styles.sidebar}>
+        <div className={styles.sidebarTopRow}>
           <MetricCard title="🎯 КЛЮЧЕВЫЕ МЕТРИКИ" variant="metrics" delay={0.4}>
-            <div className="metric-item"><div className="metric-label">Общий рост рынка:</div><div className="metric-value">100.79 → 292.22 млрд USD</div></div>
-            <div className="metric-item"><div className="metric-label">Темп роста (CAGR):</div><div className="metric-value">14.21% в год</div></div>
-            <div className="metric-item"><div className="metric-label">NoSQL рост:</div><div className="metric-value"><span className="growth-highlight">6-кратный</span></div></div>
-            <div className="metric-item"><div className="metric-label">Облачные решения:</div><div className="metric-value">5.4x рост к 2030</div></div>
+            <div className={styles.metricItem}><div className={styles.metricLabel}>Общий рост рынка:</div><div className={styles.metricValue}>100.79 → 292.22 млрд USD</div></div>
+            <div className={styles.metricItem}><div className={styles.metricLabel}>Темп роста (CAGR):</div><div className={styles.metricValue}>14.21% в год</div></div>
+            <div className={styles.metricItem}><div className={styles.metricLabel}>NoSQL рост:</div><div className={styles.metricValue}><span className={styles.growthHighlight}>6-кратный</span></div></div>
+            <div className={styles.metricItem}><div className={styles.metricLabel}>Облачные решения:</div><div className={styles.metricValue}>5.4x рост к 2030</div></div>
           </MetricCard>
           <MetricCard title="📊 СТРУКТУРНЫЕ ИЗМЕНЕНИЯ" variant="trends" delay={0.6}>
-            <div className="trend-item"><div className="trend-title">Реляционные СУБД</div><div className="trend-desc">Снижение доли с 70% до 55%</div></div>
-            <div className="trend-item"><div className="trend-title">NoSQL системы</div><div className="trend-desc">Взрывной рост: 7.55 → 47.41 млрд USD</div></div>
-            <div className="trend-item"><div className="trend-title">Облачные платформы</div><div className="trend-desc">Удвоение доли рынка</div></div>
-            <div className="trend-item"><div className="trend-title">Графовые БД</div><div className="trend-desc">Новая ниша с 4x ростом</div></div>
+            <div className={styles.trendItem}><div className={styles.trendTitle}>Реляционные СУБД</div><div className={styles.trendDesc}>Снижение доли с 70% до 55%</div></div>
+            <div className={styles.trendItem}><div className={styles.trendTitle}>NoSQL системы</div><div className={styles.trendDesc}>Взрывной рост: 7.55 → 47.41 млрд USD</div></div>
+            <div className={styles.trendItem}><div className={styles.trendTitle}>Облачные платформы</div><div className={styles.trendDesc}>Удвоение доли рынка</div></div>
+            <div className={styles.trendItem}><div className={styles.trendTitle}>Графовые БД</div><div className={styles.trendDesc}>Новая ниша с 4x ростом</div></div>
           </MetricCard>
         </div>
-        <div className="sidebar-bottom-row">
+        <div className={styles.sidebarBottomRow}>
           <MetricCard title="💡 ДРАЙВЕРЫ РОСТА" variant="insights" delay={0.8}>
-            <div className="insight-item"><strong>Цифровая трансформация</strong> предприятий</div>
-            <div className="insight-item"><strong>Экспоненциальный рост</strong> объемов данных</div>
-            <div className="insight-item"><strong>Потребность в масштабируемости</strong> и гибкости</div>
-            <div className="insight-item"><strong>Развитие IoT и Big Data</strong> технологий</div>
+            <div className={styles.insightItem}><strong>Цифровая трансформация</strong> предприятий</div>
+            <div className={styles.insightItem}><strong>Экспоненциальный рост</strong> объемов данных</div>
+            <div className={styles.insightItem}><strong>Потребность в масштабируемости</strong> и гибкости</div>
+            <div className={styles.insightItem}><strong>Развитие IoT и Big Data</strong> технологий</div>
           </MetricCard>
         </div>
       </div>

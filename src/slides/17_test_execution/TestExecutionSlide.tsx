@@ -1,5 +1,5 @@
 import React from 'react';
-import './TestExecutionSlide.scss';
+import styles from './TestExecutionSlide.module.scss';
 import {
   ProtocolSection,
   StatsSection,
@@ -9,18 +9,18 @@ import {
 
 const TestExecutionSlide = () => {
   return (
-    <div className="test-execution-slide">
+    <div className={styles.testExecutionSlide}>
       {/* The correct header, at the top of the page */}
-      <div className="slide-header">
-        <h1 className="slide-title">П Р О В Е Д Е Н И Е&nbsp;&nbsp;Т Е С Т О В</h1>
-        <p className="slide-subtitle">Методология и контроль качества</p>
+      <div className={styles.slideHeader}>
+        <h1 className={styles.slideTitle}>П Р О В Е Д Е Н И Е&nbsp;&nbsp;Т Е С Т О В</h1>
+        <p className={styles.slideSubtitle}>Методология и контроль качества</p>
       </div>
 
       {/* The main content area, separate from the header */}
-      <div className="content-container">
-        <div className="main-grid">
+      <div className={styles.contentContainer}>
+        <div className={styles.mainGrid}>
           {/* Left container with flexbox column */}
-          <div className="left-container">
+          <div className={styles.leftContainer}>
             {/* Protocol Section (Rectangle #1) */}
             <ProtocolSection />
             
@@ -29,12 +29,12 @@ const TestExecutionSlide = () => {
               number={63}
               label="Тестов на СУБД"
               calculation="21 конфигурация × 3 повторения"
-              className="card-63"
+              className={styles.card63}
             />
           </div>
 
           {/* Right container for L-shapes */}
-          <div className="right-container">
+          <div className={styles.rightContainer}>
             {/* L-shaped Stats Section (Blue L-shape) */}
             <StatsSection />
             
@@ -46,7 +46,7 @@ const TestExecutionSlide = () => {
               number={189}
               label="Общее количество тестов"
               calculation="3 СУБД × 6 workloads × 7 threads × 3 повторения"
-              className="card-189"
+              className={styles.card189}
             />
           </div>
         </div>

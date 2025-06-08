@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Settings, Monitor, Cloud, Layers } from 'lucide-react';
-import './TestEnvironmentSlide.scss';
+import styles from './TestEnvironmentSlide.module.scss';
 
 // Import SVG icons using path aliases
 import CpuIcon from '@assets/cpu.svg';
@@ -48,130 +48,130 @@ const itemVariants = {
 
 export const TestEnvironmentSlide = () => {
   return (
-    <div className="test-environment-slide">
+    <div className={styles.testEnvironmentSlide}>
       {/* Title Container */}
       <motion.div
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">ТЕСТОВОЕ ОКРУЖЕНИЕ</h1>
+        <h1 className={styles.slideTitle}>ТЕСТОВОЕ ОКРУЖЕНИЕ</h1>
       </motion.div>
 
       {/* Content Container - White container with two direct children */}
-      <div className="content-container">
+      <div className={styles.contentContainer}>
         
         {/* Left Content Area */}
-        <div className="main-content-area">
+        <div className={styles.mainContentArea}>
           <motion.div 
-            className="main-content"
+            className={styles.mainContent}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             {/* Hardware Configuration */}
-            <motion.div className="config-section" variants={sectionVariants}>
-              <h2 className="section-title">
-                <Monitor className="section-icon lucide-icon" />
+            <motion.div className={styles.configSection} variants={sectionVariants}>
+              <h2 className={styles.sectionTitle}>
+                <Monitor className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
                 Аппаратная и программная конфигурация
               </h2>
-              <div className="spec-grid">
-                <motion.div className="spec-item" variants={itemVariants}>
-                  <div className="spec-icon">
+              <div className={styles.specGrid}>
+                <motion.div className={styles.specItem} variants={itemVariants}>
+                  <div className={styles.specIcon}>
                     <img src={CpuIcon} alt="CPU" />
                   </div>
-                  <div className="spec-text">Intel Core i9-12900H (16 виртуальных ядер, 2.9 ГГц)</div>
+                  <div className={styles.specText}>Intel Core i9-12900H (16 виртуальных ядер, 2.9 ГГц)</div>
                 </motion.div>
-                <motion.div className="spec-item" variants={itemVariants}>
-                  <div className="spec-icon">
+                <motion.div className={styles.specItem} variants={itemVariants}>
+                  <div className={styles.specIcon}>
                     <img src={MemoryIcon} alt="Memory" />
                   </div>
-                  <div className="spec-text">24 ГБ DDR5 RAM, 4800MHz</div>
+                  <div className={styles.specText}>24 ГБ DDR5 RAM, 4800MHz</div>
                 </motion.div>
-                <motion.div className="spec-item" variants={itemVariants}>
-                  <div className="spec-icon">
+                <motion.div className={styles.specItem} variants={itemVariants}>
+                  <div className={styles.specIcon}>
                     <img src={HardDriveIcon} alt="Storage" />
                   </div>
-                  <div className="spec-text">NVMe SSD Western Digital S850NX (1512 ГБ)</div>
+                  <div className={styles.specText}>NVMe SSD Western Digital S850NX (1512 ГБ)</div>
                 </motion.div>
               </div>
             </motion.div>
 
             {/* Virtualization */}
-            <motion.div className="config-section" variants={sectionVariants}>
-              <h2 className="section-title">
-                <Cloud className="section-icon lucide-icon" />
+            <motion.div className={styles.configSection} variants={sectionVariants}>
+              <h2 className={styles.sectionTitle}>
+                <Cloud className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
                 Виртуализация
               </h2>
-              <div className="spec-grid">
-                <motion.div className="spec-item" variants={itemVariants}>
-                  <div className="spec-icon vmware">
+              <div className={styles.specGrid}>
+                <motion.div className={styles.specItem} variants={itemVariants}>
+                  <div className={`${styles.specIcon} ${styles.vmware}`}>
                     <img src={VMwareIcon} alt="VMware" />
                   </div>
-                  <div className="spec-text">VMware Workstation Pro 17</div>
+                  <div className={styles.specText}>VMware Workstation Pro 17</div>
                 </motion.div>
               </div>
             </motion.div>
 
             {/* Software Environment */}
-            <motion.div className="config-section" variants={sectionVariants}>
-              <h2 className="section-title">
-                <Layers className="section-icon lucide-icon" />
+            <motion.div className={styles.configSection} variants={sectionVariants}>
+              <h2 className={styles.sectionTitle}>
+                <Layers className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
                 Программное окружение
               </h2>
-              <div className="software-grid">
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+              <div className={styles.softwareGrid}>
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={LinuxIcon} alt="Linux" />
                   </div>
-                  <div className="spec-text">Kubuntu 24.04 LTS</div>
+                  <div className={styles.specText}>Kubuntu 24.04 LTS</div>
                 </motion.div>
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={MongoDBIcon} alt="MongoDB" />
                   </div>
-                  <div className="spec-text">MongoDB 8.0.6</div>
+                  <div className={styles.specText}>MongoDB 8.0.6</div>
                 </motion.div>
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={PostgreSQLIcon} alt="PostgreSQL" />
                   </div>
-                  <div className="spec-text">PostgreSQL 17.4</div>
+                  <div className={styles.specText}>PostgreSQL 17.4</div>
                 </motion.div>
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={CassandraIcon} alt="Cassandra" />
                   </div>
-                  <div className="spec-text">Cassandra 4.1.8</div>
+                  <div className={styles.specText}>Cassandra 4.1.8</div>
                 </motion.div>
               </div>
             </motion.div>
 
             {/* Tools */}
-            <motion.div className="config-section" variants={sectionVariants}>
-              <h2 className="section-title">
-                <img src={ToolsIcon} className="section-icon" alt="Tools" />
+            <motion.div className={styles.configSection} variants={sectionVariants}>
+              <h2 className={styles.sectionTitle}>
+                <img src={ToolsIcon} className={styles.sectionIcon} alt="Tools" />
                 Инструменты
               </h2>
-              <div className="software-grid">
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+              <div className={styles.softwareGrid}>
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={YCSBIcon} alt="YCSB" />
                   </div>
-                  <div className="spec-text">YCSB 0.17.0</div>
+                  <div className={styles.specText}>YCSB 0.17.0</div>
                 </motion.div>
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={PythonIcon} alt="Python" />
                   </div>
-                  <div className="spec-text">Python 3.9.21</div>
+                  <div className={styles.specText}>Python 3.9.21</div>
                 </motion.div>
-                <motion.div className="software-item" variants={itemVariants}>
-                  <div className="software-icon">
+                <motion.div className={styles.softwareItem} variants={itemVariants}>
+                  <div className={styles.softwareIcon}>
                     <img src={JavaIcon} alt="Java" />
                   </div>
-                  <div className="spec-text">JDK 11.0.26</div>
+                  <div className={styles.specText}>JDK 11.0.26</div>
                 </motion.div>
               </div>
             </motion.div>
@@ -179,7 +179,7 @@ export const TestEnvironmentSlide = () => {
 
           {/* BMSTU Logo Emblem */}
           <motion.div 
-            className="emblem-container"
+            className={styles.emblemContainer}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
@@ -187,7 +187,7 @@ export const TestEnvironmentSlide = () => {
             <img 
               src="/assets/bmstu/bmstu-logo-white.png" 
               alt="BMSTU Logo" 
-              className="bmstu-emblem"
+              className={styles.bmstuEmblem}
               onError={(e) => {
                 // Fallback to SVG if PNG fails
                 const target = e.target as HTMLImageElement;
@@ -199,23 +199,23 @@ export const TestEnvironmentSlide = () => {
 
         {/* Right Panel - Direct child of content-container */}
         <motion.div 
-          className="right-panel"
+          className={styles.rightPanel}
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
         >
-          <div className="principle-section">
-            <h3 className="principle-title">ПРИНЦИПЫ ОБЕСПЕЧЕНИЯ <span className="highlight">ОБЪЕКТИВНОСТИ:</span></h3>
-            <ul className="principle-list">
+          <div className={styles.principleSection}>
+            <h3 className={styles.principleTitle}>ПРИНЦИПЫ ОБЕСПЕЧЕНИЯ <span className={styles.highlight}>ОБЪЕКТИВНОСТИ:</span></h3>
+            <ul className={styles.principleList}>
               <motion.li variants={itemVariants}>Идентичное окружение для всех тестов</motion.li>
               <motion.li variants={itemVariants}>"Холодный" старт перед каждым тестом</motion.li>
               <motion.li variants={itemVariants}>Контролируемые условия и изоляция процессов</motion.li>
             </ul>
           </div>
 
-          <div className="principle-section">
-            <h3 className="principle-title">ОБЕСПЕЧЕНИЕ <span className="highlight">НАДЁЖНОСТИ</span> РЕЗУЛЬТАТОВ</h3>
-            <ul className="principle-list">
+          <div className={styles.principleSection}>
+            <h3 className={styles.principleTitle}>ОБЕСПЕЧЕНИЕ <span className={styles.highlight}>НАДЁЖНОСТИ</span> РЕЗУЛЬТАТОВ</h3>
+            <ul className={styles.principleList}>
               <motion.li variants={itemVariants}>Трёхкратное повторение каждого теста</motion.li>
               <motion.li variants={itemVariants}>Статистическая обработка результатов</motion.li>
               <motion.li variants={itemVariants}>Контроль внешних факторов и системных ресурсов</motion.li>
@@ -223,9 +223,9 @@ export const TestEnvironmentSlide = () => {
             </ul>
           </div>
 
-          <div className="principle-section">
-            <h3 className="principle-title"><span className="highlight">СТАНДАРТИЗАЦИЯ</span> ПРОЦЕДУР</h3>
-            <ul className="principle-list">
+          <div className={styles.principleSection}>
+            <h3 className={styles.principleTitle}><span className={styles.highlight}>СТАНДАРТИЗАЦИЯ</span> ПРОЦЕДУР</h3>
+            <ul className={styles.principleList}>
               <motion.li variants={itemVariants}>Одинаковая последовательность тестирования</motion.li>
               <motion.li variants={itemVariants}>Фиксированные интервалы между тестами</motion.li>
               <motion.li variants={itemVariants}>Автоматизация сбора метрик и результатов</motion.li>

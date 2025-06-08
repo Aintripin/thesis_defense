@@ -19,7 +19,7 @@ $blue-light: #60a5fa;
 }
 
 // Styles for the content area of MarketOverviewSlide
-.market-overview-container { // Changed from .content-container to unique name
+.contentContainer { // Changed back to generic name, CSS Modules will scope it
   flex: 1;
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -34,7 +34,7 @@ $blue-light: #60a5fa;
   overflow: hidden;
 
   // Chart Section
-  .chart-section {
+  .chartSection {
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(15px);
     border-radius: 20px;
@@ -59,7 +59,7 @@ $blue-light: #60a5fa;
       z-index: -1;
     }
 
-    .chart-title {
+    .chartTitle {
       @include als-font(18px, 700, 1.2);
       color: $text-primary;
       margin-bottom: 10px;
@@ -67,7 +67,7 @@ $blue-light: #60a5fa;
       flex-shrink: 0;
     }
 
-    .chart-container {
+    .chartContainer {
       width: 100%;
       flex: 1;
       min-height: 300px;
@@ -99,7 +99,7 @@ $blue-light: #60a5fa;
     flex-shrink: 0;
   }
 
-  .legend-item {
+  .legendItem {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -112,13 +112,13 @@ $blue-light: #60a5fa;
     border: 1px solid rgba(255, 255, 255, 0.6);
   }
 
-  .legend-color {
+  .legendColor {
     width: 16px;
     height: 16px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-    &.total-line {
+    &.totalLine {
       background: linear-gradient(90deg, #1E293B 50%, transparent 50%);
       background-size: 8px 2px;
     }
@@ -133,19 +133,19 @@ $blue-light: #60a5fa;
     overflow: hidden;
   }
 
-  .sidebar-top-row {
+  .sidebarTopRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
     align-items: stretch;
   }
 
-  .sidebar-bottom-row {
+  .sidebarBottomRow {
     margin-top: 20px;
   }
 
   // Glass Cards in sidebar
-  .glass-card {
+  .glassCard {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(20px);
     border-radius: 16px;
@@ -192,7 +192,7 @@ $blue-light: #60a5fa;
       border-radius: 16px 16px 0 0;
     }
 
-    .card-title {
+    .cardTitle {
       @include als-font(20px, 700, 1.2);
       color: $text-primary;
       margin-bottom: 15px;
@@ -203,7 +203,7 @@ $blue-light: #60a5fa;
     }
   }
 
-  .metric-item {
+  .metricItem {
     margin-bottom: 12px;
     @include als-font(18px, 400, 1.4);
     padding: 12px;
@@ -218,20 +218,20 @@ $blue-light: #60a5fa;
       transform: translateX(2px);
     }
 
-    .metric-label {
+    .metricLabel {
       color: $text-secondary;
       font-weight: 500;
       @include als-font(18px, 500, 1.3);
     }
 
-    .metric-value {
+    .metricValue {
       color: $blue-dark;
       font-weight: 700;
       @include als-font(18px, 700, 1.3);
     }
   }
 
-  .growth-highlight {
+  .growthHighlight {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
     color: white;
     padding: 4px 8px;
@@ -241,7 +241,7 @@ $blue-light: #60a5fa;
     box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
   }
 
-  .trend-item {
+  .trendItem {
     margin-bottom: 12px;
     padding: 12px;
     background: rgba(255, 255, 255, 0.4);
@@ -255,20 +255,20 @@ $blue-light: #60a5fa;
       transform: translateX(2px);
     }
 
-    .trend-title {
+    .trendTitle {
       font-weight: 700;
       color: $text-primary;
       @include als-font(18px, 700, 1.2);
     }
 
-    .trend-desc {
+    .trendDesc {
       color: $text-muted;
       @include als-font(17px, 400, 1.3);
       margin-top: 4px;
     }
   }
 
-  .insight-item {
+  .insightItem {
     margin-bottom: 10px;
     @include als-font(19px, 400, 1.4);
     color: $text-secondary;
@@ -289,7 +289,7 @@ $blue-light: #60a5fa;
 // Responsive Design - this should be adjusted based on how the new layout component behaves
 // Or potentially moved to a global stylesheet if these breakpoints are common.
 @media (max-width: 1400px) {
-  .market-overview-container { // Updated class name
+  .contentContainer { // Updated class name
     grid-template-columns: 1fr;
     gap: 20px;
     height: auto;
@@ -299,13 +299,13 @@ $blue-light: #60a5fa;
       height: auto;
     }
 
-    .sidebar-top-row {
+    .sidebarTopRow {
       display: flex; // Keep flex for vertical stacking
       flex-direction: column;
       gap: 15px;
     }
 
-    .glass-card {
+    .glassCard {
       height: auto;
       overflow-y: visible;
     }
@@ -313,19 +313,19 @@ $blue-light: #60a5fa;
 }
 
 @media (max-width: 768px) {
-  .market-overview-container { // Updated class name
+  .contentContainer { // Updated class name
     padding: 20px;
     height: auto;
 
-    .sidebar-top-row {
+    .sidebarTopRow {
       flex-direction: column; // Keep vertical stacking
       gap: 15px;
     }
 
-    .chart-section {
+    .chartSection {
       padding: 15px;
 
-      .chart-container {
+      .chartContainer {
         min-height: 250px;
       }
     }
@@ -333,34 +333,34 @@ $blue-light: #60a5fa;
     .legend {
       gap: 10px;
       
-      .legend-item {
+      .legendItem {
         padding: 4px 8px;
         font-size: 11px;
       }
     }
 
-    .glass-card {
-      .card-title {
+    .glassCard {
+      .cardTitle {
         font-size: 15px;
       }
     }
 
-    .metric-item {
-      .metric-label, .metric-value {
+    .metricItem {
+      .metricLabel, .metricValue {
         font-size: 12px;
       }
     }
 
-    .trend-item {
-      .trend-title {
+    .trendItem {
+      .trendTitle {
         font-size: 12px;
       }
-      .trend-desc {
+      .trendDesc {
         font-size: 11px;
       }
     }
 
-    .insight-item {
+    .insightItem {
       font-size: 14px;
     }
   }

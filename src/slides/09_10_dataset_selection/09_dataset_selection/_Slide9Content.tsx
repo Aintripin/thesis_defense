@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import styles from '../DatasetSlides.module.scss';
 
 const selectedDatasetInfo = [
   {
@@ -76,19 +77,19 @@ interface InfoItemProps {
 const InfoItem: React.FC<InfoItemProps> = ({ item }) => (
   <motion.li
     variants={itemVariants}
-    className="info-item"
+    className={styles.infoItem}
   >
-    <div className="bullet" />
+    <div className={styles.bullet} />
     <span>
-      {item.label && <span className="label">{item.label}</span>}
-      <span className="value">{item.value}</span>
+      {item.label && <span className={styles.label}>{item.label}</span>}
+      <span className={styles.value}>{item.value}</span>
     </span>
   </motion.li>
 );
 
 export const Slide9Content: React.FC = () => (
   <motion.div
-    className="main-content"
+    className={styles.mainContent}
     variants={containerVariants}
     initial="hidden"
     animate="visible"
@@ -96,13 +97,13 @@ export const Slide9Content: React.FC = () => (
   >
     {/* Section 1: Выбранный датасет */}
     <motion.div
-      className="section"
+      className={styles.section}
       variants={sectionVariants}
     >
-      <div className="section-header">
+      <div className={styles.sectionHeader}>
         Выбранный датасет
       </div>
-      <div className="section-content">
+      <div className={styles.sectionContent}>
         <ul>
           {selectedDatasetInfo.map((item, index) => (
             <InfoItem key={index} item={item} />
@@ -113,13 +114,13 @@ export const Slide9Content: React.FC = () => (
     
     {/* Section 2: Преимущества выбранного датасета */}
     <motion.div
-      className="section"
+      className={styles.section}
       variants={sectionVariants}
     >
-      <div className="section-header">
+      <div className={styles.sectionHeader}>
         Преимущества выбранного датасета
       </div>
-      <div className="section-content">
+      <div className={styles.sectionContent}>
         <ul>
           {datasetAdvantages.map((item, index) => (
             <InfoItem key={index} item={item} />

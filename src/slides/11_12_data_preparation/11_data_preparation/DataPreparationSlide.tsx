@@ -90,12 +90,12 @@ const initialMongoEdges: Edge[] = [
 
 const initialPostgresNodes: Node<CustomNodeData>[] = [
     { id: 'pg-0', position: { x: -150, y: 120 }, data: { num: 'O', label: <>предварительный<br/>анализ структуры</> }, type: 'custom' },
-    { id: 'pg-1', position: { x: 50, y: -80 }, data: { num: '1', label: <>создание первичной<br/>таблицы <span className="highlight">A</span> с колонками<br/><span className="highlight">_id</span> и <span className="highlight">data</span> (JSONB)</> }, type: 'custom' },
-    { id: 'pg-2', position: { x: 50, y: 300 }, data: { num: '2', label: <>создание таблицы <span className="highlight">B</span><br/>через YCSB</> }, type: 'custom' },
-    { id: 'pg-3', position: { x: 350, y: 110}, data: { num: '3', label: <>создание таблицы <span className="highlight">C</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
+    { id: 'pg-1', position: { x: 50, y: -80 }, data: { num: '1', label: <>создание первичной<br/>таблицы <span className="flowchartHighlight">A</span> с колонками<br/><span className="flowchartHighlight">_id</span> и <span className="flowchartHighlight">data</span> (JSONB)</> }, type: 'custom' },
+    { id: 'pg-2', position: { x: 50, y: 300 }, data: { num: '2', label: <>создание таблицы <span className="flowchartHighlight">B</span><br/>через YCSB</> }, type: 'custom' },
+    { id: 'pg-3', position: { x: 350, y: 110}, data: { num: '3', label: <>создание таблицы <span className="flowchartHighlight">C</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
     { id: 'pg-4', position: { x: 550, y: -50 }, data: { num: '4', label: <>импорт данных<br/>из mongoDB</> }, type: 'custom' },
-    { id: 'pg-5', position: { x: 900, y: 100 }, data: { num: '5', label: <>парсинг данных и<br/>заполнение<br/>таблицы <span className="highlight">C</span></> }, type: 'custom' },
-    { id: 'pg-6', position: { x: 650, y: 350 }, data: { num: '6', label: <>заполнение таблицы<br/><span className="highlight">B</span> реальными<br/>данными</> }, type: 'custom' },
+    { id: 'pg-5', position: { x: 900, y: 100 }, data: { num: '5', label: <>парсинг данных и<br/>заполнение<br/>таблицы <span className="flowchartHighlight">C</span></> }, type: 'custom' },
+    { id: 'pg-6', position: { x: 650, y: 350 }, data: { num: '6', label: <>заполнение таблицы<br/><span className="flowchartHighlight">B</span> реальными<br/>данными</> }, type: 'custom' },
 ];
 
 const initialPostgresEdges: Edge[] = [
@@ -195,6 +195,46 @@ export const DataPreparationSlide = () => {
             }
             svg.react-flow__edges {
               overflow: visible !important;
+            }
+            
+            /* FORCE HIGHLIGHT TEXT TO BE VISIBLE */
+            .flowchartHighlight,
+            span.flowchartHighlight,
+            .flowchart-box .flowchartHighlight,
+            .flowchart-box span.flowchartHighlight,
+            .react-flow__node .flowchartHighlight,
+            .react-flow__node span.flowchartHighlight,
+            .react-flow__node-custom .flowchartHighlight,
+            .react-flow__node-custom span.flowchartHighlight {
+              background: #4285f4 !important;
+              color: #ffffff !important;
+              padding: 4px 8px !important;
+              border-radius: 6px !important;
+              font-weight: 700 !important;
+              font-size: 18px !important;
+              display: inline-block !important;
+              font-family: 'ALS Sector Regular', sans-serif !important;
+              line-height: 1.2 !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+              text-shadow: none !important;
+              border: none !important;
+              box-shadow: 0 2px 4px rgba(66, 133, 244, 0.3) !important;
+              text-decoration: none !important;
+              position: relative !important;
+              z-index: 999 !important;
+            }
+            
+            /* Debug: Make highlight super obvious */
+            .flowchartHighlight::before {
+              content: '' !important;
+              position: absolute !important;
+              top: 0 !important;
+              left: 0 !important;
+              right: 0 !important;
+              bottom: 0 !important;
+              background: #4285f4 !important;
+              z-index: -1 !important;
             }
           `,
         }}

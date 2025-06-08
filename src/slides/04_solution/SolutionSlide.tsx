@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Database } from 'lucide-react'
-import './SolutionSlide.scss'
+import styles from './SolutionSlide.module.scss'
 
 interface DatabaseCardProps {
   title: string
@@ -25,16 +25,16 @@ const DatabaseCard: React.FC<DatabaseCardProps> = ({
   delay = 0 
 }) => (
   <motion.div 
-    className={`database-card ${colorClass} ${isFullWidth ? 'full-width' : ''}`}
+    className={`${styles.databaseCard} ${styles[colorClass]} ${isFullWidth ? styles.fullWidth : ''}`}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
   >
-    <h3 className="card-title">{title}</h3>
-    <ul className="features-list">
+    <h3 className={styles.cardTitle}>{title}</h3>
+    <ul className={styles.featuresList}>
       {features.map((feature, index) => (
-        <li key={index} className="feature-item">
-          <span className="bullet"></span>
+        <li key={index} className={styles.featureItem}>
+          <span className={styles.bullet}></span>
           {feature}
         </li>
       ))}
@@ -51,7 +51,7 @@ interface SidebarCardProps {
 
 const SidebarCard: React.FC<SidebarCardProps> = ({ title, content, isImportant = false, delay = 0 }) => (
   <motion.div 
-    className={`sidebar-section ${isImportant ? 'important-box' : 'thesis-section'}`}
+    className={`${styles.sidebarSection} ${isImportant ? styles.importantBox : styles.thesisSection}`}
     initial={{ opacity: 0, x: -20 }}
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.5, delay }}
@@ -117,22 +117,22 @@ export const SolutionSlide: React.FC = () => {
   ]
 
   return (
-    <div className="solution-slide">
+    <div className={styles.solutionSlide}>
       {/* Title Container */}
       <motion.div 
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">А Р Х И Т Е К Т У Р Н Ы Е&nbsp;&nbsp;Р Е Ш Е Н И Я&nbsp;&nbsp;С У Б Д</h1>
+        <h1 className={styles.slideTitle}>А Р Х И Т Е К Т У Р Н Ы Е&nbsp;&nbsp;Р Е Ш Е Н И Я&nbsp;&nbsp;С У Б Д</h1>
       </motion.div>
 
       {/* Content Container */}
-      <div className="content-container">
-        <div className="solution-content-wrapper">
+      <div className={styles.contentContainer}>
+        <div className={styles.solutionContentWrapper}>
           {/* Sidebar */}
-          <div className="sidebar">
+          <div className={styles.sidebar}>
             <SidebarCard
               title="Тезис"
               content="Архитектура СУБД определяет системные возможности"
@@ -147,17 +147,17 @@ export const SolutionSlide: React.FC = () => {
           </div>
 
           {/* Main Content */}
-          <div className="main-content">
+          <div className={styles.mainContent}>
             <motion.div 
-              className="content-header"
+              className={styles.contentHeader}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h2 className="content-title">Анализ архитектурных особенностей</h2>
+              <h2 className={styles.contentTitle}>Анализ архитектурных особенностей</h2>
             </motion.div>
 
-            <div className="cards-grid">
+            <div className={styles.cardsGrid}>
               {databases.map((db, index) => (
                 <DatabaseCard
                   key={db.title}

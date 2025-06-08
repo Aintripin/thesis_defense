@@ -1,0 +1,376 @@
+@import '../../styles/variables';
+
+// Local SCSS Variables
+$fontFamilyHeading: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$fontFamilyBody: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$fontFamilyMono: 'JetBrains Mono', 'Courier New', monospace;
+$lightBg: #f8fafc;
+$white: #ffffff;
+
+// Root container for the entire slide page
+.visualizationSlide {
+  height: 100vh;
+  width: 100vw;
+  background: $lightBg;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+// Header styling matching slides 17 & 18
+.slideHeader {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 12px 32px;
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 100;
+
+  .slideTitle {
+    font-family: $fontFamilyHeading;
+    font-size: 28px;
+    font-weight: 300;
+    color: #1e293b;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .slideSubtitle {
+    font-family: $fontFamilyBody;
+    font-size: 14px;
+    color: #475569;
+    letter-spacing: 1.5px;
+    margin: 4px 0 0 0;
+  }
+}
+
+// Container for the main content
+.contentContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+// Content grid layout
+.contentGrid {
+  background: $white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  width: 100%;
+  max-width: 1600px;
+  
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  height: calc(100vh - 120px);
+}
+
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sectionBlock {
+  background: #fdfdff;
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid #e2e8f0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// Superset header
+.supersetHeader {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #93c5fd;
+  text-align: center;
+}
+
+.supersetTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 2px;
+}
+
+.supersetDesc {
+  font-size: 18px;
+  color: #1e293b;
+}
+
+// Block titles
+.blockTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #2563eb;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+// Visualization list
+.visualizationList {
+  list-style: none;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.vizItem {
+  padding: 10px 0;
+  font-size: 20px;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+  padding-left: 20px;
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:before {
+    content: "•";
+    color: #2563eb;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 8px;
+  }
+  
+  &:hover {
+    padding-left: 30px;
+    color: #1e293b;
+  }
+}
+
+// Dashboard grid
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dashboardItem {
+  background: white;
+  border-radius: 8px;
+  padding: 15px;
+  border-left: 3px solid #2563eb;
+  border-right: 1px solid #e2e8f0;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  margin-bottom: 10px;
+  
+  &:hover {
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+  }
+}
+
+.dashboardName {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.dashboardDesc {
+  font-size: 16px;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+// Database sections
+.dbSection {
+  margin-bottom: 15px;
+}
+
+.dbTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.dbSubtitle {
+  font-size: 20px;
+  color: #2563eb;
+  margin-bottom: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dbFeatures {
+  list-style: none;
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: 18px;
+}
+
+.dbFeature {
+  padding: 4px 0;
+  font-size: 18px;
+  color: #475569;
+  position: relative;
+  padding-left: 16px;
+  line-height: 1.3;
+  transition: all 0.2s ease;
+  
+  &:before {
+    content: "•";
+    color: #16a34a;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 4px;
+  }
+  
+  &:hover {
+    padding-left: 24px;
+    color: #1e293b;
+  }
+}
+
+// Performance metrics
+.performanceMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.metricCard {
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  text-align: center;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    border-color: #2563eb;
+  }
+}
+
+.metricLabel {
+  font-size: 20px;
+  color: #64748b;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.metricValue {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+// Database color scheme
+.mongodbColor {
+  color: #10b981;
+}
+.cassandraColor {
+  color: #f59e0b;
+}
+.postgresqlColor {
+  color: #8b5cf6;
+}
+
+.dbMongodb .dbTitle {
+  border-bottom-color: #10b981;
+  // font-size: 20px;
+}
+.dbCassandra .dbTitle {
+  border-bottom-color: #f59e0b;
+  // font-size: 20px;
+}
+.dbPostgresql .dbTitle {
+  border-bottom-color: #8b5cf6;
+  // font-size: 20px;
+}
+
+// Limitations box
+.limitations {
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 8px;
+  border-left: 3px solid #ef4444;
+}
+
+.limitationsTitle {
+  font-size: 18px;
+  color: #dc2626;
+  font-weight: 600;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.limitationsText {
+  font-size: 16px;
+  color: #7f1d1d;
+  line-height: 1.3;
+}
+
+// Responsive design
+@media (max-width: 1400px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    height: auto;
+  }
+  
+  .performanceMetrics {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .slideHeader {
+    padding: 20px 25px 15px;
+    
+    .slideTitle {
+      font-size: 24px;
+      letter-spacing: 4px;
+    }
+    
+    .slideSubtitle {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+  }
+  
+  .contentContainer {
+    padding: 15px;
+  }
+  
+  .contentGrid {
+    padding: 20px;
+  }
+  
+  .performanceMetrics {
+    grid-template-columns: 1fr 1fr;
+  }
+} 

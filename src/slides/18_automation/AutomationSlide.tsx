@@ -1,62 +1,62 @@
 import React from 'react';
-import './AutomationSlide.scss';
+import styles from './AutomationSlide.module.scss';
 
 const AutomationSlide = () => {
   return (
-    <div className="automation-slide">
+    <div className={styles.automationSlide}>
       {/* Header like slide 17 */}
-      <div className="slide-header">
-        <h1 className="slide-title">А В Т О М А Т И З А Ц И Я&nbsp;&nbsp;С Б О Р А&nbsp;&nbsp;Р Е З У Л Ь Т А Т О В</h1>
-        <p className="slide-subtitle">Python-скрипт для обработки данных</p>
+      <div className={styles.slideHeader}>
+        <h1 className={styles.slideTitle}>А В Т О М А Т И З А Ц И Я&nbsp;&nbsp;С Б О Р А&nbsp;&nbsp;Р Е З У Л Ь Т А Т О В</h1>
+        <p className={styles.slideSubtitle}>Python-скрипт для обработки данных</p>
       </div>
 
       {/* Main content area */}
-      <div className="content-container">
-        <div className="content-grid">
+      <div className={styles.contentContainer}>
+        <div className={styles.contentGrid}>
           {/* Left column: Functionality */}
-          <div className="content-section">
-            <div className="section-block">
-              <div className="script-info">
-                <div className="script-name">parse_ycsb.py</div>
-                <div className="script-desc">
+          <div className={styles.contentSection}>
+            <div className={styles.sectionBlock}>
+              <div className={styles.scriptInfo}>
+                <div className={styles.scriptName}>parse_ycsb.py</div>
+                <div className={styles.scriptDesc}>
                   Автоматизированный парсинг результатов YCSB тестирования
                 </div>
               </div>
 
-              <div className="category-title">Функциональность скрипта:</div>
-              <ul className="feature-list">
-                <li className="feature-item">
+              <div className={styles.categoryTitle}>Функциональность скрипта:</div>
+              <ul className={styles.featureList}>
+                <li className={styles.featureItem}>
                   <strong>Автоматическое извлечение</strong> метрик из отчетов YCSB
                 </li>
-                <li className="feature-item">
+                <li className={styles.featureItem}>
                   <strong>Парсинг различных форматов</strong> выходных данных
                 </li>
-                <li className="feature-item">
+                <li className={styles.featureItem}>
                   <strong>Агрегация результатов</strong> по СУБД, workload'ам и потокам
                 </li>
-                <li className="feature-item">
+                <li className={styles.featureItem}>
                   <strong>Расчет статистических показателей</strong> (среднее, медиана, стандартное отклонение)
                 </li>
               </ul>
 
-              <div className="output-section">
-                <div className="category-title">Структура выходных данных:</div>
-                <div className="output-grid">
-                  <div className="output-item">
-                    <div className="output-title">CSV-файлы</div>
-                    <div className="output-desc">
+              <div className={styles.outputSection}>
+                <div className={styles.categoryTitle}>Структура выходных данных:</div>
+                <div className={styles.outputGrid}>
+                  <div className={styles.outputItem}>
+                    <div className={styles.outputTitle}>CSV-файлы</div>
+                    <div className={styles.outputDesc}>
                       Агрегированные результаты для каждой СУБД
                     </div>
                   </div>
-                  <div className="output-item">
-                    <div className="output-title">Сводные таблицы</div>
-                    <div className="output-desc">
+                  <div className={styles.outputItem}>
+                    <div className={styles.outputTitle}>Сводные таблицы</div>
+                    <div className={styles.outputDesc}>
                       Данные для сравнительного анализа
                     </div>
                   </div>
-                  <div className="output-item">
-                    <div className="output-title">JSON-файлы</div>
-                    <div className="output-desc">
+                  <div className={styles.outputItem}>
+                    <div className={styles.outputTitle}>JSON-файлы</div>
+                    <div className={styles.outputDesc}>
                       Интеграция с системами визуализации
                     </div>
                   </div>
@@ -66,38 +66,38 @@ const AutomationSlide = () => {
           </div>
 
           {/* Right column: Extracted metrics */}
-          <div className="content-section">
-            <div className="section-block">
-              <div className="category-title">Извлекаемые метрики:</div>
+          <div className={styles.contentSection}>
+            <div className={styles.sectionBlock}>
+              <div className={styles.categoryTitle}>Извлекаемые метрики:</div>
 
-              <div className="metrics-section">
-                <div className="metric-group">
-                  <div className="group-title">Общие метрики</div>
-                  <div className="group-items">
+              <div className={styles.metricsSection}>
+                <div className={styles.metricGroup}>
+                  <div className={styles.groupTitle}>Общие метрики</div>
+                  <div className={styles.groupItems}>
                     • Время выполнения (RunTime)<br />
                     • Пропускная способность (Throughput, ops/sec)
                   </div>
                 </div>
 
-                <div className="metric-group">
-                  <div className="group-title">Метрики сборки мусора</div>
-                  <div className="group-items">
+                <div className={styles.metricGroup}>
+                  <div className={styles.groupTitle}>Метрики сборки мусора</div>
+                  <div className={styles.groupItems}>
                     • G1 Young Generation (количество, время, %)<br />
                     • G1 Old Generation (количество, время, %)
                   </div>
                 </div>
 
-                <div className="metric-group">
-                  <div className="group-title">Операции YCSB</div>
-                  <div className="group-items">
+                <div className={styles.metricGroup}>
+                  <div className={styles.groupTitle}>Операции YCSB</div>
+                  <div className={styles.groupItems}>
                     • READ, UPDATE, INSERT, SCAN<br />
                     • READ-MODIFY-WRITE, CLEANUP
                   </div>
                 </div>
 
-                <div className="metric-group">
-                  <div className="group-title">Задержки операций</div>
-                  <div className="group-items">
+                <div className={styles.metricGroup}>
+                  <div className={styles.groupTitle}>Задержки операций</div>
+                  <div className={styles.groupItems}>
                     • Среднее значение (AverageLatency)<br />
                     • Минимум и максимум<br />
                     • Перцентили: P95, P99
@@ -105,22 +105,22 @@ const AutomationSlide = () => {
                 </div>
               </div>
 
-              <div className="metrics-grid">
-                <div className="metric-card">
-                  <div className="metric-title">Всего метрик</div>
-                  <div className="metric-value">60+<br />параметров</div>
+              <div className={styles.metricsGrid}>
+                <div className={styles.metricCard}>
+                  <div className={styles.metricTitle}>Всего метрик</div>
+                  <div className={styles.metricValue}>60+<br />параметров</div>
                 </div>
-                <div className="metric-card">
-                  <div className="metric-title">Формат вывода</div>
-                  <div className="metric-value">CSV<br />структура</div>
+                <div className={styles.metricCard}>
+                  <div className={styles.metricTitle}>Формат вывода</div>
+                  <div className={styles.metricValue}>CSV<br />структура</div>
                 </div>
-                <div className="metric-card">
-                  <div className="metric-title">Автоматизация</div>
-                  <div className="metric-value">100%<br />процесса</div>
+                <div className={styles.metricCard}>
+                  <div className={styles.metricTitle}>Автоматизация</div>
+                  <div className={styles.metricValue}>100%<br />процесса</div>
                 </div>
-                <div className="metric-card">
-                  <div className="metric-title">Точность</div>
-                  <div className="metric-value">Микросекунды<br />(μs)</div>
+                <div className={styles.metricCard}>
+                  <div className={styles.metricTitle}>Точность</div>
+                  <div className={styles.metricValue}>Микросекунды<br />(μs)</div>
                 </div>
               </div>
             </div>

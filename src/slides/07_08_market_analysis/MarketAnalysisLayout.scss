@@ -53,7 +53,8 @@
 
 // Ensure that the child content containers fill the outlet space correctly.
 // These are the root classes of MarketOverviewSlide.tsx and TrendsDeepDiveSlide.tsx respectively.
-.market-analysis-content-outlet > .content-container, 
+// Note: CSS Modules will generate unique class names, so this selector uses a broader approach
+.market-analysis-content-outlet > div[class*="contentContainer"],
 .market-analysis-content-outlet > .content-container-s8 {
   width: 100%;
   height: 100%; // Ensure they try to fill the outlet space

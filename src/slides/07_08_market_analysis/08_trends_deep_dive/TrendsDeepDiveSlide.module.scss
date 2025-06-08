@@ -1,16 +1,33 @@
 // SCSS for TrendsDeepDiveSlide (formerly MarketAnalysisContinuedSlide)
 
-// General grid styles (if not defined globally elsewhere, or to override)
-.grid .tick line {
-  stroke: #e2e8f0;
-  stroke-dasharray: 2,2;
+// Global grid styles for D3 charts - these must remain global since D3 dynamically adds these classes
+:global {
+  .grid .tick line {
+    stroke: rgba(100, 116, 139, 0.2);
+    stroke-dasharray: 2, 2;
+  }
+
+  .grid .domain {
+    stroke: none;
+  }
+
+  .grid-s8 .tick line {
+    stroke: rgba(100, 116, 139, 0.2);
+    stroke-dasharray: 2, 2;
+  }
+
+  .grid-s8 .domain {
+    stroke: none;
+  }
+
+  .axis-label-s8 {
+    font-size: 0.8em;
+    fill: #475569;
+    font-weight: 500;
+  }
 }
 
-.grid .domain {
-  stroke: none;
-}
-
-.trends-deep-dive-slide { // Changed from .content-container-s8
+.trendsDeepDiveSlide { // Changed from .trends-deep-dive-slide
   display: flex;
   flex-direction: row; // Added for horizontal layout of main content and sidebar
   width: 100%;
@@ -22,13 +39,13 @@
   box-sizing: border-box;
   overflow: hidden; // Prevent scrolling within this container
   
-  .slide-main-content-s8 { // Changed from .main-charts-grid-s8, updated styles
+  .slideMainContentS8 { // Changed from .slide-main-content-s8
     flex: 3;
     height: 100%; // Use full height of parent
     display: flex; // Added back for flex layout
     flex-direction: column; // Added back for column layout
 
-    .charts-grid-s8 { // Newly nested, was content of .main-charts-grid-s8
+    .chartsGridS8 { // Changed from .charts-grid-s8
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(2, 1fr);
@@ -36,11 +53,11 @@
       height: 100%; // Take full height of parent
       flex-grow: 1; // Fill remaining space
 
-      .chart-cell-s8 { // Added display:flex and flex-direction:column
+      .chartCellS8 { // Changed from .chart-cell-s8
         display: flex;
         flex-direction: column;
 
-        .chart-container-s8 {
+        .chartContainerS8 { // Changed from .chart-container-s8
           background-color: #ffffff;
           border-radius: 12px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -51,7 +68,7 @@
           flex-grow: 1; // Added to make it fill the chart-cell-s8
           height: 100%; // Use full height of grid cell
 
-          .chart-title-s8 {
+          .chartTitleS8 { // Changed from .chart-title-s8
             font-size: 1.0em; // Keep reduced size
             color: #334155;
             font-weight: 500;
@@ -61,7 +78,25 @@
           // REMOVED .chart block from here
         }
       }
-      .empty-cell-s8 {
+
+      // Grid positioning classes
+      .topLeftS8 {
+        // Additional styles for top-left position if needed
+      }
+
+      .topRightS8 {
+        // Additional styles for top-right position if needed
+      }
+
+      .bottomLeftS8 {
+        // Additional styles for bottom-left position if needed
+      }
+
+      .bottomRightS8 {
+        // Additional styles for bottom-right position if needed
+      }
+
+      .emptyCellS8 { // Changed from .empty-cell-s8
         background-color: transparent;
         box-shadow: none;
         border-radius: 12px; // Consistent rounding
@@ -70,7 +105,7 @@
     }
   }
 
-  .slide-sidebar-s8 { // Changed from .sidebar-s8
+  .slideSidebarS8 { // Changed from .slide-sidebar-s8
     flex: 1;
     height: 100%; // Use full height of parent
     display: flex;
@@ -79,7 +114,7 @@
     overflow-y: auto; // Allow sidebar to scroll if needed, but main content won't
     // overflow: hidden; // REMOVED - This was conflicting with overflow-y
 
-    .glass-card { // Base MetricCard styling
+    .glassCard { // Changed from .glass-card
       background-color: rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(10px);
       border-radius: 12px;
@@ -90,7 +125,7 @@
       flex-direction: column;
       flex-shrink: 0; // Prevent cards from shrinking too much
 
-      .card-title {
+      .cardTitle { // Changed from .card-title
         font-size: 1.1em;
         font-weight: 600;
         color: #1E3A8A;
@@ -106,15 +141,17 @@
         overflow: hidden;      // Keep this to prevent accidental overflow during render
 
         // This is the content area of Container D, after its title
-        .sidebar-chart-container-s8.donut-chart-s8-container { 
-          display: flex;           
-          flex-direction: column;  
-          flex-grow: 1;            // Takes available space within this .donuts card
-          min-height: 0;           // Robustness for nested flex
-          overflow: hidden;        // RESTORED to clip oversized content within this designated area
+        .sidebarChartContainerS8 { // Changed from .sidebar-chart-container-s8
+          &.donutChartS8Container { // Changed from .donut-chart-s8-container
+            display: flex;           
+            flex-direction: column;  
+            flex-grow: 1;            // Takes available space within this .donuts card
+            min-height: 0;           // Robustness for nested flex
+            overflow: hidden;        // RESTORED to clip oversized content within this designated area
+          }
         }
 
-        .chart-title-sidebar-s8 { 
+        .chartTitleSidebarS8 { // Changed from .chart-title-sidebar-s8
           font-size: 1em;
           color: #334155;
           font-weight: 500;
@@ -124,13 +161,13 @@
       }
 
       &.metrics {
-        .key-metrics-grid-s8 {
+        .keyMetricsGridS8 { // Changed from .key-metrics-grid-s8
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 12px; // Reduced from 15px
           padding-top: 0; // Reduced from 5px
 
-          .metric-item-s8 { 
+          .metricItemS8 { // Changed from .metric-item-s8
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 248, 255, 0.8) 100%);
             border-radius: 12px;
             padding: 12px; // Reduced from 16px
@@ -149,12 +186,12 @@
               border-color: rgba(59, 130, 246, 0.3);
             }
 
-            .metric-icon-s8 {
+            .metricIconS8 { // Changed from .metric-icon-s8
               font-size: 2.0em; // Reduced from 2.2em
               margin-bottom: 6px; // Reduced from 8px
               filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
             }
-            .metric-value-s8 {
+            .metricValueS8 { // Changed from .metric-value-s8
               font-size: 1.5em; // Reduced from 1.65em
               font-weight: 700; // Increased from 600
               color: #1E3A8A;
@@ -162,7 +199,7 @@
               text-shadow: 0 1px 2px rgba(0,0,0,0.1);
               margin-bottom: 1px; // Reduced from 2px
             }
-            .metric-label-s8 {
+            .metricLabelS8 { // Changed from .metric-label-s8
               font-size: 0.9em; // Reduced from 0.95em
               color: #475569; // Slightly darker
               margin-top: 2px; // Reduced from 4px
@@ -174,7 +211,7 @@
       }
 
       &.insights {
-        .key-insights-list-s8 {
+        .keyInsightsListS8 { // Changed from .key-insights-list-s8
           list-style: none;
           padding-left: 0;
           margin: 0;
@@ -194,23 +231,4 @@
       }
     }
   }
-}
-
-// Scoped S8 specific legends, axis labels, and grid styles
-// All specific legend styles (.legend-s8-donut, .legend-s8-regional, .legend-s8-popularity, .legend-s8-energy) 
-// have been MOVED to their respective component SCSS files.
-
-.axis-label-s8 {
-  font-size: 0.8em;
-  fill: #475569;
-  font-weight: 500;
-}
-
-.grid-s8 .tick line {
-  stroke: #dde4ed; 
-  stroke-dasharray: 2,2;
-}
-
-.grid-s8 .domain {
-  stroke: none;
 } 

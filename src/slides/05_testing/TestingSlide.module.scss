@@ -21,7 +21,7 @@ $universal-color: #10b981;
   line-height: $line-height;
 }
 
-.testing-slide {
+.testingSlide {
   @include als-font();
   background: $light-bg;
   color: $text-primary;
@@ -32,7 +32,7 @@ $universal-color: #10b981;
   gap: 0;
 
   // Title container styled like other slides
-  .slide-title-container {
+  .slideTitleContainer {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
@@ -45,7 +45,7 @@ $universal-color: #10b981;
     top: 0;
     z-index: 100;
 
-    .slide-title {
+    .slideTitle {
       @include als-font(28px, 300, 1.2);
       letter-spacing: 4px;
       color: $text-dark;
@@ -54,7 +54,7 @@ $universal-color: #10b981;
     }
   }
 
-  .content-container {
+  .contentContainer {
     max-width: 1600px;
     margin: 20px auto;
     background: $white;
@@ -73,7 +73,7 @@ $universal-color: #10b981;
     box-sizing: border-box;
   }
 
-  .main-content-area-wrapper {
+  .mainContentAreaWrapper {
     padding: 60px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -108,7 +108,7 @@ $universal-color: #10b981;
       pointer-events: none;
     }
 
-    .sidebar-header {
+    .sidebarHeader {
       position: relative;
       z-index: 2;
       text-align: center;
@@ -118,7 +118,7 @@ $universal-color: #10b981;
       justify-content: center;
     }
 
-    .sidebar-icon-cluster {
+    .sidebarIconCluster {
       position: relative;
       width: 80px;
       height: 48px;
@@ -128,14 +128,14 @@ $universal-color: #10b981;
       justify-content: center;
       gap: 12px;
 
-      .sidebar-tool-icon {
+      .sidebarToolIcon {
         opacity: 0.9;
 
         &.database {
           stroke-width: 2;
         }
 
-        &.screwdriver-wrench {
+        &.screwdriverWrench {
           width: 32px;
           height: 32px;
           filter: invert(1) brightness(0.9);
@@ -143,20 +143,24 @@ $universal-color: #10b981;
       }
     }
 
-    .sidebar-title {
+    .sidebarTitle {
       @include als-font(32px, 700, 1.2);
       margin-bottom: 1.5rem;
       letter-spacing: 0.05em;
     }
 
-    .sidebar-subtitle {
+    .sidebarSubtitle {
       @include als-font(18px, 300, 1.4);
       opacity: 0.9;
     }
   }
 
+  .sidebarSection {
+    // Base styles for sidebar sections
+  }
+
   // Main Content Styles
-  .main-content {
+  .mainContent {
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -164,24 +168,24 @@ $universal-color: #10b981;
     overflow: hidden;
   }
 
-  .tools-section {
+  .toolsSection {
     flex: 1;
     border: 2px dashed #d1d5db;
     border-radius: 16px;
     padding: 24px;
     
-    .section-header {
+    .sectionHeader {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 24px;
       padding-bottom: 0;
 
-      .section-icon {
+      .sectionIcon {
         color: $blue-primary;
       }
 
-      .section-title {
+      .sectionTitle {
         @include als-font(20px, 600, 1.2);
         color: $blue-primary;
         text-transform: uppercase;
@@ -191,7 +195,7 @@ $universal-color: #10b981;
     }
   }
 
-  .tools-grid {
+  .toolsGrid {
     display: grid;
     gap: 20px;
 
@@ -205,7 +209,7 @@ $universal-color: #10b981;
   }
 
   // Tool Card Styles
-  .tool-card {
+  .toolCard {
     background: $white;
     border-radius: 12px;
     padding: 24px;
@@ -227,7 +231,7 @@ $universal-color: #10b981;
       border-right: 2px solid $specialized-color;
       border-bottom: 2px solid $specialized-color;
       
-      .tool-header {
+      .toolHeader {
         background-color: #eff6ff;
         color: $specialized-color;
       }
@@ -239,13 +243,13 @@ $universal-color: #10b981;
       border-right: 2px solid $universal-color;
       border-bottom: 2px solid $universal-color;
       
-      .tool-header {
+      .toolHeader {
         background-color: #ecfdf5;
         color: $universal-color;
       }
     }
 
-    .tool-header {
+    .toolHeader {
       padding: 8px 16px;
       border-radius: 24px;
       font-size: 14px;
@@ -253,12 +257,12 @@ $universal-color: #10b981;
       display: inline-block;
       margin-bottom: 16px;
 
-      .tool-name {
+      .toolName {
         @include als-font(14px, 600, 1.2);
       }
     }
 
-    .tool-description {
+    .toolDescription {
       @include als-font(15px, 400, 1.5);
       color: $text-secondary;
       margin: 0;
@@ -268,8 +272,8 @@ $universal-color: #10b981;
 
 // Responsive Design
 @media (max-width: 1400px) {
-  .testing-slide {
-    .testing-content-wrapper {
+  .testingSlide {
+    .testingContentWrapper {
       grid-template-columns: 1fr;
       gap: 30px;
     }
@@ -278,19 +282,19 @@ $universal-color: #10b981;
       padding: 2rem;
       height: auto;
       
-      .sidebar-title {
+      .sidebarTitle {
         font-size: 28px;
       }
     }
 
-    .tools-grid {
+    .toolsGrid {
       &.specialized,
       &.universal {
         grid-template-columns: 1fr;
       }
     }
 
-    .slide-title-container .slide-title {
+    .slideTitleContainer .slideTitle {
       font-size: 24px;
       letter-spacing: 2px;
     }
@@ -298,38 +302,38 @@ $universal-color: #10b981;
 }
 
 @media (max-width: 768px) {
-  .testing-slide {
-    .content-container {
+  .testingSlide {
+    .contentContainer {
       padding: 40px 30px;
     }
 
     .sidebar {
       padding: 1.5rem;
       
-      .sidebar-title {
+      .sidebarTitle {
         font-size: 24px;
       }
       
-      .sidebar-subtitle {
+      .sidebarSubtitle {
         font-size: 16px;
       }
     }
 
-    .main-content {
+    .mainContent {
       gap: 30px;
     }
 
-    .tools-section .section-header {
-      .section-title {
+    .toolsSection .sectionHeader {
+      .sectionTitle {
         font-size: 18px;
       }
     }
 
-    .tool-card {
+    .toolCard {
       padding: 20px;
     }
 
-    .slide-title-container .slide-title {
+    .slideTitleContainer .slideTitle {
       font-size: 20px;
       letter-spacing: 1px;
     }
