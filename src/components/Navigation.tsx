@@ -32,6 +32,7 @@ const Navigation: React.FC = () => {
     { path: '/technical-implementation', label: 'Техническая реализация', icon: Cog },
     { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
     { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
+    { path: '/test-execution', label: 'Проведение тестов', icon: Zap },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]

@@ -1,0 +1,400 @@
+@import '../../styles/variables';
+
+// Local SCSS Variables
+$font-family-heading: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
+$light-bg: #f8fafc;
+$white: #ffffff;
+
+// Root container for the entire slide page
+.test-execution-slide {
+  height: 100vh;
+  width: 100vw;
+  background: $light-bg;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+// The header bar, styled like the white reference header
+.slide-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 12px 32px;
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 100;
+
+  .slide-title {
+    font-family: $font-family-heading;
+    font-size: 28px;
+    font-weight: 300;
+    color: #1e293b;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .slide-subtitle {
+    font-family: $font-family-body;
+    font-size: 14px;
+    color: #475569;
+    letter-spacing: 1.5px;
+    margin: 4px 0 0 0;
+  }
+}
+
+// Container for the main content grid
+.content-container {
+  flex: 1;
+  overflow-y: auto; // This allows the content to scroll if it exceeds viewport height
+  padding: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+// The main white box that holds all the content cards
+.main-grid {
+  background: $white;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  width: 100%;
+  max-width: 1600px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: min-content; // Let rows size themselves
+  gap: 25px;
+  grid-template-areas:
+    "protocol stats-main stats-main"
+    "stats-additional card-189 card-metrics"
+    "stats-additional card-63 card-metrics";
+}
+
+// --- Grid Item Styles ---
+.protocol-section, .stats-main, .stats-additional {
+  background: #fdfdff;
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid #e2e8f0;
+}
+
+.protocol-section { grid-area: protocol; }
+.stats-main { grid-area: stats-main; }
+.stats-additional { grid-area: stats-additional; }
+
+.number-card, .card-metrics {
+  border-radius: 16px;
+  padding: 25px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.number-card {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  
+  &.card-189 { grid-area: card-189; }
+  &.card-63 { grid-area: card-63; }
+}
+
+// The specific fixes for the metrics card are here
+.card-metrics {
+  grid-area: card-metrics;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  justify-content: center;
+  align-items: stretch; // Allows children to be full-width
+  text-align: left;
+}
+
+// --- Typography & Inner Elements ---
+.block-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #2563eb;
+  text-transform: uppercase;
+}
+
+.protocol-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  
+  .protocol-item {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 14px;
+    border-bottom: 1px solid #eef2f7;
+    
+    &:last-child { border-bottom: none; }
+    
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 16px;
+      width: 8px;
+      height: 8px;
+      background: #3b82f6;
+      border-radius: 50%;
+    }
+  }
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
+  
+  .control-item {
+    background: $white;
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+  }
+  
+  .control-title { 
+    font-weight: 700; 
+    color: #1e293b; 
+    margin-bottom: 4px; 
+    font-size: 13px; 
+  }
+  
+  .control-desc { 
+    color: #64748b; 
+    font-size: 12px; 
+  }
+}
+
+.big-number { 
+  font-size: 64px; 
+  font-weight: 800; 
+}
+
+.number-label { 
+  font-size: 14px; 
+  text-transform: uppercase; 
+  margin-top: 10px; 
+}
+
+.calculation {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+  font-family: $font-family-mono;
+  font-size: 12px;
+  align-self: stretch;
+}
+
+.stats-content { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 25px; 
+}
+
+.stats-grid { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 12px; 
+  margin-top: 10px; 
+}
+
+.stats-item { 
+  background: $white; 
+  border-radius: 10px; 
+  padding: 12px; 
+  text-align: center; 
+  border: 1px solid #e2e8f0; 
+}
+
+.stats-label { 
+  font-size: 11px; 
+  color: #64748b; 
+  margin-bottom: 6px; 
+  text-transform: uppercase; 
+}
+
+.stats-value { 
+  font-size: 14px; 
+  font-weight: 700; 
+  color: #2563eb; 
+}
+
+.highlight-text { 
+  background: linear-gradient(120deg, #f59e0b 0%, #d97706 100%); 
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+  background-clip: text; 
+  font-weight: 700; 
+}
+
+.reliability-grid { 
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 10px; 
+}
+
+.reliability-item { 
+  background: rgba(34, 197, 94, 0.08); 
+  border-radius: 10px; 
+  padding: 12px; 
+  border-left: 3px solid #22c55e; 
+}
+
+.reliability-title { 
+  font-weight: 700; 
+  color: #166534; 
+  font-size: 13px; 
+}
+
+.reliability-desc { 
+  font-size: 12px; 
+  color: #16a34a; 
+  margin-top: 2px; 
+}
+
+.reliability-section { 
+  margin-top: 20px; 
+}
+
+// --- Metrics Card Specific Styles (Corrected) ---
+.metrics-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.metrics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+  .metric-item {
+    padding: 10px 0 10px 20px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    
+    &:last-child { border-bottom: none; }
+    
+    &::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.process-flow {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  
+  .flow-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    
+    &:last-child { margin-bottom: 0; }
+  }
+  
+  .step-number {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-weight: 700;
+  }
+}
+
+// --- Responsive Design ---
+@media (max-width: 1400px) {
+  .main-grid {
+    grid-template-areas:
+      "protocol protocol"
+      "stats-main stats-main"
+      "stats-additional card-189"
+      "stats-additional card-63"
+      "card-metrics card-metrics";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto auto;
+  }
+  
+  // Maintain L-shape concept on medium screens
+  .stats-content {
+    grid-template-columns: 1fr 0.5fr; // Keep some space for the L-shape
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-header {
+    padding: 20px 25px 15px;
+    
+    .slide-title {
+      font-size: 24px;
+      letter-spacing: 4px;
+    }
+    
+    .slide-subtitle {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+  }
+  
+  .content-container {
+    padding: 15px;
+  }
+  
+  .main-grid {
+    padding: 20px;
+    grid-template-areas:
+      "protocol"
+      "stats-main"
+      "stats-additional"
+      "card-189"
+      "card-63"
+      "card-metrics";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto;
+    gap: 20px;
+  }
+  
+  // On mobile, use single column for stats content
+  .stats-content {
+    grid-template-columns: 1fr;
+  }
+} 
