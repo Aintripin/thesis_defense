@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart } from 'lucide-react'
 import './Navigation.css'
 
 interface SlideEntry {
@@ -33,6 +33,8 @@ const Navigation: React.FC = () => {
     { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
     { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
     { path: '/test-execution', label: 'Проведение тестов', icon: Zap },
+    { path: '/automation', label: 'Автоматизация сбора результатов', icon: Bot },
+    { path: '/visualization', label: 'Визуализация и рекомендации', icon: PieChart },
     { path: '/results', label: 'Результаты', icon: TrendingUp },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
   ]
