@@ -1,0 +1,1 @@
+export { default as GoodbyeSlide } from './GoodbyeSlide'; 

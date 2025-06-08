@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ЗАКЛЮЧЕНИЕ - Research Tree</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+        color: #1e293b;
+        line-height: 1.5;
+        padding: 20px;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+      
+      .slide {
+        max-width: 1600px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        height: 95vh;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa, #93c5fd);
+      }
+      
+      .slide-header {
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+      }
+      
+      .slide-title {
+        font-size: 42px;
+        font-weight: 300;
+        letter-spacing: 12px;
+        color: #1e293b;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+      }
+      
+      .slide-subtitle {
+        font-size: 18px;
+        color: #3b82f6;
+        font-weight: 500;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        position: relative;
+      }
+      
+      .slide-subtitle::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      }
+      
+      .research-tree {
+        height: calc(100% - 120px);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0;
+      }
+      
+      /* Tree branches/connections */
+      .tree-connections {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      .connection-line {
+        position: absolute;
+        background: linear-gradient(45deg, #3b82f6, #60a5fa);
+        height: 2px;
+        border-radius: 1px;
+        opacity: 0.6;
+        animation: connectionGrow 1s ease-out;
+      }
+      
+      /* Root node - Core methodology */
+      .tree-root {
+        position: relative;
+        z-index: 3;
+        margin-bottom: 40px;
+      }
+      
+      .root-node {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        border-radius: 20px;
+        padding: 30px 40px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(30, 64, 175, 0.3);
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .root-node::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: rotate(45deg);
+        animation: shimmer 3s infinite;
+      }
+      
+      .root-title {
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+      }
+      
+      .root-description {
+        font-size: 14px;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+      
+      .root-metrics {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .root-metric {
+        text-align: center;
+      }
+      
+      .root-metric-value {
+        font-size: 18px;
+        font-weight: 800;
+        display: block;
+      }
+      
+      .root-metric-label {
+        font-size: 10px;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      /* Branch layers */
+      .tree-branches {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .branch-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 30%;
+        position: relative;
+      }
+      
+      /* Main branch nodes */
+      .branch-node {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 2px solid;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .branch-node.scientific {
+        border-color: #3b82f6;
+        background: linear-gradient(145deg, #ffffff 0%, #dbeafe 100%);
+      }
+      
+      .branch-node.practical {
+        border-color: #10b981;
+        background: linear-gradient(145deg, #ffffff 0%, #d1fae5 100%);
+      }
+      
+      .branch-node.future {
+        border-color: #f59e0b;
+        background: linear-gradient(145deg, #ffffff 0%, #fef3c7 100%);
+      }
+      
+      .branch-node:hover {
+        transform: translateY(-8px) scale(1.02);
+      }
+      
+      .branch-node.scientific:hover {
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+      }
+      
+      .branch-node.practical:hover {
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
+      }
+      
+      .branch-node.future:hover {
+        box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2);
+      }
+      
+      .branch-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        margin: 0 auto 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+      
+      .scientific .branch-icon {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+      }
+      
+      .practical .branch-icon {
+        background: linear-gradient(135deg, #059669, #10b981);
+      }
+      
+      .future .branch-icon {
+        background: linear-gradient(135deg, #d97706, #f59e0b);
+      }
+      
+      .branch-title {
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #1e293b;
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      
+      .branch-description {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.5;
+        text-align: center;
+        flex: 1;
+        margin-bottom: 15px;
+      }
+      
+      .branch-highlight {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        margin-top: auto;
+      }
+      
+      .highlight-value {
+        font-size: 18px;
+        font-weight: 800;
+        color: #1e293b;
+        display: block;
+        margin-bottom: 4px;
+      }
+      
+      .highlight-label {
+        font-size: 10px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 500;
+      }
+      
+      /* Leaf nodes - specific outcomes */
+      .leaf-nodes {
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
+        margin-top: 15px;
+      }
+      
+      .leaf-node {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 12px;
+        text-align: center;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        flex: 1;
+        max-width: 100px;
+      }
+      
+      .leaf-node:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+      }
+      
+      .leaf-value {
+        font-size: 12px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+      }
+      
+      .leaf-label {
+        font-size: 9px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      /* Animations */
+      @keyframes connectionGrow {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+      
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      .tree-root {
+        animation: slideInUp 1s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .branch-node {
+        animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .branch-group:nth-child(1) .branch-node {
+        animation-delay: 0.2s;
+      }
+      
+      .branch-group:nth-child(2) .branch-node {
+        animation-delay: 0.4s;
+      }
+      
+      .branch-group:nth-child(3) .branch-node {
+        animation-delay: 0.6s;
+      }
+      
+      .leaf-node {
+        animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        animation-delay: 0.8s;
+        animation-fill-mode: both;
+      }
+      
+      .slide-header {
+        animation: fadeIn 1s ease-out;
+      }
+      
+      /* Tree connection lines positioning */
+      .connection-line.to-scientific {
+        top: 220px;
+        left: 50%;
+        width: 200px;
+        transform: translateX(-50%) rotate(-25deg);
+        transform-origin: left;
+        animation-delay: 0.3s;
+      }
+      
+      .connection-line.to-practical {
+        top: 220px;
+        left: 50%;
+        width: 150px;
+        transform: translateX(-50%);
+        animation-delay: 0.5s;
+      }
+      
+      .connection-line.to-future {
+        top: 220px;
+        left: 50%;
+        width: 200px;
+        transform: translateX(-50%) rotate(25deg);
+        transform-origin: left;
+        animation-delay: 0.7s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">З А К Л Ю Ч Е Н И Е</h1>
+        <p class="slide-subtitle">Древо исследования: от корней до плодов</p>
+      </div>
+      
+      <div class="research-tree">
+        <!-- Tree connections -->
+        <div class="tree-connections">
+          <div class="connection-line to-scientific"></div>
+          <div class="connection-line to-practical"></div>
+          <div class="connection-line to-future"></div>
+        </div>
+        
+        <!-- Root: Core methodology -->
+        <div class="tree-root">
+          <div class="root-node">
+            <div class="root-title">Ядро методологии</div>
+            <div class="root-description">
+              Комплексное бенчмаркирование СУБД с использованием YCSB на реальных данных
+            </div>
+            <div class="root-metrics">
+              <div class="root-metric">
+                <span class="root-metric-value">189</span>
+                <span class="root-metric-label">Тестов</span>
+              </div>
+              <div class="root-metric">
+                <span class="root-metric-value">3</span>
+                <span class="root-metric-label">СУБД</span>
+              </div>
+              <div class="root-metric">
+                <span class="root-metric-value">12+ ГБ</span>
+                <span class="root-metric-label">Данных</span>
+              </div>
+              <div class="root-metric">
+                <span class="root-metric-value">6</span>
+                <span class="root-metric-label">Workloads</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Main branches -->
+        <div class="tree-branches">
+          <!-- Scientific contribution branch -->
+          <div class="branch-group">
+            <div class="branch-node scientific">
+              <div class="branch-icon">🔬</div>
+              <div class="branch-title">Научный вклад</div>
+              <div class="branch-description">
+                Стандартизированная методология сравнения различных архитектурных подходов к СУБД
+              </div>
+              <div class="branch-highlight">
+                <span class="highlight-value">100%</span>
+                <span class="highlight-label">Воспроизводимость</span>
+              </div>
+            </div>
+            
+            <div class="leaf-nodes">
+              <div class="leaf-node">
+                <div class="leaf-value">Реляционные</div>
+                <div class="leaf-label">PostgreSQL</div>
+              </div>
+              <div class="leaf-node">
+                <div class="leaf-value">Документо-ориентированные</div>
+                <div class="leaf-label">MongoDB</div>
+              </div>
+              <div class="leaf-node">
+                <div class="leaf-value">Колоночные</div>
+                <div class="leaf-label">Cassandra</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Practical applications branch -->
+          <div class="branch-group">
+            <div class="branch-node practical">
+              <div class="branch-icon">💡</div>
+              <div class="branch-title">Практические решения</div>
+              <div class="branch-description">
+                Обоснованные рекомендации по выбору СУБД для конкретных сценариев использования
+              </div>
+              <div class="branch-highlight">
+                <span class="highlight-value">30x</span>
+                <span class="highlight-label">Разница производительности</span>
+              </div>
+            </div>
+            
+            <div class="leaf-nodes">
+              <div class="leaf-node">
+                <div class="leaf-value">CRUD</div>
+                <div class="leaf-label">Cassandra</div>
+              </div>
+              <div class="leaf-node">
+                <div class="leaf-value">Read-Latest</div>
+                <div class="leaf-label">PostgreSQL</div>
+              </div>
+              <div class="leaf-node">
+                <div class="leaf-value">Scan-Heavy</div>
+                <div class="leaf-label">MongoDB</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Future research branch -->
+          <div class="branch-group">
+            <div class="branch-node future">
+              <div class="branch-icon">🚀</div>
+              <div class="branch-title">Перспективы развития</div>
+              <div class="branch-description">
+                Расширение на распределенные системы, отказоустойчивость и энергоэффективность
+              </div>
+              <div class="branch-highlight">
+                <span class="highlight-value">∞</span>
+                <span class="highlight-label">Потенциал</span>
+              </div>
+            </div>
+            
+            <div class="leaf-nodes">
+              <div class="leaf-node">
+                <div class="leaf-value">Кластеры</div>
+                <div class="leaf-label">Распределенность</div>
+              </div>
+              <div class="leaf-node">
+                <div class="leaf-value">Fault Tolerance</div>
+                <div class="leaf-label">Надежность</div>
+              </div>
+              <div class="leaf-node">
+                <div class="leaf-value">Green IT</div>
+                <div class="leaf-label">Экология</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ЗАКЛЮЧЕНИЕ - Research Timeline</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+        color: #1e293b;
+        line-height: 1.5;
+        padding: 20px;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+      
+      .slide {
+        max-width: 1600px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 50px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        height: 95vh;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa, #93c5fd);
+      }
+      
+      .slide-header {
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+      }
+      
+      .slide-title {
+        font-size: 42px;
+        font-weight: 300;
+        letter-spacing: 12px;
+        color: #1e293b;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+      }
+      
+      .slide-subtitle {
+        font-size: 18px;
+        color: #3b82f6;
+        font-weight: 500;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        position: relative;
+      }
+      
+      .slide-subtitle::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      }
+      
+      .timeline-container {
+        height: calc(100% - 140px);
+        position: relative;
+        padding: 40px 0;
+      }
+      
+      .timeline {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 50px;
+      }
+      
+      .timeline::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50px;
+        right: 50px;
+        height: 4px;
+        background: linear-gradient(90deg, #94a3b8, #3b82f6, #10b981, #f59e0b);
+        border-radius: 2px;
+        z-index: 1;
+      }
+      
+      .timeline-milestone {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 200px;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .timeline-milestone:hover {
+        transform: scale(1.05);
+      }
+      
+      .milestone-dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: 4px solid;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        position: relative;
+        z-index: 3;
+        transition: all 0.3s ease;
+      }
+      
+      .milestone-dot.completed {
+        border-color: #10b981;
+        background: #10b981;
+      }
+      
+      .milestone-dot.current {
+        border-color: #3b82f6;
+        background: #3b82f6;
+        animation: pulse 2s infinite;
+      }
+      
+      .milestone-dot.future {
+        border-color: #f59e0b;
+        background: #ffffff;
+      }
+      
+      .milestone-dot::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ffffff;
+      }
+      
+      .milestone-dot.completed::after {
+        content: '✓';
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 12px;
+        width: auto;
+        height: auto;
+      }
+      
+      .milestone-dot.future::after {
+        background: #f59e0b;
+      }
+      
+      .milestone-card {
+        margin-top: 30px;
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .milestone-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      
+      .milestone-card.setup::before {
+        background: linear-gradient(90deg, #94a3b8, #64748b);
+      }
+      
+      .milestone-card.execution::before {
+        background: linear-gradient(90deg, #059669, #10b981);
+      }
+      
+      .milestone-card.analysis::before {
+        background: linear-gradient(90deg, #1e40af, #3b82f6);
+      }
+      
+      .milestone-card.results::before {
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      }
+      
+      .milestone-card.applications::before {
+        background: linear-gradient(90deg, #7c3aed, #a855f7);
+      }
+      
+      .milestone-card.future::before {
+        background: linear-gradient(90deg, #d97706, #f59e0b);
+      }
+      
+      .milestone-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+      }
+      
+      .milestone-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #ffffff;
+        margin-bottom: 15px;
+        align-self: center;
+      }
+      
+      .setup .milestone-icon {
+        background: linear-gradient(135deg, #64748b, #94a3b8);
+      }
+      
+      .execution .milestone-icon {
+        background: linear-gradient(135deg, #059669, #10b981);
+      }
+      
+      .analysis .milestone-icon {
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+      }
+      
+      .results .milestone-icon {
+        background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      }
+      
+      .applications .milestone-icon {
+        background: linear-gradient(135deg, #7c3aed, #a855f7);
+      }
+      
+      .future .milestone-icon {
+        background: linear-gradient(135deg, #d97706, #f59e0b);
+      }
+      
+      .milestone-title {
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #1e293b;
+        margin-bottom: 12px;
+        text-align: center;
+      }
+      
+      .milestone-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .milestone-description {
+        font-size: 13px;
+        color: #475569;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      
+      .milestone-metrics {
+        margin-top: auto;
+        padding-top: 15px;
+        border-top: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      
+      .metric-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 12px;
+      }
+      
+      .metric-label {
+        color: #64748b;
+        font-weight: 500;
+      }
+      
+      .metric-value {
+        color: #1e293b;
+        font-weight: 700;
+        background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .timeline-phase {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 11px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+      }
+      
+      .timeline-phase.past {
+        color: #10b981;
+        border-color: rgba(16, 185, 129, 0.3);
+      }
+      
+      .timeline-phase.present {
+        color: #3b82f6;
+        border-color: rgba(59, 130, 246, 0.3);
+      }
+      
+      .timeline-phase.future {
+        color: #f59e0b;
+        border-color: rgba(245, 158, 11, 0.3);
+      }
+      
+      .footer-impact {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        backdrop-filter: blur(10px);
+      }
+      
+      .impact-title {
+        font-size: 12px;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      
+      .impact-description {
+        font-size: 14px;
+        color: #1e293b;
+        font-weight: 500;
+      }
+      
+      @keyframes pulse {
+        0%, 100% {
+          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+        50% {
+          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.6);
+        }
+      }
+      
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      .timeline-milestone {
+        animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .timeline-milestone:nth-child(1) { animation-delay: 0.1s; }
+      .timeline-milestone:nth-child(2) { animation-delay: 0.2s; }
+      .timeline-milestone:nth-child(3) { animation-delay: 0.3s; }
+      .timeline-milestone:nth-child(4) { animation-delay: 0.4s; }
+      .timeline-milestone:nth-child(5) { animation-delay: 0.5s; }
+      .timeline-milestone:nth-child(6) { animation-delay: 0.6s; }
+      
+      .slide-header {
+        animation: fadeIn 1s ease-out;
+      }
+      
+      .footer-impact {
+        animation: fadeIn 1s ease-out 1.2s;
+        animation-fill-mode: both;
+      }
+      
+      /* Timeline line animation */
+      .timeline::before {
+        background-size: 200% 100%;
+        animation: gradientMove 4s ease-in-out infinite;
+      }
+      
+      @keyframes gradientMove {
+        0%, 100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide">
+      <div class="slide-header">
+        <h1 class="slide-title">З А К Л Ю Ч Е Н И Е</h1>
+        <p class="slide-subtitle">Путь исследования: от концепции до перспектив</p>
+      </div>
+      
+      <div class="timeline-container">
+        <div class="timeline">
+          <!-- Milestone 1: Setup -->
+          <div class="timeline-milestone">
+            <div class="timeline-phase past">ПРОШЛОЕ</div>
+            <div class="milestone-dot completed"></div>
+            <div class="milestone-card setup">
+              <div class="milestone-icon">⚙️</div>
+              <div class="milestone-title">Настройка</div>
+              <div class="milestone-content">
+                <div class="milestone-description">
+                  Подготовка инфраструктуры тестирования, выбор СУБД и настройка окружения
+                </div>
+                <div class="milestone-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">СУБД:</span>
+                    <span class="metric-value">3</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Конфигурации:</span>
+                    <span class="metric-value">Оптимизированы</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Датасет:</span>
+                    <span class="metric-value">12+ ГБ</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Milestone 2: Execution -->
+          <div class="timeline-milestone">
+            <div class="milestone-dot completed"></div>
+            <div class="milestone-card execution">
+              <div class="milestone-icon">🔄</div>
+              <div class="milestone-title">Выполнение</div>
+              <div class="milestone-content">
+                <div class="milestone-description">
+                  Проведение систематического тестирования производительности с использованием YCSB
+                </div>
+                <div class="milestone-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Тестов:</span>
+                    <span class="metric-value">189</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Workloads:</span>
+                    <span class="metric-value">6 типов</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Потоков:</span>
+                    <span class="metric-value">1-256</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Milestone 3: Analysis -->
+          <div class="timeline-milestone">
+            <div class="timeline-phase present">НАСТОЯЩЕЕ</div>
+            <div class="milestone-dot current"></div>
+            <div class="milestone-card analysis">
+              <div class="milestone-icon">📊</div>
+              <div class="milestone-title">Анализ</div>
+              <div class="milestone-content">
+                <div class="milestone-description">
+                  Обработка результатов, выявление паттернов производительности и создание рекомендаций
+                </div>
+                <div class="milestone-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Разница:</span>
+                    <span class="metric-value">30x</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Точность:</span>
+                    <span class="metric-value">100%</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Метрики:</span>
+                    <span class="metric-value">Throughput + Latency</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Milestone 4: Scientific Impact -->
+          <div class="timeline-milestone">
+            <div class="milestone-dot current"></div>
+            <div class="milestone-card results">
+              <div class="milestone-icon">🔬</div>
+              <div class="milestone-title">Научный вклад</div>
+              <div class="milestone-content">
+                <div class="milestone-description">
+                  Комплексное сравнение архитектур с использованием стандартизированной методологии
+                </div>
+                <div class="milestone-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Архитектуры:</span>
+                    <span class="metric-value">3 типа</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Методология:</span>
+                    <span class="metric-value">Воспроизводимая</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Данные:</span>
+                    <span class="metric-value">Реальные</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Milestone 5: Applications -->
+          <div class="timeline-milestone">
+            <div class="milestone-dot current"></div>
+            <div class="milestone-card applications">
+              <div class="milestone-icon">💡</div>
+              <div class="milestone-title">Применение</div>
+              <div class="milestone-content">
+                <div class="milestone-description">
+                  Практические рекомендации для выбора СУБД в реальных проектах
+                </div>
+                <div class="milestone-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Cassandra:</span>
+                    <span class="metric-value">CRUD лидер</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">PostgreSQL:</span>
+                    <span class="metric-value">Read-Latest</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">MongoDB:</span>
+                    <span class="metric-value">Scan-Heavy</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Milestone 6: Future -->
+          <div class="timeline-milestone">
+            <div class="timeline-phase future">БУДУЩЕЕ</div>
+            <div class="milestone-dot future"></div>
+            <div class="milestone-card future">
+              <div class="milestone-icon">🚀</div>
+              <div class="milestone-title">Развитие</div>
+              <div class="milestone-content">
+                <div class="milestone-description">
+                  Расширение исследований на кластерные конфигурации и новые метрики
+                </div>
+                <div class="milestone-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Кластеры:</span>
+                    <span class="metric-value">Распределенные</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Отказоустойчивость:</span>
+                    <span class="metric-value">Fault Tolerance</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Энергия:</span>
+                    <span class="metric-value">Green IT</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-impact">
+        <div class="impact-title">Итоговый Impact</div>
+        <div class="impact-description">
+          Научно обоснованная методология выбора СУБД для высоконагруженных систем
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

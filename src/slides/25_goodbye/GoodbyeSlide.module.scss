@@ -1,0 +1,237 @@
+// SCSS Variables
+$bmstu-blue-primary: #1662D3;
+$bmstu-blue-secondary: #1562D2;
+$white: #ffffff;
+$white-transparent-85: rgba(255, 255, 255, 0.85);
+$white-transparent-60: rgba(255, 255, 255, 0.6);
+$white-transparent-90: rgba(255, 255, 255, 0.9);
+
+// Font mixins
+@mixin als-font($size: 16px, $weight: 400, $line-height: 1.4) {
+  font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+// Responsive font size mixin
+@mixin responsive-font($min, $vw, $max) {
+  font-size: clamp($min, $vw, $max);
+}
+
+/* Fullscreen Goodbye Slide - BMSTU Official Design */
+.goodbyeSlideFullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  overflow: hidden;
+  @include als-font();
+}
+
+.goodbyeBackground {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, $bmstu-blue-primary 0%, $bmstu-blue-secondary 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  // Subtle pattern overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+  }
+}
+
+/* Background Logo */
+.backgroundLogo {
+  position: absolute;
+  bottom: -10%;
+  right: -30%;
+  z-index: 1;
+  pointer-events: none;
+  width: 70%;
+  height: 70%;
+  overflow: hidden;
+}
+
+.bmstuLogoBackground {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.25;
+  filter: brightness(1.2) contrast(0.8) drop-shadow(0 0 40px rgba(255, 255, 255, 0.15));
+}
+
+.goodbyeMainContent {
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.goodbyeContentContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Main content area - Centers the thank you message vertically but aligns left */
+.mainContentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 0;
+  position: relative;
+  // padding-left: 60px;
+  margin-left: -300px;
+}
+
+/* Thank You Section - Left aligned */
+.thankYouSection {
+  text-align: left;
+
+
+  .thankYouTitle {
+    @include responsive-font(80px, 12vw, 140px);
+    font-weight: 700;
+    line-height: 1;
+    margin: 0;
+    color: $white;
+    letter-spacing: 2px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+}
+
+/* Footer area */
+.footerArea {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-bottom: 60px;
+}
+
+/* Contacts Footer */
+.contactsFooter {
+  position: absolute;
+  bottom: 60px;
+  left: 60px;
+  z-index: 5;
+  margin-left: -300px;
+
+  .contacts {
+    color: $white-transparent-85;
+    @include responsive-font(24px, 3vw, 36px);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .goodbyeSlideFullscreen {
+    .goodbyeContentContainer {
+      padding: 0 40px;
+      max-width: 1200px;
+    }
+  }
+
+  .mainContentArea {
+    padding-left: 40px;
+  }
+  
+  .backgroundLogo {
+    width: 75%;
+    height: 75%;
+    bottom: -8%;
+    right: -30%;
+  }
+
+  .contactsFooter {
+    left: 40px;
+    bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .goodbyeSlideFullscreen {
+    .goodbyeContentContainer {
+      padding: 0 30px;
+      max-width: 100%;
+    }
+  }
+
+  .mainContentArea {
+    padding-left: 30px;
+  }
+  
+  .goodbyeBackground {
+    padding: 20px;
+  }
+  
+  .backgroundLogo {
+    width: 80%;
+    height: 80%;
+    bottom: -12%;
+    right: -35%;
+  }
+  
+  .contactsFooter {
+    bottom: 30px;
+    left: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .goodbyeSlideFullscreen {
+    .goodbyeContentContainer {
+      padding: 0 20px;
+    }
+  }
+
+  .mainContentArea {
+    padding-left: 20px;
+  }
+  
+  .backgroundLogo {
+    width: 85%;
+    height: 85%;
+    bottom: -15%;
+    right: -40%;
+    opacity: 0.12;
+  }
+  
+  .bmstuLogoBackground {
+    opacity: 0.12;
+  }
+  
+  .contactsFooter {
+    bottom: 20px;
+    left: 20px;
+  }
+} 

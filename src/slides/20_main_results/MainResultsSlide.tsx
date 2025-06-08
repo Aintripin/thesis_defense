@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './MainResultsSlide.module.scss';
 
 interface WorkloadData {
@@ -14,8 +15,23 @@ interface PerformanceLeader {
   leader: string;
 }
 
-const MainResultsSlide: React.FC = () => {
-  const [chartType, setChartType] = useState<'bars' | 'radar'>('bars');
+interface MainResultsSlideProps {
+  initialChartType?: 'bars' | 'radar';
+}
+
+const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 'bars' }) => {
+  const [chartType, setChartType] = useState<'bars' | 'radar'>(initialChartType);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Update navigation when chart type changes
+  useEffect(() => {
+    if (chartType === 'bars' && location.pathname !== '/main-results') {
+      navigate('/main-results', { replace: true });
+    } else if (chartType === 'radar' && location.pathname !== '/main-results/radar') {
+      navigate('/main-results/radar', { replace: true });
+    }
+  }, [chartType, navigate, location.pathname]);
 
   const workloadData: WorkloadData[] = [
     { workload: 'A', postgresql: 8.06, mongodb: 11.2, cassandra: 24.2 },

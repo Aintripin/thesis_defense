@@ -1,0 +1,393 @@
+@import '../../styles/variables';
+
+// Local SCSS Variables
+$fontFamilyHeading: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$fontFamilyBody: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+$lightBg: #f8fafc;
+$white: #ffffff;
+
+.scalabilityDelaysSlide {
+  height: 100vh;
+  width: 100vw;
+  background: $lightBg;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+// Header styling matching other slides
+.slideHeader {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 12px 32px;
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 100;
+
+  .slideTitle {
+    font-family: $fontFamilyHeading;
+    font-size: 28px;
+    font-weight: 300;
+    color: #1e293b;
+    margin: 0;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .slideSubtitle {
+    font-family: $fontFamilyBody;
+    font-size: 14px;
+    color: #475569;
+    letter-spacing: 1.5px;
+    margin: 4px 0 0 0;
+  }
+}
+
+// Wrapper A - Main wrapper with flex column
+.contentContainer {
+  flex: 1;
+  padding: 40px 50px;
+  overflow: hidden;
+  max-width: 95%;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// Wrapper B - Controls with flex row
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-shrink: 0;
+}
+
+.dbToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: $white;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.postgresql {
+    border-color: #8b5cf6;
+    color: #8b5cf6;
+
+    &.active {
+      background: #8b5cf6;
+      color: $white;
+    }
+  }
+
+  &.mongodb {
+    border-color: #10b981;
+    color: #10b981;
+
+    &.active {
+      background: #10b981;
+      color: $white;
+    }
+  }
+
+  &.cassandra {
+    border-color: #f59e0b;
+    color: #f59e0b;
+
+    &.active {
+      background: #f59e0b;
+      color: $white;
+    }
+  }
+}
+
+.toggleIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+// Wrapper C - Chart Container with flex row
+.chartContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  flex: 1;
+  min-height: 0;
+}
+
+// Wrapper D - Main Chart with flex grow
+.mainChart {
+  flex-grow: 7;
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 25px 25px 40px 25px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  min-height: 0;
+}
+
+// Wrapper E - Sidebar with flex column and flex grow
+.sidebar {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+.summaryCard {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  flex-grow: 1;
+}
+
+.cardTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lineChart {
+  width: 100%;
+  height: calc(100% - 60px);
+  position: relative;
+  min-height: 500px;
+  margin-top: 10px;
+}
+
+.chartSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.gridLine {
+  stroke: #e2e8f0;
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.axisLine {
+  stroke: #94a3b8;
+  stroke-width: 2;
+}
+
+.axisLabel {
+  font-size: 16px;
+  fill: #64748b;
+  font-weight: 500;
+}
+
+.dataLine {
+  fill: none;
+  stroke-width: 4;
+  transition: all 0.3s ease;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+
+  &.postgresql {
+    stroke: #8b5cf6;
+  }
+
+  &.mongodb {
+    stroke: #10b981;
+  }
+
+  &.cassandra {
+    stroke: #f59e0b;
+  }
+
+  &.hidden {
+    opacity: 0.2;
+    stroke-dasharray: 5, 5;
+  }
+}
+
+.dataPoint {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+
+  &:hover {
+    transform: scale(1.5);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+
+  &.postgresql {
+    fill: #8b5cf6;
+    r: 6;
+  }
+
+  &.mongodb {
+    fill: #10b981;
+    r: 6;
+  }
+
+  &.cassandra {
+    fill: #f59e0b;
+    r: 6;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  background: $white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.insights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.insightItem {
+  padding: 8px 0;
+  font-size: 24px;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+  padding-left: 16px;
+  line-height: 1.4;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:before {
+    content: "→";
+    color: #2563eb;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 8px;
+  }
+}
+
+.highlight {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.scalabilityStats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: $white;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.statDb {
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.postgresqlColor {
+    color: #8b5cf6;
+  }
+
+  &.mongodbColor {
+    color: #10b981;
+  }
+
+  &.cassandraColor {
+    color: #f59e0b;
+  }
+}
+
+.statPeak {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.chartTitle {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .chartContainer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sidebar {
+    min-width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .slideHeader {
+    padding: 20px 25px 15px;
+
+    .slideTitle {
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+
+    .slideSubtitle {
+      font-size: 12px;
+    }
+  }
+
+  .contentContainer {
+    padding: 20px;
+  }
+
+  .controls {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .dbToggle {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+} 

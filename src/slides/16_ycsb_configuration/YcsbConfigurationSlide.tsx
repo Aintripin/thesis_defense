@@ -1,5 +1,45 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import styles from './YcsbConfigurationSlide.module.scss';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
 
 const YcsbConfigurationSlide: React.FC = () => {
   return (
@@ -7,16 +47,32 @@ const YcsbConfigurationSlide: React.FC = () => {
       <div className={styles.contentContainer}>
         <div className={styles.mainContentContainer}>
           
-          <div className={styles.slideTitleContainer}>
+          <motion.div 
+            className={styles.slideTitleContainer}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <h1 className={styles.slideTitle}>К О Н Ф И Г У Р А Ц И Я&nbsp;&nbsp;Y C S B</h1>
             <p className={styles.slideSubtitle}>Параметры тестирования производительности СУБД</p>
-          </div>
+          </motion.div>
 
-          <div className={styles.slideContent}>
+          <motion.div 
+            className={styles.slideContent}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             
             {/* Левая колонка */}
-            <div className={styles.configSection}>
-              <div className={`${styles.configBlock} ${styles.primary}`}>
+            <motion.div 
+              className={styles.configSection}
+              variants={slideInLeft}
+            >
+              <motion.div 
+                className={`${styles.configBlock} ${styles.primary}`}
+                variants={fadeInUp}
+              >
                 <div className={styles.blockHeader}>
                   <div className={styles.blockIcon}>⚙</div>
                   <h3 className={styles.blockTitle}>Основные параметры</h3>
@@ -45,9 +101,12 @@ const YcsbConfigurationSlide: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className={`${styles.configBlock} ${styles.accent}`}>
+              <motion.div 
+                className={`${styles.configBlock} ${styles.accent}`}
+                variants={fadeInUp}
+              >
                 <div className={styles.blockHeader}>
                   <div className={styles.blockIcon}>🗄</div>
                   <h3 className={styles.blockTitle}>Драйверы СУБД</h3>
@@ -68,12 +127,18 @@ const YcsbConfigurationSlide: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Средняя колонка */}
-            <div className={styles.configSection}>
-              <div className={`${styles.configBlock} ${styles.workloadsBlock}`}>
+            <motion.div 
+              className={styles.configSection}
+              variants={fadeInUp}
+            >
+              <motion.div 
+                className={`${styles.configBlock} ${styles.workloadsBlock}`}
+                variants={fadeInUp}
+              >
                 <div className={styles.blockHeader}>
                   <div className={styles.blockIcon}>📊</div>
                   <h3 className={styles.blockTitle}>Рабочие нагрузки <span className={styles.statHighlight}>6 типов</span></h3>
@@ -153,12 +218,18 @@ const YcsbConfigurationSlide: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Правая колонка */}
-            <div className={styles.configSection}>
-              <div className={styles.configBlock}>
+            <motion.div 
+              className={styles.configSection}
+              variants={slideInRight}
+            >
+              <motion.div 
+                className={styles.configBlock}
+                variants={fadeInUp}
+              >
                 <div className={styles.blockHeader}>
                   <div className={styles.blockIcon}>🔄</div>
                   <h3 className={styles.blockTitle}>Процедура тестирования</h3>
@@ -185,9 +256,12 @@ const YcsbConfigurationSlide: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className={`${styles.configBlock} ${styles.accent}`}>
+              <motion.div 
+                className={`${styles.configBlock} ${styles.accent}`}
+                variants={fadeInUp}
+              >
                 <div className={styles.blockHeader}>
                   <div className={styles.blockIcon}>✨</div>
                   <h3 className={styles.blockTitle}>Ключевые особенности</h3>
@@ -212,10 +286,10 @@ const YcsbConfigurationSlide: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

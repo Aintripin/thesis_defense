@@ -1,21 +1,77 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import styles from './VisualizationSlide.module.scss';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
 
 const VisualizationSlide = () => {
   return (
     <div className={styles.visualizationSlide}>
       {/* Header like slides 17 & 18 */}
-      <div className={styles.slideHeader}>
+      <motion.div 
+        className={styles.slideHeader}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <h1 className={styles.slideTitle}>В И З У А Л И З А Ц И Я&nbsp;&nbsp;И&nbsp;&nbsp;Р Е К О М Е Н Д А Ц И И</h1>
         <p className={styles.slideSubtitle}>Apache Superset дашборды</p>
-      </div>
+      </motion.div>
 
       {/* Main content area */}
-      <div className={styles.contentContainer}>
+      <motion.div 
+        className={styles.contentContainer}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className={styles.contentGrid}>
           {/* Left column: Visualization */}
-          <div className={styles.contentSection}>
-            <div className={styles.sectionBlock}>
+          <motion.div 
+            className={styles.contentSection}
+            variants={slideInLeft}
+          >
+            <motion.div 
+              className={styles.sectionBlock}
+              variants={fadeInUp}
+            >
               <div className={styles.supersetHeader}>
                 <div className={styles.supersetTitle}>Apache Superset</div>
                 <div className={styles.supersetDesc}>
@@ -66,15 +122,24 @@ const VisualizationSlide = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right column: Recommendations */}
-          <div className={styles.contentSection}>
-            <div className={styles.sectionBlock}>
+          <motion.div 
+            className={styles.contentSection}
+            variants={slideInRight}
+          >
+            <motion.div 
+              className={styles.sectionBlock}
+              variants={fadeInUp}
+            >
               <div className={styles.blockTitle}>Рекомендации по выбору СУБД:</div>
 
-              <div className={`${styles.dbSection} ${styles.dbMongodb}`}>
+              <motion.div 
+                className={`${styles.dbSection} ${styles.dbMongodb}`}
+                variants={fadeInUp}
+              >
                 <div className={`${styles.dbTitle} ${styles.mongodbColor}`}>MongoDB</div>
                 <div className={styles.dbSubtitle}>Оптимальные сценарии:</div>
                 <ul className={styles.dbFeatures}>
@@ -94,9 +159,12 @@ const VisualizationSlide = () => {
                     <div className={styles.metricValue}>23.9k ops/sec</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className={`${styles.dbSection} ${styles.dbCassandra}`}>
+              <motion.div 
+                className={`${styles.dbSection} ${styles.dbCassandra}`}
+                variants={fadeInUp}
+              >
                 <div className={`${styles.dbTitle} ${styles.cassandraColor}`}>Cassandra</div>
                 <div className={styles.dbSubtitle}>Сильные стороны:</div>
                 <ul className={styles.dbFeatures}>
@@ -124,9 +192,12 @@ const VisualizationSlide = () => {
                     Низкая эффективность сканирования
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className={`${styles.dbSection} ${styles.dbPostgresql}`}>
+              <motion.div 
+                className={`${styles.dbSection} ${styles.dbPostgresql}`}
+                variants={fadeInUp}
+              >
                 <div className={`${styles.dbTitle} ${styles.postgresqlColor}`}>PostgreSQL</div>
                 <div className={styles.dbSubtitle}>Универсальность:</div>
                 <ul className={styles.dbFeatures}>
@@ -148,11 +219,11 @@ const VisualizationSlide = () => {
                     <div className={styles.metricValue}>9.62k ops/sec</div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

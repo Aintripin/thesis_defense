@@ -18,7 +18,10 @@ import TestExecutionSlide from './slides/17_test_execution'
 import AutomationSlide from './slides/18_automation/AutomationSlide'
 import VisualizationSlide from './slides/19_visualization/VisualizationSlide'
 import { MainResultsSlide } from './slides/20_main_results'
-import { ConclusionSlide } from './slides/06_conclusion'
+import { ScalabilityDelaysSlide } from './slides/22_scalability_delays'
+import { PublicationsSlide } from './slides/23_publications'
+import { ConclusionSlide } from './slides/24_conclusion'
+import { GoodbyeSlide } from './slides/25_goodbye'
 import './App.css'
 
 const DatasetSelectionWrapper = () => {
@@ -31,6 +34,14 @@ const DataPreparationWrapper = () => {
   const location = useLocation();
   const subSlide = location.pathname.includes('cassandra') ? 1 : 0;
   return <DataPreparationSlides subSlide={subSlide} />;
+}
+
+const MainResultsBarsWrapper = () => {
+  return <MainResultsSlide initialChartType="bars" />;
+}
+
+const MainResultsRadarWrapper = () => {
+  return <MainResultsSlide initialChartType="radar" />;
 }
 
 function App() {
@@ -64,8 +75,12 @@ function App() {
         <Route path="/test-execution" element={<TestExecutionSlide />} />
         <Route path="/automation" element={<AutomationSlide />} />
         <Route path="/visualization" element={<VisualizationSlide />} />
-        <Route path="/main-results" element={<MainResultsSlide />} />
+        <Route path="/main-results" element={<MainResultsBarsWrapper />} />
+        <Route path="/main-results/radar" element={<MainResultsRadarWrapper />} />
+        <Route path="/scalability-delays" element={<ScalabilityDelaysSlide />} />
+        <Route path="/publications" element={<PublicationsSlide />} />
         <Route path="/conclusion" element={<ConclusionSlide />} />
+        <Route path="/goodbye" element={<GoodbyeSlide />} />
       </Routes>
     </div>
   )

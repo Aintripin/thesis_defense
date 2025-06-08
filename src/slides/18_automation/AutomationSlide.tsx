@@ -1,21 +1,77 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import styles from './AutomationSlide.module.scss';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 30 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
 
 const AutomationSlide = () => {
   return (
     <div className={styles.automationSlide}>
       {/* Header like slide 17 */}
-      <div className={styles.slideHeader}>
+      <motion.div 
+        className={styles.slideHeader}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <h1 className={styles.slideTitle}>А В Т О М А Т И З А Ц И Я&nbsp;&nbsp;С Б О Р А&nbsp;&nbsp;Р Е З У Л Ь Т А Т О В</h1>
         <p className={styles.slideSubtitle}>Python-скрипт для обработки данных</p>
-      </div>
+      </motion.div>
 
       {/* Main content area */}
-      <div className={styles.contentContainer}>
+      <motion.div 
+        className={styles.contentContainer}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className={styles.contentGrid}>
           {/* Left column: Functionality */}
-          <div className={styles.contentSection}>
-            <div className={styles.sectionBlock}>
+          <motion.div 
+            className={styles.contentSection}
+            variants={slideInLeft}
+          >
+            <motion.div 
+              className={styles.sectionBlock}
+              variants={fadeInUp}
+            >
               <div className={styles.scriptInfo}>
                 <div className={styles.scriptName}>parse_ycsb.py</div>
                 <div className={styles.scriptDesc}>
@@ -62,12 +118,18 @@ const AutomationSlide = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right column: Extracted metrics */}
-          <div className={styles.contentSection}>
-            <div className={styles.sectionBlock}>
+          <motion.div 
+            className={styles.contentSection}
+            variants={slideInRight}
+          >
+            <motion.div 
+              className={styles.sectionBlock}
+              variants={fadeInUp}
+            >
               <div className={styles.categoryTitle}>Извлекаемые метрики:</div>
 
               <div className={styles.metricsSection}>
@@ -105,7 +167,10 @@ const AutomationSlide = () => {
                 </div>
               </div>
 
-              <div className={styles.metricsGrid}>
+              <motion.div 
+                className={styles.metricsGrid}
+                variants={fadeInUp}
+              >
                 <div className={styles.metricCard}>
                   <div className={styles.metricTitle}>Всего метрик</div>
                   <div className={styles.metricValue}>60+<br />параметров</div>
@@ -122,11 +187,11 @@ const AutomationSlide = () => {
                   <div className={styles.metricTitle}>Точность</div>
                   <div className={styles.metricValue}>Микросекунды<br />(μs)</div>
                 </div>
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

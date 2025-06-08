@@ -85,7 +85,8 @@ $white: #ffffff;
     display: grid;
     grid-template-columns: 360px 1fr 360px;
     gap: 35px;
-    overflow-y: auto;
+    // overflow-y: auto;
+    overflow-x: hidden;
   }
   
   // Fix for middle column workload card - make it grow and use flex layout
@@ -174,6 +175,7 @@ $white: #ffffff;
     text-transform: uppercase;
     margin: 0;
     font-family: $fontFamilyHeading;
+    overflow: hidden;
   }
   
   .blockContent {
