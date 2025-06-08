@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L-Shapes with Flexbox Layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Top-level flexbox row container */
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 500px;
+        }
+
+        /* Left container with flexbox column */
+        .left-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        /* Plain rectangular elements */
+        .rectangle-1 {
+            background: #2ecc71;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .rectangle-2 {
+            background: #9b59b6;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        /* Right container for L-shapes */
+        .right-container {
+            flex: 1;
+            position: relative;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+        }
+
+        /* L-shaped elements */
+        .l-shape-1 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #4a90e2;
+            
+            /* L-shape: truncated vertically to make room for brown rectangle */
+            clip-path: polygon(
+                0% 0%,      /* top-left */
+                100% 0%,    /* top-right - FULL WIDTH */
+                100% 45%,   /* right side, 45% down */
+                25% 45%,    /* cut inward to 25% */
+                25% 80%,    /* shorter vertical part - stops at 80% (was 100%) */
+                0% 80%      /* back to left at 80% height */
+            );
+            
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .vertical-rectangle {
+            position: absolute;
+            top: 45%;   /* Start where L-shape cuts back vertically */
+            left: 25%;  /* Start after L-shape cutback */
+            width: 75%; /* Takes remaining width (25% to 100%) */
+            height: 55%; /* Take remaining height (from 45% to 100% = 55%) */
+            background: #ff6b35;
+            
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brown-rectangle {
+            position: absolute;
+            top: 80%;   /* Start where L-shape ends vertically */
+            left: 0%;   /* Start from left edge */
+            width: 25%; /* Same width as L-shape bottom part */
+            height: 20%; /* Takes remaining bottom space (80% to 100%) */
+            background: #8B4513;
+            
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Content styling */
+        h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .demo-info {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Debug outlines - uncomment to see the actual shapes */
+        /*
+        .l-shape-1::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 3px solid red;
+            clip-path: inherit;
+        }
+        */
+    </style>
+</head>
+<body>
+    <h1>Flexbox Layout with L-Shaped Elements</h1>
+    
+    <!-- Top-level flexbox row container -->
+    <div class="main-container">
+        
+        <!-- Left: Flexbox column with 2 rectangles -->
+        <div class="left-container">
+            <div class="rectangle-1">
+                <h3>Rectangle #1</h3>
+                <p>This is a plain rectangular element</p>
+                <p>Green background, flexbox column layout</p>
+            </div>
+            
+            <div class="rectangle-2">
+                <h3>Rectangle #2</h3>
+                <p>Another plain rectangular element</p>
+                <p>Purple background, same flex properties</p>
+            </div>
+        </div>
+        
+        <!-- Right: Container with L-shaped elements -->
+        <div class="right-container">
+            <div class="l-shape-1">
+                <h3>L-Shape #1</h3>
+                <p>Standard L-shape with clip-path</p>
+                <p>Blue background</p>
+            </div>
+            
+            <div class="vertical-rectangle">
+                <h3>Orange Rectangle</h3>
+                <p>Takes full remaining width</p>
+                <p>75% of total width</p>
+            </div>
+            
+            <div class="brown-rectangle">
+                <h3>Brown Rectangle</h3>
+                <p>Bottom space</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="demo-info">
+        <p><strong>Layout Structure:</strong></p>
+        <p>Main container (flexbox row) → Left column (2 rectangles) + Right container (1 L-shape + 1 orange rectangle + 1 brown rectangle)</p>
+        <p>L-shape uses <code>clip-path: polygon()</code> for actual shaped boundaries.</p>
+        <p>L-shape truncated at 80% height to make room for brown rectangle at bottom.</p>
+    </div>
+</body>
+</html>

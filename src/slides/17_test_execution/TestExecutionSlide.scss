@@ -73,12 +73,11 @@ $white: #ffffff;
   gap: 25px;
   grid-template-areas:
     "protocol stats-main stats-main"
-    "stats-additional card-189 card-metrics"
-    "stats-additional card-63 card-metrics";
+    "card-189 card-63 card-metrics";
 }
 
 // --- Grid Item Styles ---
-.protocol-section, .stats-main, .stats-additional {
+.protocol-section, .stats-main {
   background: #fdfdff;
   border-radius: 16px;
   padding: 25px;
@@ -87,7 +86,6 @@ $white: #ffffff;
 
 .protocol-section { grid-area: protocol; }
 .stats-main { grid-area: stats-main; }
-.stats-additional { grid-area: stats-additional; }
 
 .number-card, .card-metrics {
   border-radius: 16px;
@@ -347,11 +345,10 @@ $white: #ffffff;
     grid-template-areas:
       "protocol protocol"
       "stats-main stats-main"
-      "stats-additional card-189"
-      "stats-additional card-63"
+      "card-189 card-63"
       "card-metrics card-metrics";
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto;
   }
   
   // Maintain L-shape concept on medium screens
@@ -384,12 +381,11 @@ $white: #ffffff;
     grid-template-areas:
       "protocol"
       "stats-main"
-      "stats-additional"
       "card-189"
       "card-63"
       "card-metrics";
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
     gap: 20px;
   }
   

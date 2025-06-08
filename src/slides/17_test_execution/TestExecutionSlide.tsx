@@ -87,36 +87,31 @@ const TestExecutionSlide = () => {
                 </div>
               </div>
               <div>
-                {/* This second column will be empty space in the L-shape design */}
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Additional Section - Bottom-left part of L-shape */}
-          <div className="stats-additional">
-            <div className="section-title">Дополнительные проверки:</div>
-            <ul className="protocol-list">
-              <li className="protocol-item">Анализ системных логов на предмет ошибок</li>
-              <li className="protocol-item">Верификация целостности данных после тестов</li>
-            </ul>
-            <div className="reliability-section">
-              <div className="section-title">Документирование:</div>
-              <div className="stats-grid">
-                <div className="stats-item">
-                  <div className="stats-label">Детальные логи</div>
-                  <div className="stats-value">Каждого запуска</div>
-                </div>
-                <div className="stats-item">
-                  <div className="stats-label">Конфигурации</div>
-                  <div className="stats-value">Воспроизводимость</div>
-                </div>
-                <div className="stats-item">
-                  <div className="stats-label">Временные метки</div>
-                  <div className="stats-value">Условия проведения</div>
-                </div>
-                <div className="stats-item">
-                  <div className="stats-label">Промежуточные</div>
-                  <div className="stats-value">Результаты</div>
+                <div className="section-title">Дополнительные проверки:</div>
+                <ul className="protocol-list">
+                  <li className="protocol-item">Анализ системных логов на предмет ошибок</li>
+                  <li className="protocol-item">Верификация целостности данных после тестов</li>
+                </ul>
+                <div className="reliability-section">
+                  <div className="section-title">Документирование:</div>
+                  <div className="stats-grid">
+                    <div className="stats-item">
+                      <div className="stats-label">Детальные логи</div>
+                      <div className="stats-value">Каждого запуска</div>
+                    </div>
+                    <div className="stats-item">
+                      <div className="stats-label">Конфигурации</div>
+                      <div className="stats-value">Воспроизводимость</div>
+                    </div>
+                    <div className="stats-item">
+                      <div className="stats-label">Временные метки</div>
+                      <div className="stats-value">Условия проведения</div>
+                    </div>
+                    <div className="stats-item">
+                      <div className="stats-label">Промежуточные</div>
+                      <div className="stats-value">Результаты</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,0 +1,151 @@
+import React from 'react';
+
+const LShapedLayout = () => {
+  return (
+    <div className="min-h-screen bg-gray-100 p-8">
+      <h1 className="text-2xl font-bold text-center mb-8 text-gray-700">
+        ПРОВЕДЕНИЕ ТЕСТОВ
+      </h1>
+      
+      <div className="grid-container">
+        {/* Protocol card */}
+        <div className="protocol-card bg-white rounded-lg p-6 shadow-lg">
+          <h3 className="font-bold text-lg mb-4 text-blue-600">Протокол проведения</h3>
+          <div className="space-y-3 text-sm">
+            <div className="text-blue-500">ПОСЛЕДОВАТЕЛЬНОСТЬ ВЫПОЛНЕНИЯ:</div>
+            <ul className="space-y-2 text-gray-600">
+              <li>• Последовательное выполнение всех workload'ов (A-F)</li>
+              <li>• Для каждого workload'а: тестирование с 7 различными уровнями параллелизма</li>
+              <li>• 21 конфигурация на СУБД • 3 повторения = <span className="text-orange-500 font-bold">63 теста на СУБД</span></li>
+              <li>• Общее количество тестов: <span className="text-orange-500 font-bold">189 для трех СУБД</span></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Statistical reliability card - L-shaped */}
+        <div className="stats-card bg-white rounded-lg p-6 shadow-lg">
+          <h3 className="font-bold text-lg mb-4 text-blue-600">Статистическая достоверность</h3>
+          
+          <div className="text-blue-500 text-sm mb-4">ОБЕСПЕЧЕНИЕ НАДЕЖНОСТИ:</div>
+          
+          <div className="space-y-3">
+            <div className="bg-green-50 border-l-4 border-green-400 p-3 rounded">
+              <div className="font-semibold text-green-800">Трехкратное повторение</div>
+              <div className="text-sm text-green-600">каждого теста</div>
+            </div>
+            
+            <div className="bg-green-50 border-l-4 border-green-400 p-3 rounded">
+              <div className="font-semibold text-green-800">Расчет средних значений</div>
+              <div className="text-sm text-green-600">и стандартных отклонений</div>
+            </div>
+            
+            <div className="bg-green-50 border-l-4 border-green-400 p-3 rounded">
+              <div className="font-semibold text-green-800">Исключение выбросов</div>
+              <div className="text-sm text-green-600">при анализе данных</div>
+            </div>
+            
+            <div className="bg-green-50 border-l-4 border-green-400 p-3 rounded">
+              <div className="font-semibold text-green-800">Доверительные интервалы</div>
+              <div className="text-sm text-green-600">для ключевых метрик</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Additional checks - right part of L-shape */}
+        <div className="additional-checks bg-white rounded-lg p-4 shadow-lg">
+          <div className="text-blue-500 text-sm mb-3">ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ:</div>
+          <div className="space-y-2 text-sm text-gray-600">
+            <div>• Анализ системных логов на предмет ошибок</div>
+            <div>• Верификация целостности данных после тестов</div>
+          </div>
+        </div>
+
+        {/* Blue cards */}
+        <div className="total-tests bg-blue-600 rounded-lg p-6 text-white text-center shadow-lg">
+          <div className="text-5xl font-bold mb-2">189</div>
+          <div className="text-sm opacity-90">ОБЩЕЕ КОЛИЧЕСТВО ТЕСТОВ</div>
+          <div className="text-xs mt-2 opacity-75">3 СУБД • 6 workloads • 7 threads • 3 повторения</div>
+        </div>
+
+        <div className="tests-per-db bg-blue-500 rounded-lg p-6 text-white text-center shadow-lg">
+          <div className="text-5xl font-bold mb-2">63</div>
+          <div className="text-sm opacity-90">ТЕСТОВ НА СУБД</div>
+          <div className="text-xs mt-2 opacity-75">21 конфигурация • 3 повторения</div>
+        </div>
+
+        {/* Metrics card - extends upward */}
+        <div className="metrics-card bg-orange-500 rounded-lg p-6 text-white shadow-lg">
+          <h3 className="font-bold text-lg mb-4">СОБИРАЕМЫЕ МЕТРИКИ:</h3>
+          
+          <div className="space-y-3">
+            <div className="bg-orange-400 rounded p-3">
+              <div className="font-semibold">Производительность (запросы)</div>
+            </div>
+            
+            <div className="bg-orange-400 rounded p-3">
+              <div className="font-semibold">Задержки (средняя, мин, макс, P95, P99)</div>
+            </div>
+            
+            <div className="bg-orange-400 rounded p-3">
+              <div className="font-semibold">Системные метрики (CPU, память)</div>
+            </div>
+            
+            <div className="bg-orange-400 rounded p-3">
+              <div className="font-semibold">Дисковая I/O и сеть</div>
+            </div>
+          </div>
+          
+          <div className="mt-6 pt-4 border-t border-orange-400">
+            <div className="space-y-2 text-sm">
+              <div>1. Workload A-F</div>
+              <div>2. 7 уровней threads</div>
+              <div>3. 3 повторения</div>
+              <div>4. Анализ результатов</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .grid-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-rows: auto auto auto;
+          gap: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+          grid-template-areas:
+            "protocol stats metrics"
+            "protocol additional metrics"
+            "total-tests tests-per-db metrics";
+        }
+
+        .protocol-card {
+          grid-area: protocol;
+        }
+
+        .stats-card {
+          grid-area: stats;
+        }
+
+        .additional-checks {
+          grid-area: additional;
+        }
+
+        .total-tests {
+          grid-area: total-tests;
+        }
+
+        .tests-per-db {
+          grid-area: tests-per-db;
+        }
+
+        .metrics-card {
+          grid-area: metrics;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default LShapedLayout;
