@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import './PopularityTrendsLineChart.scss';
+import styles from './PopularityTrendsLineChart.module.scss';
 import { popularityTrendsData, popularityChartCategories } from '../../data';
 
 export const PopularityTrendsLineChart: React.FC = () => {
@@ -14,13 +14,17 @@ export const PopularityTrendsLineChart: React.FC = () => {
       const containerHeight = chartContainer.offsetHeight;
       if (containerWidth <= 0 || containerHeight <= 0) { return; }
       
-      const margin = { top: 20, right: 30, bottom: 50, left: 50 }; // Kept from original
+      // Reserve space for legend by reducing effective height
+      const legendReservedHeight = 35;
+      const effectiveHeight = containerHeight - legendReservedHeight;
+      
+      const margin = { top: 20, right: 30, bottom: 40, left: 70 }; // Reduced bottom margin from 50 to 40 for more plot space
       const width = containerWidth - margin.left - margin.right;
-      const height = containerHeight - margin.top - margin.bottom;
+      const height = effectiveHeight - margin.top - margin.bottom;
       
       const svg = d3.select(popularityTrendsChartRef.current).append("svg")
         .attr("width", containerWidth)
-        .attr("height", containerHeight);
+        .attr("height", effectiveHeight + 25); // Add space for "год" label
       
       const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
       
@@ -80,18 +84,18 @@ export const PopularityTrendsLineChart: React.FC = () => {
       const xAxisGroupPop = g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
-      xAxisGroupPop.selectAll("text").style("fill", "#475569").style("font-size", "10px");
+      xAxisGroupPop.selectAll("text").style("fill", "#475569").style("font-size", "14px");
       xAxisGroupPop.selectAll(".domain, line").style("stroke", "#AEB8C4");
       
       const yAxisGroupPop = g.append("g")
         .call(d3.axisLeft(yScalePop).ticks(5).tickFormat(d => `${d}%`));
-      yAxisGroupPop.selectAll("text").style("fill", "#475569").style("font-size", "10px");
+      yAxisGroupPop.selectAll("text").style("fill", "#475569").style("font-size", "14px");
       yAxisGroupPop.selectAll(".domain, line").style("stroke", "#AEB8C4");
 
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
-        .attr("y", containerHeight - 10)
+        .attr("y", effectiveHeight + 20)
         .text("Год");
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
@@ -112,11 +116,11 @@ export const PopularityTrendsLineChart: React.FC = () => {
   return (
     <>
       <h3 className="chart-title-s8">Тренды популярности бенчмарков</h3>
-      <div className="chart" ref={popularityTrendsChartRef}></div>
-      <div className="legend-s8-popularity">
+      <div className={styles.chart} ref={popularityTrendsChartRef}></div>
+      <div className={styles.legendS8Popularity}>
         {popularityChartCategories.map(cat => (
-          <div key={cat.key} className="legend-item-s8">
-            <div className="legend-color-s8" style={{ backgroundColor: cat.color }}></div>
+          <div key={cat.key} className={styles.legendItemS8}>
+            <div className={styles.legendColorS8} style={{ backgroundColor: cat.color }}></div>
             <span>{cat.name}</span>
           </div>
         ))}

@@ -1,77 +1,65 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Zap, Settings, Database } from 'lucide-react'
-import screwdriverWrenchIcon from '../../assets/screwdriver-wrench-svgrepo-com.svg'
 import styles from './TestingSlide.module.scss'
 
-interface ToolCardProps {
-  name: string
-  description: string
-  category: 'specialized' | 'universal'
-  delay?: number
-}
-
-const ToolCard: React.FC<ToolCardProps> = ({ name, description, category, delay = 0 }) => (
-  <motion.div 
-    className={`${styles.toolCard} ${styles[category]}`}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay }}
-  >
-    <div className={styles.toolHeader}>
-      <span className={styles.toolName}>{name}</span>
-    </div>
-    <p className={styles.toolDescription}>{description}</p>
-  </motion.div>
-)
-
-interface SidebarCardProps {
-  title: string
-  content: string
-  delay?: number
-}
-
-const SidebarCard: React.FC<SidebarCardProps> = ({ title, content, delay = 0 }) => (
-  <motion.div 
-    className={styles.sidebarSection}
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.5, delay }}
-  >
-    <h2>{title}</h2>
-    <p>{content}</p>
-  </motion.div>
-)
-
 export const TestingSlide: React.FC = () => {
-  const specializedTools = [
-    {
-      name: 'pgBench',
-      description: 'только для PostgreSQL'
-    },
-    {
-      name: 'Cassandra-stress', 
-      description: 'специально для Cassandra, CQL операции'
-    },
-    {
-      name: 'MongoDB Benchmarking Tools',
-      description: 'mongoperf для тестирования дисковой подсистемы'
-    },
-    {
-      name: 'Apache JMeter',
-      description: 'универсальный, но с ограничениями для NoSQL'
-    }
-  ]
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
 
-  const universalTools = [
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
+  const tools = [
     {
-      name: 'TPC Benchmarks (TPC-C, TPC-H)',
-      description: 'индустриальные стандарты, сложны в настройке'
+      name: "pgBench",
+      type: "Специализированный",
+      scope: "PostgreSQL",
+      features: "Простота использования, оптимизирован для PostgreSQL",
+      limitations: "Только для PostgreSQL",
+      typeColor: "specialized",
     },
     {
-      name: 'Sysbench',
-      description: 'скриптуемый, ограниченная поддержка NoSQL'
-    }
+      name: "cassandra-stress",
+      type: "Специализированный",
+      scope: "Cassandra",
+      features: "Встроенный инструмент, оптимизирован для Cassandra",
+      limitations: "Только для Cassandra",
+      typeColor: "specialized",
+    },
+    {
+      name: "MongoDB Benchmarking Tools",
+      type: "Специализированный",
+      scope: "MongoDB",
+      features: "Оптимизирован для дисковой подсистемы",
+      limitations: "Только для MongoDB",
+      typeColor: "specialized",
+    },
+    {
+      name: "TPC (TPC-C, TPC-H)",
+      type: "Универсальный",
+      scope: "Реляционные СУБД",
+      features: "Индустриальный стандарт",
+      limitations: "Сложность настройки, ориентирован на реляционные системы",
+      typeColor: "universal",
+    },
+    {
+      name: "Sysbench",
+      type: "Универсальный",
+      scope: "Различные СУБД",
+      features: "Хороший инструмент",
+      limitations: "Ограниченная поддержка NoSQL",
+      typeColor: "universal",
+    },
+    {
+      name: "YCSB",
+      type: "Универсальный",
+      scope: "Различные СУБД",
+      features: "Поддержка NoSQL и SQL, простота настройки",
+      limitations: "—",
+      typeColor: "universal",
+      highlighted: true,
+    },
   ]
 
   return (
@@ -84,84 +72,88 @@ export const TestingSlide: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={styles.slideTitle}>Т Е Х Н О Л О Г И И&nbsp;&nbsp;Т Е С Т И Р О В А Н И Я&nbsp;&nbsp;С У Б Д</h1>
+        <p className={styles.slideSubtitle}>Обзор инструментов бенчмаркинга</p>
       </motion.div>
 
-      {/* Content Container - Will become a grid parent */}
+      {/* Content Container */}
       <div className={styles.contentContainer}>
-        {/* Sidebar - Now a direct child of content-container */}
+        {/* Table Container */}
         <motion.div 
-          className={styles.sidebar}
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
+          className={`${styles.tableContainer} ${isVisible ? styles.visible : ''}`}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className={styles.sidebarHeader}>
-            <div className={styles.sidebarIconCluster}>
-              <Database size={40} className={`${styles.sidebarToolIcon} ${styles.database}`} />
-              <img 
-                src={screwdriverWrenchIcon} 
-                alt="Tools" 
-                className={`${styles.sidebarToolIcon} ${styles.screwdriverWrench}`}
-              />
-            </div>
-            <h2 className={styles.sidebarTitle}>ТЕХНОЛОГИИ ТЕСТИРОВАНИЯ СУБД</h2>
-            <p className={styles.sidebarSubtitle}>Обзор инструментов бенчмаркинга</p>
+          <div className={styles.tableWrapper}>
+            <table className={styles.mainTable}>
+              <thead>
+                <tr className={styles.headerRow}>
+                  <th className={styles.headerCell}>ИНСТРУМЕНТ</th>
+                  <th className={styles.headerCell}>ТИП</th>
+                  <th className={styles.headerCell}>ОБЛАСТЬ ПРИМЕНЕНИЯ</th>
+                  <th className={styles.headerCell}>ОСОБЕННОСТИ</th>
+                  <th className={styles.headerCell}>ОГРАНИЧЕНИЯ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tools.map((tool, index) => (
+                  <motion.tr
+                    key={index}
+                    className={`
+                      ${styles.dataRow}
+                      ${tool.highlighted ? styles.highlightedRow : ''}
+                      ${hoveredRow === index ? styles.hoveredRow : ''}
+                    `}
+                    onMouseEnter={() => setHoveredRow(index)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  >
+                    <td className={styles.dataCell}>
+                      <div className={`${styles.toolName} ${tool.highlighted ? styles.highlightedName : ''}`}>
+                        {tool.name}
+                      </div>
+                    </td>
+                    <td className={styles.dataCell}>
+                      <span className={`${styles.typeBadge} ${styles[tool.typeColor]} ${hoveredRow === index ? styles.hoveredBadge : ''}`}>
+                        {tool.type}
+                      </span>
+                    </td>
+                    <td className={styles.dataCell}>
+                      <div className={styles.scopeText}>{tool.scope}</div>
+                    </td>
+                    <td className={styles.dataCell}>
+                      <div className={styles.featuresText}>{tool.features}</div>
+                    </td>
+                    <td className={styles.dataCell}>
+                      <div className={styles.limitationsText}>{tool.limitations}</div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </motion.div>
 
-        {/* Main Content Area Wrapper - New wrapper, direct child of content-container */}
-        <div className={styles.mainContentAreaWrapper}>
-          {/* Main Content (original structure with sections and tools) */}
-          <div className={styles.mainContent}>
-            {/* Specialized Benchmarks Section */}
-            <motion.div 
-              className={styles.toolsSection}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className={styles.sectionHeader}>
-                <Zap className={styles.sectionIcon} />
-                <h3 className={styles.sectionTitle}>Специализированные бенчмарки</h3>
-              </div>
-              <div className={`${styles.toolsGrid} ${styles.specialized}`}>
-                {specializedTools.map((tool, index) => (
-                  <ToolCard
-                    key={tool.name}
-                    name={tool.name}
-                    description={tool.description}
-                    category="specialized"
-                    delay={0.5 + index * 0.1}
-                  />
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Universal Benchmarks Section */}
-            <motion.div 
-              className={styles.toolsSection}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <div className={styles.sectionHeader}>
-                <Settings className={styles.sectionIcon} />
-                <h3 className={styles.sectionTitle}>Универсальные бенчмарки</h3>
-              </div>
-              <div className={`${styles.toolsGrid} ${styles.universal}`}>
-                {universalTools.map((tool, index) => (
-                  <ToolCard
-                    key={tool.name}
-                    name={tool.name}
-                    description={tool.description}
-                    category="universal"
-                    delay={0.7 + index * 0.1}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        {/* Conclusion */}
+        <motion.div 
+          className={styles.conclusionContainer}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+        >
+          <h3 className={styles.conclusionTitle}>
+            <span className={styles.conclusionDot}></span>
+            Вывод
+          </h3>
+          <p className={styles.conclusionText}>
+            Для объективного сравнения производительности PostgreSQL, Cassandra
+            и MongoDB был выбран
+            <strong className={styles.ycsbHighlight}> YCSB</strong> как универсальный
+            инструмент с поддержкой как реляционных, так и NoSQL систем.
+          </p>
+        </motion.div>
       </div>
     </div>
   )

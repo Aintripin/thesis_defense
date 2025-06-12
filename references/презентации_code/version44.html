@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Grid Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .layout-section {
+            background: white;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .layout-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .container {  
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 1em 1em;
+            height: calc(100vh - 60px);
+            grid-auto-flow: row;
+        }
+
+        .metrics { 
+            grid-area: 10 / 15 / 17 / 22; 
+            background: #dc2626;
+            z-index: 4;
+        }
+
+        .test-qty { 
+            grid-area: 14 / 8 / 17 / 15; 
+            background: #3b82f6;
+            z-index: 4;
+        }
+
+        .dmbs-tests { 
+            grid-area: 14 / 1 / 17 / 8; 
+            background: #10b981;
+            z-index: 4;
+        }
+
+        .protocol { 
+            grid-area: 1 / 1 / 14 / 8; 
+            background: #f59e0b;
+            z-index: 1;
+        }
+
+        .stat-reliability { 
+            grid-area: 1 / 8 / 14 / 22; 
+            background: #8b5cf6;
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        .reliability { 
+            grid-area: 1 / 8 / 14 / 15; 
+            background: #06b6d4;
+            z-index: 3;
+        }
+
+        .additional-checks { 
+            grid-area: 1 / 15 / 10 / 22; 
+            background: #ef4444;
+            z-index: 4;
+        }
+
+        /* Common styling for all grid items */
+        .container > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Grid visualization overlay */
+        .container {
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(to right, transparent 0, transparent calc(100%/21 - 1px), rgba(0,0,0,0.2) calc(100%/21 - 1px), rgba(0,0,0,0.2) calc(100%/21)),
+                repeating-linear-gradient(to bottom, transparent 0, transparent calc(100%/16 - 1px), rgba(0,0,0,0.2) calc(100%/16 - 1px), rgba(0,0,0,0.2) calc(100%/16));
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Warning message styling */
+        .warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-section">
+        <div class="layout-title">Complex Grid Layout (21×16 Grid)</div>
+        <div class="warning">
+            ⚠️ Note: Some grid areas overlap (stat-reliability with reliability and additional-checks). Z-index values control stacking order.
+        </div>
+        <div class="container">
+            <div class="metrics">Metrics</div>
+            <div class="test-qty">Test Qty</div>
+            <div class="dmbs-tests">DMBS Tests</div>
+            <div class="protocol">Protocol</div>
+            <div class="stat-reliability">Stat Reliability</div>
+            <div class="reliability">Reliability</div>
+            <div class="additional-checks">Additional Checks</div>
+        </div>
+    </div>
+</body>
+</html>

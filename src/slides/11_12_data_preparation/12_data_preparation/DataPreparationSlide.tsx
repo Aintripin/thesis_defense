@@ -14,7 +14,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
 import { Database, GitBranch } from 'lucide-react';
-import './DataPreparationSlide.scss';
+import styles from './DataPreparationSlide.module.scss';
 
 interface CustomNodeData {
   num: string;
@@ -42,9 +42,9 @@ const CustomNode = ({ data }: NodeProps<CustomNodeData>) => (
       style={{ background: '#343a40', border: '2px solid #343a40' }}
     />
     
-    <div className="flowchart-box">
+    <div className={styles.flowchartBox}>
       {data.label}
-      <div className="box-number">{data.num}</div>
+      <div className={styles.boxNumber}>{data.num}</div>
     </div>
   </div>
 );
@@ -82,13 +82,13 @@ const itemVariants = {
 };
 
 const initialCassandraNodes: Node<CustomNodeData>[] = [
-  { id: 'cassandra-0', position: { x: -300, y: 50 }, data: { num: 'O', label: <>предварительный<br/>анализ<br/>структуры</> }, type: 'custom' },
-  { id: 'cassandra-1', position: { x: 100, y: -150 }, data: { num: '1', label: <>JSON → NDJSON</> }, type: 'custom' },
-  { id: 'cassandra-2', position: { x: 450, y: -150 }, data: { num: '2', label: <>NDJSON<br/>flattening</> }, type: 'custom' },
-  { id: 'cassandra-3', position: { x: 180, y: 15 }, data: { num: '3', label: <>создание таблицы <span className="flowchartHighlight">A</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
-  { id: 'cassandra-4', position: { x: 680, y: -50 }, data: { num: '4', label: <>заполнение таблицы<br/><span className="flowchartHighlight">A</span> реальными<br/>данными<br/>через DSBulk</> }, type: 'custom' },
-  { id: 'cassandra-5', position: { x: 100, y: 230 }, data: { num: '5', label: <>создание таблицы <span className="flowchartHighlight">B</span><br/>через YCSB</> }, type: 'custom' },
-  { id: 'cassandra-6', position: { x: 650, y: 200 }, data: { num: '6', label: <>заполнение таблицы<br/><span className="flowchartHighlight">B</span> реальными<br/>данными</> }, type: 'custom' },
+  { id: 'cassandra-0', position: { x: 0, y: 50 }, data: { num: 'O', label: <>предварительный<br/>анализ<br/>структуры</> }, type: 'custom' },
+  { id: 'cassandra-1', position: { x: 300, y: -50 }, data: { num: '1', label: <>JSON → NDJSON</> }, type: 'custom' },
+  { id: 'cassandra-2', position: { x: 650, y: -100 }, data: { num: '2', label: <>NDJSON<br/>flattening</> }, type: 'custom' },
+  { id: 'cassandra-3', position: { x: 680, y: 90 }, data: { num: '3', label: <>создание таблицы <span className="flowchartHighlight">A</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
+  { id: 'cassandra-4', position: { x: 1260, y: -50 }, data: { num: '4', label: <>заполнение таблицы<br/><span className="flowchartHighlight">A</span> реальными<br/>данными<br/>через DSBulk</> }, type: 'custom' },
+  { id: 'cassandra-5', position: { x: 300, y: 250 }, data: { num: '5', label: <>создание таблицы <span className="flowchartHighlight">B</span><br/>через YCSB</> }, type: 'custom' },
+  { id: 'cassandra-6', position: { x: 1100, y: 350 }, data: { num: '6', label: <>заполнение таблицы<br/><span className="flowchartHighlight">B</span> реальными<br/>данными</> }, type: 'custom' },
 ];
 
 const initialCassandraEdges: Edge[] = [
@@ -120,7 +120,7 @@ const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
-      defaultViewport={{ x: 300, y: 180, zoom: 0.8 }}
+      defaultViewport={{ x: 50, y: 120, zoom: 1.0 }}
       proOptions={{ hideAttribution: true }}
       panOnDrag={false}
       zoomOnScroll={false}
@@ -136,7 +136,7 @@ const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
 
 export const DataPreparationSlide = () => {
   return (
-    <div className="data-preparation-slide">
+    <div className={styles.dataPreparationSlide}>
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -201,10 +201,10 @@ export const DataPreparationSlide = () => {
             .react-flow__node-custom span.flowchartHighlight {
               background: #4285f4 !important;
               color: #ffffff !important;
-              padding: 4px 8px !important;
+              padding: 6px 10px !important;
               border-radius: 6px !important;
               font-weight: 700 !important;
-              font-size: 28px !important;
+              font-size: 22px !important;
               display: inline-block !important;
               font-family: 'ALS Sector Regular', sans-serif !important;
               line-height: 1.2 !important;
@@ -235,51 +235,35 @@ export const DataPreparationSlide = () => {
 
       {/* Title Container */}
       <motion.div
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">ПОДГОТОВКА ДАННЫХ ДЛЯ CASSANDRA</h1>
+        <h1 className={styles.slideTitle}>ПОДГОТОВКА ДАННЫХ ДЛЯ CASSANDRA</h1>
       </motion.div>
 
       {/* Content Container */}
-      <div className="content-container">
-        {/* Sidebar */}
-        <motion.div 
-          className="sidebar"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="sidebar-header">
-            <div className="sidebar-icon-cluster">
-              <Database size={40} className="sidebar-icon database" />
-              <GitBranch size={36} className="sidebar-icon workflow" />
-            </div>
-            <h2 className="sidebar-title">Подготовка данных для Cassandra</h2>
-          </div>
-        </motion.div>
-
+      <div className={styles.contentContainer}>
         {/* Main Content */}
-        <div className="main-content-area-wrapper">
+        <div className={styles.mainContentAreaWrapper}>
           <motion.div 
-            className="main-content"
+            className={styles.mainContent}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             {/* Cassandra Section */}
             <motion.div 
-              className="flowchart-section cassandra-section"
+              className={styles.flowchartSection}
               variants={sectionVariants}
               transition={{ delay: 0.4 }}
             >
-              <div className="section-header">
-                Apache Cassandra, многоэтапная трансформация
+              <div className={styles.sectionHeader}>
+                Схема загрузки датасета в Apache Cassandra
               </div>
-              <div className="section-content">
-                <div className="flowchart-container">
+              <div className={styles.sectionContent}>
+                <div className={styles.flowchartContainer}>
                   <Flowchart initialNodes={initialCassandraNodes} initialEdges={initialCassandraEdges} />
                 </div>
               </div>
@@ -287,30 +271,30 @@ export const DataPreparationSlide = () => {
 
             {/* Key Differences Section */}
             <motion.div 
-              className="key-differences-section"
+              className={styles.keyDifferencesSection}
               variants={sectionVariants}
               transition={{ delay: 0.7 }}
             >
-              <div className="section-header">
+              <div className={styles.sectionHeader}>
                 Ключевые различия
               </div>
-              <div className="section-content">
+              <div className={styles.sectionContent}>
                 <motion.div 
-                  className="differences-list"
+                  className={styles.differencesList}
                   variants={containerVariants}
                   transition={{ delay: 1.0 }}
                 >
-                  <motion.div className="difference-item" variants={itemVariants}>
-                    <div className="db-badge mongodb">MongoDB:</div>
-                    <span className="difference-text">естественная совместимость</span>
+                  <motion.div className={styles.differenceItem} variants={itemVariants}>
+                    <div className={`${styles.dbBadge} ${styles.mongodb}`}>MongoDB:</div>
+                    <span className={styles.differenceText}>естественная совместимость</span>
                   </motion.div>
-                  <motion.div className="difference-item" variants={itemVariants}>
-                    <div className="db-badge postgresql">PostgreSQL:</div>
-                    <span className="difference-text">баланс между структурированностью и гибкостью</span>
+                  <motion.div className={styles.differenceItem} variants={itemVariants}>
+                    <div className={`${styles.dbBadge} ${styles.postgresql}`}>PostgreSQL:</div>
+                    <span className={styles.differenceText}>баланс между структурированностью и гибкостью</span>
                   </motion.div>
-                  <motion.div className="difference-item" variants={itemVariants}>
-                    <div className="db-badge cassandra">Cassandra:</div>
-                    <span className="difference-text">требование полной денормализации</span>
+                  <motion.div className={styles.differenceItem} variants={itemVariants}>
+                    <div className={`${styles.dbBadge} ${styles.cassandra}`}>Cassandra:</div>
+                    <span className={styles.differenceText}>требование полной денормализации</span>
                   </motion.div>
                 </motion.div>
               </div>
@@ -319,7 +303,7 @@ export const DataPreparationSlide = () => {
 
           {/* BMSTU Logo Emblem */}
           <motion.div 
-            className="emblem-container"
+            className={styles.emblemContainer}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
@@ -327,7 +311,7 @@ export const DataPreparationSlide = () => {
             <img 
               src="/assets/bmstu/bmstu-logo-white.png" 
               alt="BMSTU Logo" 
-              className="bmstu-emblem"
+              className={styles.bmstuEmblem}
               onError={(e) => {
                 // Fallback to SVG if PNG fails
                 const target = e.target as HTMLImageElement;

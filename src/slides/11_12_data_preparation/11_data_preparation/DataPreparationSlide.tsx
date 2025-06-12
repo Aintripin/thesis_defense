@@ -14,7 +14,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
 import { Database, GitBranch } from 'lucide-react';
-import './DataPreparationSlide.scss';
+import styles from './DataPreparationSlide.module.scss';
 
 interface CustomNodeData {
   num: string;
@@ -42,9 +42,9 @@ const CustomNode = ({ data }: NodeProps<CustomNodeData>) => (
       style={{ background: '#343a40', border: '2px solid #343a40' }}
     />
     
-    <div className="flowchart-box">
+    <div className={styles.flowchartBox}>
       {data.label}
-      <div className="box-number">{data.num}</div>
+      <div className={styles.boxNumber}>{data.num}</div>
     </div>
   </div>
 );
@@ -89,11 +89,11 @@ const initialMongoEdges: Edge[] = [
 ];
 
 const initialPostgresNodes: Node<CustomNodeData>[] = [
-    { id: 'pg-0', position: { x: -150, y: 120 }, data: { num: 'O', label: <>предварительный<br/>анализ структуры</> }, type: 'custom' },
-    { id: 'pg-1', position: { x: 50, y: -80 }, data: { num: '1', label: <>создание первичной<br/>таблицы <span className="flowchartHighlight">A</span> с колонками<br/><span className="flowchartHighlight">_id</span> и <span className="flowchartHighlight">data</span> (JSONB)</> }, type: 'custom' },
-    { id: 'pg-2', position: { x: 50, y: 300 }, data: { num: '2', label: <>создание таблицы <span className="flowchartHighlight">B</span><br/>через YCSB</> }, type: 'custom' },
-    { id: 'pg-3', position: { x: 350, y: 110}, data: { num: '3', label: <>создание таблицы <span className="flowchartHighlight">C</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
-    { id: 'pg-4', position: { x: 550, y: -50 }, data: { num: '4', label: <>импорт данных<br/>из mongoDB</> }, type: 'custom' },
+    { id: 'pg-0', position: { x: -350, y: 220 }, data: { num: 'O', label: <>предварительный<br/>анализ структуры</> }, type: 'custom' },
+    { id: 'pg-1', position: { x: -20, y: 50 }, data: { num: '1', label: <>создание первичной<br/>таблицы <span className="flowchartHighlight">A</span> с колонками<br/><span className="flowchartHighlight">_id</span> и <span className="flowchartHighlight">data</span> (JSONB)</> }, type: 'custom' },
+    { id: 'pg-2', position: { x: 50, y: 350 }, data: { num: '2', label: <>создание таблицы <span className="flowchartHighlight">B</span><br/>через YCSB</> }, type: 'custom' },
+    { id: 'pg-3', position: { x: 350, y: 150}, data: { num: '3', label: <>создание таблицы <span className="flowchartHighlight">C</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
+    { id: 'pg-4', position: { x: 550, y: 0 }, data: { num: '4', label: <>импорт данных<br/>из mongoDB</> }, type: 'custom' },
     { id: 'pg-5', position: { x: 900, y: 100 }, data: { num: '5', label: <>парсинг данных и<br/>заполнение<br/>таблицы <span className="flowchartHighlight">C</span></> }, type: 'custom' },
     { id: 'pg-6', position: { x: 650, y: 350 }, data: { num: '6', label: <>заполнение таблицы<br/><span className="flowchartHighlight">B</span> реальными<br/>данными</> }, type: 'custom' },
 ];
@@ -143,7 +143,7 @@ const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
 
 export const DataPreparationSlide = () => {
   return (
-    <div className="data-preparation-slide">
+    <div className={styles.dataPreparationSlide}>
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -242,51 +242,35 @@ export const DataPreparationSlide = () => {
 
       {/* Title Container */}
       <motion.div
-        className="slide-title-container"
+        className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="slide-title">СТРАТЕГИИ ПОДГОТОВКИ ДАННЫХ</h1>
+        <h1 className={styles.slideTitle}>СТРАТЕГИИ ПОДГОТОВКИ ДАННЫХ</h1>
       </motion.div>
 
       {/* Content Container */}
-      <div className="content-container">
-        {/* Sidebar */}
-        <motion.div 
-          className="sidebar"
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="sidebar-header">
-            <div className="sidebar-icon-cluster">
-              <Database size={40} className="sidebar-icon database" />
-              <GitBranch size={36} className="sidebar-icon workflow" />
-            </div>
-            <h2 className="sidebar-title">Стратегии подготовки данных</h2>
-          </div>
-        </motion.div>
-
+      <div className={styles.contentContainer}>
         {/* Main Content */}
-        <div className="main-content-area-wrapper">
+        <div className={styles.mainContentAreaWrapper}>
           <motion.div 
-            className="main-content"
+            className={styles.mainContent}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             {/* MongoDB Section */}
             <motion.div 
-              className="flowchart-section"
+              className={styles.flowchartSection}
               variants={sectionVariants}
               transition={{ delay: 0.4 }}
             >
-              <div className="section-header">
-                mongoDB, прямой импорт JSON
+              <div className={styles.sectionHeader}>
+                Схема загрузки датасета в mongoDB
               </div>
-              <div className="section-content">
-                <div className="flowchart-container">
+              <div className={styles.sectionContent}>
+                <div className={styles.flowchartContainer}>
                   <Flowchart initialNodes={initialMongoNodes} initialEdges={initialMongoEdges} />
                 </div>
               </div>
@@ -294,15 +278,15 @@ export const DataPreparationSlide = () => {
 
             {/* PostgreSQL Section */}
             <motion.div 
-              className="flowchart-section"
+              className={styles.flowchartSection}
               variants={sectionVariants}
               transition={{ delay: 0.7 }}
             >
-              <div className="section-header">
-                PostgreSQL, многоэтапный процесс
+              <div className={styles.sectionHeader}>
+                Схема загрузки датасета в PostgreSQL
               </div>
-              <div className="section-content">
-                <div className="flowchart-container">
+              <div className={styles.sectionContent}>
+                <div className={styles.flowchartContainer}>
                   <Flowchart initialNodes={initialPostgresNodes} initialEdges={initialPostgresEdges} />
                 </div>
               </div>
@@ -311,7 +295,7 @@ export const DataPreparationSlide = () => {
 
           {/* BMSTU Logo Emblem */}
           <motion.div 
-            className="emblem-container"
+            className={styles.emblemContainer}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
@@ -319,7 +303,7 @@ export const DataPreparationSlide = () => {
             <img 
               src="/assets/bmstu/bmstu-logo-white.png" 
               alt="BMSTU Logo" 
-              className="bmstu-emblem"
+              className={styles.bmstuEmblem}
               onError={(e) => {
                 // Fallback to SVG if PNG fails
                 const target = e.target as HTMLImageElement;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import './IndustryAdoptionBarChart.scss'; // Will be minimal or empty
+import styles from './IndustryAdoptionBarChart.module.scss'; // Import as module
 import { industryData } from '../../data';
 
 export const IndustryAdoptionBarChart: React.FC = () => {
@@ -14,13 +14,17 @@ export const IndustryAdoptionBarChart: React.FC = () => {
       const containerHeight = chartContainer.offsetHeight;
       if (containerWidth <= 0 || containerHeight <= 0) { return; }
       
-      const margin = { top: 20, right: 20, bottom: 65, left: 50 }; // Kept from original
+      // Reduce height to make chart more compact (no legend needed)
+      const heightReduction = 10; // Reduced from 30 to give more room for diagonal labels
+      const effectiveHeight = containerHeight - heightReduction;
+      
+      const margin = { top: 20, right: 20, bottom: 70, left: 70 }; // Increased bottom margin from 50 to 70 for diagonal labels
       const width = containerWidth - margin.left - margin.right;
-      const height = containerHeight - margin.top - margin.bottom;
+      const height = effectiveHeight - margin.top - margin.bottom; // Use effectiveHeight
       
       const svg = d3.select(industryAdoptionChartRef.current).append("svg")
         .attr("width", containerWidth)
-        .attr("height", containerHeight);
+        .attr("height", effectiveHeight + 30); // Add 30px to accommodate diagonal labels
       
       const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
       
@@ -139,7 +143,7 @@ export const IndustryAdoptionBarChart: React.FC = () => {
         .call(d3.axisBottom(xScale));
       xAxisGroupInd.selectAll("text")
         .style("fill", "#475569")
-        .style("font-size", "12px")
+        .style("font-size", "16px")
         .style("font-weight", "700")
         .style("text-shadow", "0.5px 0.5px 1px rgba(255,255,255,0.8)")
         .attr("transform", "rotate(-45)")
@@ -150,7 +154,7 @@ export const IndustryAdoptionBarChart: React.FC = () => {
         .call(d3.axisLeft(yScaleInd).ticks(4).tickFormat(d => `${d}%`));
       yAxisGroupInd.selectAll("text")
         .style("fill", "#475569")
-        .style("font-size", "10px")
+        .style("font-size", "14px")
         .style("font-weight", "600");
       yAxisGroupInd.selectAll(".domain, line").style("stroke", "#94A3B8").style("stroke-width", 1.5);
       yAxisGroupInd.select(".domain").remove();
@@ -159,7 +163,7 @@ export const IndustryAdoptionBarChart: React.FC = () => {
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
-        .attr("y", containerHeight - 5)
+        .attr("y", effectiveHeight + 200)  // Positioned within the expanded SVG area
         .text("Отрасль");
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
@@ -194,7 +198,7 @@ export const IndustryAdoptionBarChart: React.FC = () => {
   return (
     <>
       <h3 className="chart-title-s8">Внедрение бенчмаркинга по отраслям</h3>
-      <div className="chart" ref={industryAdoptionChartRef}></div>
+      <div className={styles.industryChart} ref={industryAdoptionChartRef}></div>
     </>
   );
 }; 

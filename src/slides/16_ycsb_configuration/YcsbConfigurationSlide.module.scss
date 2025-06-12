@@ -24,7 +24,7 @@ $white: #ffffff;
 
   .mainContentContainer {
     width: 100%;
-    max-width: 1600px;
+    max-width: 1800px;
     background: white;
     border-radius: 24px;
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
@@ -37,7 +37,7 @@ $white: #ffffff;
   .slideTitleContainer {
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
     color: white;
-    padding: 40px 50px 30px;
+    padding: 20px 50px 20px;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
@@ -81,10 +81,10 @@ $white: #ffffff;
   
   .slideContent {
     flex: 1;
-    padding: 40px 50px;
+    padding: 25px 35px;
     display: grid;
-    grid-template-columns: 360px 1fr 360px;
-    gap: 35px;
+    grid-template-columns: 1.2fr 1.4fr 1.2fr;
+    gap: 25px;
     // overflow-y: auto;
     overflow-x: hidden;
   }
@@ -105,7 +105,7 @@ $white: #ffffff;
   .configSection {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
   
   .configBlock {
@@ -141,7 +141,7 @@ $white: #ffffff;
   }
   
   .blockHeader {
-    padding: 20px 24px 16px;
+    padding: 16px 20px 12px;
     border-bottom: 1px solid rgba(226, 232, 240, 0.5);
     display: flex;
     align-items: center;
@@ -169,7 +169,7 @@ $white: #ffffff;
   }
   
   .blockTitle {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -179,7 +179,7 @@ $white: #ffffff;
   }
   
   .blockContent {
-    padding: 20px 24px 24px;
+    padding: 16px 20px 20px;
     
     .workloadsBlock & {
       height: 90%;
@@ -199,7 +199,7 @@ $white: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    padding: 6px 0;
     border-bottom: 1px solid rgba(226, 232, 240, 0.3);
     font-size: 15px;
     
@@ -218,7 +218,7 @@ $white: #ffffff;
   
   .configLabel {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 24px;
     color: #64748b;
   }
   
@@ -230,7 +230,7 @@ $white: #ffffff;
   .configValue {
     font-weight: 600;
     font-family: $fontFamilyMono;
-    font-size: 15px;
+    font-size: 22px;
     background: rgba(59, 130, 246, 0.1);
     padding: 6px 10px;
     border-radius: 6px;
@@ -245,14 +245,14 @@ $white: #ffffff;
   .workloadGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
     height: 100%;
   }
   
   .workloadCard {
     background: white;
     border-radius: 12px;
-    padding: 20px;
+    padding: 16px;
     border: 2px solid #f1f5f9;
     transition: all 0.3s ease;
     position: relative;
@@ -260,7 +260,7 @@ $white: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 120px;
+    min-height: 110px;
     
     &::before {
       content: '';
@@ -322,7 +322,7 @@ $white: #ffffff;
     font-weight: 600;
     color: #475569;
     display: block;
-    font-size: 20px;
+    font-size: 22px;
   }
   
   .workloadDetail {
@@ -344,17 +344,17 @@ $white: #ffffff;
   
   .procedureList {
     list-style: none;
-    font-size: 19px;
+    font-size: 24px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     margin: 0;
     padding: 0;
   }
   
   .procedureItem {
     position: relative;
-    padding-left: 20px;
+    padding-left: 32px;
     line-height: 1.4;
     color: #475569;
     
@@ -372,13 +372,13 @@ $white: #ffffff;
   .driversGrid {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   
   .driverItem {
     background: white;
     border-radius: 10px;
-    padding: 18px;
+    padding: 14px;
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
     position: relative;
@@ -404,13 +404,13 @@ $white: #ffffff;
   .driverName {
     font-weight: 600;
     color: #1e293b;
-    font-size: 19px;
+    font-size: 24px;
     margin-bottom: 8px;
   }
   
   .driverDesc {
     color: #64748b;
-    font-size: 17px;
+    font-size: 22px;
     line-height: 1.3;
   }
   
@@ -431,7 +431,7 @@ $white: #ffffff;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     margin: 0;
     padding: 0;
   }
@@ -440,7 +440,7 @@ $white: #ffffff;
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: 19px;
+    font-size: 26px;
     line-height: 1.4;
     color: #475569;
   }
@@ -462,9 +462,9 @@ $white: #ffffff;
   // Responsive Design
   @media (max-width: 1400px) {
     .slideContent {
-      grid-template-columns: 320px 1fr 320px;
-      gap: 25px;
-      padding: 30px 40px;
+      grid-template-columns: 1.2fr 1.4fr 1.2fr;
+      gap: 20px;
+      padding: 25px 30px;
     }
   }
   
@@ -495,7 +495,7 @@ $white: #ffffff;
     }
     
     .slideSubtitle {
-      font-size: 14px;
+      font-size: 24px;
       letter-spacing: 1px;
     }
     

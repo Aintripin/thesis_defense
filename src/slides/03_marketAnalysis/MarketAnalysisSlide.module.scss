@@ -68,36 +68,36 @@ $phase-4-color: #ef4444;
 
   .contentContainer {
     max-width: 1600px;
-    margin: 20px auto;
+    margin: 8px auto;
     background: $white;
     border-radius: 20px;
-    padding: 60px;
+    padding: 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+    overflow: hidden;
   }
 
   .contentWrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 12px;
   }
 
   .phasesGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 28px;
   }
 
   .phase {
     background: $white;
     border-radius: 20px;
-    padding: 30px;
+    padding: 25px;
     border: 2px solid $border-light;
     transition: all 0.3s ease;
     position: relative;
@@ -138,30 +138,30 @@ $phase-4-color: #ef4444;
   .phaseHeader {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
     border-bottom: 1px solid $border-light;
   }
 
   .phaseIcon {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     border-radius: 12px;
     background: var(--phase-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
-    @include als-font(24px, 400, 1);
+    margin-right: 16px;
+    @include als-font(26px, 400, 1);
   }
 
   .phaseTitle {
-    @include als-font(22px, 700, 1.2);
+    @include als-font(28px, 700, 1.2);
     color: $text-dark;
   }
 
   .phaseSubtitle {
-    @include als-font(14px, 400, 1.2);
+    @include als-font(26px, 500, 1.2);
     color: $text-muted;
     margin-top: 2px;
   }
@@ -175,8 +175,8 @@ $phase-4-color: #ef4444;
   .taskItem {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 20px;
-    padding: 15px;
+    margin-bottom: 10px;
+    padding: 12px;
     background: $light-bg;
     border-radius: 12px;
     border-left: 4px solid var(--phase-color);
@@ -195,19 +195,19 @@ $phase-4-color: #ef4444;
   .taskNumber {
     background: var(--phase-color);
     color: $white;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    @include als-font(16px, 700, 1);
-    margin-right: 15px;
+    @include als-font(20px, 700, 1);
+    margin-right: 16px;
     flex-shrink: 0;
   }
 
   .taskText {
-    @include als-font(16px, 400, 1.4);
+    @include als-font(24px, 400, 1.3);
     color: $text-secondary;
     flex: 1;
 
@@ -219,14 +219,14 @@ $phase-4-color: #ef4444;
 
   .summary {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 6px;
   }
 
   .summaryText {
-    @include als-font(20px, 600, 1.3);
+    @include als-font(26px, 600, 1.2);
     color: $text-dark;
     background: linear-gradient(135deg, $blue-light 0%, lighten($blue-light, 5%) 100%);
-    padding: 20px 30px;
+    padding: 18px 28px;
     border-radius: 15px;
     border: 1px solid $blue-border;
     letter-spacing: 0.5px;

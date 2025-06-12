@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import * as d3 from 'd3';
-import styles from './TrendsDeepDiveSlide.module.scss'; // SCSS import updated
+import styles from './TrendsDeepDiveSlide.module.scss';
 import { MarketShareDonutChart } from './components/MarketShareDonutChart';
 import { RegionalTrendsAreaChart } from './components/RegionalTrendsAreaChart'; 
 import { PopularityTrendsLineChart } from './components/PopularityTrendsLineChart';
 import { EnergyEfficiencyLineChart } from './components/EnergyEfficiencyLineChart';
 import { IndustryAdoptionBarChart } from './components/IndustryAdoptionBarChart';
 
-// Data for Sidebar Metric Cards - REMAINS
+// Data for Key Metrics Cards
 const keyMetricsData = [
   { icon: "💰", value: "292.22B", label: "USD к 2030" },
   { icon: "📈", value: "+14.21%", label: "CAGR" },
@@ -23,178 +23,332 @@ const keyInsightsData = [
   { number: "78%", text: "Финансовый сектор лидирует по глубине использования бенчмаркинга" },
 ];
 
-// All other data constants (benchmarkTypesData, regionTrendsData, popularityTrendsData, industryData, energyEfficiencyRawData)
-// and category constants (regionalChartCategories, popularityChartCategories, energyChartCategories)
-// have been moved to their respective chart components.
-
-interface MetricCardProps {
-  title: string;
-  children: React.ReactNode;
-  delay?: number;
-  variant: 'metrics' | 'trends' | 'insights' | 'donuts';
-}
-
-const MetricCard: React.FC<MetricCardProps> = ({ title, children, delay = 0, variant }) => (
-  <motion.div
-    className={`${styles.glassCard} ${styles[variant]}`}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay }}
-  >
-    <div className={styles.cardTitle}>{title}</div>
-    {children}
-  </motion.div>
-);
-
 export const TrendsDeepDiveSlide: React.FC = () => {
-  const regionalTrendsChartContainerRef = useRef<HTMLDivElement>(null);
-  const popularityTrendsChartContainerRef = useRef<HTMLDivElement>(null);
-  const industryAdoptionChartContainerRef = useRef<HTMLDivElement>(null);
-  const energyEfficiencyChartContainerRef = useRef<HTMLDivElement>(null);
-  const marketShareChartContainerRef = useRef<HTMLDivElement>(null);
-
-
-  useEffect(() => {
-    const chartContainers = [
-      regionalTrendsChartContainerRef.current,
-      popularityTrendsChartContainerRef.current,
-      industryAdoptionChartContainerRef.current,
-      energyEfficiencyChartContainerRef.current,
-      marketShareChartContainerRef.current,
-    ];
-
-    return () => {
-      chartContainers.forEach(container => {
-        if (container) {
-          // Child components are responsible for their own SVG cleanup.
-          // This parent cleanup focuses on attributes it might have set (if any).
-          container.removeAttribute('data-chart-initialized-s8-region-trends');
-          container.removeAttribute('data-chart-initialized-s8-pop-trends');
-          container.removeAttribute('data-chart-initialized-s8-industry');
-          container.removeAttribute('data-chart-initialized-s8-energy');
-          container.removeAttribute('data-chart-initialized-s8-donut');
-        }
-      });
-    };
-  }, []); // Empty dependency array as we only want this to run on mount/unmount for cleanup.
-
   return (
     <div className={styles.trendsDeepDiveSlide}>
-      <main className={styles.slideMainContentS8}>
-        <div className={styles.chartsGridS8}>
-          <div className={`${styles.chartCellS8} ${styles.topLeftS8}`}>
-            {/* <h3 className={styles.chartTitleS8}>Прогноз роста внедрения по регионам</h3> */}
-            <div ref={regionalTrendsChartContainerRef} className={styles.chartContainerS8}>
-              <RegionalTrendsAreaChart />
-            </div>
-          </div>
-          <div className={`${styles.chartCellS8} ${styles.topRightS8}`}>
-            {/* <h3 className={styles.chartTitleS8}>Тренды популярности бенчмарков</h3> */}
-            <div ref={popularityTrendsChartContainerRef} className={styles.chartContainerS8}>
-              <PopularityTrendsLineChart />
-            </div>
-          </div>
-          <div className={`${styles.chartCellS8} ${styles.bottomLeftS8}`}>
-            {/* <h3 className={styles.chartTitleS8}>Энергоэффективность и стоимость транзакций СУБД (2023-2025)</h3> */}
-            <div ref={energyEfficiencyChartContainerRef} className={styles.chartContainerS8}>
-              <EnergyEfficiencyLineChart />
-            </div>
-          </div>
-          <div className={`${styles.chartCellS8} ${styles.bottomRightS8}`}>
-            {/* <h3 className={styles.chartTitleS8}>Внедрение бенчмаркинга по отраслям</h3> */}
-            <div ref={industryAdoptionChartContainerRef} className={styles.chartContainerS8}>
-              <IndustryAdoptionBarChart />
-            </div>
-          </div>
+      {/* Field Adoption (Industry Adoption) - Top Left - 7×6 area */}
+      <motion.div
+        className={styles.fieldAdoptionArea}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <div className={styles.chartContainerS8}>
+          <IndustryAdoptionBarChart />
         </div>
-      </main>
-      <aside className={styles.slideSidebarS8}>
-        <MetricCard title="Рыночная доля" variant="donuts" delay={0.1}>
-          <div ref={marketShareChartContainerRef} className={`${styles.sidebarChartContainerS8} ${styles.donutChartS8Container}`}>
-            <MarketShareDonutChart />
-          </div>
-        </MetricCard>
-        <MetricCard title="Ключевые показатели" variant="metrics" delay={0.2}>
-          <div className={styles.keyMetricsGridS8}>
-            {keyMetricsData.map((metric, index) => (
-              <motion.div 
-                key={index} 
-                className={styles.metricItemS8}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
+      </motion.div>
+
+      {/* Growth Forecast (Regional Trends) - Top Center - 6×6 area */}
+      <motion.div
+        className={styles.growthForecastArea}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className={styles.chartContainerS8}>
+          <RegionalTrendsAreaChart />
+        </div>
+      </motion.div>
+
+      {/* Popularity Trends - Top Right - 6×6 area */}
+      <motion.div
+        className={styles.popularityTrendsArea}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        <div className={styles.chartContainerS8}>
+          <PopularityTrendsLineChart />
+        </div>
+      </motion.div>
+
+      {/* Efficiency Transaction Cost (Energy Efficiency) - Middle Right - 6×6 area */}
+      <motion.div
+        className={styles.efficiencyTransactionCostArea}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+      >
+        <div className={styles.chartContainerS8}>
+          <EnergyEfficiencyLineChart />
+        </div>
+      </motion.div>
+
+      {/* Market Share - Middle Center - Expanded to 8×5 area */}
+      <motion.div
+        className={styles.marketShareArea}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
+        <div className={styles.cardTitle}>Рыночная доля</div>
+        <div className={styles.chartContainerS8}>
+          <MarketShareDonutChart />
+        </div>
+      </motion.div>
+
+      {/* Key Metrics 1 - Left Vertical - 1×6 area */}
+      <motion.div
+        className={styles.keyMetrics1Area}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+      >
+        <div className={styles.cardTitle}>Ключевые показатели</div>
+        <div className={styles.keyMetricsGridS8}>
+          {keyMetricsData.slice(0, 2).map((metric, index) => (
+            <motion.div 
+              key={index} 
+              className={styles.metricItemS8}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.7 + index * 0.1,
+                type: "spring",
+                stiffness: 120,
+                damping: 10
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { duration: 0.2 }
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.span 
+                className={styles.metricIconS8}
+                initial={{ rotate: -180, scale: 0 }}
+                animate={{ rotate: 0, scale: 1 }}
                 transition={{ 
-                  duration: 0.6, 
-                  delay: 0.3 + index * 0.1,
+                  duration: 0.5, 
+                  delay: 0.9 + index * 0.1,
                   type: "spring",
-                  stiffness: 120,
-                  damping: 10
+                  stiffness: 200
                 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }}
-                whileTap={{ scale: 0.95 }}
               >
-                <motion.span 
-                  className={styles.metricIconS8}
-                  initial={{ rotate: -180, scale: 0 }}
-                  animate={{ rotate: 0, scale: 1 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: 0.5 + index * 0.1,
-                    type: "spring",
-                    stiffness: 200
-                  }}
-                >
-                  {metric.icon}
-                </motion.span>
-                <motion.span 
-                  className={styles.metricValueS8}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ 
-                    opacity: 1, 
-                    x: 0,
-                    scale: [1, 1.05, 1]
-                  }}
-                  transition={{ 
-                    opacity: { duration: 0.4, delay: 0.7 + index * 0.1 },
-                    x: { duration: 0.4, delay: 0.7 + index * 0.1 },
-                    scale: { 
-                      duration: 2, 
-                      delay: 1.5 + index * 0.2,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                      ease: "easeInOut"
-                    }
-                  }}
-                >
-                  {metric.value}
-                </motion.span>
-                <motion.span 
-                  className={styles.metricLabelS8}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: 0.8 + index * 0.1 
-                  }}
-                >
-                  {metric.label}
-                </motion.span>
-              </motion.div>
-            ))}
-          </div>
-        </MetricCard>
-        <MetricCard title="Ключевые выводы" variant="insights" delay={0.3}>
-          <ul className={styles.keyInsightsListS8}>
-            {keyInsightsData.map((insight, index) => (
-              <li key={index}>
-                <strong>{insight.number}</strong> {insight.text}
-              </li>
-            ))}
-          </ul>
-        </MetricCard>
-      </aside>
+                {metric.icon}
+              </motion.span>
+              <motion.span 
+                className={styles.metricValueS8}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ 
+                  opacity: 1, 
+                  x: 0,
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  opacity: { duration: 0.4, delay: 1.1 + index * 0.1 },
+                  x: { duration: 0.4, delay: 1.1 + index * 0.1 },
+                  scale: { 
+                    duration: 2, 
+                    delay: 1.9 + index * 0.2,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "easeInOut"
+                  }
+                }}
+              >
+                {metric.value}
+              </motion.span>
+              <motion.span 
+                className={styles.metricLabelS8}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: 1.2 + index * 0.1 
+                }}
+              >
+                {metric.label}
+              </motion.span>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Key Metrics 2a - Bottom Left - NoSQL рост - 3×1 area */}
+      <motion.div
+        className={styles.keyMetrics2aArea}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.7 }}
+      >
+        <motion.div 
+          className={styles.singleMetricS8}
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.8,
+            type: "spring",
+            stiffness: 120,
+            damping: 10
+          }}
+          whileHover={{ 
+            scale: 1.05,
+            transition: { duration: 0.2 }
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <motion.span 
+            className={styles.metricIconS8}
+            initial={{ rotate: -180, scale: 0 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: 1.0,
+              type: "spring",
+              stiffness: 200
+            }}
+          >
+            {keyMetricsData[2].icon}
+          </motion.span>
+          <motion.span 
+            className={styles.metricValueS8}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ 
+              opacity: 1, 
+              x: 0,
+              scale: [1, 1.05, 1]
+            }}
+            transition={{ 
+              opacity: { duration: 0.4, delay: 1.2 },
+              x: { duration: 0.4, delay: 1.2 },
+              scale: { 
+                duration: 2, 
+                delay: 2.0,
+                repeat: Infinity,
+                repeatDelay: 3,
+                ease: "easeInOut"
+              }
+            }}
+          >
+            {keyMetricsData[2].value}
+          </motion.span>
+          <motion.span 
+            className={styles.metricLabelS8}
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ 
+              duration: 0.4, 
+              delay: 1.3
+            }}
+          >
+            {keyMetricsData[2].label}
+          </motion.span>
+        </motion.div>
+      </motion.div>
+
+      {/* Key Metrics 2b - Bottom Center - Облачные - 3×1 area */}
+      <motion.div
+        className={styles.keyMetrics2bArea}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.75 }}
+      >
+        <motion.div 
+          className={styles.singleMetricS8}
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ 
+            duration: 0.6, 
+            delay: 0.85,
+            type: "spring",
+            stiffness: 120,
+            damping: 10
+          }}
+          whileHover={{ 
+            scale: 1.05,
+            transition: { duration: 0.2 }
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <motion.span 
+            className={styles.metricIconS8}
+            initial={{ rotate: -180, scale: 0 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ 
+              duration: 0.5, 
+              delay: 1.05,
+              type: "spring",
+              stiffness: 200
+            }}
+          >
+            {keyMetricsData[3].icon}
+          </motion.span>
+          <motion.span 
+            className={styles.metricValueS8}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ 
+              opacity: 1, 
+              x: 0,
+              scale: [1, 1.05, 1]
+            }}
+            transition={{ 
+              opacity: { duration: 0.4, delay: 1.25 },
+              x: { duration: 0.4, delay: 1.25 },
+              scale: { 
+                duration: 2, 
+                delay: 2.1,
+                repeat: Infinity,
+                repeatDelay: 3,
+                ease: "easeInOut"
+              }
+            }}
+          >
+            {keyMetricsData[3].value}
+          </motion.span>
+          <motion.span 
+            className={styles.metricLabelS8}
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ 
+              duration: 0.4, 
+              delay: 1.35
+            }}
+          >
+            {keyMetricsData[3].label}
+          </motion.span>
+        </motion.div>
+      </motion.div>
+
+      {/* Conclusion 2 (Key Findings) - Large Right Area - 6×6 area */}
+      <motion.div
+        className={styles.conclusion2Area}
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.8 }}
+      >
+        <motion.div 
+          className={styles.keyFindingsTitle}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.0 }}
+        >
+          КЛЮЧЕВЫЕ ВЫВОДЫ
+        </motion.div>
+        <ul className={styles.keyInsightsListS8}>
+          {keyInsightsData.map((insight, index) => (
+            <motion.li
+              key={index}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 1.2 + index * 0.2,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{
+                x: 8,
+                transition: { duration: 0.2 }
+              }}
+            >
+              <strong>{insight.number}</strong> {insight.text}
+            </motion.li>
+          ))}
+        </ul>
+      </motion.div>
     </div>
   );
 }; 

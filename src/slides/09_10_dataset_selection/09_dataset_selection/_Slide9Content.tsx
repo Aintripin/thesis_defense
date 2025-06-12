@@ -40,6 +40,41 @@ const datasetAdvantages = [
   }
 ];
 
+// Sample dataset record
+const sampleDatasetRecord = `{
+  "id": 1091,
+  "authors": [
+    {
+      "name": "Makoto Satoh",
+      "org": "Shinshu University",
+      "id": 2312688602
+    },
+    {
+      "name": "Ryo Muramatsu", 
+      "org": "Shinshu University",
+      "id": 2482909946
+    }
+  ],
+  "title": "Preliminary Design of a Network Protocol Learning Tool Based on the Comprehension of High School Students",
+  "year": 2013,
+  "n_citation": 1,
+  "page_start": "89",
+  "page_end": "93",
+  "doc_type": "Conference",
+  "publisher": "Springer, Berlin, Heidelberg",
+  "doi": "10.1007/978-3-642-39476-8_19",
+  "indexed_abstract": {
+    "IndexLength": 58,
+    "InvertedIndex": {
+      "tool.": [42],
+      "study": [4],
+      "students": [14, 46],
+      "learning": [9, 41],
+      "network": [33, 56]
+    }
+  }
+}`;
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -69,7 +104,6 @@ const sectionVariants = {
   }
 };
 
-
 interface InfoItemProps {
   item: { label: string; value: string };
 }
@@ -95,38 +129,75 @@ export const Slide9Content: React.FC = () => (
     animate="visible"
     exit={{ opacity: 0 }}
   >
-    {/* Section 1: Выбранный датасет */}
-    <motion.div
-      className={styles.section}
-      variants={sectionVariants}
-    >
-      <div className={styles.sectionHeader}>
-        Выбранный датасет
+    <div className={styles.contentGrid}>
+      {/* Left Column - Dataset Info */}
+      <div className={styles.leftColumn}>
+        {/* Section 1: Выбранный датасет */}
+        <motion.div
+          className={styles.section}
+          variants={sectionVariants}
+        >
+          <div className={styles.sectionHeader}>
+            Выбранный датасет
+          </div>
+          <div className={styles.sectionContent}>
+            <ul>
+              {selectedDatasetInfo.map((item, index) => (
+                <InfoItem key={index} item={item} />
+              ))}
+            </ul>
+          </div>
+        </motion.div>
+        
+        {/* Section 2: Преимущества выбранного датасета */}
+        <motion.div
+          className={styles.section}
+          variants={sectionVariants}
+        >
+          <div className={styles.sectionHeader}>
+            Преимущества выбранного датасета
+          </div>
+          <div className={styles.sectionContent}>
+            <ul>
+              {datasetAdvantages.map((item, index) => (
+                <InfoItem key={index} item={item} />
+              ))}
+            </ul>
+          </div>
+        </motion.div>
       </div>
-      <div className={styles.sectionContent}>
-        <ul>
-          {selectedDatasetInfo.map((item, index) => (
-            <InfoItem key={index} item={item} />
-          ))}
-        </ul>
+
+      {/* Right Column - Dataset Sample */}
+      <div className={styles.rightColumn}>
+        <motion.div
+          className={styles.datasetSampleCard}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: 0.4 }}
+        >
+          <div className={styles.cardHeader}>
+            <div className={styles.cardTitle}>Пример записи датасета</div>
+            <div className={styles.cardSubtitle}>JSON структура метаданных научной публикации</div>
+          </div>
+          
+          <div className={styles.codeTerminal}>
+            <div className={styles.terminalHeader}>
+              <div className={styles.terminalDots}>
+                <div className={`${styles.terminalDot} ${styles.red}`}></div>
+                <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
+                <div className={`${styles.terminalDot} ${styles.green}`}></div>
+              </div>
+              <div className={styles.terminalFilename}>dataset.json</div>
+            </div>
+            <div className={styles.terminalContent}>
+              <pre className={styles.jsonContent}>
+                {sampleDatasetRecord}
+              </pre>
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </motion.div>
-    
-    {/* Section 2: Преимущества выбранного датасета */}
-    <motion.div
-      className={styles.section}
-      variants={sectionVariants}
-    >
-      <div className={styles.sectionHeader}>
-        Преимущества выбранного датасета
-      </div>
-      <div className={styles.sectionContent}>
-        <ul>
-          {datasetAdvantages.map((item, index) => (
-            <InfoItem key={index} item={item} />
-          ))}
-        </ul>
-      </div>
-    </motion.div>
+    </div>
   </motion.div>
 ); 

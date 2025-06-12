@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import './EnergyEfficiencyLineChart.scss';
+import styles from './EnergyEfficiencyLineChart.module.scss';
 import { energyEfficiencyRawData, energyChartCategories } from '../../data';
 
 export const EnergyEfficiencyLineChart: React.FC = () => {
@@ -14,13 +14,17 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
       const containerHeight = chartContainer.offsetHeight;
       if (containerWidth <= 0 || containerHeight <= 0) { return; }
       
-      const margin = { top: 20, right: 30, bottom: 50, left: 65 }; // Increased left margin for Y labels
+      // Reserve space for legend by reducing effective height
+      const legendReservedHeight = 25; // Reduced from 35 to compensate for expanded SVG
+      const effectiveHeight = containerHeight - legendReservedHeight;
+      
+      const margin = { top: 20, right: 30, bottom: 40, left: 70 }; // Reduced bottom margin from 50 to 40 for more plot space
       const width = containerWidth - margin.left - margin.right;
-      const height = containerHeight - margin.top - margin.bottom;
+      const height = effectiveHeight - margin.top - margin.bottom + 25; // Use effectiveHeight
       
       const svg = d3.select(energyEfficiencyChartRef.current).append("svg")
         .attr("width", containerWidth)
-        .attr("height", containerHeight);
+        .attr("height", effectiveHeight + 30); // Add 30px to accommodate the "год" label at +25
       
       const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
       
@@ -88,28 +92,24 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
       const xAxisGroupEnergy = g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale).ticks(3).tickFormat(d3.format("d")));
-      xAxisGroupEnergy.selectAll("text").style("fill", "#475569").style("font-size", "10px");
+      xAxisGroupEnergy.selectAll("text").style("fill", "#475569").style("font-size", "14px");
       xAxisGroupEnergy.selectAll(".domain, line").style("stroke", "#AEB8C4");
       
       const yAxisGroupEnergy = g.append("g")
         .call(d3.axisLeft(yScaleEnergy).ticks(4).tickFormat(d => `$${Number(d).toFixed(3)}`));
       yAxisGroupEnergy.selectAll("text")
         .style("fill", "#475569")
-        .style("font-size", "10px")
+        .style("font-size", "14px")
         .attr("dx", "-4px");
       yAxisGroupEnergy.selectAll(".domain, line").style("stroke", "#AEB8C4");
 
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
-        .attr("y", containerHeight - 10)
+        .attr("y", effectiveHeight + 25)  // Moved up from +18 to +12 since we reduced bottom margin
         .text("Год");
-      svg.append("text").attr("class", "axis-label-s8")
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -(margin.top + height / 2))
-        .attr("y", 18) // Adjusted y for axis label based on summary
-        .text("Стоимость / 1000 транзакций (USD)");
+      
+      // Y-axis label will be handled as separate HTML element outside SVG
     }
 
     return () => {
@@ -121,17 +121,44 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', margin: 0, padding: 0 }}>
       <h3 className="chart-title-s8">Энергоэффективность и стоимость транзакций СУБД (2023-2025)</h3>
-      <div className="chart" ref={energyEfficiencyChartRef}></div>
-      <div className="legend-s8-energy">
+      
+      {/* Flexbox container for Y-axis label and chart */}
+      <div style={{ display: 'flex', alignItems: 'stretch', flex: 1, margin: 0, padding: 0 }}>
+        {/* Y-axis label */}
+        <div 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.2em',
+            fontWeight: '600',
+            color: '#475569',
+            fontFamily: 'ALS Sector Regular, sans-serif',
+            writingMode: 'vertical-rl',
+            textOrientation: 'mixed',
+            transform: 'rotate(180deg)',
+            minWidth: '25px',
+            margin: 0,
+            padding: 0
+          }}
+        >
+          Стоимость / 1000 транзакций (USD)
+        </div>
+        
+        {/* Chart area */}
+        <div className={styles.chart} ref={energyEfficiencyChartRef} style={{ flex: 1, margin: 0, padding: 0 }}></div>
+      </div>
+      
+      <div className={styles.legendS8Energy}>
         {energyChartCategories.map(cat => (
-          <div key={cat.key} className="legend-item-s8">
-            <div className="legend-color-s8" style={{ backgroundColor: cat.color }}></div>
+          <div key={cat.key} className={styles.legendItemS8}>
+            <div className={styles.legendColorS8} style={{ backgroundColor: cat.color }}></div>
             <span>{cat.name}</span>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }; 

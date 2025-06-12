@@ -65,7 +65,7 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
 
     const containerWidth = chartRef.current.offsetWidth;
     const containerHeight = chartRef.current.offsetHeight;
-    const margin = { top: 20, right: 30, bottom: 60, left: 60 };
+    const margin = { top: 20, right: 30, bottom: 80, left: 90 };
     const width = containerWidth - margin.left - margin.right;
     const height = containerHeight - margin.top - margin.bottom;
 
@@ -127,11 +127,11 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
       animationFrameId.current = requestAnimationFrame(animateRise);
     });
 
-    g.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d"))).selectAll("text").style("fill", "#475569").style("font-size", "12px");
-    g.append("g").call(d3.axisLeft(yScale)).selectAll("text").style("fill", "#475569").style("font-size", "12px");
+    g.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d"))).selectAll("text").style("fill", "#475569").style("font-size", "16px").style("font-weight", "500");
+    g.append("g").call(d3.axisLeft(yScale)).selectAll("text").style("fill", "#475569").style("font-size", "16px").style("font-weight", "500");
     g.selectAll(".domain").style("stroke", "#64748B"); g.selectAll(".tick line").style("stroke", "#64748B");
-    g.append("text").attr("x", width / 2).attr("y", height + 50).attr("fill", "#475569").style("text-anchor", "middle").style("font-size", "14px").style("font-weight", "bold").text("Год");
-    g.append("text").attr("transform", "rotate(-90)").attr("y", -50).attr("x", -height / 2).attr("fill", "#475569").style("text-anchor", "middle").style("font-size", "14px").style("font-weight", "bold").text("Объем рынка (млрд USD)");
+    g.append("text").attr("x", width / 2).attr("y", height + 65).attr("fill", "#475569").style("text-anchor", "middle").style("font-size", "22px").style("font-weight", "bold").style("font-family", "'ALS Sector Regular', sans-serif").text("Год");
+    g.append("text").attr("transform", "rotate(-90)").attr("y", -65).attr("x", -height / 2).attr("fill", "#475569").style("text-anchor", "middle").style("font-size", "22px").style("font-weight", "bold").style("font-family", "'ALS Sector Regular', sans-serif").text("Объём рынка (млрд USD)");
 
     const line = d3.line<any>().x(d => xScale(d.year)).y(d => yScale(d.total)).curve(d3.curveCardinal);
     const totalLinePath = g.append("path").datum(data).attr("d", line).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 3).style("visibility", "hidden");

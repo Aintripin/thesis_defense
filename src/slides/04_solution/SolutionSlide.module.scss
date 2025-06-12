@@ -57,92 +57,50 @@ $cassandra-color: #8b5cf6;
   }
 
   .contentContainer {
-    max-width: 1600px;
-    margin: 20px auto;
+    max-width: 1800px;
+    margin: 10px auto;
     background: $white;
     border-radius: 20px;
-    padding: 60px;
+    padding: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 110px);
     overflow: hidden;
   }
 
   .solutionContentWrapper {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 40px;
-    height: 100%;
-    width: 100%;
-  }
-
-  // Sidebar Styles
-  .sidebar {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-  }
-
-  .sidebarSection {
-    // Base styles for all sidebar sections
-  }
-
-  .thesisSection {
-    h2 {
-      @include als-font(20px, 600, 1.2);
-      color: $text-dark;
-      margin-bottom: 16px;
-    }
-
-    p {
-      @include als-font(14px, 400, 1.6);
-      color: $text-secondary;
-      margin: 0;
-    }
-  }
-
-  .importantBox {
-    background-color: #eff6ff;
-    border-left: 4px solid $blue-primary;
-    padding: 16px;
-    border-radius: 0 8px 8px 0;
-
-    h2 {
-      @include als-font(18px, 700, 1.2);
-      color: $blue-primary;
-      margin-bottom: 12px;
-    }
-
-    p {
-      @include als-font(14px, 400, 1.6);
-      color: $text-secondary;
-      margin: 0;
-    }
+    height: 100%;
+    width: 100%;
   }
 
   // Main Content Styles
   .mainContent {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 8px;
     overflow: hidden;
+    flex: 1;
   }
 
   .contentHeader {
     .contentTitle {
-      @include als-font(24px, 600, 1.2);
+      @include als-font(36px, 600, 1.2);
       color: $text-dark;
-      margin: 0;
+      margin: 0 0 5px 0;
+      text-align: center;
     }
   }
 
   .cardsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-rows: auto auto auto auto;
+    gap: 18px;
     flex: 1;
     overflow: hidden;
   }
@@ -151,7 +109,7 @@ $cassandra-color: #8b5cf6;
   .databaseCard {
     background: $white;
     border-radius: 12px;
-    padding: 32px;
+    padding: 18px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
     border: 1px solid $border-light;
     transition: all 0.3s ease;
@@ -172,15 +130,27 @@ $cassandra-color: #8b5cf6;
       height: 4px;
     }
 
-    &.postgres::before {
-      background: $postgres-color;
+    &.postgres {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      
+      &::before {
+        background: $postgres-color;
+      }
     }
 
-    &.mongo::before {
-      background: $mongo-color;
+    &.mongo {
+      grid-column: 2;
+      grid-row: 1 / 2;
+      
+      &::before {
+        background: $mongo-color;
+      }
     }
 
     &.cassandra {
+      grid-column: 2;
+      grid-row: 2 / 3;
       box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
       
       &:hover {
@@ -193,6 +163,8 @@ $cassandra-color: #8b5cf6;
     }
 
     &.comparison {
+      grid-column: 1 / -1;
+      grid-row: 4;
       background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
       border: 2px solid #e2e8f0;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -209,9 +181,9 @@ $cassandra-color: #8b5cf6;
       
       .cardTitle {
         color: $text-dark;
-        @include als-font(22px, 700, 1.3);
+        @include als-font(32px, 700, 1.3);
         text-align: center;
-        margin-bottom: 32px;
+        margin-bottom: 15px;
       }
     }
 
@@ -220,9 +192,9 @@ $cassandra-color: #8b5cf6;
     }
 
     .cardTitle {
-      @include als-font(20px, 600, 1.3);
+      @include als-font(30px, 600, 1.3);
       color: $text-dark;
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
 
     .featuresList {
@@ -233,8 +205,8 @@ $cassandra-color: #8b5cf6;
       .featureItem {
         display: flex;
         align-items: flex-start;
-        margin-bottom: 16px;
-        @include als-font(15px, 400, 1.5);
+        margin-bottom: 8px;
+        @include als-font(26px, 400, 1.4);
         color: $text-secondary;
 
         &:last-child {
@@ -245,10 +217,10 @@ $cassandra-color: #8b5cf6;
   }
 
   .bullet {
-    width: 12px;
-    height: 8px;
+    width: 16px;
+    height: 12px;
     margin-top: 8px;
-    margin-right: 12px;
+    margin-right: 16px;
     flex-shrink: 0;
     position: relative;
 
@@ -258,20 +230,20 @@ $cassandra-color: #8b5cf6;
       position: absolute;
       top: 0;
       left: 0;
-      width: 12px;
-      height: 4px;
-      border-radius: 6px;
+      width: 16px;
+      height: 6px;
+      border-radius: 8px;
       border: 1px solid;
     }
 
     &::after {
       content: '';
       position: absolute;
-      top: 2px;
+      top: 4px;
       left: 0;
-      width: 12px;
-      height: 6px;
-      border-radius: 0 0 6px 6px;
+      width: 16px;
+      height: 8px;
+      border-radius: 0 0 8px 8px;
       border: 1px solid;
       border-top: none;
     }
@@ -319,19 +291,8 @@ $cassandra-color: #8b5cf6;
 // Responsive Design
 @media (max-width: 1400px) {
   .solutionSlide {
-    .solutionContentWrapper {
-      grid-template-columns: 1fr;
-      gap: 25px;
-    }
-
-    .sidebar {
-      flex-direction: row;
-      gap: 20px;
-    }
-
-    .thesisSection,
-    .importantBox {
-      flex: 1;
+    .contentContainer {
+      padding: 30px;
     }
 
     .cardsGrid {
@@ -348,18 +309,17 @@ $cassandra-color: #8b5cf6;
 
 @media (max-width: 768px) {
   .solutionSlide {
-    .solutionContentWrapper {
+    .contentContainer {
       padding: 20px;
-    }
-
-    .sidebar {
-      flex-direction: column;
-      gap: 15px;
     }
 
     .cardsGrid {
       grid-template-columns: 1fr;
       gap: 16px;
+    }
+
+    .databaseCard {
+      padding: 20px;
     }
 
     .slideTitleContainer .slideTitle {

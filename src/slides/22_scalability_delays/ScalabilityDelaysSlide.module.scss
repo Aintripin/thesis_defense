@@ -50,7 +50,7 @@ $white: #ffffff;
 // Wrapper A - Main wrapper with flex column
 .contentContainer {
   flex: 1;
-  padding: 40px 50px;
+  padding: 25px 50px;
   overflow: hidden;
   max-width: 95%;
   margin: 0 auto;
@@ -65,22 +65,22 @@ $white: #ffffff;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 25px;
+  gap: 12px;
+  margin-bottom: 15px;
   flex-shrink: 0;
 }
 
 .dbToggle {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 8px 16px;
   background: $white;
   border: 2px solid;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -148,7 +148,7 @@ $white: #ffffff;
   flex-grow: 2;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   min-width: 300px;
   max-width: 600px;
 }
@@ -156,16 +156,16 @@ $white: #ffffff;
 .summaryCard {
   background: #f8fafc;
   border-radius: 16px;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #e2e8f0;
   flex-grow: 1;
 }
 
 .cardTitle {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 600;
   color: #2563eb;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -195,9 +195,9 @@ $white: #ffffff;
 }
 
 .axisLabel {
-  font-size: 16px;
+  font-size: 24px;
   fill: #64748b;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .dataLine {
@@ -255,10 +255,10 @@ $white: #ffffff;
 .tooltip {
   position: absolute;
   background: $white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 12px 16px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   pointer-events: none;
   opacity: 0;
@@ -274,12 +274,12 @@ $white: #ffffff;
 
 .insightItem {
   padding: 8px 0;
-  font-size: 24px;
+  font-size: 28px;
   color: #475569;
   border-bottom: 1px solid #e2e8f0;
   position: relative;
-  padding-left: 16px;
-  line-height: 1.4;
+  padding-left: 20px;
+  line-height: 1.3;
 
   &:last-child {
     border-bottom: none;
@@ -318,7 +318,7 @@ $white: #ffffff;
 }
 
 .statDb {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -337,17 +337,17 @@ $white: #ffffff;
 }
 
 .statPeak {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 600;
   color: #2563eb;
 }
 
 .chartTitle {
   text-align: center;
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 600;
   color: #1e293b;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 // Responsive design

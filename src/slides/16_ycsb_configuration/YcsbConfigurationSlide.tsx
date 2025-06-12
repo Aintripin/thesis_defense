@@ -93,7 +93,7 @@ const YcsbConfigurationSlide: React.FC = () => {
                     </li>
                     <li className={styles.configItem}>
                       <span className={styles.configLabel}>Распределение</span>
-                      <span className={styles.configValue}>zipfian</span>
+                      <span className={styles.configValue}>zipfian, uniform</span>
                     </li>
                     <li className={styles.configItem}>
                       <span className={styles.configLabel}>Повторения</span>

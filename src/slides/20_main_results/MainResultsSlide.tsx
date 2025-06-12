@@ -58,7 +58,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
 
   // Calculate bar heights (max value for scaling)
   const maxValue = Math.max(...workloadData.flatMap(d => [d.postgresql, d.mongodb, d.cassandra]));
-  const getBarHeight = (value: number) => (value / maxValue) * 840;
+  const getBarHeight = (value: number) => (value / maxValue) * 750;
 
   // Radar chart points calculation
   const getRadarPoints = (data: number[], maxVal: number) => {
@@ -107,9 +107,27 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
           </button>
         </div>
 
-        <div className={styles.chartContainer}>
+        <div className={styles.chartContainer} style={{ 
+          display: 'flex !important', 
+          gap: '40px !important', 
+          flex: '1 !important',
+          width: '100%',
+          height: '100%'
+        }}>
           {/* Main Chart Area */}
-          <div className={styles.mainChart}>
+          <motion.div 
+            className={styles.mainChart} 
+            animate={{
+              flex: chartType === 'radar' ? 100 : 70,
+            }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ 
+              flex: chartType === 'radar' ? 100 : 70,
+              minWidth: 0,
+              width: 'auto',
+              maxWidth: 'none'
+            }}
+          >
             
             {/* Bar Chart */}
             {chartType === 'bars' && (
@@ -166,7 +184,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
               >
                 <div className={styles.radarChart}>
                   <div className={styles.radarTitle}>PostgreSQL</div>
-                  <svg width="400" height="400" viewBox="0 0 400 400">
+                  <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto' }}>
                     <defs>
                       <filter id="glow">
                         <feGaussianBlur stdDeviation="3" result="coloredBlur" />
@@ -177,10 +195,10 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
                       </filter>
                     </defs>
                     {/* Grid */}
-                    <g stroke="#e2e8f0" strokeWidth="2" fill="none">
-                      <polygon points="200,50 344,125 344,275 200,350 56,275 56,125" opacity="0.3" />
-                      <polygon points="200,83 311,150 311,250 200,317 89,250 89,150" opacity="0.3" />
-                      <polygon points="200,117 278,175 278,225 200,283 122,225 122,175" opacity="0.3" />
+                    <g stroke="#94a3b8" strokeWidth="3" fill="none">
+                      <polygon points="200,50 344,125 344,275 200,350 56,275 56,125" opacity="0.6" />
+                      <polygon points="200,83 311,150 311,250 200,317 89,250 89,150" opacity="0.6" />
+                      <polygon points="200,117 278,175 278,225 200,283 122,225 122,175" opacity="0.6" />
                     </g>
                     {/* Data */}
                     <polygon
@@ -197,7 +215,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
                       const x = 200 + 170 * Math.cos(angle);
                       const y = 200 + 170 * Math.sin(angle);
                       return (
-                        <text key={label} x={x} y={y} textAnchor="middle" fontSize="16" fill="#64748b" fontWeight="600">
+                        <text key={label} x={x} y={y} textAnchor="middle" fontSize="28" fill="#1e293b" fontWeight="700">
                           {label}
                         </text>
                       );
@@ -207,12 +225,21 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
 
                 <div className={styles.radarChart}>
                   <div className={styles.radarTitle}>MongoDB</div>
-                  <svg width="400" height="400" viewBox="0 0 400 400">
+                  <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto' }}>
+                    <defs>
+                      <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                          <feMergeNode in="coloredBlur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
                     {/* Grid */}
-                    <g stroke="#e2e8f0" strokeWidth="2" fill="none">
-                      <polygon points="200,50 344,125 344,275 200,350 56,275 56,125" opacity="0.3" />
-                      <polygon points="200,83 311,150 311,250 200,317 89,250 89,150" opacity="0.3" />
-                      <polygon points="200,117 278,175 278,225 200,283 122,225 122,175" opacity="0.3" />
+                    <g stroke="#94a3b8" strokeWidth="3" fill="none">
+                      <polygon points="200,50 344,125 344,275 200,350 56,275 56,125" opacity="0.6" />
+                      <polygon points="200,83 311,150 311,250 200,317 89,250 89,150" opacity="0.6" />
+                      <polygon points="200,117 278,175 278,225 200,283 122,225 122,175" opacity="0.6" />
                     </g>
                     {/* Data */}
                     <polygon
@@ -229,7 +256,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
                       const x = 200 + 170 * Math.cos(angle);
                       const y = 200 + 170 * Math.sin(angle);
                       return (
-                        <text key={label} x={x} y={y} textAnchor="middle" fontSize="16" fill="#64748b" fontWeight="600">
+                        <text key={label} x={x} y={y} textAnchor="middle" fontSize="28" fill="#1e293b" fontWeight="700">
                           {label}
                         </text>
                       );
@@ -239,12 +266,21 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
 
                 <div className={styles.radarChart}>
                   <div className={styles.radarTitle}>Cassandra</div>
-                  <svg width="400" height="400" viewBox="0 0 400 400">
+                  <svg viewBox="0 0 400 400" style={{ width: '100%', height: 'auto' }}>
+                    <defs>
+                      <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                          <feMergeNode in="coloredBlur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
                     {/* Grid */}
-                    <g stroke="#e2e8f0" strokeWidth="2" fill="none">
-                      <polygon points="200,50 344,125 344,275 200,350 56,275 56,125" opacity="0.3" />
-                      <polygon points="200,83 311,150 311,250 200,317 89,250 89,150" opacity="0.3" />
-                      <polygon points="200,117 278,175 278,225 200,283 122,225 122,175" opacity="0.3" />
+                    <g stroke="#94a3b8" strokeWidth="3" fill="none">
+                      <polygon points="200,50 344,125 344,275 200,350 56,275 56,125" opacity="0.6" />
+                      <polygon points="200,83 311,150 311,250 200,317 89,250 89,150" opacity="0.6" />
+                      <polygon points="200,117 278,175 278,225 200,283 122,225 122,175" opacity="0.6" />
                     </g>
                     {/* Data */}
                     <polygon
@@ -261,7 +297,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
                       const x = 200 + 170 * Math.cos(angle);
                       const y = 200 + 170 * Math.sin(angle);
                       return (
-                        <text key={label} x={x} y={y} textAnchor="middle" fontSize="16" fill="#64748b" fontWeight="600">
+                        <text key={label} x={x} y={y} textAnchor="middle" fontSize="28" fill="#1e293b" fontWeight="700">
                           {label}
                         </text>
                       );
@@ -286,10 +322,29 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
                 <span className={styles.legendLabel}>Cassandra</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Sidebar */}
-          <div className={styles.sidebar}>
+          <motion.div 
+            className={styles.sidebar} 
+            animate={{
+              x: chartType === 'radar' ? '100%' : '0%',
+              opacity: chartType === 'radar' ? 0 : 1,
+              flex: chartType === 'radar' ? 0 : 30,
+            }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ 
+              flex: chartType === 'radar' ? 0 : 30,
+              minWidth: chartType === 'radar' ? '0px' : '200px', 
+              maxWidth: chartType === 'radar' ? '0px' : '250px',
+              width: chartType === 'radar' ? '0px' : '200px',
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '25px',
+              flexShrink: 0,
+              overflow: 'hidden'
+            }}
+          >
             <div className={`${styles.summaryCard} ${styles.leadersCard}`}>
               <div className={styles.cardTitle}>Лидеры по workload'ам</div>
               <div className={styles.performanceStats}>
@@ -317,7 +372,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
                 ))}
               </ul>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

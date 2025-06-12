@@ -55,7 +55,7 @@ $white: #ffffff;
       overflow: hidden;
       
       width: 100%;
-      max-width: 1600px;
+      max-width: 1800px;
       
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -120,6 +120,7 @@ $white: #ffffff;
         font-size: 1.8rem;
         font-weight: 600;
         margin-bottom: 40px;
+        
         color: $primaryColor;
         text-align: center;
       }
@@ -164,7 +165,7 @@ $white: #ffffff;
       
       .miniCardText {
         font-family: $fontFamilyBody;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         line-height: 1.6;
         color: inherit;
       }
@@ -331,6 +332,7 @@ $white: #ffffff;
       .sectionTitle,
       .resultsTitle {
         font-size: 1.6rem;
+
       }
       
       .miniCardText {

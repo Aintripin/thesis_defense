@@ -1,25 +1,26 @@
-// Styles for EnergyEfficiencyLineChart.tsx
+// Styles for RegionalTrendsAreaChart.tsx
 
-.legend-s8-energy {
-  margin-top: -20px;
+.legendS8Regional {
+  margin-top: 2px;
   margin-bottom: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 6px 10px;
-  padding: 6px 0 4px 0;
+  padding: 3px 0 3px 0;
   flex: 0 0 auto;
   flex-shrink: 0;
 
-  .legend-item-s8 {
+  .legendItemS8 {
     display: flex;
     align-items: center;
-    font-size: 1.0em;
+    font-size: 1.2em;
     color: #475569;
+    font-weight: 500;
 
-    .legend-color-s8 {
-      width: 14px;
-      height: 14px;
+    .legendColorS8 {
+      width: 16px;
+      height: 16px;
       border-radius: 3px;
       margin-right: 8px;
       flex-shrink: 0;
@@ -29,8 +30,8 @@
 
 .chart {
   width: 100%;
-  flex: 1000;
-  min-height: 200px;
+  flex: 1;
+  min-height: 0;
   position: relative;
   overflow: hidden;
 } 

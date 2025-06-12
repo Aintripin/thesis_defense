@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Grid Areas Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        
+        .layout-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .layout-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .container {  
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 1em 1em;
+            height: 600px;
+            grid-auto-flow: row;
+            grid-template-areas:
+                "внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям прогноз-роста прогноз-роста прогноз-роста прогноз-роста тренды-популярности тренды-популярности тренды-популярности тренды-популярности"
+                "внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям прогноз-роста прогноз-роста прогноз-роста прогноз-роста тренды-популярности тренды-популярности тренды-популярности тренды-популярности"
+                "внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям прогноз-роста прогноз-роста прогноз-роста прогноз-роста тренды-популярности тренды-популярности тренды-популярности тренды-популярности"
+                "внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям внедрение-по-отраслям прогноз-роста прогноз-роста прогноз-роста прогноз-роста тренды-популярности тренды-популярности тренды-популярности тренды-популярности"
+                "ключевые-показатели-1 рыночная-доля рыночная-доля рыночная-доля эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций conclusion conclusion conclusion conclusion"
+                "ключевые-показатели-1 рыночная-доля рыночная-доля рыночная-доля эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций conclusion conclusion conclusion conclusion"
+                "ключевые-показатели-1 рыночная-доля рыночная-доля рыночная-доля эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций conclusion conclusion conclusion conclusion"
+                "ключевые-показатели-1 ключевые-показатели-2 ключевые-показатели-2 ключевые-показатели-2 эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций эффективность-и-стоимость-транзакций conclusion conclusion conclusion conclusion";
+        }
+
+        .тренды-популярности { 
+            grid-area: тренды-популярности; 
+            background: #3b82f6;
+        }
+
+        .прогноз-роста { 
+            grid-area: прогноз-роста; 
+            background: #10b981;
+        }
+
+        .внедрение-по-отраслям { 
+            grid-area: внедрение-по-отраслям; 
+            background: #f59e0b;
+        }
+
+        .conclusion { 
+            grid-area: conclusion; 
+            background: #dc2626;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .эффективность-и-стоимость-транзакций { 
+            grid-area: эффективность-и-стоимость-транзакций; 
+            background: #8b5cf6;
+        }
+
+        .рыночная-доля { 
+            grid-area: рыночная-доля; 
+            background: #06b6d4;
+        }
+
+        .ключевые-показатели-1 { 
+            grid-area: ключевые-показатели-1; 
+            background: #ef4444;
+        }
+
+        .ключевые-показатели-2 { 
+            grid-area: ключевые-показатели-2; 
+            background: #f97316;
+        }
+
+        /* Common styling for all grid items */
+        .container > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Grid visualization overlay */
+        .grid-debug {
+            position: relative;
+        }
+
+        .grid-debug::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(to right, transparent 0, transparent calc(100%/12 - 1px), rgba(0,0,0,0.1) calc(100%/12 - 1px), rgba(0,0,0,0.1) calc(100%/12)),
+                repeating-linear-gradient(to bottom, transparent 0, transparent calc(100%/8 - 1px), rgba(0,0,0,0.1) calc(100%/8 - 1px), rgba(0,0,0,0.1) calc(100%/8));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .show-grid {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-section">
+        <div class="layout-title">Your Custom Grid Areas Layout (12×8 Grid)</div>
+        <div class="container">
+            <div class="тренды-популярности">Тренды популярности бенчмарков</div>
+            <div class="прогноз-роста">Прогноз роста внедрения по регионам</div>
+            <div class="внедрение-по-отраслям">Внедрение бенчмаркинга по отраслям</div>
+            <div class="conclusion">
+                КЛЮЧЕВЫЕ ВЫВОДЫ<br>
+                <span style="font-size: 14px; font-weight: normal; margin-top: 10px; display: block;">
+                    • YCSB опережает TPC-H по популярности<br>
+                    • 2022 год - точка смены парадигм<br>
+                    • +77% рост в Азиатско-Тихоокеанском регионе<br>
+                    • 78% финансового сектора лидирует
+                </span>
+            </div>
+            <div class="эффективность-и-стоимость-транзакций">Энергоэффективность и стоимость транзакций СУБД</div>
+            <div class="рыночная-доля">Рыночная доля<br><small>TPC стандарты (42%)<br>Open Source (31%)<br>Вендорские (18%)</small></div>
+            <div class="ключевые-показатели-1">Ключевые показатели<br><small>292.22B USD×2030<br>+14.21% CAGR</small></div>
+            <div class="ключевые-показатели-2">Показатели роста<br><small>6x NoSQL рост<br>5.4x облачные</small></div>
+        </div>
+    </div>
+
+    <div class="layout-section show-grid">
+        <div class="layout-title">Same Layout with Grid Lines (for reference)</div>
+        <div class="container grid-debug">
+            <div class="тренды-популярности">Тренды популярности</div>
+            <div class="прогноз-роста">Прогноз роста</div>
+            <div class="внедрение-по-отраслям">Внедрение по отраслям</div>
+            <div class="conclusion">CONCLUSION<br>4×4 grid area</div>
+            <div class="эффективность-и-стоимость-транзакций">Эффективность и стоимость</div>
+            <div class="рыночная-доля">Рыночная доля</div>
+            <div class="ключевые-показатели-1">KPI 1</div>
+            <div class="ключевые-показатели-2">KPI 2</div>
+        </div>
+    </div>
+</body>
+</html>

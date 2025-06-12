@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Grid Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .layout-section {
+            background: white;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .layout-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .container {  
+            display: grid;
+            grid-template-columns: 1.5fr 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 0.5fr 1.5fr;
+            gap: 1em 1em;
+            height: calc(100vh - 60px);
+            grid-auto-flow: row;
+            grid-template-areas:
+                "field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends"
+                "field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends"
+                "field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends"
+                "field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends"
+                "field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends"
+                "field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption field-adoption growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast growth-forecast popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends popularity-trends"
+                "ключевые-показатели-1 market-share market-share market-share market-share market-share market-share efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2"
+                "ключевые-показатели-1 market-share market-share market-share market-share market-share market-share efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2"
+                "ключевые-показатели-1 market-share market-share market-share market-share market-share market-share efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2"
+                "ключевые-показатели-1 market-share market-share market-share market-share market-share market-share efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2"
+                "ключевые-показатели-1 market-share market-share market-share market-share market-share market-share efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2"
+                "ключевые-показатели-1 ключевые-показатели-2 ключевые-показатели-2 ключевые-показатели-2 ключевые-показатели-2 ключевые-показатели-2 ключевые-показатели-2 efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost efficiency-transaction-cost conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2 conclusion-2";
+        }
+
+        .conclusion-2 { 
+            grid-area: conclusion-2; 
+            background: #dc2626;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .popularity-trends { 
+            grid-area: popularity-trends; 
+            background: #3b82f6;
+        }
+
+        .growth-forecast { 
+            grid-area: growth-forecast; 
+            background: #10b981;
+        }
+
+        .efficiency-transaction-cost { 
+            grid-area: efficiency-transaction-cost; 
+            background: #8b5cf6;
+        }
+
+        .field-adoption { 
+            grid-area: field-adoption; 
+            background: #f59e0b;
+        }
+
+        .market-share { 
+            grid-area: market-share; 
+            background: #06b6d4;
+        }
+
+        .ключевые-показатели-1 { 
+            grid-area: ключевые-показатели-1; 
+            background: #f97316;
+        }
+
+        .ключевые-показатели-2 { 
+            grid-area: ключевые-показатели-2; 
+            background: #ef4444;
+        }
+
+        /* Common styling for all grid items */
+        .container > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Grid visualization overlay */
+        .container {
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(to right, transparent 0, transparent calc(100%/19 - 1px), rgba(0,0,0,0.2) calc(100%/19 - 1px), rgba(0,0,0,0.2) calc(100%/19)),
+                repeating-linear-gradient(to bottom, transparent 0, transparent calc(100%/12 - 1px), rgba(0,0,0,0.2) calc(100%/12 - 1px), rgba(0,0,0,0.2) calc(100%/12));
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-section">
+        <div class="layout-title">New Grid Layout (19×12 Grid with Mixed Languages)</div>
+        <div class="container">
+            <div class="conclusion-2">CONCLUSION 2<br><small>Large area bottom-right</small></div>
+            <div class="popularity-trends">Popularity Trends</div>
+            <div class="growth-forecast">Growth Forecast</div>
+            <div class="efficiency-transaction-cost">Efficiency - Transaction Cost</div>
+            <div class="field-adoption">Field Adoption</div>
+            <div class="market-share">Market Share</div>
+            <div class="ключевые-показатели-1">KPI 1</div>
+            <div class="ключевые-показатели-2">KPI 2</div>
+        </div>
+    </div>
+</body>
+</html>

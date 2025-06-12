@@ -31,6 +31,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   display: flex;
   flex-direction: column;
   gap: 0;
+  overflow: hidden;
 
   // Title container styled like original horizontal navbar - FULL WIDTH
   .slideTitleContainer {
@@ -64,17 +65,17 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
 
   .contentContainer {
     max-width: 1550px;
-    margin: 20px auto 20px auto;
+    margin: 10px auto 10px auto;
     background: $white;
     border-radius: 20px;
-    padding: 60px;
+    padding: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
+    max-height: calc(100vh - 70px);
+    overflow: hidden;
   }
 
   // Centered content wrapper
@@ -83,20 +84,20 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     max-width: 1400px;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 18px;
     align-items: center;
     justify-content: center;
   }
 
   .sectionRow {
     display: flex;
-    gap: 30px;
+    gap: 15px;
     width: 100%;
   }
 
   .bottomRow {
     display: flex;
-    gap: 30px;
+    gap: 15px;
     width: 100%;
   }
 
@@ -105,30 +106,30 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex: 2;
     background: linear-gradient(135deg, $blue-light 0%, $blue-medium 100%);
     border-radius: 16px;
-    padding: 30px;
+    padding: 25px;
     border: 1px solid $blue-border;
     display: flex;
     flex-direction: column;
-    min-height: 420px;
+    min-height: 380px;
   }
 
   .problemsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 25px;
+    gap: 15px;
+    margin-bottom: 20px;
     flex: 1;
   }
 
   .problemCard {
     background: rgba($white, 0.7);
     border-radius: 12px;
-    padding: 26px;
+    padding: 20px;
     border: 1px solid rgba($white, 0.5);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    min-height: 155px;
+    min-height: 140px;
 
     &:hover {
       transform: translateY(-2px);
@@ -136,15 +137,15 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     }
 
     .problemTitle {
-      @include als-font(19px, 600, 1.2);
+      @include als-font(24px, 600, 1.2);
       color: $blue-primary;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .problemText {
-      @include als-font(16px, 400, 1.4);
+      @include als-font(24px, 400, 1.4);
       color: $text-secondary;
       flex: 1;
 
@@ -155,7 +156,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        font-size: 17px;
+        font-size: 24px;
       }
     }
   }
@@ -166,7 +167,7 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     color: $white;
     padding: 12px 18px;
     border-radius: 12px;
-    @include als-font(15px, 600, 1);
+    @include als-font(24px, 600, 1);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     align-self: flex-start;
@@ -178,13 +179,13 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 420px;
+    min-height: 380px;
   }
 
   .objectiveBlock {
     background: $light-bg;
     border-radius: 16px;
-    padding: 30px;
+    padding: 25px;
     border: 1px solid $border-light;
     flex: 1;
     display: flex;
@@ -198,12 +199,12 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 12px;
   }
 
   .objectiveItem {
-    padding: 16px 0;
-    @include als-font(17px, 400, 1.4);
+    padding: 8px 0;
+    @include als-font(24px, 400, 1.3);
     color: $text-secondary;
     border-bottom: 1px solid $border-light;
     position: relative;
@@ -219,8 +220,8 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
       font-weight: bold;
       position: absolute;
       left: 0;
-      top: 16px;
-      @include als-font(17px, 600, 1);
+      top: 12px;
+      @include als-font(24px, 600, 1);
     }
 
     strong {
@@ -233,12 +234,12 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   .sectionTitle {
     @include als-font(26px, 600, 1.2);
     color: $text-dark;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
   }
 
   .sectionIcon {
@@ -258,35 +259,42 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex: 1;
     background: $light-bg;
     border-radius: 16px;
-    padding: 30px;
+    padding: 25px;
     border: 1px solid $border-light;
   }
 
   .dbGrid {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .dbItem {
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 20px;
+    gap: 15px;
+    padding: 15px;
     background: $white;
     border-radius: 8px;
     border: 1px solid $border-light;
   }
 
   .dbIcon {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: $white;
     @include als-font(20px, 600, 1);
+
+    img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
 
     &.dbPostgresql {
       background: linear-gradient(135deg, #8b5cf6, #7c3aed);
@@ -306,12 +314,12 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
   }
 
   .dbName {
-    @include als-font(19px, 600, 1.2);
+    @include als-font(26px, 600, 1.2);
     color: $text-dark;
   }
 
   .dbType {
-    @include als-font(15px, 400, 1.2);
+    @include als-font(24px, 400, 1.2);
     color: $text-muted;
   }
 
@@ -320,40 +328,45 @@ $gradient-gold: linear-gradient(120deg, #fbbf24 0%, #f59e0b 100%);
     flex: 1;
     background: $light-bg;
     border-radius: 16px;
-    padding: 30px;
+    padding: 25px;
     border: 1px solid $border-light;
   }
 
   .metricsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 22px;
+    gap: 12px;
+    margin-bottom: 18px;
   }
 
   .metricCard {
     background: $white;
     border-radius: 8px;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid $border-light;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
   }
 
   .metricLabel {
-    @include als-font(13px, 400, 1.2);
+    @include als-font(22px, 400, 1.2);
     color: $text-muted;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .metricValue {
-    @include als-font(19px, 600, 1.2);
+    @include als-font(22px, 600, 1.2);
     color: $blue-primary;
   }
 
   .ycsbDescription {
-    @include als-font(15px, 400, 1.4);
+    @include als-font(22px, 400, 1.3);
     color: $text-muted;
     text-align: center;
   }

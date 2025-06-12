@@ -16,6 +16,7 @@ $white: #ffffff;
   display: flex;
   flex-direction: column;
   padding: 0;
+  overflow: hidden; // Prevent scrolling
 }
 
 // Header styling matching slides 17 & 18
@@ -52,8 +53,8 @@ $white: #ffffff;
 // Container for the main content
 .contentContainer {
   flex: 1;
-  overflow-y: auto;
-  padding: 20px;
+  overflow: hidden; // Prevent scrolling
+  padding: 16px; // Reduced from 20px
   display: flex;
   justify-content: center;
 }
@@ -63,59 +64,62 @@ $white: #ffffff;
   background: $white;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  padding: 30px;
+  padding: 20px; // Reduced from 30px
   width: 100%;
-  max-width: 1600px;
+  max-width: 1800px;
   
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.9fr 1.1fr; // Give more space to right column (was 1fr 1fr)
   gap: 25px;
   height: calc(100vh - 120px);
+  overflow: hidden;
 }
 
 .contentSection {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px; // Reduced from 15px
+  overflow: hidden;
 }
 
 .sectionBlock {
   background: #fdfdff;
   border-radius: 16px;
-  padding: 25px;
+  padding: 20px; // Reduced from 25px
   border: 1px solid #e2e8f0;
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 // Superset header
 .supersetHeader {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
   border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 20px;
+  padding: 12px; // Reduced from 15px
+  margin-bottom: 16px; // Reduced from 20px
   border: 1px solid #93c5fd;
   text-align: center;
 }
 
 .supersetTitle {
-  font-size: 24px;
+  font-size: 30px; // Reduced from 36px to 30px
   font-weight: 600;
   color: #1e40af;
-  margin-bottom: 2px;
+  margin-bottom: 4px; // Increased from 2px
 }
 
 .supersetDesc {
-  font-size: 18px;
+  font-size: 22px; // Reduced from 26px to 22px
   color: #1e293b;
 }
 
 // Block titles
 .blockTitle {
-  font-size: 24px;
+  font-size: 30px; // Reduced from 36px to 30px
   font-weight: 600;
-  margin-bottom: 18px;
+  margin-bottom: 14px; // Reduced from 18px
   color: #2563eb;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -124,19 +128,20 @@ $white: #ffffff;
 // Visualization list
 .visualizationList {
   list-style: none;
-  margin-bottom: 20px;
+  margin-bottom: 16px; // Reduced from 20px
   padding: 0;
 }
 
 .vizItem {
-  padding: 10px 0;
-  font-size: 20px;
+  padding: 8px 0; // Reduced from 10px
+  font-size: 24px; // Reduced from 28px to 24px
   color: #475569;
   border-bottom: 1px solid #e2e8f0;
   position: relative;
-  padding-left: 20px;
+  padding-left: 24px; // Increased from 20px
   transition: all 0.2s ease;
-  margin-bottom: 10px;
+  margin-bottom: 8px; // Reduced from 10px
+  line-height: 1.3; // Added for better spacing
   
   &:last-child {
     border-bottom: none;
@@ -149,10 +154,11 @@ $white: #ffffff;
     position: absolute;
     left: 0;
     top: 8px;
+    font-size: 28px; // Reduced from 32px to 28px
   }
   
   &:hover {
-    padding-left: 30px;
+    padding-left: 34px; // Increased from 30px
     color: #1e293b;
   }
 }
@@ -161,20 +167,20 @@ $white: #ffffff;
 .dashboardGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 6px; // Reduced from 8px
+  margin-top: 8px; // Reduced from 10px
 }
 
 .dashboardItem {
   background: white;
   border-radius: 8px;
-  padding: 15px;
+  padding: 12px; // Reduced from 15px
   border-left: 3px solid #2563eb;
   border-right: 1px solid #e2e8f0;
   border-top: 1px solid #e2e8f0;
   border-bottom: 1px solid #e2e8f0;
   transition: all 0.2s ease;
-  margin-bottom: 10px;
+  margin-bottom: 8px; // Reduced from 10px
   
   &:hover {
     transform: translateX(3px);
@@ -185,34 +191,34 @@ $white: #ffffff;
 .dashboardName {
   font-weight: 600;
   color: #1e293b;
-  font-size: 20px;
-  margin-bottom: 2px;
+  font-size: 24px; // Reduced from 28px to 24px
+  margin-bottom: 3px; // Increased from 2px
 }
 
 .dashboardDesc {
-  font-size: 16px;
+  font-size: 19px; // Reduced from 22px to 19px
   color: #64748b;
   line-height: 1.3;
 }
 
 // Database sections
 .dbSection {
-  margin-bottom: 15px;
+  margin-bottom: 10px; // Reduced from 12px to 10px
 }
 
 .dbTitle {
-  font-size: 24px;
+  font-size: 30px; // Reduced from 34px to 30px
   font-weight: 600;
   color: #1e293b;
-  margin-bottom: 8px;
-  padding-bottom: 4px;
+  margin-bottom: 6px; // Reduced from 8px
+  padding-bottom: 3px; // Reduced from 4px
   border-bottom: 2px solid #e2e8f0;
 }
 
 .dbSubtitle {
-  font-size: 20px;
+  font-size: 24px; // Reduced from 28px to 24px
   color: #2563eb;
-  margin-bottom: 8px;
+  margin-bottom: 6px; // Reduced from 8px
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -220,17 +226,17 @@ $white: #ffffff;
 
 .dbFeatures {
   list-style: none;
-  margin-bottom: 12px;
+  margin-bottom: 8px; // Reduced from 10px to 8px
   padding: 0;
-  font-size: 18px;
+  font-size: 20px; // Reduced from 24px to 20px
 }
 
 .dbFeature {
-  padding: 4px 0;
-  font-size: 18px;
+  padding: 2px 0; // Reduced from 3px to 2px
+  font-size: 20px; // Reduced from 24px to 20px
   color: #475569;
   position: relative;
-  padding-left: 16px;
+  padding-left: 20px; // Increased from 16px
   line-height: 1.3;
   transition: all 0.2s ease;
   
@@ -240,11 +246,12 @@ $white: #ffffff;
     font-weight: bold;
     position: absolute;
     left: 0;
-    top: 4px;
+    top: 2px; // Adjusted for new padding
+    font-size: 24px; // Reduced from 28px to 24px
   }
   
   &:hover {
-    padding-left: 24px;
+    padding-left: 28px; // Increased from 24px
     color: #1e293b;
   }
 }
@@ -254,13 +261,13 @@ $white: #ffffff;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin: 8px 0;
+  margin: 8px 0; // Reduced from 6px to 4px
 }
 
 .metricCard {
   background: white;
   border-radius: 8px;
-  padding: 10px;
+  padding: 10px; // Reduced from 12px to 10px
   border: 1px solid #cbd5e1;
   text-align: center;
   transition: all 0.3s ease;
@@ -273,16 +280,16 @@ $white: #ffffff;
 }
 
 .metricLabel {
-  font-size: 20px;
+  font-size: 24px; // Reduced from 26px to 22px
   color: #64748b;
-  margin-bottom: 2px;
+  margin-bottom: 3px; // Increased from 2px
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 600;
 }
 
 .metricValue {
-  font-size: 17px;
+  font-size: 22px; // Reduced from 24px to 20px
   font-weight: 600;
   color: #2563eb;
 }
@@ -300,36 +307,33 @@ $white: #ffffff;
 
 .dbMongodb .dbTitle {
   border-bottom-color: #10b981;
-  // font-size: 20px;
 }
 .dbCassandra .dbTitle {
   border-bottom-color: #f59e0b;
-  // font-size: 20px;
 }
 .dbPostgresql .dbTitle {
   border-bottom-color: #8b5cf6;
-  // font-size: 20px;
 }
 
 // Limitations box
 .limitations {
   background: #fef2f2;
   border-radius: 8px;
-  padding: 10px;
-  margin-top: 8px;
+  padding: 8px; // Reduced from 10px to 8px
+  margin-top: 4px; // Reduced from 6px to 4px
   border-left: 3px solid #ef4444;
 }
 
 .limitationsTitle {
-  font-size: 18px;
+  font-size: 22px; // Reduced from 24px to 20px
   color: #dc2626;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 2px; // Reduced from 3px to 2px
   text-transform: uppercase;
 }
 
 .limitationsText {
-  font-size: 16px;
+  font-size: 20px; // Reduced from 22px to 18px
   color: #7f1d1d;
   line-height: 1.3;
 }
@@ -338,7 +342,7 @@ $white: #ffffff;
 @media (max-width: 1400px) {
   .contentGrid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 20px; // Reduced from 30px
     height: auto;
   }
   
@@ -363,11 +367,11 @@ $white: #ffffff;
   }
   
   .contentContainer {
-    padding: 15px;
+    padding: 12px; // Reduced from 15px
   }
   
   .contentGrid {
-    padding: 20px;
+    padding: 16px; // Reduced from 20px
   }
   
   .performanceMetrics {

@@ -157,8 +157,8 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
 
 /* Start Presentation Button */
 .startButtonContainer {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: 60px;
+  margin-bottom: 0px;
   display: flex;
   justify-content: flex-start;
 }
@@ -166,7 +166,7 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
 /* Info Wrapper - Positioned higher from bottom */
 .infoWrapper {
   position: absolute;
-  bottom: 30px;
+  bottom: -80px;
   left: 0;
   right: 0;
   display: flex;
@@ -214,7 +214,7 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
 
 /* Label Styling */
 .label {
-  @include responsive-font(20px, 2.5vw, 30px);
+  @include responsive-font(36px, 2.5vw, 40px);
   font-weight: 400;
   color: $white-transparent-85;
   line-height: 1.4;
@@ -231,19 +231,19 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
 
 /* Value Styling */
 .value {
-  @include responsive-font(20px, 2.5vw, 28px);
+  @include responsive-font(32px, 2.5vw, 40px);
   font-weight: 500;
   color: $white;
   line-height: 1.4;
 
   &.supervisorName {
-    @include responsive-font(20px, 2.5vw, 28px);
+    @include responsive-font(32px, 2.5vw, 40px);
     font-weight: 500;
     color: $white;
   }
 
   &.supervisorTitle {
-    @include responsive-font(18px, 2.2vw, 26px);
+    @include responsive-font(32px, 2.2vw, 40px);
     font-weight: 400;
     color: $white-transparent-90;
   }
@@ -381,7 +381,7 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
   }
   
   .infoWrapper {
-    bottom: 120px;
+    bottom: 10px;
   }
 }
 
@@ -439,6 +439,6 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
   }
   
   .infoWrapper {
-    bottom: 140px;
+    bottom: 120px;
   }
 } 

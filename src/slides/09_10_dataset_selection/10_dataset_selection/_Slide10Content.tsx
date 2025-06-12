@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import styles from '../DatasetSlides.module.scss';
+import './DatasetSelectionSlide.scss';
 
 const dataStructureInfo = [
   {
@@ -99,23 +99,23 @@ interface InfoItemProps {
 const InfoItem: React.FC<InfoItemProps> = ({ item, index }) => (
   <motion.li
     variants={itemVariants}
-    className={styles.infoItem}
+    className="info-item"
   >
-    <div className={styles.bullet} />
+    <div className="bullet" />
     <span>
       {item.label && (
-        <span className={item.isHighlighted ? styles.highlight : styles.label}>
+        <span className={item.isHighlighted ? "highlight" : "label"}>
           {item.label}
         </span>
       )}{' '}
-      <span className={`${styles.value} ${item.isLongText ? styles.longText : ''}`}>{item.value}</span>
+      <span className={`value ${item.isLongText ? 'long-text' : ''}`}>{item.value}</span>
     </span>
   </motion.li>
 );
 
 export const Slide10Content: React.FC = () => (
   <motion.div
-    className={styles.mainContent}
+    className="main-content"
     variants={containerVariants}
     initial="hidden"
     animate="visible"
@@ -123,14 +123,14 @@ export const Slide10Content: React.FC = () => (
   >
     {/* Section 1: Структура и особенности данных */}
     <motion.div 
-      className={styles.section}
+      className="section"
       variants={sectionVariants}
       transition={{ delay: 0.4 }}
     >
-      <div className={styles.sectionHeader}>
+      <div className="section-header">
         Структура и особенности данных
       </div>
-      <div className={styles.sectionContent}>
+      <div className="section-content">
         <motion.ul
           variants={containerVariants}
           transition={{ delay: 0.8 }}
@@ -144,14 +144,14 @@ export const Slide10Content: React.FC = () => (
     
     {/* Section 2: Вызовы для различных СУБД */}
     <motion.div 
-      className={styles.section}
+      className="section"
       variants={sectionVariants}
       transition={{ delay: 1.0 }}
     >
-      <div className={styles.sectionHeader}>
+      <div className="section-header">
         Вызовы для различных СУБД
       </div>
-      <div className={styles.sectionContent}>
+      <div className="section-content">
         <motion.ul
           variants={containerVariants}
           transition={{ delay: 1.4 }}
@@ -165,14 +165,14 @@ export const Slide10Content: React.FC = () => (
 
     {/* Section 3: Значение для тестирования */}
     <motion.div 
-      className={styles.section}
+      className="section"
       variants={sectionVariants}
       transition={{ delay: 1.6 }}
     >
-      <div className={styles.sectionHeader}>
+      <div className="section-header">
         Значение для тестирования
       </div>
-      <div className={styles.sectionContent}>
+      <div className="section-content">
         <motion.ul
           variants={containerVariants}
           transition={{ delay: 2.0 }}

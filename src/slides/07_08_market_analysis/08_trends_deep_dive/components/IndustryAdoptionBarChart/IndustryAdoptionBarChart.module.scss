@@ -1,0 +1,13 @@
+// SCSS Module for IndustryAdoptionBarChart
+.industryChart {
+  width: 100%;
+  flex: 1;
+  min-height: 0; // Changed for better flex behavior
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  margin-bottom: 0px; // Clean, no negative margins
+  
+  // Ensure the chart fits well in its large grid area
+  max-height: calc(100% - 20px); // Leave some breathing room
+} 

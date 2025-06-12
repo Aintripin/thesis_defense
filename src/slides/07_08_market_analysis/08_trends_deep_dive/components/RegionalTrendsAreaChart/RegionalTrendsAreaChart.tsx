@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import './RegionalTrendsAreaChart.scss';
+import styles from './RegionalTrendsAreaChart.module.scss';
 import { regionTrendsData, regionalChartCategories } from '../../data';
 
 export const RegionalTrendsAreaChart: React.FC = () => {
@@ -15,13 +15,17 @@ export const RegionalTrendsAreaChart: React.FC = () => {
       const containerHeight = chartContainer.offsetHeight;
       if (containerWidth <= 0 || containerHeight <= 0) { return; }
       
-      const margin = { top: 20, right: 30, bottom: 50, left: 50 }; 
+      // Reserve space for legend by reducing effective height
+      const legendReservedHeight = 10;
+      const effectiveHeight = containerHeight - legendReservedHeight;
+      
+      const margin = { top: 20, right: 30, bottom: 40, left: 70 };
       const width = containerWidth - margin.left - margin.right;
-      const height = containerHeight - margin.top - margin.bottom;
+      const height = effectiveHeight - margin.top - margin.bottom;
       
       const svg = d3.select(regionalTrendsChartRef.current).append("svg")
         .attr("width", containerWidth)
-        .attr("height", containerHeight);
+        .attr("height", effectiveHeight + 20); // Add 20px to accommodate the "Год" label
       
       const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
       
@@ -149,20 +153,20 @@ export const RegionalTrendsAreaChart: React.FC = () => {
       const xAxisGroup = g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
-      xAxisGroup.selectAll("text").style("fill", "#475569").style("font-size", "10px");
+      xAxisGroup.selectAll("text").style("fill", "#475569").style("font-size", "14px");
       xAxisGroup.selectAll(".domain").style("stroke", "#AEB8C4"); 
       xAxisGroup.selectAll("line").style("stroke", "#AEB8C4");
       
       const yAxisGroup = g.append("g")
         .call(d3.axisLeft(yScale).ticks(5).tickFormat(d => `${d}%`));
-      yAxisGroup.selectAll("text").style("fill", "#475569").style("font-size", "10px");
+      yAxisGroup.selectAll("text").style("fill", "#475569").style("font-size", "14px");
       yAxisGroup.selectAll(".domain").style("stroke", "#AEB8C4"); 
       yAxisGroup.selectAll("line").style("stroke", "#AEB8C4");
 
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
-        .attr("y", containerHeight - 10)
+        .attr("y", effectiveHeight + 8)
         .text("Год");
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
@@ -187,11 +191,11 @@ export const RegionalTrendsAreaChart: React.FC = () => {
   return (
     <>
       <h3 className="chart-title-s8">Прогноз роста внедрения по регионам</h3>
-      <div className="chart" ref={regionalTrendsChartRef}></div>
-      <div className="legend-s8-regional">
+      <div className={styles.chart} ref={regionalTrendsChartRef}></div>
+      <div className={styles.legendS8Regional}>
         {regionalChartCategories.map(cat => (
-          <div key={cat.key} className="legend-item-s8">
-            <div className="legend-color-s8" style={{ backgroundColor: cat.color }}></div>
+          <div key={cat.key} className={styles.legendItemS8}>
+            <div className={styles.legendColorS8} style={{ backgroundColor: cat.color }}></div>
             <span>{cat.name}</span>
           </div>
         ))}

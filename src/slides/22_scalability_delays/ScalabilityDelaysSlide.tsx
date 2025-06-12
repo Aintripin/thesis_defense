@@ -256,11 +256,11 @@ const ScalabilityDelaysSlide: React.FC = () => {
                 </text>
                 <text
                   className={styles.axisLabel}
-                  x={25}
+                  x={-15}
                   y={chartHeight / 2}
                   textAnchor="middle"
                   fontWeight="600"
-                  transform={`rotate(-90, 25, ${chartHeight / 2})`}
+                  transform={`rotate(-90, 15, ${chartHeight / 2})`}
                 >
                   ops/sec (k)
                 </text>

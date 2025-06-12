@@ -17,7 +17,9 @@ const ResearchObjectsSection: React.FC = () => {
 
       <div className={styles.dbGrid}>
         <div className={styles.dbItem}>
-          <div className={`${styles.dbIcon} ${styles.dbPostgresql}`}>🐘</div>
+          <div className={`${styles.dbIcon} ${styles.dbPostgresql}`}>
+            <img src="/src/assets/postgresql.svg" alt="PostgreSQL" />
+          </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>PostgreSQL</div>
             <div className={styles.dbType}>Реляционная СУБД</div>
@@ -25,7 +27,9 @@ const ResearchObjectsSection: React.FC = () => {
         </div>
 
         <div className={styles.dbItem}>
-          <div className={`${styles.dbIcon} ${styles.dbMongodb}`}>🍃</div>
+          <div className={`${styles.dbIcon} ${styles.dbMongodb}`}>
+            <img src="/src/assets/mongodb.svg" alt="MongoDB" />
+          </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>MongoDB</div>
             <div className={styles.dbType}>Документоориентированная NoSQL</div>
@@ -33,7 +37,9 @@ const ResearchObjectsSection: React.FC = () => {
         </div>
 
         <div className={styles.dbItem}>
-          <div className={`${styles.dbIcon} ${styles.dbCassandra}`}>⚡</div>
+          <div className={`${styles.dbIcon} ${styles.dbCassandra}`}>
+            <img src="/src/assets/apachecassandra.svg" alt="Cassandra" />
+          </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>Cassandra</div>
             <div className={styles.dbType}>Колоночная NoSQL</div>

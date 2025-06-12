@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L-Shape Layout</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: #1e1e2f;
+      color: #fff;
+      font-family: sans-serif;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+    }
+
+    .a, .b, .c {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    .a {
+      background: #e63946;
+      grid-column: 3 / 4;
+      grid-row: 1 / 2;
+    }
+
+    .b {
+      background: #457b9d;
+      grid-column: 1 / 2;
+      grid-row: 1 / 4;
+    }
+
+    .c {
+      background: #2a9d8f;
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <div class="a">A</div>
+    <div class="b">B</div>
+    <div class="c">C</div>
+  </div>
+</body>
+</html>

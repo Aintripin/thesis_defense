@@ -28,21 +28,9 @@ export const SharedDatasetSlideLayout: React.FC<SharedLayoutProps> = ({ subSlide
         <h1 className={styles.slideTitle}>В Ы Б О Р&nbsp;&nbsp;И&nbsp;&nbsp;А Н А Л И З&nbsp;&nbsp;Д А Т А С Е Т А</h1>
       </motion.div>
 
-      {/* Content Container */}
+      {/* Content Container - No sidebar, full width */}
       <div className={styles.contentContainer}>
-        {/* Sidebar */}
-        <motion.div
-          className={styles.sidebar}
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-        >
-          <div className={styles.sidebarHeader}>
-            <h2 className={styles.sidebarTitle}>ВЫБОР И АНАЛИЗ ДАТАСЕТА</h2>
-          </div>
-        </motion.div>
-
-        {/* Main Content */}
+        {/* Main Content - Full width without sidebar */}
         <div className={styles.mainContentAreaWrapper}>
           <AnimatePresence mode="wait">
             <CurrentContent />

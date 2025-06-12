@@ -19,7 +19,7 @@ $border-light: #f3f4f6;
   line-height: $line-height;
 }
 
-.ycsb-justification-slide {
+.ycsbJustificationSlide {
   @include als-font();
   background: $light-bg;
   color: $text-primary;
@@ -30,7 +30,7 @@ $border-light: #f3f4f6;
   gap: 0;
 
   // Title container styled like other slides
-  .slide-title-container {
+  .slideTitleContainer {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
@@ -43,7 +43,7 @@ $border-light: #f3f4f6;
     top: 0;
     z-index: 100;
 
-    .slide-title {
+    .slideTitle {
       @include als-font(32px, 600, 1.2);
       letter-spacing: 4px;
       color: $text-dark;
@@ -52,7 +52,7 @@ $border-light: #f3f4f6;
     }
   }
 
-  .content-container {
+  .contentContainer {
     max-width: 1800px;
     margin: 20px auto;
     background: $white;
@@ -65,15 +65,15 @@ $border-light: #f3f4f6;
     box-sizing: border-box;
   }
 
-  .main-content-area-wrapper {
-    padding: 60px;
+  .mainContentAreaWrapper {
+    padding: 40px;
     box-sizing: border-box;
     height: 100%;
     position: relative;
   }
 
   // BMSTU Emblem - positioned in bottom right corner
-  .emblem-container {
+  .emblemContainer {
     position: absolute;
     bottom: -10rem;
     right: -12rem;
@@ -82,7 +82,7 @@ $border-light: #f3f4f6;
     pointer-events: none;
     z-index: 10;
 
-    .bmstu-emblem {
+    .bmstuEmblem {
       width: 100%;
       height: 100%;
       object-fit: contain;
@@ -92,17 +92,18 @@ $border-light: #f3f4f6;
   }
 
   // Main Content Styles
-  .main-content {
+  .mainContent {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     height: 100%;
+    overflow-y: auto;
   }
 
   // Justification Cards
-  .justification-card {
+  .justificationCard {
     background: $white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     position: relative;
@@ -113,7 +114,7 @@ $border-light: #f3f4f6;
       box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     }
 
-    .card-number {
+    .cardNumber {
       position: absolute;
       top: 1.5rem;
       right: 1.5rem;
@@ -127,25 +128,25 @@ $border-light: #f3f4f6;
       text-align: center;
     }
 
-    .card-title {
+    .cardTitle {
       @include als-font(28px, 600, 1.2);
       color: $text-primary;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       padding-right: 4rem;
     }
 
-    .card-content {
+    .cardContent {
       ul {
         list-style: none;
         margin: 0;
         padding: 0;
       }
 
-      .bullet-item {
-        margin-bottom: 1rem;
-        @include als-font(22px, 400, 1.5);
+      .bulletItem {
+        margin-bottom: 0.8rem;
+        @include als-font(26px, 400, 1.5);
         color: $text-secondary;
         display: flex;
         align-items: flex-start;
@@ -159,39 +160,68 @@ $border-light: #f3f4f6;
           margin-right: 1rem;
           flex-shrink: 0;
         }
-
-        .workload-item {
-          background: $blue-primary;
-          color: $white;
-          padding: 4px 12px;
-          border-radius: 20px;
-          font-size: 24px;
-          font-weight: 600;
-          margin-right: 12px;
-          display: inline-block;
-          font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-
-        .workload-description {
-          color: $text-muted;
-          font-style: italic;
-          margin-left: 0.5rem;
-          font-size: 20px;
-        }
       }
     }
   }
 
+  // Two-column workloads layout
+  .workloadsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .workloadsColumn {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  // Workload item wrapper for vertical alignment
+  .workloadWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .workloadItem {
+    background: $blue-primary;
+    color: $white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 26px;
+    font-weight: 600;
+    display: inline-block;
+    font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .workloadText {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .workloadDescription {
+    color: $text-muted;
+    font-style: italic;
+    font-size: 22px;
+  }
+
   // Conclusion Card - Special styling
-  .conclusion-card {
+  .conclusionCard {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border-radius: 16px;
-    padding: 2.5rem;
+    padding: 2rem;
     box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
     border: 2px solid rgba(37, 99, 235, 0.2);
     position: relative;
     transition: all 0.3s ease;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 
     &::before {
       content: '';
@@ -209,14 +239,14 @@ $border-light: #f3f4f6;
       box-shadow: 0 12px 35px rgba(37, 99, 235, 0.2);
     }
 
-    .conclusion-header {
+    .conclusionHeader {
       display: flex;
       align-items: center;
       gap: 15px;
       margin-bottom: 1.5rem;
     }
 
-    .conclusion-dot {
+    .conclusionDot {
       width: 12px;
       height: 12px;
       background: linear-gradient(45deg, $blue-primary, $blue-secondary);
@@ -224,7 +254,7 @@ $border-light: #f3f4f6;
       flex-shrink: 0;
     }
 
-    .conclusion-title {
+    .conclusionTitle {
       @include als-font(26px, 700, 1.3);
       color: $text-dark;
       margin: 0;
@@ -232,9 +262,9 @@ $border-light: #f3f4f6;
       letter-spacing: 0.05em;
     }
 
-    .conclusion-content {
+    .conclusionContent {
       p {
-        @include als-font(20px, 500, 1.6);
+        @include als-font(24px, 500, 1.6);
         color: $text-secondary;
         margin: 0;
         text-align: left;
@@ -245,78 +275,87 @@ $border-light: #f3f4f6;
 
 // Responsive Design
 @media (max-width: 1400px) {
-  .ycsb-justification-slide {
-    .slide-title-container .slide-title {
+  .ycsbJustificationSlide {
+    .slideTitleContainer .slideTitle {
       font-size: 28px;
       letter-spacing: 2px;
     }
 
-    .justification-card {
-      .card-title {
+    .justificationCard {
+      .cardTitle {
         font-size: 24px;
       }
 
-      .card-content .bullet-item {
-        font-size: 24px;
-
-        .workload-item {
-          font-size: 24px;
-        }
-
-        .workload-description {
-          font-size: 24px;
-        }
+      .cardContent .bulletItem {
+        font-size: 20px;
       }
+
+      .workloadItem {
+        font-size: 24px;
+      }
+
+      .workloadDescription {
+        font-size: 24px;
+      }
+    }
+
+    .workloadsGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
 }
 
 @media (max-width: 768px) {
-  .ycsb-justification-slide {
-    .main-content-area-wrapper {
+  .ycsbJustificationSlide {
+    .mainContentAreaWrapper {
       padding: 40px 30px;
     }
 
-    .main-content {
+    .mainContent {
       gap: 1.5rem;
     }
 
-    .justification-card {
+    .justificationCard {
       padding: 1.5rem;
 
-      .card-title {
+      .cardTitle {
         font-size: 20px;
         padding-right: 3rem;
       }
 
-      .card-number {
+      .cardNumber {
         font-size: 1rem;
         padding: 0.4rem 0.8rem;
       }
 
-      .card-content .bullet-item {
+      .cardContent .bulletItem {
         @include als-font(18px, 400, 1.5);
-        
-        .workload-item {
-          font-size: 12px;
-          padding: 3px 10px;
-          margin-right: 8px;
-        }
+      }
 
-        .workload-description {
-          font-size: 16px;
-        }
+      .workloadItem {
+        font-size: 12px;
+        padding: 3px 10px;
+      }
+
+      .workloadDescription {
+        font-size: 16px;
       }
     }
 
-    .emblem-container {
+    .workloadsGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .emblemContainer {
       width: 120px;
       height: 120px;
       bottom: 1rem;
       right: 1rem;
     }
 
-    .slide-title-container .slide-title {
+    .slideTitleContainer .slideTitle {
       font-size: 24px;
       letter-spacing: 1px;
     }

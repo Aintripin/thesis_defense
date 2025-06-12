@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Технологии тестирования СУБД</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        th {
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9ff;
+            transform: translateY(-1px);
+        }
+
+        tbody tr.highlighted {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+        }
+
+        tbody tr.highlighted:hover {
+            background: linear-gradient(135deg, #667eea25 0%, #764ba225 100%);
+        }
+
+        td {
+            padding: 18px 15px;
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.5;
+            border-right: 1px solid #f1f1f1;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        .tool-name {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .tool-type {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .specialized {
+            background: #e8f4f8;
+            color: #2980b9;
+        }
+
+        .universal {
+            background: #e8f8e8;
+            color: #27ae60;
+        }
+
+        .highlighted .tool-name {
+            font-weight: 700;
+            color: #5a67d8;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .conclusion h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .conclusion p {
+            color: #5a6c7d;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .logo {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ТЕХНОЛОГИИ ТЕСТИРОВАНИЯ СУБД</h1>
+            <p>Обзор инструментов бенчмаркинга</p>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Инструмент</th>
+                        <th>Тип</th>
+                        <th>Область применения</th>
+                        <th>Особенности</th>
+                        <th>Ограничения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="tool-name">pgBench</td>
+                        <td><span class="tool-type specialized">Специализированный</span></td>
+                        <td>PostgreSQL</td>
+                        <td>Простота использования, оптимизирован для PostgreSQL</td>
+                        <td>Только для PostgreSQL</td>
+                    </tr>
+                    <tr>
+                        <td class="tool-name">cassandra-stress</td>
+                        <td><span class="tool-type specialized">Специализированный</span></td>
+                        <td>Cassandra</td>
+                        <td>Встроенный инструмент, оптимизирован для Cassandra</td>
+                        <td>Только для Cassandra</td>
+                    </tr>
+                    <tr>
+                        <td class="tool-name">MongoDB Benchmarking Tools</td>
+                        <td><span class="tool-type specialized">Специализированный</span></td>
+                        <td>MongoDB</td>
+                        <td>Оптимизирован для дисковой подсистемы</td>
+                        <td>Только для MongoDB</td>
+                    </tr>
+                    <tr>
+                        <td class="tool-name">TPC (TPC-C, TPC-H)</td>
+                        <td><span class="tool-type universal">Универсальный</span></td>
+                        <td>Реляционные СУБД</td>
+                        <td>Индустриальный стандарт</td>
+                        <td>Сложность настройки, ориентирован на реляционные системы</td>
+                    </tr>
+                    <tr>
+                        <td class="tool-name">Sysbench</td>
+                        <td><span class="tool-type universal">Универсальный</span></td>
+                        <td>Различные СУБД</td>
+                        <td>Хороший инструмент</td>
+                        <td>Ограниченная поддержка NoSQL</td>
+                    </tr>
+                    <tr class="highlighted">
+                        <td class="tool-name">YCSB</td>
+                        <td><span class="tool-type universal">Универсальный</span></td>
+                        <td>Различные СУБД</td>
+                        <td>Поддержка NoSQL и SQL, простота настройки</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="conclusion">
+            <h3>Вывод</h3>
+            <p>Для объективного сравнения производительности PostgreSQL, Cassandra и MongoDB был выбран YCSB как универсальный инструмент с поддержкой как реляционных, так и NoSQL систем.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { motion } from 'framer-motion';
-import './MarketShareDonutChart.scss';
+import styles from './MarketShareDonutChart.module.scss';
 import { benchmarkTypesData } from '../../data';
 
 interface HtmlLabelData {
@@ -24,20 +24,25 @@ export const MarketShareDonutChart: React.FC = () => {
       const containerWidth = chartContainer.offsetWidth;
       const containerHeight = chartContainer.offsetHeight;
       if (containerWidth <=0 || containerHeight <= 0) { return; }
-      const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+      
+      // Reserve space for legend by reducing effective height
+      const legendReservedHeight = 25; // Reduced from 40 to make donut bigger
+      const effectiveHeight = containerHeight - legendReservedHeight;
+      
+      const margin = { top: 5, right: 5, bottom: 5, left: 5 }; // Reduced margins
       const width = containerWidth - margin.left - margin.right;
-      const height = containerHeight - margin.top - margin.bottom;
+      const height = effectiveHeight - margin.top - margin.bottom; // Use effectiveHeight
       const radius = Math.min(width, height) / 2;
 
       const svg = d3.select(marketShareChartRef.current).append("svg")
         .attr("width", containerWidth)
-        .attr("height", containerHeight)
+        .attr("height", effectiveHeight) // Use effectiveHeight
         .append("g")
-        .attr("transform", `translate(${containerWidth / 2}, ${containerHeight / 2})`);
+        .attr("transform", `translate(${containerWidth / 2}, ${effectiveHeight / 2})`); // Center in effective area
 
       const pie = d3.pie<any>().value((d: any) => d.value).sort(null);
-      const arc = d3.arc<any, d3.PieArcDatum<any>>().innerRadius(radius * 0.55).outerRadius(radius * 0.98);
-      const hoverArc = d3.arc<any, d3.PieArcDatum<any>>().innerRadius(radius * 0.50).outerRadius(radius * 1.05);
+      const arc = d3.arc<any, d3.PieArcDatum<any>>().innerRadius(radius * 0.55).outerRadius(radius * 1.0);
+      const hoverArc = d3.arc<any, d3.PieArcDatum<any>>().innerRadius(radius * 0.50).outerRadius(radius * 1.08);
 
       // Create gradients for each slice
       const defs = svg.append("defs");
@@ -113,16 +118,16 @@ export const MarketShareDonutChart: React.FC = () => {
 
       // Calculate positions for HTML labels
       // Use a text arc slightly more inset for robust positioning
-      const textPositionArc = d3.arc<any, d3.PieArcDatum<any>>().innerRadius(radius * 0.60).outerRadius(radius * 0.85); // Adjusted outer for centering
+      const textPositionArc = d3.arc<any, d3.PieArcDatum<any>>().innerRadius(radius * 0.65).outerRadius(radius * 0.85); // Adjusted for larger donut
 
       const calculatedLabels: HtmlLabelData[] = pie(benchmarkTypesData).map((d_pie: any) => {
         const [x, y] = textPositionArc.centroid(d_pie);
         return {
           id: d_pie.data.type,
           text: `${d_pie.data.value}%`,
-          // Position relative to the SVG container's top-left
+          // Position relative to the SVG container's top-left (using effective area)
           x: containerWidth / 2 + x,
-          y: containerHeight / 2 + y,
+          y: effectiveHeight / 2 + y, // Use effectiveHeight for proper positioning
           fontSize: radius < 60 ? '14px' : '18px',
         };
       });
@@ -143,8 +148,8 @@ export const MarketShareDonutChart: React.FC = () => {
   }, []);
 
   return (
-    <div className="donut-internal-wrapper" style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <div className="chart sidebar-donut-chart-s8" ref={marketShareChartRef} style={{ width: '100%', height: '100%' }}></div>
+    <div className={styles.donutInternalWrapper} style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <div className={`chart ${styles.sidebarDonutChartS8}`} ref={marketShareChartRef} style={{ width: '100%', height: '100%' }}></div>
       {htmlLabels.map((label, index) => (
         <motion.div
           key={label.id}
@@ -170,11 +175,11 @@ export const MarketShareDonutChart: React.FC = () => {
           {label.text}
         </motion.div>
       ))}
-      <div className="legend-s8-donut">
+      <div className={styles.legendS8Donut}>
         {benchmarkTypesData.map((item, index) => (
           <motion.div
             key={item.type}
-            className="legend-item-s8"
+            className={styles.legendItemS8}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{
@@ -188,7 +193,7 @@ export const MarketShareDonutChart: React.FC = () => {
             }}
           >
             <motion.div
-              className="legend-color-s8"
+              className={styles.legendColorS8}
               style={{ backgroundColor: item.color }}
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}

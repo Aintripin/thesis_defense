@@ -42,25 +42,6 @@ const DatabaseCard: React.FC<DatabaseCardProps> = ({
   </motion.div>
 )
 
-interface SidebarCardProps {
-  title: string
-  content: string
-  isImportant?: boolean
-  delay?: number
-}
-
-const SidebarCard: React.FC<SidebarCardProps> = ({ title, content, isImportant = false, delay = 0 }) => (
-  <motion.div 
-    className={`${styles.sidebarSection} ${isImportant ? styles.importantBox : styles.thesisSection}`}
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.5, delay }}
-  >
-    <h2>{title}</h2>
-    <p>{content}</p>
-  </motion.div>
-)
-
 export const SolutionSlide: React.FC = () => {
   const databases = [
     {
@@ -131,28 +112,13 @@ export const SolutionSlide: React.FC = () => {
       {/* Content Container */}
       <div className={styles.contentContainer}>
         <div className={styles.solutionContentWrapper}>
-          {/* Sidebar */}
-          <div className={styles.sidebar}>
-            <SidebarCard
-              title="Тезис"
-              content="Архитектура СУБД определяет системные возможности"
-              delay={0.2}
-            />
-            <SidebarCard
-              title="ВАЖНО"
-              content="Реляционные СУБД дают консистентность, NoSQL масштабируемость и гибкость"
-              isImportant={true}
-              delay={0.3}
-            />
-          </div>
-
           {/* Main Content */}
           <div className={styles.mainContent}>
             <motion.div 
               className={styles.contentHeader}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h2 className={styles.contentTitle}>Анализ архитектурных особенностей</h2>
             </motion.div>
@@ -162,7 +128,7 @@ export const SolutionSlide: React.FC = () => {
                 <DatabaseCard
                   key={db.title}
                   {...db}
-                  delay={0.5 + index * 0.1}
+                  delay={0.3 + index * 0.1}
                 />
               ))}
             </div>
