@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 
 const slides = [
   '/title',
@@ -32,6 +33,7 @@ const slides = [
 export const useKeyboardNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { toggleTheme } = useTheme();
 
   const getCurrentSlideIndex = useCallback(() => {
     return slides.findIndex(slide => {
@@ -81,6 +83,11 @@ export const useKeyboardNavigation = () => {
           navigateToSlide(currentIndex - 1);
         }
         break;
+      // P key for toggling print/color theme
+      case 'KeyP':
+        event.preventDefault();
+        toggleTheme();
+        break;
       // Number keys for direct slide navigation
       case 'Digit1':
         event.preventDefault();
@@ -123,7 +130,7 @@ export const useKeyboardNavigation = () => {
         navigateToSlide(9); // Slide 10
         break;
     }
-  }, [getCurrentSlideIndex, navigateToSlide]);
+  }, [getCurrentSlideIndex, navigateToSlide, toggleTheme]);
 
   // Add keyboard event listeners
   useEffect(() => {

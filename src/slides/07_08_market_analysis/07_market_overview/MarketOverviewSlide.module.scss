@@ -125,20 +125,9 @@ $print-border: #cccccc;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-    &.totalLineColor {
+    &.totalLine {
       background: linear-gradient(90deg, #1E293B 50%, transparent 50%);
-      background-size: 8px 3px;
-    }
-    
-    &.totalLinePrint {
-      border: 1px solid #000;
-      background: repeating-linear-gradient(
-        90deg,
-        #000000 0,
-        #000000 4px,
-        transparent 4px,
-        transparent 8px
-      );
+      background-size: 8px 2px;
     }
   }
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake } from 'lucide-react'
-import './Navigation.css'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer } from 'lucide-react'
+import { useTheme } from '../../contexts/ThemeContext'
+import styles from './Navigation.module.scss'
 
 interface SlideEntry {
   path: string;
@@ -14,6 +15,7 @@ interface SlideEntry {
 const Navigation: React.FC = () => {
   const location = useLocation()
   const [isNavVisible, setIsNavVisible] = useState(false)
+  const { theme, toggleTheme, isColorTheme } = useTheme()
   
   const slides: SlideEntry[] = [
     { path: '/title', label: 'Титульный слайд', icon: Home },
@@ -85,47 +87,60 @@ const Navigation: React.FC = () => {
     <>
       {/* Invisible trigger area at left of screen */}
       <div 
-        className="nav-trigger"
+        className={styles.navTrigger}
         onMouseEnter={() => setIsNavVisible(true)}
       />
       
       <motion.nav 
-        className={`navigation ${isNavVisible ? 'show' : ''}`}
+        className={`${styles.navigation} ${isNavVisible ? styles.show : ''}`}
         initial={{ x: -280, opacity: 0 }}
         animate={{ x: isNavVisible ? 0 : -280, opacity: isNavVisible ? 1 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         onMouseEnter={() => setIsNavVisible(true)}
         onMouseLeave={() => setIsNavVisible(false)}
       >
-        <div className="nav-content">
+        <div className={styles.navContent}>
           {/* Logo/Title */}
-          <div className="nav-brand">
-            <span className="bmstu-logo">МГТУ</span>
-            <span className="nav-title">Дипломная презентация</span>
+          <div className={styles.navBrand}>
+            <div className={styles.navBrandTop}>
+              <span className={styles.bmstuLogo}>МГТУ</span>
+              <button
+                className={`${styles.navThemeSwitcher} ${isColorTheme ? styles.colorTheme : styles.printTheme}`}
+                onClick={toggleTheme}
+                title={`Switch to ${isColorTheme ? 'Print' : 'Color'} mode`}
+              >
+                {isColorTheme ? (
+                  <Printer size={16} />
+                ) : (
+                  <Monitor size={16} />
+                )}
+              </button>
+            </div>
+            <span className={styles.navTitle}>Дипломная презентация</span>
           </div>
 
           {/* Slide indicators */}
-          <div className="slide-indicators">
+          <div className={styles.slideIndicators}>
             {slides.map((slide, index) => {
               const IconComponent = slide.icon
               return (
                 <NavLink
                   key={slide.path}
                   to={slide.path}
-                  className={({ isActive }) => `slide-indicator ${isActive ? 'active' : ''}`}
+                  className={({ isActive }) => `${styles.slideIndicator} ${isActive ? styles.active : ''}`}
                   title={slide.label}
                   end={slide.end}
                 >
-                  <div className="slide-indicator-content">
-                    <div className="slide-icon-wrapper">
+                  <div className={styles.slideIndicatorContent}>
+                    <div className={styles.slideIconWrapper}>
                       <IconComponent size={20} />
-                      <span className="slide-number">{index + 1}</span>
+                      <span className={styles.slideNumber}>{index + 1}</span>
                     </div>
-                    <span className="slide-label">{slide.label}</span>
+                    <span className={styles.slideLabel}>{slide.label}</span>
                   </div>
                   {(location.pathname === slide.path || (slide.end !== true && location.pathname.startsWith(slide.path) && location.pathname !== slides[index-1]?.path && !slides.slice(0,index).some(s=>location.pathname.startsWith(s.path) && s.end))) && (
                     <motion.div
-                      className="active-indicator"
+                      className={styles.activeIndicator}
                       layoutId="activeIndicator"
                       transition={{ duration: 0.3 }}
                     />
@@ -136,22 +151,22 @@ const Navigation: React.FC = () => {
           </div>
 
           {/* Navigation controls */}
-          <div className="nav-controls">
-            <div className="nav-arrows">
+          <div className={styles.navControls}>
+            <div className={styles.navArrows}>
               {prevSlide && (
-                <NavLink to={prevSlide.path} className="nav-arrow prev" end>
+                <NavLink to={prevSlide.path} className={`${styles.navArrow} ${styles.prev}`} end>
                   <ChevronLeft size={20} />
                 </NavLink>
               )}
               
               {nextSlide && (
-                <NavLink to={nextSlide.path} className="nav-arrow next" end>
+                <NavLink to={nextSlide.path} className={`${styles.navArrow} ${styles.next}`} end>
                   <ChevronRight size={20} />
                 </NavLink>
               )}
             </div>
             
-            <div className="slide-counter">
+            <div className={styles.slideCounter}>
               {currentIndex !== -1 ? currentIndex + 1 : '-'} / {slides.length}
             </div>
           </div>

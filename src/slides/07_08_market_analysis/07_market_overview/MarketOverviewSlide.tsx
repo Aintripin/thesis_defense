@@ -31,13 +31,16 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
   const nextDotIndexRef = useRef<number>(0)
 
   useEffect(() => {
-    if (!chartRef.current) return;
+    if (!chartRef.current) {
+      console.log("[MarketOverviewSlide] chartRef.current is null, returning.");
+      return;
+    }
 
     const container = chartRef.current;
-    
     // Clear previous SVG to prevent duplicates on re-render
     d3.select(container).selectAll("*").remove();
     console.log(`[MarketOverviewSlide] Initializing chart for theme: ${isPrintTheme ? 'print' : 'color'}`);
+
     nextDotIndexRef.current = 0;
 
     const data = [
@@ -121,7 +124,7 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
 
     const lineSegmentsLayer = g.append("g").attr("class", "line-segments-layer");
     const dotsLayer = g.append("g").attr("class", "dots-layer");
-    
+
     const xScale = d3.scaleLinear().domain(d3.extent(data, d => d.year) as [number, number]).range([0, width]);
     const yScale = d3.scaleLinear().domain([0, d3.max(data, d => d.total)! * 1.1]).range([height, 0]);
 
@@ -136,36 +139,37 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
       .style("fill", (d, i) => isPrintTheme ? `url(#pattern-${categories[i].key})` : `url(#gradient-${categories[i].key})`)
       .style("stroke", (d, i) => isPrintTheme ? "#000000" : categories[i].color)
       .style("stroke-width", isPrintTheme ? 1 : 1.5);
-    
+
     if (!isPrintTheme) {
-        areas.each(function(areaData, i) {
-          const path = d3.select(this); const originalPath = areaGenerator(areaData as any);
-          const startArea = d3.area<any>().x(d => xScale(d.data.year)).y0(_ => yScale(0)).y1(_ => yScale(0)).curve(d3.curveCardinal);
-          path.attr("d", startArea(areaData as any));
-          let progress = 0, currentAmplitude = 8, currentPhase = 0;
-          const frequency = 0.015, areaTotalDuration = 2000, areaStartTime = Date.now() + (i * 400);
-          
-          function animateRise() {
-            const now = Date.now(); 
-            if (now < areaStartTime) { animationFrameId.current = requestAnimationFrame(animateRise); return; }
-            const elapsed = now - areaStartTime; progress = Math.min(elapsed / areaTotalDuration, 1);
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            currentAmplitude = 8 * (1 - progress * 0.7); currentPhase += 0.2;
-            const risingArea = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(0) + (yScale(d[0]) - yScale(0)) * easeProgress).y1(d => { const finalY = yScale(d[1]); const currentY = yScale(0) + (finalY - yScale(0)) * easeProgress; const wave = currentAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase); return currentY + wave; }).curve(d3.curveCardinal);
-            path.attr("d", risingArea(areaData as any));
-            if (progress < 1) { animationFrameId.current = requestAnimationFrame(animateRise); } else {
-              let settleAmplitude = 5, oscillationTime = 0; const maxOscillationTime = 3000;
-              const settle = () => {
-                oscillationTime += 50; const dampingFactor = Math.max(0.1, 1 - (oscillationTime / maxOscillationTime)); settleAmplitude = 5 * dampingFactor; currentPhase += 0.15;
-                if (oscillationTime < maxOscillationTime) { const settleArea = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(d[0])).y1(d => yScale(d[1]) + settleAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase)).curve(d3.curveCardinal); path.attr("d", settleArea(areaData as any)); animationTimeoutId.current = window.setTimeout(settle, 50); } else { path.transition().duration(500).attr("d", originalPath); }
-              }; animationTimeoutId.current = window.setTimeout(settle, 200);
-            }
+      // Only animate in color theme
+      areas.each(function(areaData, i) {
+        const path = d3.select(this); const originalPath = areaGenerator(areaData as any);
+        const startArea = d3.area<any>().x(d => xScale(d.data.year)).y0(_ => yScale(0)).y1(_ => yScale(0)).curve(d3.curveCardinal);
+        path.attr("d", startArea(areaData as any));
+        let progress = 0, currentAmplitude = 8, currentPhase = 0;
+        const frequency = 0.015, areaTotalDuration = 2000, areaStartTime = Date.now() + (i * 400);
+        
+        function animateRise() {
+          const now = Date.now(); 
+          if (now < areaStartTime) { animationFrameId.current = requestAnimationFrame(animateRise); return; }
+          const elapsed = now - areaStartTime; progress = Math.min(elapsed / areaTotalDuration, 1);
+          const easeProgress = 1 - Math.pow(1 - progress, 3);
+          currentAmplitude = 8 * (1 - progress * 0.7); currentPhase += 0.2;
+          const risingArea = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(0) + (yScale(d[0]) - yScale(0)) * easeProgress).y1(d => { const finalY = yScale(d[1]); const currentY = yScale(0) + (finalY - yScale(0)) * easeProgress; const wave = currentAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase); return currentY + wave; }).curve(d3.curveCardinal);
+          path.attr("d", risingArea(areaData as any));
+          if (progress < 1) { animationFrameId.current = requestAnimationFrame(animateRise); } else {
+            let settleAmplitude = 5, oscillationTime = 0; const maxOscillationTime = 3000;
+            const settle = () => {
+              oscillationTime += 50; const dampingFactor = Math.max(0.1, 1 - (oscillationTime / maxOscillationTime)); settleAmplitude = 5 * dampingFactor; currentPhase += 0.15;
+              if (oscillationTime < maxOscillationTime) { const settleArea = d3.area<any>().x(d => xScale(d.data.year)).y0(d => yScale(d[0])).y1(d => yScale(d[1]) + settleAmplitude * Math.sin(frequency * xScale(d.data.year) + currentPhase)).curve(d3.curveCardinal); path.attr("d", settleArea(areaData as any)); setTimeout(settle, 50); } else { path.transition().duration(500).attr("d", originalPath); }
+            }; setTimeout(settle, 200);
           }
-          animationFrameId.current = requestAnimationFrame(animateRise);
-        });
+        }
+        animationFrameId.current = requestAnimationFrame(animateRise);
+      });
     } else {
-        // For print theme, just draw the final state without animation
-        areas.attr("d", areaGenerator as any);
+      // For print theme, just draw the final state without animation
+      areas.attr("d", areaGenerator as any);
     }
 
     g.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(xScale).tickFormat(d3.format("d"))).selectAll("text").style("fill", isPrintTheme ? "#000000" : "#475569").style("font-size", "16px").style("font-weight", "500");
@@ -176,18 +180,179 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
     g.append("text").attr("transform", "rotate(-90)").attr("y", -65).attr("x", -height / 2).attr("fill", isPrintTheme ? "#000000" : "#475569").style("text-anchor", "middle").style("font-size", "22px").style("font-weight", "bold").style("font-family", "'ALS Sector Regular', sans-serif").text("Объём рынка (млрд USD)");
 
     const line = d3.line<any>().x(d => xScale(d.year)).y(d => yScale(d.total)).curve(d3.curveCardinal);
-    g.append("path").datum(data).attr("d", line)
-      .style("fill", "none")
-      .style("stroke", isPrintTheme ? "#000000" : "#1E293B")
-      .style("stroke-width", 3)
-      .style("stroke-dasharray", "8, 7"); // Use dasharray for a simpler dashed line in print
+    
+    if (!isPrintTheme) {
+      // Animated dashed line for color theme
+      const totalLinePath = g.append("path").datum(data).attr("d", line).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 3).style("visibility", "hidden");
 
-    g.selectAll(".total-point").data(data).enter().append("circle")
-      .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.total))
-      .attr("r", 8)
-      .style("fill", isPrintTheme ? "#FFFFFF" : "#FFFFFF")
-      .style("stroke", isPrintTheme ? "#000000" : "#1E293B")
-      .style("stroke-width", 3);
+      animationTimeoutId.current = setTimeout(() => {
+        console.log("[MarketOverviewSlide] Starting line and dot animation after 4s delay...");
+        const pathNode = totalLinePath.node() as SVGPathElement;
+        if (!pathNode) { console.error("[MarketOverviewSlide] totalLinePath.node() is null!"); return; }
+        const totalLength = pathNode.getTotalLength();
+        if (totalLength === 0) { console.error("[MarketOverviewSlide] totalLength is 0 for totalLinePath!"); return; }
+        console.log(`[MarketOverviewSlide] Total line path length: ${totalLength}`);
+
+        totalLinePath.style("visibility", "hidden");
+        
+        const lineAnimationStartTime = Date.now();
+        const lineDuration = 3000;
+        const dashLength = 8, gapLength = 7, segmentLength = dashLength + gapLength;
+        
+        const easeInOutCubic = (t: number): number => {
+          return t < 0.5 
+            ? 4 * t * t * t 
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        };
+
+        const inverseEaseInOutCubic = (p: number): number => {
+          if (p <= 0) return 0;
+          if (p >= 1) return 1;
+          if (p < 0.5) {
+            return Math.cbrt(p / 4);
+          } else {
+            return 1 - Math.cbrt(2 * (1 - p)) / 2;
+          }
+        };
+        
+        const dotPositions: number[] = []; const dotSpacing = 150;
+        for (let pos = 0; pos <= totalLength; pos += dotSpacing) { dotPositions.push(pos); }
+        
+        const distanceAhead = 100;
+        const dotTriggerTimes = dotPositions.map(dotPositionOnPath => {
+          const triggerLength = Math.max(0, dotPositionOnPath - distanceAhead);
+          const targetProgressForTrigger = triggerLength / totalLength;
+          const normalizedTime_t = inverseEaseInOutCubic(targetProgressForTrigger);
+          return normalizedTime_t * lineDuration;
+        });
+        console.log("[MarketOverviewSlide] Dots will trigger at calculated times (ms from line anim start) based on inverse easing:", dotTriggerTimes);
+        
+        const dotGroups = dotsLayer.selectAll(".dot-group")
+          .data(dotPositions)
+          .enter()
+          .append("g")
+          .attr("class", "dot-group")
+          .attr("transform", d => `translate(${pathNode.getPointAtLength(d).x}, ${pathNode.getPointAtLength(d).y})`);
+
+        dotGroups.append("circle")
+          .attr("class", "dot-outer-ring")
+          .attr("r", 0)
+          .style("fill", "none")
+          .style("stroke", "#1E293B")
+          .style("stroke-width", 4)
+          .style("opacity", 0);
+
+        dotGroups.append("circle")
+          .attr("class", "dot-inner-fill")
+          .attr("r", 0)
+          .style("fill", "#FFFFFF")
+          .style("opacity", 0);
+        
+        console.log(`[MarketOverviewSlide] Created ${dotGroups.nodes().length} dot groups.`);
+                    
+        function animateLineAndDots() {
+          const elapsed = Date.now() - lineAnimationStartTime;
+          const linearProgress = Math.min(elapsed / lineDuration, 1);
+          const easedProgress = easeInOutCubic(linearProgress); 
+          const drawnLength = totalLength * easedProgress;
+          
+          if (nextDotIndexRef.current < dotTriggerTimes.length && elapsed >= dotTriggerTimes[nextDotIndexRef.current]) {
+            console.log(`[MarketOverviewSlide] Triggering dot group ${nextDotIndexRef.current} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[nextDotIndexRef.current].toFixed(2)}ms)`);
+              
+            const currentDotGroup = d3.select(dotGroups.nodes()[nextDotIndexRef.current]);
+
+            currentDotGroup.select(".dot-outer-ring")
+              .attr("r", 0)
+              .style("opacity", 0)
+              .transition()
+              .duration(250)      
+              .attr("r", 12)
+              .style("opacity", 1)
+              .transition()
+              .duration(250)      
+              .attr("r", 8);
+
+            currentDotGroup.select(".dot-inner-fill")
+              .attr("r", 0)
+              .style("opacity", 0)
+              .transition()
+              .duration(250)      
+              .attr("r", 12 - 2)
+              .style("opacity", 1)
+              .transition()
+              .duration(250)      
+              .attr("r", 8 - 2);
+
+            nextDotIndexRef.current++;
+          }
+          
+          lineSegmentsLayer.selectAll(".trace-segment").remove();
+          let currentDrawnSegmentLength = 0;
+          while (currentDrawnSegmentLength < drawnLength) {
+            const segmentStart = currentDrawnSegmentLength;
+            const segmentEnd = Math.min(currentDrawnSegmentLength + dashLength, drawnLength);
+            if (segmentEnd > segmentStart) {
+              const startPoint = pathNode.getPointAtLength(segmentStart);
+              const endPoint = pathNode.getPointAtLength(segmentEnd);
+              lineSegmentsLayer.append("line").attr("class", "trace-segment")
+                .attr("x1", startPoint.x).attr("y1", startPoint.y).attr("x2", endPoint.x).attr("y2", endPoint.y)
+                .style("stroke", "#1E293B").style("stroke-width", 3).style("stroke-linecap", "round");
+            }
+            currentDrawnSegmentLength += segmentLength;
+          }
+          
+          if (linearProgress < 1) {
+            animationFrameId.current = requestAnimationFrame(animateLineAndDots);
+          } else {
+            console.log("[MarketOverviewSlide] Line animation completed. Final nextDotIndex:", nextDotIndexRef.current);
+            for (let i = nextDotIndexRef.current; i < dotTriggerTimes.length; i++) {
+              if (elapsed >= dotTriggerTimes[i]) { 
+                console.log(`[MarketOverviewSlide] Triggering tail-end dot group ${i} at elapsed ${elapsed.toFixed(2)}ms (scheduled: ${dotTriggerTimes[i].toFixed(2)}ms)`);
+                const tailDotGroup = d3.select(dotGroups.nodes()[i]);
+                tailDotGroup.select(".dot-outer-ring")
+                  .attr("r", 0).style("opacity", 0)
+                  .transition().duration(250).attr("r", 12).style("opacity", 1)
+                  .transition().duration(250).attr("r", 8);
+                tailDotGroup.select(".dot-inner-fill")
+                  .attr("r", 0).style("opacity", 0)
+                  .transition().duration(250).attr("r", 12 - 2).style("opacity", 1)
+                  .transition().duration(250).attr("r", 8 - 2);
+                nextDotIndexRef.current = i + 1;
+              }
+            }
+          }
+        }
+        animationFrameId.current = requestAnimationFrame(animateLineAndDots);
+      }, 4000);
+
+      const yearMarkerPoints = g.selectAll(".total-point").data(data).enter().append("circle")
+        .attr("class", "total-point")
+        .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.total))
+        .attr("r", 0).style("fill", "#FFFFFF").style("stroke", "#3B82F6").style("stroke-width", 2).style("opacity", 0);
+
+      yearMarkerPoints.each(function(d, i) {
+        const point = d3.select(this);
+        const pointDelay = 4000 + (i / (data.length - 1)) * 3000;
+        point.transition().duration(200).delay(pointDelay).attr("r", 4).style("opacity", 1)
+          .on("start", function() {
+            d3.select(this).transition().duration(150).attr("r", 7).transition().duration(150).attr("r", 4);
+          });
+      });
+    } else {
+      // Static dashed line for print theme
+      g.append("path").datum(data).attr("d", line)
+        .style("fill", "none")
+        .style("stroke", "#000000")
+        .style("stroke-width", 3)
+        .style("stroke-dasharray", "8, 7"); // Use dasharray for a simpler dashed line in print
+
+      g.selectAll(".total-point").data(data).enter().append("circle")
+        .attr("cx", d => xScale(d.year)).attr("cy", d => yScale(d.total))
+        .attr("r", 8)
+        .style("fill", "#FFFFFF")
+        .style("stroke", "#000000")
+        .style("stroke-width", 3);
+    }
 
     return () => {
       if (animationTimeoutId.current) clearTimeout(animationTimeoutId.current);
@@ -244,7 +409,7 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
             }}></div>
             <span>Графовые СУБД</span>
           </div>
-          <div className={styles.legendItem}><div className={`${styles.legendColor} ${isPrintTheme ? styles.totalLinePrint : styles.totalLineColor}`}></div><span>Общий объем рынка</span></div>
+          <div className={styles.legendItem}><div className={`${styles.legendColor} ${styles.totalLine}`}></div><span>Общий объем рынка</span></div>
         </div>
       </motion.div>
       <div className={styles.sidebar}>
