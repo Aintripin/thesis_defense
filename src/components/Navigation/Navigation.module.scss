@@ -174,6 +174,9 @@ $transition-fast: 0.2s ease;
   width: 16px;
   height: 16px;
   stroke-width: 2;
+  color: inherit;
+  opacity: 1;
+  display: block;
 }
 
 .navTitle {
@@ -306,6 +309,16 @@ $transition-fast: 0.2s ease;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.7);
   position: relative;
+
+  // Ensure icons are visible and properly styled
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+    color: inherit;
+    opacity: 1;
+    display: block;
+  }
 }
 
 .slideNumber {
@@ -484,5 +497,78 @@ $transition-fast: 0.2s ease;
   .startPresentationBtn {
     padding: 12px 24px;
     font-size: 14px;
+  }
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Simple help button with guaranteed text visibility
+.navHelpButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #1662D3;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1662D3;
+  font-family: system-ui, -apple-system, sans-serif;
+
+  &:hover {
+    background: #f0f4ff;
+    border-color: #1562D2;
+    transform: scale(1.05);
+    color: #1562D2;
+  }
+
+  &.active {
+    background: #1662D3;
+    border-color: #1662D3;
+    color: white;
+  }
+}
+
+// Fullscreen button with icon
+.navFullscreenButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #1662D3;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #1662D3;
+
+  &:hover {
+    background: #f0f4ff;
+    border-color: #1562D2;
+    transform: scale(1.05);
+    color: #1562D2;
+  }
+
+  &.active {
+    background: #1662D3;
+    border-color: #1662D3;
+    color: white;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
   }
 } 

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer, HelpCircle, Maximize, Minimize } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
+import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation'
+import KeyboardShortcutsHelp from '../KeyboardShortcutsHelp'
 import styles from './Navigation.module.scss'
 
 interface SlideEntry {
@@ -16,6 +18,7 @@ const Navigation: React.FC = () => {
   const location = useLocation()
   const [isNavVisible, setIsNavVisible] = useState(false)
   const { theme, toggleTheme, isColorTheme } = useTheme()
+  const { isHelpVisible, toggleHelp, closeHelp, isFullscreen, toggleFullscreen } = useKeyboardNavigation()
   
   const slides: SlideEntry[] = [
     { path: '/title', label: 'Титульный слайд', icon: Home },
@@ -44,6 +47,7 @@ const Navigation: React.FC = () => {
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
     { path: '/goodbye', label: 'Спасибо за внимание', icon: Handshake },
   ]
+
 
   const currentIndex = slides.findIndex(slide => {
     // Use exact path matching for nested routes, similar to keyboard navigation
@@ -103,6 +107,11 @@ const Navigation: React.FC = () => {
         onMouseEnter={() => setIsNavVisible(true)}
       />
       
+      <KeyboardShortcutsHelp 
+        isVisible={isHelpVisible} 
+        onClose={closeHelp} 
+      />
+      
       <motion.nav 
         className={`${styles.navigation} ${isNavVisible ? styles.show : ''}`}
         initial={{ x: -280, opacity: 0 }}
@@ -116,17 +125,37 @@ const Navigation: React.FC = () => {
           <div className={styles.navBrand}>
             <div className={styles.navBrandTop}>
               <span className={styles.bmstuLogo}>МГТУ</span>
-              <button
-                className={`${styles.navThemeSwitcher} ${isColorTheme ? styles.colorTheme : styles.printTheme}`}
-                onClick={toggleTheme}
-                title={`Switch to ${isColorTheme ? 'Print' : 'Color'} mode`}
-              >
-                {isColorTheme ? (
-                  <Printer size={16} />
-                ) : (
-                  <Monitor size={16} />
-                )}
-              </button>
+              <div className={styles.navButtons}>
+                <button
+                  className={`${styles.navHelpButton} ${isHelpVisible ? styles.active : ''}`}
+                  onClick={toggleHelp}
+                  title="Show keyboard shortcuts (H)"
+                >
+                  ?
+                </button>
+                <button
+                  className={`${styles.navFullscreenButton} ${isFullscreen ? styles.active : ''}`}
+                  onClick={toggleFullscreen}
+                  title={`${isFullscreen ? 'Exit' : 'Enter'} fullscreen (F)`}
+                >
+                  {isFullscreen ? (
+                    <Minimize size={16} />
+                  ) : (
+                    <Maximize size={16} />
+                  )}
+                </button>
+                <button
+                  className={`${styles.navThemeSwitcher} ${isColorTheme ? styles.colorTheme : styles.printTheme}`}
+                  onClick={toggleTheme}
+                  title={`Switch to ${isColorTheme ? 'Print' : 'Color'} mode (P)`}
+                >
+                  {isColorTheme ? (
+                    <Printer size={16} />
+                  ) : (
+                    <Monitor size={16} />
+                  )}
+                </button>
+              </div>
             </div>
             <span className={styles.navTitle}>Дипломная презентация</span>
           </div>
