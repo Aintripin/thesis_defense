@@ -1,0 +1,115 @@
+.slideIndicator {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 8px 16px;
+  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  font-family: 'ALS Sector Regular', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.current {
+  color: #1662D3;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.separator {
+  color: #64748b;
+  font-weight: 500;
+  margin: 0 2px;
+}
+
+.total {
+  color: #475569;
+  font-weight: 500;
+}
+
+// Print mode styling - big black number only
+.printMode {
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 12px 20px;
+  border-radius: 8px;
+  
+  &:hover {
+    background: #f8f8f8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.bigNumber {
+  color: #000000;
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1;
+  text-align: center;
+  font-family: 'ALS Sector Regular', system-ui, -apple-system, sans-serif;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .slideIndicator {
+    bottom: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    font-size: 12px;
+    
+    .current {
+      font-size: 14px;
+    }
+  }
+  
+  .printMode {
+    padding: 8px 16px;
+    
+    .bigNumber {
+      font-size: 22px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .slideIndicator {
+    bottom: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    font-size: 11px;
+    
+    .current {
+      font-size: 12px;
+    }
+  }
+  
+  .printMode {
+    padding: 6px 12px;
+    
+    .bigNumber {
+      font-size: 18px;
+    }
+  }
+} 

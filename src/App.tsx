@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navigation from './components/Navigation'
+import SlideIndicator from './components/SlideIndicator'
 import { useKeyboardNavigation } from './hooks/useKeyboardNavigation'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { TitleSlide } from './slides/01_titleSlide'
@@ -87,6 +88,7 @@ const AppContent = () => {
         <Route path="/conclusion" element={<ConclusionSlide />} />
         <Route path="/goodbye" element={<GoodbyeSlide />} />
       </Routes>
+      <SlideIndicator />
     </div>
   );
 }
