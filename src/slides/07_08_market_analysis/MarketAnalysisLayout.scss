@@ -59,4 +59,31 @@
   width: 100%;
   height: 100%; // Ensure they try to fill the outlet space
   flex-grow: 1;
+}
+
+// ADDED: Print Theme Overrides for the entire Layout
+.market-analysis-layout.print-theme {
+  background-color: #ffffff; // Make sure entire page background is white
+
+  .slide-title-container-shared {
+    background-color: #ffffff;
+    box-shadow: none;
+    border-bottom: 2px solid #e5e7eb; // Use a simple border instead of shadow
+    padding: 15px 40px; // Reduce vertical padding to make it more compact
+    margin-bottom: 0;
+  }
+  
+  .slide-title-shared {
+    color: #000000;
+    font-size: 1.8em; // Slightly smaller for a more compact feel
+  }
+  
+  .slide-subtitle-shared {
+    color: #333333; // Dark gray for subtitle
+    font-size: 1.2em; // Slightly smaller
+  }
+
+  .market-analysis-content-outlet {
+    padding: 20px 0; // Adjust padding for the content area
+  }
 } 

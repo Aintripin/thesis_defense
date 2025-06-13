@@ -384,3 +384,108 @@ $border-light: #f3f4f6;
     visibility: visible !important;
   }
 }
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.dataPreparationSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  .slideTitleContainer {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+    position: static;
+
+    .slideTitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    background: $white;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    height: auto;
+  }
+  
+  .emblemContainer {
+    .bmstuEmblem {
+      opacity: 1;
+      filter: none;
+    }
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .flowchartSection {
+    box-shadow: none;
+    border: 1px solid #000;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .sectionHeader {
+      background: $white;
+      color: #000;
+      border-bottom: 2px solid #000;
+    }
+  }
+
+  .flowchartBox {
+    background: $white;
+    border: 2px solid #000;
+    box-shadow: none;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .boxNumber {
+      background: #000;
+      color: $white;
+      box-shadow: none;
+    }
+
+    .flowchartHighlight {
+      background: #000 !important;
+      color: $white !important;
+      border: 1px solid #000 !important;
+      box-shadow: none !important;
+      
+      * {
+        color: $white !important;
+      }
+    }
+  }
+
+  // Multiple levels of specificity for print theme highlights
+  .flowchartHighlight,
+  span.flowchartHighlight,
+  .flowchartBox .flowchartHighlight,
+  .flowchartBox span.flowchartHighlight {
+    background: #000 !important;
+    color: $white !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+
+  // Override any ReactFlow interference in print mode
+  .react-flow__node .flowchartHighlight,
+  .react-flow__node span.flowchartHighlight,
+  .react-flow__node-custom .flowchartHighlight,
+  .react-flow__node-custom span.flowchartHighlight {
+    background: #000 !important;
+    color: $white !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}

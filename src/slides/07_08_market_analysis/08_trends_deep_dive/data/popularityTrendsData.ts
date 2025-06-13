@@ -9,8 +9,8 @@ export const popularityTrendsData = [
 ];
 
 export const popularityChartCategories = [
-  { key: "ycsb", name: "YCSB", color: "#EF4444" },
-  { key: "tpcC", name: "TPC-C", color: "#3B82F6" },
-  { key: "tpcH", name: "TPC-H", color: "#10B981" },
-  { key: "hammerdb", name: "HammerDB", color: "#F59E0B" }
+  { key: "ycsb", name: "YCSB", color: "#EF4444", dash: "1,0" },
+  { key: "tpcC", name: "TPC-C", color: "#3B82F6", dash: "8,4" },
+  { key: "tpcH", name: "TPC-H", color: "#10B981", dash: "2,3" },
+  { key: "hammerdb", name: "HammerDB", color: "#F59E0B", dash: "8,4,2,4" }
 ]; 

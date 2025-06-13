@@ -1,15 +1,24 @@
 @import '../../styles/variables';
 
 // SCSS Variables
-$light-bg: #f8f9fa;
+$light-bg: #f8fafc;
 $white: #ffffff;
-$text-primary: #374151;
+$text-primary: #334155;
 $text-dark: #1e293b;
-$text-secondary: #4b5563;
-$text-muted: #6b7280;
+$text-secondary: #475569;
+$text-muted: #64748b;
 $blue-primary: #2563eb;
 $blue-secondary: #1a73e8;
-$border-light: #f3f4f6;
+$blue-light: #dbeafe;
+$blue-border: #bfdbfe;
+$border-light: #e2e8f0;
+
+// Print theme colors
+$print-background: #ffffff;
+$print-text-primary: #000000;
+$print-text-secondary: #333333;
+$print-text-muted: #666666;
+$print-border: #cccccc;
 
 // Font mixins
 @mixin als-font($size: 16px, $weight: 400, $line-height: 1.5) {
@@ -269,6 +278,107 @@ $border-light: #f3f4f6;
         margin: 0;
         text-align: left;
       }
+    }
+  }
+}
+
+/* Print Theme Overrides */
+.ycsbJustificationSlide.printTheme {
+  background: $print-background;
+  color: $print-text-primary;
+
+  .slideTitleContainer {
+    background: $print-background;
+    border-bottom: 2px solid $print-text-primary;
+    box-shadow: none;
+    backdrop-filter: none;
+
+    .slideTitle {
+      color: $print-text-primary;
+    }
+  }
+
+  .contentContainer {
+    background: $print-background;
+    box-shadow: none;
+    border: 2px solid $print-border;
+  }
+
+  .justificationCard {
+    background: $print-background;
+    border: 2px solid $print-border;
+    box-shadow: none;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .cardNumber {
+      background: $print-background;
+      color: $print-text-primary;
+      border: 2px solid $print-text-primary;
+    }
+
+    .cardTitle {
+      color: $print-text-primary;
+    }
+
+    .bulletItem {
+      color: $print-text-secondary;
+
+      .bullet {
+        background: $print-text-primary;
+      }
+    }
+
+    .workloadItem {
+      background: $print-background;
+      color: $print-text-primary;
+      border: 2px solid $print-text-primary;
+      font-weight: 700;
+    }
+
+    .workloadText {
+      color: $print-text-secondary;
+    }
+
+    .workloadDescription {
+      color: $print-text-muted;
+    }
+  }
+
+  .conclusionCard {
+    background: $print-background;
+    border: 2px solid $print-border;
+    box-shadow: none;
+
+    &::before {
+      display: none;
+    }
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .conclusionTitle {
+      color: $print-text-primary;
+    }
+
+    .conclusionDot {
+      background: $print-text-primary;
+    }
+
+    .conclusionContent p {
+      color: $print-text-secondary;
+    }
+  }
+
+  .emblemContainer {
+    .bmstuEmblem {
+      filter: invert(1) brightness(0.8); // Invert white logo to black
+      opacity: 0.3;
     }
   }
 }

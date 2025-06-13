@@ -14,6 +14,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
 import { Database, GitBranch } from 'lucide-react';
+import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './DataPreparationSlide.module.scss';
 
 interface CustomNodeData {
@@ -141,9 +142,11 @@ const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
   );
 };
 
-export const DataPreparationSlide = () => {
+export const _DataPreparationSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.dataPreparationSlide}>
+    <div className={`${styles.dataPreparationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -206,8 +209,8 @@ export const DataPreparationSlide = () => {
             .react-flow__node span.flowchartHighlight,
             .react-flow__node-custom .flowchartHighlight,
             .react-flow__node-custom span.flowchartHighlight {
-              background: #4285f4 !important;
-              color: #ffffff !important;
+              background: ${isPrintTheme ? '#000' : '#4285f4'} !important;
+              color: ${isPrintTheme ? '#fff' : '#ffffff'} !important;
               padding: 4px 8px !important;
               border-radius: 6px !important;
               font-weight: 700 !important;
@@ -218,8 +221,8 @@ export const DataPreparationSlide = () => {
               opacity: 1 !important;
               visibility: visible !important;
               text-shadow: none !important;
-              border: none !important;
-              box-shadow: 0 2px 4px rgba(66, 133, 244, 0.3) !important;
+              border: ${isPrintTheme ? '1px solid #000' : 'none'} !important;
+              box-shadow: ${isPrintTheme ? 'none' : '0 2px 4px rgba(66, 133, 244, 0.3)'} !important;
               text-decoration: none !important;
               position: relative !important;
               z-index: 999 !important;
@@ -233,7 +236,7 @@ export const DataPreparationSlide = () => {
               left: 0 !important;
               right: 0 !important;
               bottom: 0 !important;
-              background: #4285f4 !important;
+              background: ${isPrintTheme ? '#000' : '#4285f4'} !important;
               z-index: -1 !important;
             }
           `,
@@ -292,27 +295,15 @@ export const DataPreparationSlide = () => {
               </div>
             </motion.div>
           </motion.div>
-
-          {/* BMSTU Logo Emblem */}
-          <motion.div 
-            className={styles.emblemContainer}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-          >
-            <img 
-              src="/assets/bmstu/bmstu-logo-white.png" 
-              alt="BMSTU Logo" 
-              className={styles.bmstuEmblem}
-              onError={(e) => {
-                // Fallback to SVG if PNG fails
-                const target = e.target as HTMLImageElement;
-                target.src = "/assets/bmstu/bmstu-logo-white.svg";
-              }}
-            />
-          </motion.div>
         </div>
       </div>
     </div>
   );
+};
+
+// Wrapper component that provides theme context
+export const DataPreparationSlide = () => {
+  const { isPrintTheme } = useTheme();
+  
+  return <_DataPreparationSlide />;
 };

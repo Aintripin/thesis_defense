@@ -10,6 +10,13 @@ $blue-primary: #3b82f6;
 $blue-dark: #1e40af;
 $blue-light: #60a5fa;
 
+// Print theme colors
+$print-background: #ffffff;
+$print-text-primary: #000000;
+$print-text-secondary: #333333;
+$print-text-muted: #666666;
+$print-border: #cccccc;
+
 // Font mixins (local or from _variables.scss)
 @mixin als-font($size: 16px, $weight: 400, $line-height: 1.5) {
   font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -118,9 +125,20 @@ $blue-light: #60a5fa;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-    &.totalLine {
+    &.totalLineColor {
       background: linear-gradient(90deg, #1E293B 50%, transparent 50%);
-      background-size: 8px 2px;
+      background-size: 8px 3px;
+    }
+    
+    &.totalLinePrint {
+      border: 1px solid #000;
+      background: repeating-linear-gradient(
+        90deg,
+        #000000 0,
+        #000000 4px,
+        transparent 4px,
+        transparent 8px
+      );
     }
   }
 
@@ -362,6 +380,138 @@ $blue-light: #60a5fa;
 
     .insightItem {
       font-size: 14px;
+    }
+  }
+}
+
+/* Print Theme Overrides */
+.contentContainer.printTheme {
+  background: $print-background;
+  color: $print-text-primary;
+  padding: 20px; // A single padding value for the whole content area
+
+  .chartSection {
+    background: $print-background;
+    border: 1px solid $print-border; // Thinner, cleaner border
+    box-shadow: none;
+    backdrop-filter: none;
+    margin: 0; // Remove margin
+
+    &::before {
+      display: none; // Remove gradient background
+    }
+
+    .chartTitle {
+      color: $print-text-primary;
+    }
+  }
+
+  .grid line {
+    stroke: $print-border;
+    stroke-dasharray: 2, 3; // Make grid dashes more subtle
+  }
+
+  .legend {
+    .legendItem {
+      background: $print-background;
+      border: 1px solid $print-border;
+      color: $print-text-secondary;
+      backdrop-filter: none;
+    }
+  }
+
+  // CHANGED: Sidebar and card fixes
+  .sidebar {
+    margin: 0; // Remove margin
+    overflow: visible; // KEY FIX: Allow borders/shadows to be fully visible
+  }
+
+  .glassCard {
+    background: $print-background;
+    border: 1px solid $print-border; // Thinner border
+    box-shadow: none;
+    backdrop-filter: none;
+    margin: 0; // Remove margin, rely on parent gaps for spacing
+
+    &:hover {
+      transform: none;
+    }
+
+    // Remove all colored top borders
+    &.metrics::before,
+    &.trends::before,
+    &.insights::before {
+      display: none;
+    }
+
+    .cardTitle {
+      color: $print-text-primary;
+      margin-top: 0; // Reduce top margin
+    }
+  }
+
+  .metricItem {
+    background: $print-background;
+    border: 1px solid $print-border;
+    border-left: 3px solid $print-text-primary;
+    backdrop-filter: none;
+
+    &:hover {
+      background: $print-background;
+      transform: none;
+    }
+
+    .metricLabel {
+      color: $print-text-secondary;
+    }
+
+    .metricValue {
+      color: $print-text-primary;
+    }
+  }
+
+  .growthHighlight {
+    background: $print-background;
+    color: $print-text-primary;
+    border: 2px solid $print-text-primary;
+    box-shadow: none;
+  }
+
+  .trendItem {
+    background: $print-background;
+    border: 1px solid $print-border;
+    border-left: 3px solid $print-text-primary;
+    backdrop-filter: none;
+
+    &:hover {
+      background: $print-background;
+      transform: none;
+    }
+
+    .trendTitle {
+      color: $print-text-primary;
+    }
+
+    .trendDesc {
+      color: $print-text-secondary;
+    }
+  }
+
+  .insightItem {
+    background: $print-background;
+    border: 1px solid $print-border;
+    border-left: 3px solid $print-text-primary;
+    backdrop-filter: none;
+
+    &:hover {
+      background: $print-background;
+      transform: none;
+    }
+
+    color: $print-text-secondary;
+
+    strong {
+      color: $print-text-primary;
     }
   }
 } 

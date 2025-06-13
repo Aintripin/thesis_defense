@@ -15,6 +15,13 @@ $postgres-color: #3b82f6;
 $mongo-color: #10b981;
 $cassandra-color: #8b5cf6;
 
+// Print theme colors
+$print-background: #ffffff;
+$print-text-primary: #000000;
+$print-text-secondary: #333333;
+$print-text-muted: #666666;
+$print-border: #cccccc;
+
 // Font mixins
 @mixin als-font($size: 16px, $weight: 400, $line-height: 1.5) {
   font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -326,5 +333,108 @@ $cassandra-color: #8b5cf6;
       font-size: 20px;
       letter-spacing: 1px;
     }
+  }
+}
+
+/* Print Theme Overrides */
+.solutionSlide.printTheme {
+  background: $print-background;
+  color: $print-text-primary;
+
+  .slideTitleContainer {
+    background: $print-background;
+    border-bottom: 2px solid $print-text-primary;
+    box-shadow: none;
+    backdrop-filter: none;
+
+    .slideTitle {
+      color: $print-text-primary;
+    }
+  }
+
+  .contentContainer {
+    background: $print-background;
+    box-shadow: none;
+    border: 2px solid $print-border;
+  }
+
+  .contentTitle {
+    color: $print-text-primary;
+  }
+
+  .databaseCard {
+    background: $print-background;
+    border: 2px solid $print-border;
+    box-shadow: none;
+
+    &::before {
+      display: none; // Remove colored top borders
+    }
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    // Remove all color-specific styling in print mode
+    &.postgres,
+    &.mongo,
+    &.cassandra {
+      box-shadow: none;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+
+    &.comparison {
+      background: $print-background;
+      border: 2px solid $print-border;
+      box-shadow: none;
+
+      &:hover {
+        box-shadow: none;
+        transform: none;
+      }
+
+      &::before {
+        display: none; // Remove gradient top border
+      }
+
+      .cardTitle {
+        color: $print-text-primary;
+      }
+    }
+
+    .cardTitle {
+      color: $print-text-primary;
+    }
+
+    .featureItem {
+      color: $print-text-secondary;
+
+      .bullet {
+        background: $print-text-primary;
+      }
+    }
+  }
+
+  // Override all colored bullet points to be black in print mode
+  .bullet::before,
+  .bullet::after {
+    border-color: $print-text-primary !important;
+    background-color: $print-background !important;
+  }
+
+  .postgres .bullet::before,
+  .postgres .bullet::after,
+  .mongo .bullet::before,
+  .mongo .bullet::after,
+  .cassandra .bullet::before,
+  .cassandra .bullet::after,
+  .comparison .featureItem .bullet::before,
+  .comparison .featureItem .bullet::after {
+    border-color: $print-text-primary !important;
+    background-color: $print-background !important;
   }
 } 

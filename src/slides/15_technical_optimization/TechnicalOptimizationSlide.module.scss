@@ -481,4 +481,185 @@ $white: #ffffff;
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.technicalOptimizationSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  .slideTitleContainer {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+    position: static;
+
+    .slideTitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    .mainContentContainer {
+      background: $white;
+      box-shadow: none;
+      border: 1px solid #000;
+    }
+
+    .databasesWrapper {
+      background: $white;
+      border: 1px solid #000;
+    }
+
+    .resultsWrapper {
+      border: 1px solid #000;
+    }
+
+    // Database Configuration Sections
+    .dbConfigSection {
+      border: 1px solid #000;
+      background: $white;
+
+      &.postgresqlSection,
+      &.mongodbSection,
+      &.cassandraSection {
+        background: $white;
+      }
+    }
+
+    // Database Icons - convert all colored gradients to white with black borders
+    .dbIcon {
+      box-shadow: none;
+
+      &.postgresqlIcon,
+      &.mongodbIcon,
+      &.cassandraIcon {
+        background: $white;
+        border: 2px solid #000;
+      }
+
+      .dbIconSvg {
+        filter: brightness(0) saturate(100%) invert(0%);
+      }
+    }
+
+    // Database Info
+    .dbInfo {
+      h3 {
+        color: #000;
+      }
+
+      p {
+        color: #000;
+      }
+    }
+
+    // Terminal/Code Cards - convert dark terminals to white with black text
+    .codeTerminal {
+      background: $white;
+      border: 2px solid #000;
+      box-shadow: none;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    .terminalHeader {
+      background: $white;
+      border-bottom: 1px solid #000;
+    }
+
+    // Terminal Icons for print theme
+    .terminalIcon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .terminalFilename {
+      color: #000;
+    }
+
+    .terminalContent {
+      background: $white;
+      color: #000;
+
+      .comment {
+        color: #666;
+      }
+
+      .configKey {
+        color: #000;
+        font-weight: 600;
+      }
+
+      .configValue {
+        color: #000;
+        font-weight: 600;
+      }
+
+      .configNumber {
+        color: #000;
+        font-weight: 700;
+      }
+    }
+
+    // Results/Optimization Overview - convert blue gradient to white with black text
+    .optimizationOverview {
+      background: $white;
+      color: #000;
+      border: 1px solid #000;
+
+      // Remove all pattern overlays and animations in print mode
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
+    .overviewTitle {
+      color: #000;
+    }
+
+    .overviewSubtitle {
+      color: #000;
+    }
+
+    // Metric Cards - convert to white backgrounds with black text
+    .metricCard {
+      background: $white;
+      border: 1px solid #000;
+      backdrop-filter: none;
+
+      &:hover {
+        background: #f5f5f5;
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    .metricIcon {
+      background: $white;
+      border: 1px solid #000;
+      color: #000;
+
+      // Convert Lucide icons to black
+      svg {
+        color: #000;
+      }
+    }
+
+    .metricTitle {
+      color: #000;
+    }
+
+    .metricValue {
+      color: #000;
+    }
+  }
 } 

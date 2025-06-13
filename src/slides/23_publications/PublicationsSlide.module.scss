@@ -69,7 +69,7 @@
 }
 
 .slideSubtitle {
-  font-size: 20px;
+  font-size: 24px;
   opacity: 0.9;
   font-weight: 400;
   letter-spacing: 2px;
@@ -362,4 +362,174 @@
 
 .statsSummary {
   animation: slideInUp 0.8s ease-out 0.8s both;
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.slide.printTheme {
+  background: #ffffff;
+  color: #000000;
+
+  .contentContainer {
+    .mainContentContainer {
+      background: #ffffff;
+      box-shadow: none;
+      border: 2px solid #000000;
+    }
+  }
+
+  .slideHeader {
+    background: #ffffff;
+    color: #000000;
+    border-bottom: 3px solid #000000;
+
+    &::before {
+      display: none;
+    }
+
+    .slideTitle {
+      color: #000000;
+    }
+
+    .slideSubtitle {
+      color: #000000;
+      opacity: 1;
+    }
+  }
+
+  .publicationsContainer {
+    .publicationSection {
+      .sectionHeader {
+        border-bottom: 2px solid #000000;
+
+        .sectionIcon {
+          background: #000000;
+          color: #ffffff;
+          box-shadow: none;
+
+          &.journal,
+          &.conference,
+          &.proceedings {
+            background: #000000;
+          }
+        }
+
+        .sectionTitle {
+          color: #000000;
+        }
+
+        .sectionCount {
+          background: #000000;
+          color: #ffffff;
+        }
+      }
+
+      .publicationList {
+        .publicationItem {
+          background: #ffffff;
+          border: 2px solid #000000;
+          box-shadow: none;
+
+          &::before {
+            background: #000000;
+          }
+
+          &:hover {
+            transform: none;
+            box-shadow: none;
+            background: #f5f5f5;
+
+            &::before {
+              transform: scaleY(1);
+            }
+          }
+
+          .publicationContent {
+            .publicationNumber {
+              background: #000000;
+              color: #ffffff;
+            }
+
+            .publicationDetails {
+              .publicationTitle {
+                color: #000000;
+              }
+
+              .publicationAuthors {
+                color: #000000;
+                font-weight: 600;
+              }
+
+              .publicationVenue {
+                color: #000000;
+              }
+
+              .publicationMeta {
+                color: #000000;
+
+                .publicationYear {
+                  background: #ffffff;
+                  color: #000000;
+                  border: 1px solid #000000;
+                }
+
+                .publicationType {
+                  background: #ffffff;
+                  color: #000000;
+                  border: 1px solid #000000;
+                }
+
+                .publicationIndex {
+                  background: #ffffff;
+                  color: #000000;
+                  border: 1px solid #000000;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .statsSummary {
+      background: #ffffff;
+      border: 2px solid #000000;
+      box-shadow: none;
+
+      .statsTitle {
+        color: #000000;
+      }
+
+      .statsGrid {
+        .statItem {
+          .statValue {
+            color: #000000;
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: unset;
+            background-clip: unset;
+          }
+
+          .statLabel {
+            color: #000000;
+          }
+        }
+      }
+    }
+  }
+
+  /* Scrollbar styling for print theme */
+  .publicationsContainer::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  .publicationsContainer::-webkit-scrollbar-thumb {
+    background: #000000;
+
+    &:hover {
+      background: #333333;
+    }
+  }
 } 

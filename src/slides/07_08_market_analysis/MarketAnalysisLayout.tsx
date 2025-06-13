@@ -1,10 +1,12 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import './MarketAnalysisLayout.scss';
 
 export const MarketAnalysisLayout: React.FC = () => {
   const location = useLocation();
+  const { isPrintTheme } = useTheme();
 
   const isDeepDiveSlide = location.pathname === '/market-analysis/trends-deep-dive';
 
@@ -35,7 +37,7 @@ export const MarketAnalysisLayout: React.FC = () => {
   };
 
   return (
-    <div className="market-analysis-layout">
+    <div className={`market-analysis-layout ${isPrintTheme ? 'print-theme' : ''}`}>
       <motion.div
         className="slide-title-container-shared"
         style={{ overflow: 'hidden' }}

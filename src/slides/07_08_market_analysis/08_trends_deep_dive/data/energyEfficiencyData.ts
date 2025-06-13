@@ -23,11 +23,11 @@ export const energyEfficiencyRawData = [
 ];
 
 export const energyChartCategories = [
-  { dbms: "Relational", deploy: "On-Premise", name: "Relational (On-Prem)", color: "#A855F7", key: "Relational_On-Premise" },
-  { dbms: "Relational", deploy: "Cloud", name: "Relational (Cloud)", color: "#D8B4FE", key: "Relational_Cloud" },
-  { dbms: "NoSQL", deploy: "On-Premise", name: "NoSQL (On-Prem)", color: "#22C55E", key: "NoSQL_On-Premise" },
-  { dbms: "NoSQL", deploy: "Cloud", name: "NoSQL (Cloud)", color: "#86EFAC", key: "NoSQL_Cloud" },
-  { dbms: "Graph", deploy: "On-Premise", name: "Graph (On-Prem)", color: "#F97316", key: "Graph_On-Premise" },
-  { dbms: "Graph", deploy: "Cloud", name: "Graph (Cloud)", color: "#FDBA74", key: "Graph_Cloud" },
-  { dbms: "Cloud-Native", deploy: "Cloud", name: "Cloud-Native", color: "#0EA5E9", key: "Cloud-Native_Cloud" }
+  { dbms: "Relational", deploy: "On-Premise", name: "Relational (On-Prem)", color: "#A855F7", key: "Relational_On-Premise", dash: "1,0" },
+  { dbms: "Relational", deploy: "Cloud", name: "Relational (Cloud)", color: "#D8B4FE", key: "Relational_Cloud", dash: "8,4" },
+  { dbms: "NoSQL", deploy: "On-Premise", name: "NoSQL (On-Prem)", color: "#22C55E", key: "NoSQL_On-Premise", dash: "2,3" },
+  { dbms: "NoSQL", deploy: "Cloud", name: "NoSQL (Cloud)", color: "#86EFAC", key: "NoSQL_Cloud", dash: "8,4,2,4" },
+  { dbms: "Graph", deploy: "On-Premise", name: "Graph (On-Prem)", color: "#F97316", key: "Graph_On-Premise", dash: "12,3" },
+  { dbms: "Graph", deploy: "Cloud", name: "Graph (Cloud)", color: "#FDBA74", key: "Graph_Cloud", dash: "4,4" },
+  { dbms: "Cloud-Native", deploy: "Cloud", name: "Cloud-Native", color: "#0EA5E9", key: "Cloud-Native_Cloud", dash: "6,2,2,2" }
 ]; 

@@ -1,1 +1,1 @@
-export { default as ScalabilityDelaysSlide } from './ScalabilityDelaysSlide'; 
+export { ScalabilityDelaysSlide } from './ScalabilityDelaysSlide'; 

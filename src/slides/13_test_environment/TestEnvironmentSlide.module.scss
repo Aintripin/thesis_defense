@@ -387,3 +387,137 @@ $white: #ffffff;
     }
   }
 } 
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.testEnvironmentSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  .slideTitleContainer {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+    position: static;
+
+    .slideTitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    background: $white;
+    box-shadow: none;
+    border: 1px solid #000;
+
+    .mainContentArea {
+      .mainContent {
+        .configSection {
+          .sectionTitle {
+            color: #000;
+
+            .sectionIcon {
+              &.lucideIcon {
+                color: #000;
+              }
+
+              // For SVG imports like ToolsIcon - make them black
+              &:not(.lucideIcon) {
+                filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+              }
+            }
+          }
+
+          .specItem, .softwareItem {
+            background: $white;
+            border: 1px solid #000;
+
+            &:hover {
+              background: #f5f5f5;
+              transform: none;
+              box-shadow: none;
+
+              .specIcon, .softwareIcon {
+                background: #f5f5f5;
+                border-color: #000;
+                box-shadow: none;
+                transform: none;
+
+                img {
+                  filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+                }
+
+                &.vmware img {
+                  filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+                }
+              }
+            }
+
+            .specIcon, .softwareIcon {
+              background: $white;
+              border: 1px solid #000;
+
+              img {
+                filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+              }
+
+              &.vmware img {
+                filter: brightness(0) saturate(100%) invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+              }
+            }
+
+            .specText {
+              color: #000;
+            }
+          }
+        }
+      }
+    }
+
+    // Right panel in print mode - convert blue to white with black text
+    .rightPanel {
+      background: $white;
+      color: #000;
+      border: 1px solid #000;
+      border-left: 2px solid #000;
+
+      // Remove the pattern overlay in print mode
+      &::before {
+        display: none;
+      }
+
+      .principleSection {
+        .principleTitle {
+          color: #000;
+
+          .highlight {
+            background: #000;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: #000;
+            background-clip: text;
+            color: #000;
+            text-shadow: none;
+          }
+        }
+
+        .principleList {
+          li {
+            color: #000;
+
+            &::before {
+              color: #000;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Remove emblem container in print mode
+  .emblemContainer {
+    display: none;
+  }
+} 

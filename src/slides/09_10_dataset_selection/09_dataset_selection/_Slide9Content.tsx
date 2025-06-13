@@ -106,12 +106,15 @@ const sectionVariants = {
 
 interface InfoItemProps {
   item: { label: string; value: string };
+  isPrintTheme: boolean;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ item }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ item, isPrintTheme }) => (
   <motion.li
     variants={itemVariants}
     className={styles.infoItem}
+    initial={isPrintTheme ? "visible" : "hidden"}
+    animate="visible"
   >
     <div className={styles.bullet} />
     <span>
@@ -121,11 +124,15 @@ const InfoItem: React.FC<InfoItemProps> = ({ item }) => (
   </motion.li>
 );
 
-export const Slide9Content: React.FC = () => (
+interface Slide9ContentProps {
+  isPrintTheme: boolean;
+}
+
+export const Slide9Content: React.FC<Slide9ContentProps> = ({ isPrintTheme }) => (
   <motion.div
     className={styles.mainContent}
     variants={containerVariants}
-    initial="hidden"
+    initial={isPrintTheme ? "visible" : "hidden"}
     animate="visible"
     exit={{ opacity: 0 }}
   >
@@ -136,6 +143,8 @@ export const Slide9Content: React.FC = () => (
         <motion.div
           className={styles.section}
           variants={sectionVariants}
+          initial={isPrintTheme ? "visible" : "hidden"}
+          animate="visible"
         >
           <div className={styles.sectionHeader}>
             Выбранный датасет
@@ -143,7 +152,7 @@ export const Slide9Content: React.FC = () => (
           <div className={styles.sectionContent}>
             <ul>
               {selectedDatasetInfo.map((item, index) => (
-                <InfoItem key={index} item={item} />
+                <InfoItem key={index} item={item} isPrintTheme={isPrintTheme} />
               ))}
             </ul>
           </div>
@@ -153,6 +162,8 @@ export const Slide9Content: React.FC = () => (
         <motion.div
           className={styles.section}
           variants={sectionVariants}
+          initial={isPrintTheme ? "visible" : "hidden"}
+          animate="visible"
         >
           <div className={styles.sectionHeader}>
             Преимущества выбранного датасета
@@ -160,7 +171,7 @@ export const Slide9Content: React.FC = () => (
           <div className={styles.sectionContent}>
             <ul>
               {datasetAdvantages.map((item, index) => (
-                <InfoItem key={index} item={item} />
+                <InfoItem key={index} item={item} isPrintTheme={isPrintTheme} />
               ))}
             </ul>
           </div>
@@ -172,9 +183,9 @@ export const Slide9Content: React.FC = () => (
         <motion.div
           className={styles.datasetSampleCard}
           variants={sectionVariants}
-          initial="hidden"
+          initial={isPrintTheme ? "visible" : "hidden"}
           animate="visible"
-          transition={{ delay: 0.4 }}
+          transition={{ delay: isPrintTheme ? 0 : 0.4 }}
         >
           <div className={styles.cardHeader}>
             <div className={styles.cardTitle}>Пример записи датасета</div>
@@ -184,9 +195,31 @@ export const Slide9Content: React.FC = () => (
           <div className={styles.codeTerminal}>
             <div className={styles.terminalHeader}>
               <div className={styles.terminalDots}>
-                <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                {isPrintTheme ? (
+                  <>
+                    {/* Close Icon (X) */}
+                    <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                      <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
+                    </svg>
+                    {/* Minimize Icon (-) */}
+                    <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                      <path d="M4 6H8" stroke="black"/>
+                    </svg>
+                    {/* Maximize Icon (Square) */}
+                    <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                      <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    <div className={`${styles.terminalDot} ${styles.red}`}></div>
+                    <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
+                    <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                  </>
+                )}
               </div>
               <div className={styles.terminalFilename}>dataset.json</div>
             </div>

@@ -2,17 +2,19 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
+import { useTheme } from '../../contexts/ThemeContext'
 import styles from './TitleSlide.module.scss'
 
 const TitleSlide: React.FC = () => {
   const navigate = useNavigate()
+  const { isColorTheme, isPrintTheme } = useTheme()
 
   const handleStartPresentation = () => {
     navigate('/problem')
   }
 
   return (
-    <div className={styles.titleSlideFullscreen}>
+    <div className={`${styles.titleSlideFullscreen} ${isPrintTheme ? styles.printTheme : ''}`}>
       <div className={styles.titleBackground}>
         {/* Background Logo - Large and positioned in corner */}
         <motion.div 
@@ -77,21 +79,23 @@ const TitleSlide: React.FC = () => {
                 </h2>
               </motion.div>
 
-              {/* Start Presentation Button */}
-              <motion.div 
-                className={styles.startButtonContainer}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.6 }}
-              >
-                <button 
-                  className={styles.startPresentationBtn}
-                  onClick={handleStartPresentation}
+              {/* Start Presentation Button - Only shown in color theme */}
+              {isColorTheme && (
+                <motion.div 
+                  className={styles.startButtonContainer}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.6 }}
                 >
-                  <span>Начать презентацию</span>
-                  <ChevronRight size={20} />
-                </button>
-              </motion.div>
+                  <button 
+                    className={styles.startPresentationBtn}
+                    onClick={handleStartPresentation}
+                  >
+                    <span>Начать презентацию</span>
+                    <ChevronRight size={20} />
+                  </button>
+                </motion.div>
+              )}
 
               {/* Student and Supervisor Info */}
               <motion.div 

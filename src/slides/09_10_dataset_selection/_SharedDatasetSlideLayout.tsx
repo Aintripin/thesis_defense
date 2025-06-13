@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import { Slide9Content } from './09_dataset_selection/_Slide9Content';
 import { Slide10Content } from './10_dataset_selection/_Slide10Content';
 import styles from './DatasetSlides.module.scss';
@@ -14,10 +15,13 @@ const slideContents = [
 ];
 
 export const SharedDatasetSlideLayout: React.FC<SharedLayoutProps> = ({ subSlide }) => {
+  const { isPrintTheme } = useTheme();
   const CurrentContent = slideContents[subSlide].component;
 
+  const layoutClasses = `${styles.datasetSelectionSlide} ${subSlide === 0 ? styles.slide9 : styles.slide10} ${isPrintTheme ? styles.printTheme : ''}`;
+
   return (
-    <div className={`${styles.datasetSelectionSlide} ${subSlide === 0 ? styles.slide9 : styles.slide10}`}>
+    <div className={layoutClasses}>
       {/* Title Container */}
       <motion.div
         className={styles.slideTitleContainer}
@@ -33,7 +37,7 @@ export const SharedDatasetSlideLayout: React.FC<SharedLayoutProps> = ({ subSlide
         {/* Main Content - Full width without sidebar */}
         <div className={styles.mainContentAreaWrapper}>
           <AnimatePresence mode="wait">
-            <CurrentContent />
+            <CurrentContent isPrintTheme={isPrintTheme} />
           </AnimatePresence>
 
           {/* BMSTU Logo Emblem */}
@@ -44,12 +48,12 @@ export const SharedDatasetSlideLayout: React.FC<SharedLayoutProps> = ({ subSlide
             transition={{ delay: 0.5, duration: 0.8 }}
           >
             <img 
-              src="/assets/bmstu/bmstu-logo-white.png" 
+              src={isPrintTheme ? "/assets/bmstu/bmstu-logo-black.png" : "/assets/bmstu/bmstu-logo-white.png"} 
               alt="BMSTU Logo" 
               className={styles.bmstuEmblem}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "/assets/bmstu/bmstu-logo-white.svg";
+                target.src = isPrintTheme ? "/assets/bmstu/bmstu-logo-black.svg" : "/assets/bmstu/bmstu-logo-white.svg";
               }}
             />
           </motion.div>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from '../../contexts/ThemeContext'
 import styles from './TestingSlide.module.scss'
 
 export const TestingSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme()
   const [hoveredRow, setHoveredRow] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -63,7 +65,7 @@ export const TestingSlide: React.FC = () => {
   ]
 
   return (
-    <div className={styles.testingSlide}>
+    <div className={`${styles.testingSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container */}
       <motion.div 
         className={styles.slideTitleContainer}

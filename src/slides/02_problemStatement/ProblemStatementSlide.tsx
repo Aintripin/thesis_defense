@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from '../../contexts/ThemeContext'
 import ProblemSection from './components/ProblemSection'
 import ObjectivesSection from './components/ObjectivesSection'
 import ResearchObjectsSection from './components/ResearchObjectsSection'
@@ -7,8 +8,10 @@ import ResearchSubjectSection from './components/ResearchSubjectSection'
 import styles from './ProblemStatementSlide.module.scss'
 
 const ProblemStatementSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme()
+
   return (
-    <div className={styles.problemStatementSlide}>
+    <div className={`${styles.problemStatementSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       <motion.div 
         className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}

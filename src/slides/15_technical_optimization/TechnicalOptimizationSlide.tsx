@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TechnicalOptimizationSlide.module.scss';
 
 // Import SVG icons for databases
@@ -51,8 +52,10 @@ const slideInLeft = {
 };
 
 export const TechnicalOptimizationSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.technicalOptimizationSlide}>
+    <div className={`${styles.technicalOptimizationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container - wrapped for sticky header */}
       <motion.div
         className={styles.slideTitleContainer}
@@ -108,9 +111,31 @@ export const TechnicalOptimizationSlide = () => {
                   <div className={styles.codeTerminal}>
                     <div className={styles.terminalHeader}>
                       <div className={styles.terminalDots}>
-                        <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                        <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                        <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                        {isPrintTheme ? (
+                          <>
+                            {/* Close Icon (X) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
+                            </svg>
+                            {/* Minimize Icon (-) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <path d="M4 6H8" stroke="black"/>
+                            </svg>
+                            {/* Maximize Icon (Square) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
+                            </svg>
+                          </>
+                        ) : (
+                          <>
+                            <div className={`${styles.terminalDot} ${styles.red}`}></div>
+                            <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
+                            <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                          </>
+                        )}
                       </div>
                       <div className={styles.terminalFilename}>postgresql.conf</div>
                     </div>
@@ -163,9 +188,31 @@ export const TechnicalOptimizationSlide = () => {
                   <div className={styles.codeTerminal}>
                     <div className={styles.terminalHeader}>
                       <div className={styles.terminalDots}>
-                        <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                        <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                        <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                        {isPrintTheme ? (
+                          <>
+                            {/* Close Icon (X) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
+                            </svg>
+                            {/* Minimize Icon (-) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <path d="M4 6H8" stroke="black"/>
+                            </svg>
+                            {/* Maximize Icon (Square) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
+                            </svg>
+                          </>
+                        ) : (
+                          <>
+                            <div className={`${styles.terminalDot} ${styles.red}`}></div>
+                            <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
+                            <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                          </>
+                        )}
                       </div>
                       <div className={styles.terminalFilename}>mongod.conf</div>
                     </div>
@@ -217,9 +264,31 @@ export const TechnicalOptimizationSlide = () => {
                   <div className={styles.codeTerminal}>
                     <div className={styles.terminalHeader}>
                       <div className={styles.terminalDots}>
-                        <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                        <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                        <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                        {isPrintTheme ? (
+                          <>
+                            {/* Close Icon (X) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
+                            </svg>
+                            {/* Minimize Icon (-) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <path d="M4 6H8" stroke="black"/>
+                            </svg>
+                            {/* Maximize Icon (Square) */}
+                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
+                              <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
+                            </svg>
+                          </>
+                        ) : (
+                          <>
+                            <div className={`${styles.terminalDot} ${styles.red}`}></div>
+                            <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
+                            <div className={`${styles.terminalDot} ${styles.green}`}></div>
+                          </>
+                        )}
                       </div>
                       <div className={styles.terminalFilename}>cassandra.yaml</div>
                     </div>

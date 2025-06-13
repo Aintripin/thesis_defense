@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import './DatasetSelectionSlide.scss';
+import styles from '../DatasetSlides.module.scss';
 
 const dataStructureInfo = [
   {
@@ -94,49 +94,68 @@ const sectionVariants = {
 interface InfoItemProps {
   item: { label: string; value: string; isHighlighted: boolean; isLongText?: boolean };
   index: number;
+  isPrintTheme: boolean;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ item, index }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ item, index, isPrintTheme }) => (
   <motion.li
     variants={itemVariants}
-    className="info-item"
+    className={styles.infoItem}
+    initial={isPrintTheme ? "visible" : "hidden"}
+    animate="visible"
   >
-    <div className="bullet" />
-    <span>
-      {item.label && (
-        <span className={item.isHighlighted ? "highlight" : "label"}>
+    <div className={styles.bullet} />
+    
+    {/* Pill wrapper - first container */}
+    {item.label && (
+      <div className={styles.pillWrapper}>
+        <span className={item.isHighlighted ? styles.highlight : styles.label}>
           {item.label}
         </span>
-      )}{' '}
-      <span className={`value ${item.isLongText ? 'long-text' : ''}`}>{item.value}</span>
-    </span>
+      </div>
+    )}
+    
+    {/* Text content wrapper - second container */}
+    <div className={styles.textWrapper}>
+      <span className={`${styles.value} ${item.isLongText ? styles.longText : ''}`}>
+        {item.value}
+      </span>
+    </div>
   </motion.li>
 );
 
-export const Slide10Content: React.FC = () => (
+interface Slide10ContentProps {
+  isPrintTheme: boolean;
+}
+
+export const Slide10Content: React.FC<Slide10ContentProps> = ({ isPrintTheme }) => (
   <motion.div
-    className="main-content"
+    className={styles.mainContent}
     variants={containerVariants}
-    initial="hidden"
+    initial={isPrintTheme ? "visible" : "hidden"}
     animate="visible"
     exit={{ opacity: 0 }}
   >
     {/* Section 1: Структура и особенности данных */}
     <motion.div 
-      className="section"
+      className={styles.section}
       variants={sectionVariants}
-      transition={{ delay: 0.4 }}
+      initial={isPrintTheme ? "visible" : "hidden"}
+      animate="visible"
+      transition={{ delay: isPrintTheme ? 0 : 0.4 }}
     >
-      <div className="section-header">
+      <div className={styles.sectionHeader}>
         Структура и особенности данных
       </div>
-      <div className="section-content">
+      <div className={styles.sectionContent}>
         <motion.ul
           variants={containerVariants}
-          transition={{ delay: 0.8 }}
+          initial={isPrintTheme ? "visible" : "hidden"}
+          animate="visible"
+          transition={{ delay: isPrintTheme ? 0 : 0.8 }}
         >
           {dataStructureInfo.map((item, index) => (
-            <InfoItem key={index} item={item} index={index} />
+            <InfoItem key={index} item={item} index={index} isPrintTheme={isPrintTheme} />
           ))}
         </motion.ul>
       </div>
@@ -144,20 +163,24 @@ export const Slide10Content: React.FC = () => (
     
     {/* Section 2: Вызовы для различных СУБД */}
     <motion.div 
-      className="section"
+      className={styles.section}
       variants={sectionVariants}
-      transition={{ delay: 1.0 }}
+      initial={isPrintTheme ? "visible" : "hidden"}
+      animate="visible"
+      transition={{ delay: isPrintTheme ? 0 : 1.0 }}
     >
-      <div className="section-header">
+      <div className={styles.sectionHeader}>
         Вызовы для различных СУБД
       </div>
-      <div className="section-content">
+      <div className={styles.sectionContent}>
         <motion.ul
           variants={containerVariants}
-          transition={{ delay: 1.4 }}
+          initial={isPrintTheme ? "visible" : "hidden"}
+          animate="visible"
+          transition={{ delay: isPrintTheme ? 0 : 1.4 }}
         >
           {dbmsChallenges.map((item, index) => (
-            <InfoItem key={index} item={item} index={index} />
+            <InfoItem key={index} item={item} index={index} isPrintTheme={isPrintTheme} />
           ))}
         </motion.ul>
       </div>
@@ -165,20 +188,24 @@ export const Slide10Content: React.FC = () => (
 
     {/* Section 3: Значение для тестирования */}
     <motion.div 
-      className="section"
+      className={styles.section}
       variants={sectionVariants}
-      transition={{ delay: 1.6 }}
+      initial={isPrintTheme ? "visible" : "hidden"}
+      animate="visible"
+      transition={{ delay: isPrintTheme ? 0 : 1.6 }}
     >
-      <div className="section-header">
+      <div className={styles.sectionHeader}>
         Значение для тестирования
       </div>
-      <div className="section-content">
+      <div className={styles.sectionContent}>
         <motion.ul
           variants={containerVariants}
-          transition={{ delay: 2.0 }}
+          initial={isPrintTheme ? "visible" : "hidden"}
+          animate="visible"
+          transition={{ delay: isPrintTheme ? 0 : 2.0 }}
         >
           {testingSignificance.map((item, index) => (
-            <InfoItem key={index} item={item} index={index} />
+            <InfoItem key={index} item={item} index={index} isPrintTheme={isPrintTheme} />
           ))}
         </motion.ul>
       </div>

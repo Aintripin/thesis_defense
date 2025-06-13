@@ -3,7 +3,11 @@ import * as d3 from 'd3';
 import styles from './EnergyEfficiencyLineChart.module.scss';
 import { energyEfficiencyRawData, energyChartCategories } from '../../data';
 
-export const EnergyEfficiencyLineChart: React.FC = () => {
+interface ChartProps {
+  isPrintTheme: boolean;
+}
+
+export const EnergyEfficiencyLineChart: React.FC<ChartProps> = ({ isPrintTheme }) => {
   const energyEfficiencyChartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,51 +66,59 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
         const linePath = g.append("path")
           .datum(seriesData)
           .attr("fill", "none")
-          .attr("stroke", category.color)
+          .attr("stroke", isPrintTheme ? '#000' : category.color)
           .attr("stroke-width", 2.5)
-          .attr("d", lineGeneratorEnergy)
-          .style("opacity", 0);
-        
-        const totalLength = (linePath.node() as SVGPathElement)?.getTotalLength() || 0;
-        linePath.attr("stroke-dasharray", `${totalLength} ${totalLength}`)
-          .attr("stroke-dashoffset", totalLength)
-          .transition().duration(1500).delay(catIndex * 150).ease(d3.easeLinear)
-          .attr("stroke-dashoffset", 0)
-          .style("opacity", 1);
+          .style("stroke-dasharray", isPrintTheme ? category.dash : "1,0")
+          .attr("d", lineGeneratorEnergy);
 
-        g.selectAll(`.dot-energy-${category.key}`)
+        if (!isPrintTheme) {
+          linePath.style("opacity", 0);
+          const totalLength = (linePath.node() as SVGPathElement)?.getTotalLength() || 0;
+          linePath.attr("stroke-dasharray", `${totalLength} ${totalLength}`)
+            .attr("stroke-dashoffset", totalLength)
+            .transition().duration(1500).delay(catIndex * 150).ease(d3.easeLinear)
+            .attr("stroke-dashoffset", 0)
+            .style("opacity", 1);
+        }
+
+        const points = g.selectAll(`.dot-energy-${category.key}`)
           .data(seriesData)
           .enter().append("circle")
           .attr("class", `dot-energy dot-energy-${category.key}`)
           .attr("cx", d => xScale(d.Year))
           .attr("cy", d => yScaleEnergy(d.CostPer1k))
-          .attr("r", 0)
-          .style("fill", category.color)
-          .style("stroke", "white")
+          .attr("r", isPrintTheme ? 4 : 0)
+          .style("fill", isPrintTheme ? "#fff" : category.color)
+          .style("stroke", isPrintTheme ? "#000" : "white")
           .style("stroke-width", 1.5)
-          .transition().duration(500).delay((_d, i) => (catIndex * 150) + (i * 100) + 500)
-          .attr("r", 4)
-          .style("opacity", 1);
+          .style("opacity", isPrintTheme ? 1 : 0);
+
+        if (!isPrintTheme) {
+          points.transition().duration(500).delay((_d, i) => (catIndex * 150) + (i * 100) + 500)
+            .attr("r", 4)
+            .style("opacity", 1);
+        }
       });
 
       const xAxisGroupEnergy = g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale).ticks(3).tickFormat(d3.format("d")));
-      xAxisGroupEnergy.selectAll("text").style("fill", "#475569").style("font-size", "14px");
-      xAxisGroupEnergy.selectAll(".domain, line").style("stroke", "#AEB8C4");
+      xAxisGroupEnergy.selectAll("text").style("fill", isPrintTheme ? "#000" : "#475569").style("font-size", "14px");
+      xAxisGroupEnergy.selectAll(".domain, line").style("stroke", isPrintTheme ? "#000" : "#AEB8C4");
       
       const yAxisGroupEnergy = g.append("g")
         .call(d3.axisLeft(yScaleEnergy).ticks(4).tickFormat(d => `$${Number(d).toFixed(3)}`));
       yAxisGroupEnergy.selectAll("text")
-        .style("fill", "#475569")
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .style("font-size", "14px")
         .attr("dx", "-4px");
-      yAxisGroupEnergy.selectAll(".domain, line").style("stroke", "#AEB8C4");
+      yAxisGroupEnergy.selectAll(".domain, line").style("stroke", isPrintTheme ? "#000" : "#AEB8C4");
 
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
         .attr("y", effectiveHeight + 25)  // Moved up from +18 to +12 since we reduced bottom margin
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .text("Год");
       
       // Y-axis label will be handled as separate HTML element outside SVG
@@ -118,7 +130,14 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
         energyEfficiencyChartRef.current.removeAttribute('data-chart-initialized-s8-energy');
       }
     };
-  }, []);
+  }, [isPrintTheme]);
+
+  // Helper function to create a data URI for an SVG dashed line
+  const createSvgDashDataUri = (dash: string) => {
+    // A wider SVG to better display the dash pattern
+    const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="10"><line x1="0" y1="5" x2="30" y2="5" stroke="#000" stroke-width="3" stroke-dasharray="${dash}"/></svg>`;
+    return `url("data:image/svg+xml;base64,${btoa(svgString)}")`;
+  };
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', margin: 0, padding: 0 }}>
@@ -134,7 +153,7 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
             justifyContent: 'center',
             fontSize: '1.2em',
             fontWeight: '600',
-            color: '#475569',
+            color: isPrintTheme ? '#000' : '#475569',
             fontFamily: 'ALS Sector Regular, sans-serif',
             writingMode: 'vertical-rl',
             textOrientation: 'mixed',
@@ -154,7 +173,18 @@ export const EnergyEfficiencyLineChart: React.FC = () => {
       <div className={styles.legendS8Energy}>
         {energyChartCategories.map(cat => (
           <div key={cat.key} className={styles.legendItemS8}>
-            <div className={styles.legendColorS8} style={{ backgroundColor: cat.color }}></div>
+            <div 
+              className={styles.legendColorS8} 
+              style={
+                isPrintTheme ? {
+                  border: '1px solid #000',
+                  backgroundColor: '#fff',
+                  backgroundImage: createSvgDashDataUri(cat.dash),
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                } : { backgroundColor: cat.color }
+              }
+            ></div>
             <span>{cat.name}</span>
           </div>
         ))}

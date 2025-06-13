@@ -6,6 +6,12 @@ $white-transparent-85: rgba(255, 255, 255, 0.85);
 $white-transparent-60: rgba(255, 255, 255, 0.6);
 $white-transparent-90: rgba(255, 255, 255, 0.9);
 
+// Print theme colors
+$print-background: #ffffff;
+$print-text-primary: #000000;
+$print-text-secondary: #333333;
+$print-text-muted: #666666;
+
 // Font mixins
 @mixin als-font($size: 16px, $weight: 400, $line-height: 1.4) {
   font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
@@ -108,12 +114,13 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
   .universityTitle {
     font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     color: $white;
-    font-size: 26px;
+    font-size: 32px;
     font-weight: 600;
     letter-spacing: 1px;
     text-align: left;
     line-height: 1.2;
     margin: 0;
+    width: 1800px;
   }
 }
 
@@ -440,5 +447,53 @@ $white-transparent-90: rgba(255, 255, 255, 0.9);
   
   .infoWrapper {
     bottom: 120px;
+  }
+}
+
+/* Print Theme Overrides */
+.titleSlideFullscreen.printTheme {
+  .titleBackground {
+    background: $print-background;
+    
+    &::before {
+      display: none; // Remove pattern overlay in print mode
+    }
+  }
+
+  .universityTitle {
+    color: $print-text-primary;
+  }
+
+  .mainTitle {
+    color: $print-text-primary;
+  }
+
+  .label {
+    color: $print-text-secondary;
+    
+    &.supervisorLabel {
+      color: $print-text-secondary;
+    }
+  }
+
+  .value {
+    color: $print-text-primary;
+    
+    &.supervisorName {
+      color: $print-text-primary;
+    }
+    
+    &.supervisorTitle {
+      color: $print-text-muted;
+    }
+  }
+
+  .date {
+    color: $print-text-muted;
+  }
+
+  .bmstuLogoBackground {
+    opacity: 0.25;
+    filter: invert(1) brightness(0.8); // Invert white logo to black and adjust brightness
   }
 } 

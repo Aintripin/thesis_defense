@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Database } from 'lucide-react'
+import { useTheme } from '../../contexts/ThemeContext'
 import styles from './SolutionSlide.module.scss'
 
 interface DatabaseCardProps {
@@ -43,6 +44,8 @@ const DatabaseCard: React.FC<DatabaseCardProps> = ({
 )
 
 export const SolutionSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme()
+
   const databases = [
     {
       title: 'PostgreSQL (реляционная СУБД)',
@@ -98,7 +101,7 @@ export const SolutionSlide: React.FC = () => {
   ]
 
   return (
-    <div className={styles.solutionSlide}>
+    <div className={`${styles.solutionSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container */}
       <motion.div 
         className={styles.slideTitleContainer}

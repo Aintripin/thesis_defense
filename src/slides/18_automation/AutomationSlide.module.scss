@@ -131,7 +131,7 @@ $white: #ffffff;
 // Feature list styling
 .featureList {
   list-style: none;
-  margin-bottom: 16px; // Reduced from 25px
+  margin-bottom: 32px; // Increased from 16px to 32px for more spacing
   padding: 0;
 }
 
@@ -213,7 +213,7 @@ $white: #ffffff;
 
 // Metrics section
 .metricsSection {
-  margin-top: 16px; // Reduced from 20px
+  margin-top: 32px; // Increased from 16px to 32px for more spacing
   flex: 1;
   overflow: hidden;
 }
@@ -324,5 +324,145 @@ $white: #ffffff;
   
   .metricsGrid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.automationSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  // Header - convert to white with black text
+  .slideHeader {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+
+    .slideTitle {
+      color: #000;
+    }
+
+    .slideSubtitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    .contentGrid {
+      background: $white;
+      box-shadow: none;
+      border: 1px solid #000;
+    }
+
+    // Section blocks - convert to white with black borders
+    .sectionBlock {
+      background: $white;
+      border: 1px solid #000;
+    }
+
+    // Script info block - convert blue gradient to white with black border
+    .scriptInfo {
+      background: $white;
+      border: 2px solid #000;
+
+      .scriptName {
+        color: #000;
+      }
+
+      .scriptDesc {
+        color: #000;
+      }
+    }
+
+    // Category titles - convert to black
+    .categoryTitle {
+      color: #000;
+      border-bottom: 2px solid #000;
+    }
+
+    // Feature list items
+    .featureList .featureItem {
+      color: #000;
+      border-bottom: 1px solid #ccc;
+
+      &:before {
+        color: #000;
+      }
+
+      &:hover {
+        color: #000;
+      }
+
+      strong {
+        color: #000;
+      }
+    }
+
+    // Output items - convert blue left border to black
+    .outputItem {
+      background: $white;
+      border: 1px solid #000;
+      border-left: 3px solid #000;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .outputTitle {
+        color: #000;
+      }
+
+      .outputDesc {
+        color: #333;
+      }
+    }
+
+    // Metrics section
+    .metricsSection {
+      .metricGroup {
+        .groupTitle {
+          color: #000;
+        }
+
+        .groupItems {
+          color: #333;
+        }
+      }
+    }
+
+    // Metrics grid cards
+    .metricCard {
+      background: $white;
+      border: 2px solid #000;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: #000;
+      }
+
+      .metricTitle {
+        color: #333;
+      }
+
+      .metricValue {
+        color: #000;
+      }
+    }
+
+    // Remove highlight gradient, make black
+    .highlight {
+      background: none;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: unset;
+      background-clip: unset;
+      color: #000;
+      font-weight: 600;
+    }
   }
 } 

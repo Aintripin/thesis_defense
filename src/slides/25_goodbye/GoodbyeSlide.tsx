@@ -1,10 +1,13 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from '../../contexts/ThemeContext'
 import styles from './GoodbyeSlide.module.scss'
 
 const GoodbyeSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme()
+
   return (
-    <div className={styles.goodbyeSlideFullscreen}>
+    <div className={`${styles.goodbyeSlideFullscreen} ${isPrintTheme ? styles.printTheme : ''}`}>
       <div className={styles.goodbyeBackground}>
         {/* Background Logo - Large and positioned in corner */}
         <motion.div 

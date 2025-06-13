@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './ConclusionSlide.module.scss';
 
 const ConclusionSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.slide}>
+    <div className={`${styles.slide} ${isPrintTheme ? styles.printTheme : ''}`}>
       <div className={styles.slideHeader}>
         <motion.h1 
           className={styles.slideTitle}
@@ -35,7 +38,7 @@ const ConclusionSlide: React.FC = () => {
           >
             <div className={styles.sectionHeader}>
               <div className={styles.sectionTitle}>Научный вклад</div>
-              <div className={styles.sectionIcon}>🔬</div>
+              <div className={styles.sectionIcon}>{isPrintTheme ? '' : '🔬'}</div>
             </div>
             
             <ul className={styles.contributionList}>
@@ -91,7 +94,7 @@ const ConclusionSlide: React.FC = () => {
           >
             <div className={styles.sectionHeader}>
               <div className={styles.sectionTitle}>Практическая ценность</div>
-              <div className={styles.sectionIcon}>💡</div>
+              <div className={styles.sectionIcon}>{isPrintTheme ? '' : '💡'}</div>
             </div>
             
             <ul className={styles.contributionList}>
@@ -147,7 +150,7 @@ const ConclusionSlide: React.FC = () => {
           >
             <div className={styles.sectionHeader}>
               <div className={styles.sectionTitle}>Направления развития</div>
-              <div className={styles.sectionIcon}>🚀</div>
+              <div className={styles.sectionIcon}>{isPrintTheme ? '' : '🚀'}</div>
             </div>
             
             <ul className={styles.contributionList}>

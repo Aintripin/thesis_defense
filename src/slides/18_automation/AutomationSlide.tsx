@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './AutomationSlide.module.scss';
 
 // Animation variants
@@ -42,8 +43,10 @@ const slideInRight = {
 };
 
 const AutomationSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.automationSlide}>
+    <div className={`${styles.automationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Header like slide 17 */}
       <motion.div 
         className={styles.slideHeader}

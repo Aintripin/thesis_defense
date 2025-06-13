@@ -73,13 +73,13 @@ $white: #ffffff;
 .dbToggle {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
+  gap: 8px;
+  padding: 8px 12px;
   background: $white;
   border: 2px solid;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   transition: all 0.3s ease;
   text-transform: uppercase;
@@ -90,8 +90,11 @@ $white: #ffffff;
     color: #8b5cf6;
 
     &.active {
-      background: #8b5cf6;
-      color: $white;
+      border-color: #8b5cf6;
+      
+      .toggleIndicator {
+        background: #8b5cf6;
+      }
     }
   }
 
@@ -100,8 +103,11 @@ $white: #ffffff;
     color: #10b981;
 
     &.active {
-      background: #10b981;
-      color: $white;
+      border-color: #10b981;
+      
+      .toggleIndicator {
+        background: #10b981;
+      }
     }
   }
 
@@ -110,17 +116,27 @@ $white: #ffffff;
     color: #f59e0b;
 
     &.active {
-      background: #f59e0b;
-      color: $white;
+      border-color: #f59e0b;
+      
+      .toggleIndicator {
+        background: #f59e0b;
+      }
     }
   }
 }
 
 .toggleIndicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: currentColor;
+  width: 32px;
+  height: 20px;
+  border-radius: 4px;
+  background: transparent;
+  border: 2px solid currentColor;
+  flex-shrink: 0;
+}
+
+.toggleLabel {
+  color: inherit;
+  font-weight: 600;
 }
 
 // Wrapper C - Chart Container with flex row
@@ -389,5 +405,233 @@ $white: #ffffff;
   .dbToggle {
     font-size: 11px;
     padding: 6px 12px;
+  }
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.scalabilityDelaysSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  // Header - convert to white with black text
+  .slideHeader {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+
+    .slideTitle {
+      color: #000;
+    }
+
+    .slideSubtitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    // Database toggle controls - convert to black and white
+    .controls {
+      .dbToggle {
+        background: $white;
+        border: 2px solid #000;
+        color: #000;
+
+        &:hover {
+          background: #f5f5f5;
+        }
+
+        // PostgreSQL - solid black indicator when active
+        &.postgresql {
+          border-color: #000;
+          color: #000;
+
+          &.active {
+            border-color: #000;
+            
+            .toggleIndicator {
+              background: #000;
+              border-color: #000;
+            }
+          }
+          
+          .toggleIndicator {
+            border-color: #000;
+          }
+        }
+
+        // MongoDB - two thin lines pattern indicator when active
+        &.mongodb {
+          border-color: #000;
+          color: #000;
+
+          &.active {
+            border-color: #000;
+            
+            .toggleIndicator {
+              background: linear-gradient(
+                0deg,
+                transparent 7px,
+                #000 7px,
+                #000 9px,
+                transparent 9px,
+                transparent 11px,
+                #000 11px,
+                #000 13px,
+                transparent 13px
+              );
+              border-color: #000;
+            }
+          }
+          
+          .toggleIndicator {
+            border-color: #000;
+          }
+        }
+
+        // Cassandra - long dashes pattern indicator when active
+        &.cassandra {
+          border-color: #000;
+          color: #000;
+
+          &.active {
+            border-color: #000;
+            
+            .toggleIndicator {
+              background: repeating-linear-gradient(
+                90deg,
+                #000,
+                #000 12px,
+                $white 12px,
+                $white 18px
+              );
+              border-color: #000;
+            }
+          }
+          
+          .toggleIndicator {
+            border-color: #000;
+          }
+        }
+
+        .toggleLabel {
+          color: #000;
+        }
+      }
+    }
+
+    // Main chart area
+    .mainChart {
+      background: $white;
+      border: 2px solid #000;
+
+      .chartTitle {
+        color: #000;
+      }
+
+      // Chart SVG elements - D3 handles the styling directly
+      .lineChart {
+        .chartSvg {
+          // Grid lines - make black
+          .gridLine {
+            stroke: #ccc;
+            opacity: 0.8;
+          }
+
+          // Axis lines - make black
+          .axisLine {
+            stroke: #000;
+          }
+
+          // Axis labels - make black
+          .axisLabel {
+            fill: #000;
+          }
+        }
+      }
+
+      // Tooltip
+      .tooltip {
+        background: $white;
+        color: #000;
+        border: 1px solid #000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    // Sidebar cards
+    .sidebar {
+      .summaryCard {
+        background: $white;
+        border: 2px solid #000;
+
+        .cardTitle {
+          color: #000;
+        }
+
+        // Scalability stats
+        .scalabilityStats {
+          .statRow {
+            background: $white;
+            border: 1px solid #000;
+
+            .statDb {
+              // PostgreSQL - solid black
+              &.postgresqlColor {
+                color: #000;
+              }
+
+              // MongoDB - keep black but add pattern indicator
+              &.mongodbColor {
+                color: #000;
+                position: relative;
+                
+                &:after {
+                  content: " ═══";
+                  font-weight: normal;
+                  opacity: 0.7;
+                }
+              }
+
+              // Cassandra - keep black but add pattern indicator
+              &.cassandraColor {
+                color: #000;
+                position: relative;
+                
+                &:after {
+                  content: " ▬ ▬ ▬";
+                  font-weight: normal;
+                  opacity: 0.7;
+                }
+              }
+            }
+
+            .statPeak {
+              color: #000;
+            }
+          }
+        }
+
+        // Insights
+        .insights {
+          .insightItem {
+            color: #000;
+            border-bottom: 1px solid #ccc;
+
+            &:before {
+              color: #000;
+            }
+
+            .highlight {
+              color: #000;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
   }
 } 

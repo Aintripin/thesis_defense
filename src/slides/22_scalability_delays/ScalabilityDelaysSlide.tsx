@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import * as d3 from 'd3';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './ScalabilityDelaysSlide.module.scss';
 
 interface DataPoint {
@@ -22,7 +24,8 @@ const ScalabilityDelaysSlide: React.FC = () => {
     y: 0,
     content: ''
   });
-  const chartRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<SVGSVGElement>(null);
+  const { isPrintTheme } = useTheme();
 
   const databases: Record<string, DatabaseData> = {
     postgresql: {
@@ -82,37 +85,219 @@ const ScalabilityDelaysSlide: React.FC = () => {
   // Chart dimensions and scaling
   const chartWidth = 600;
   const chartHeight = 500;
-  const marginLeft = 60;
+  const marginLeft = 80;
   const marginRight = 50;
   const marginTop = 40;
   const marginBottom = 80;
   const plotWidth = chartWidth - marginLeft - marginRight;
   const plotHeight = chartHeight - marginTop - marginBottom;
 
-  const maxValue = 50; // Y-axis max
+  const maxValue = 50;
   const minThreads = 4;
   const maxThreads = 256;
 
-  // Scale functions
-  const xScale = (threads: number) => {
-    const logMin = Math.log(minThreads);
-    const logMax = Math.log(maxThreads);
-    const logValue = Math.log(threads);
-    return marginLeft + (plotWidth * (logValue - logMin)) / (logMax - logMin);
-  };
+  // D3 scales
+  const xScale = d3.scaleLog()
+    .domain([minThreads, maxThreads])
+    .range([0, plotWidth]);
 
-  const yScale = (value: number) => {
-    return marginTop + plotHeight - (plotHeight * value) / maxValue;
-  };
+  const yScale = d3.scaleLinear()
+    .domain([0, maxValue])
+    .range([plotHeight, 0]);
 
-  // Generate path for line
-  const generatePath = (data: DataPoint[]) => {
-    return data.map((point, index) => {
-      const x = xScale(point.threads);
-      const y = yScale(point.value);
-      return `${index === 0 ? 'M' : 'L'} ${x},${y}`;
-    }).join(' ');
-  };
+  // Line generator
+  const line = d3.line<DataPoint>()
+    .x(d => xScale(d.threads))
+    .y(d => yScale(d.value))
+    .curve(d3.curveMonotoneX);
+
+  // D3 Chart rendering effect
+  useEffect(() => {
+    if (!chartRef.current) return;
+
+    const svg = d3.select(chartRef.current);
+    
+    // Clear previous content
+    svg.selectAll("*").remove();
+
+    // Create main group with margins
+    const g = svg.append("g")
+      .attr("transform", `translate(${marginLeft},${marginTop})`);
+
+    // Grid lines
+    const gridGroup = g.append("g").attr("class", styles.grid);
+    
+    // Horizontal grid lines
+    gridGroup.selectAll(".horizontal-grid")
+      .data([0, 10, 20, 30, 40, 50])
+      .enter()
+      .append("line")
+      .attr("class", `horizontal-grid ${styles.gridLine}`)
+      .attr("x1", 0)
+      .attr("x2", plotWidth)
+      .attr("y1", d => yScale(d))
+      .attr("y2", d => yScale(d));
+
+    // Vertical grid lines
+    gridGroup.selectAll(".vertical-grid")
+      .data([4, 8, 16, 32, 64, 128, 256])
+      .enter()
+      .append("line")
+      .attr("class", `vertical-grid ${styles.gridLine}`)
+      .attr("x1", d => xScale(d))
+      .attr("x2", d => xScale(d))
+      .attr("y1", 0)
+      .attr("y2", plotHeight);
+
+    // Axes
+    g.append("line")
+      .attr("class", styles.axisLine)
+      .attr("x1", 0)
+      .attr("x2", plotWidth)
+      .attr("y1", plotHeight)
+      .attr("y2", plotHeight);
+
+    g.append("line")
+      .attr("class", styles.axisLine)
+      .attr("x1", 0)
+      .attr("x2", 0)
+      .attr("y1", 0)
+      .attr("y2", plotHeight);
+
+    // Y-axis labels
+    g.selectAll(".y-label")
+      .data([0, 10, 20, 30, 40, 50])
+      .enter()
+      .append("text")
+      .attr("class", `y-label ${styles.axisLabel}`)
+      .attr("x", -15)
+      .attr("y", d => yScale(d) + 4)
+      .attr("text-anchor", "end")
+      .text(d => d);
+
+    // X-axis labels
+    g.selectAll(".x-label")
+      .data([4, 8, 16, 32, 64, 128, 256])
+      .enter()
+      .append("text")
+      .attr("class", `x-label ${styles.axisLabel}`)
+      .attr("x", d => xScale(d))
+      .attr("y", plotHeight + 20)
+      .attr("text-anchor", "middle")
+      .text(d => d);
+
+    // Axis titles
+    g.append("text")
+      .attr("class", styles.axisLabel)
+      .attr("x", plotWidth / 2)
+      .attr("y", plotHeight + 60)
+      .attr("text-anchor", "middle")
+      .style("font-weight", "600")
+      .text("Количество потоков");
+
+    g.append("text")
+      .attr("class", styles.axisLabel)
+      .attr("transform", `rotate(-90)`)
+      .attr("x", -plotHeight / 2)
+      .attr("y", -55)
+      .attr("text-anchor", "middle")
+      .style("font-weight", "600")
+      .text("ops/sec (k)");
+
+    // Draw lines and points for each database
+    Object.entries(databases).forEach(([key, db]) => {
+      const isActive = activeDBs.has(key);
+      const opacity = isActive ? 1 : 0.2;
+
+      // Line path
+      const path = g.append("path")
+        .datum(db.data)
+        .attr("class", `${styles.dataLine} ${styles[key]}`)
+        .attr("d", line)
+        .style("opacity", opacity)
+        .style("stroke", isPrintTheme ? "#000" : db.color)
+        .style("stroke-width", isPrintTheme ? "3" : "4")
+        .style("fill", "none")
+        .style("stroke-linecap", "round")
+        .style("stroke-linejoin", "round");
+
+      // Apply print theme dash patterns or special rendering
+      if (isPrintTheme) {
+        switch (key) {
+          case 'postgresql':
+            path.style("stroke-dasharray", "none");
+            break;
+          case 'mongodb':
+            // For MongoDB, draw two thin parallel lines instead of dashes
+            path.remove(); // Remove the original path
+            
+            // Draw first thin line (offset up by 1px)
+            g.append("path")
+              .datum(db.data)
+              .attr("class", `${styles.dataLine} ${styles[key]}`)
+              .attr("d", line)
+              .attr("transform", "translate(0, -1)")
+              .style("opacity", opacity)
+              .style("stroke", "#000")
+              .style("stroke-width", "1.5")
+              .style("fill", "none")
+              .style("stroke-linecap", "round")
+              .style("stroke-linejoin", "round");
+            
+            // Draw second thin line (offset down by 1px)
+            g.append("path")
+              .datum(db.data)
+              .attr("class", `${styles.dataLine} ${styles[key]}`)
+              .attr("d", line)
+              .attr("transform", "translate(0, 1)")
+              .style("opacity", opacity)
+              .style("stroke", "#000")
+              .style("stroke-width", "1.5")
+              .style("fill", "none")
+              .style("stroke-linecap", "round")
+              .style("stroke-linejoin", "round");
+            break;
+          case 'cassandra':
+            path.style("stroke-dasharray", "12,6");
+            break;
+        }
+      }
+
+      // Points
+      g.selectAll(`.point-${key}`)
+        .data(db.data)
+        .enter()
+        .append("circle")
+        .attr("class", `${styles.dataPoint} ${styles[key]} point-${key}`)
+        .attr("cx", d => xScale(d.threads))
+        .attr("cy", d => yScale(d.value))
+        .attr("r", 6)
+        .style("opacity", opacity)
+        .style("cursor", "pointer")
+        .style("fill", isPrintTheme ? 
+          (key === 'mongodb' ? "#fff" : "#000") : 
+          db.color
+        )
+        .style("stroke", isPrintTheme ? "#000" : db.color)
+        .style("stroke-width", isPrintTheme ? 
+          (key === 'mongodb' ? "3" : "1") : 
+          "1"
+        )
+        .on("mouseenter", function(event, d) {
+          const [x, y] = d3.pointer(event, chartRef.current);
+          setTooltip({
+            visible: true,
+            x: x,
+            y: y - 60,
+            content: `${db.name}: ${d.threads} потоков - ${d.value}k ops/sec`
+          });
+        })
+        .on("mouseleave", () => {
+          setTooltip(prev => ({ ...prev, visible: false }));
+        });
+    });
+
+  }, [activeDBs, isPrintTheme, databases, xScale, yScale, line, plotWidth, plotHeight]);
 
   const handlePointHover = (event: React.MouseEvent, db: string, point: DataPoint) => {
     if (!chartRef.current) return;
@@ -131,7 +316,7 @@ const ScalabilityDelaysSlide: React.FC = () => {
   };
 
   return (
-    <div className={styles.scalabilityDelaysSlide}>
+    <div className={`${styles.scalabilityDelaysSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Header */}
       <div className={styles.slideHeader}>
         <h1 className={styles.slideTitle}>
@@ -157,7 +342,7 @@ const ScalabilityDelaysSlide: React.FC = () => {
               whileTap={{ scale: 0.95 }}
             >
               <div className={styles.toggleIndicator}></div>
-              <span>{db.name}</span>
+              <span className={styles.toggleLabel}>{db.name}</span>
             </motion.button>
           ))}
         </div>
@@ -173,141 +358,14 @@ const ScalabilityDelaysSlide: React.FC = () => {
             >
               Пропускная способность vs Количество потоков
             </motion.div>
-            <div className={styles.lineChart} ref={chartRef}>
-              <svg className={styles.chartSvg} viewBox={`0 0 ${chartWidth} ${chartHeight}`}>
-                {/* Grid lines */}
-                <g>
-                  {/* Horizontal grid */}
-                  {[0, 10, 20, 30, 40, 50].map(value => (
-                    <line
-                      key={`h-${value}`}
-                      className={styles.gridLine}
-                      x1={marginLeft}
-                      y1={yScale(value)}
-                      x2={chartWidth - marginRight}
-                      y2={yScale(value)}
-                    />
-                  ))}
-                  
-                  {/* Vertical grid */}
-                  {[4, 8, 16, 32, 64, 128, 256].map(threads => (
-                    <line
-                      key={`v-${threads}`}
-                      className={styles.gridLine}
-                      x1={xScale(threads)}
-                      y1={marginTop}
-                      x2={xScale(threads)}
-                      y2={chartHeight - marginBottom}
-                    />
-                  ))}
-                </g>
-
-                {/* Axes */}
-                <line
-                  className={styles.axisLine}
-                  x1={marginLeft}
-                  y1={chartHeight - marginBottom}
-                  x2={chartWidth - marginRight}
-                  y2={chartHeight - marginBottom}
-                />
-                <line
-                  className={styles.axisLine}
-                  x1={marginLeft}
-                  y1={marginTop}
-                  x2={marginLeft}
-                  y2={chartHeight - marginBottom}
-                />
-
-                {/* Y-axis labels */}
-                {[0, 10, 20, 30, 40, 50].map(value => (
-                  <text
-                    key={`y-label-${value}`}
-                    className={styles.axisLabel}
-                    x={marginLeft - 15}
-                    y={yScale(value) + 4}
-                    textAnchor="end"
-                  >
-                    {value}
-                  </text>
-                ))}
-
-                {/* X-axis labels */}
-                {[4, 8, 16, 32, 64, 128, 256].map(threads => (
-                  <text
-                    key={`x-label-${threads}`}
-                    className={styles.axisLabel}
-                    x={xScale(threads)}
-                    y={chartHeight - marginBottom + 20}
-                    textAnchor="middle"
-                  >
-                    {threads}
-                  </text>
-                ))}
-
-                {/* Axis titles */}
-                <text
-                  className={styles.axisLabel}
-                  x={chartWidth / 2}
-                  y={chartHeight - 20}
-                  textAnchor="middle"
-                  fontWeight="600"
-                >
-                  Количество потоков
-                </text>
-                <text
-                  className={styles.axisLabel}
-                  x={-15}
-                  y={chartHeight / 2}
-                  textAnchor="middle"
-                  fontWeight="600"
-                  transform={`rotate(-90, 15, ${chartHeight / 2})`}
-                >
-                  ops/sec (k)
-                </text>
-
-                {/* Data lines and points */}
-                {Object.entries(databases).map(([key, db], index) => (
-                  <g key={key} style={{ opacity: activeDBs.has(key) ? 1 : 0.2 }}>
-                    {/* Line */}
-                    <motion.path
-                      className={`${styles.dataLine} ${styles[key]} ${!activeDBs.has(key) ? styles.hidden : ''}`}
-                      d={generatePath(db.data)}
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ 
-                        pathLength: activeDBs.has(key) ? 1 : 0, 
-                        opacity: activeDBs.has(key) ? 1 : 0.2 
-                      }}
-                      transition={{ 
-                        pathLength: { duration: 2.5, ease: "easeInOut", delay: index * 0.3 },
-                        opacity: { duration: 0.5, delay: index * 0.3 }
-                      }}
-                    />
-                    
-                    {/* Points */}
-                    {db.data.map((point, pointIndex) => (
-                      <motion.circle
-                        key={`${key}-point-${pointIndex}`}
-                        className={`${styles.dataPoint} ${styles[key]}`}
-                        cx={xScale(point.threads)}
-                        cy={yScale(point.value)}
-                        r="6"
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ 
-                          scale: activeDBs.has(key) ? 1 : 0, 
-                          opacity: activeDBs.has(key) ? 1 : 0.2 
-                        }}
-                        transition={{ 
-                          duration: 0.6, 
-                          delay: index * 0.3 + 2 + pointIndex * 0.1,
-                          ease: "easeOut"
-                        }}
-                        onMouseEnter={(e) => handlePointHover(e, key, point)}
-                        onMouseLeave={handlePointLeave}
-                      />
-                    ))}
-                  </g>
-                ))}
-              </svg>
+            <div className={styles.lineChart}>
+              <svg 
+                ref={chartRef}
+                className={styles.chartSvg} 
+                viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+                width="100%"
+                height="100%"
+              />
               
               {/* Tooltip */}
               {tooltip.visible && (
@@ -396,4 +454,4 @@ const ScalabilityDelaysSlide: React.FC = () => {
   );
 };
 
-export default ScalabilityDelaysSlide; 
+export { ScalabilityDelaysSlide }; 

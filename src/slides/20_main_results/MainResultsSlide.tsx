@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './MainResultsSlide.module.scss';
 
 interface WorkloadData {
@@ -23,6 +24,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
   const [chartType, setChartType] = useState<'bars' | 'radar'>(initialChartType);
   const navigate = useNavigate();
   const location = useLocation();
+  const { isPrintTheme } = useTheme();
 
   // Update navigation when chart type changes
   useEffect(() => {
@@ -32,6 +34,188 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
       navigate('/main-results/radar', { replace: true });
     }
   }, [chartType, navigate, location.pathname]);
+
+  // Apply print theme overrides to SVG elements
+  useEffect(() => {
+    if (isPrintTheme && chartType === 'radar') {
+      const applyPrintStyles = () => {
+        // Find all SVG elements in radar charts with more specific selector
+        const radarContainer = document.querySelector('[class*="radarContainer"]');
+        if (!radarContainer) {
+          console.log('Radar container not found');
+          return;
+        }
+        
+        const svgElements = radarContainer.querySelectorAll('svg');
+        console.log('Found SVG elements:', svgElements.length);
+        
+        svgElements.forEach((svg, index) => {
+          console.log(`Processing SVG ${index}`);
+          
+          // Remove existing glow filters
+          const filters = svg.querySelectorAll('filter');
+          filters.forEach(filter => filter.remove());
+
+          // Create pattern definitions for fills
+          let defs = svg.querySelector('defs');
+          if (!defs) {
+            defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            svg.insertBefore(defs, svg.firstChild);
+          }
+          
+          // Clear existing patterns
+          const existingPatterns = defs.querySelectorAll('pattern');
+          existingPatterns.forEach(pattern => pattern.remove());
+
+          // Create different fill patterns based on database
+          let patternId = '';
+          if (index === 0) { // PostgreSQL - solid black
+            const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+            patternId = 'postgresql-solid';
+            pattern.setAttribute('id', patternId);
+            pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+            pattern.setAttribute('width', '1');
+            pattern.setAttribute('height', '1');
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('width', '1');
+            rect.setAttribute('height', '1');
+            rect.setAttribute('fill', '#000');
+            pattern.appendChild(rect);
+            defs.appendChild(pattern);
+          } else if (index === 1) { // MongoDB - diagonal stripes
+            const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+            patternId = 'mongodb-diagonal';
+            pattern.setAttribute('id', patternId);
+            pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+            pattern.setAttribute('width', '10');
+            pattern.setAttribute('height', '10');
+            // White background
+            const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            bgRect.setAttribute('width', '10');
+            bgRect.setAttribute('height', '10');
+            bgRect.setAttribute('fill', 'white');
+            pattern.appendChild(bgRect);
+            // Diagonal lines
+            const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line1.setAttribute('x1', '0');
+            line1.setAttribute('y1', '0');
+            line1.setAttribute('x2', '10');
+            line1.setAttribute('y2', '10');
+            line1.setAttribute('stroke', '#000');
+            line1.setAttribute('stroke-width', '2');
+            const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line2.setAttribute('x1', '-2');
+            line2.setAttribute('y1', '8');
+            line2.setAttribute('x2', '2');
+            line2.setAttribute('y2', '12');
+            line2.setAttribute('stroke', '#000');
+            line2.setAttribute('stroke-width', '2');
+            const line3 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line3.setAttribute('x1', '8');
+            line3.setAttribute('y1', '-2');
+            line3.setAttribute('x2', '12');
+            line3.setAttribute('y2', '2');
+            line3.setAttribute('stroke', '#000');
+            line3.setAttribute('stroke-width', '2');
+            pattern.appendChild(line1);
+            pattern.appendChild(line2);
+            pattern.appendChild(line3);
+            defs.appendChild(pattern);
+          } else if (index === 2) { // Cassandra - horizontal stripes
+            const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+            patternId = 'cassandra-horizontal';
+            pattern.setAttribute('id', patternId);
+            pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+            pattern.setAttribute('width', '10');
+            pattern.setAttribute('height', '8');
+            // White background
+            const bgRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            bgRect.setAttribute('width', '10');
+            bgRect.setAttribute('height', '8');
+            bgRect.setAttribute('fill', 'white');
+            pattern.appendChild(bgRect);
+            // Horizontal stripes
+            const stripe1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            stripe1.setAttribute('width', '10');
+            stripe1.setAttribute('height', '2');
+            stripe1.setAttribute('y', '0');
+            stripe1.setAttribute('fill', '#000');
+            const stripe2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            stripe2.setAttribute('width', '10');
+            stripe2.setAttribute('height', '2');
+            stripe2.setAttribute('y', '4');
+            stripe2.setAttribute('fill', '#000');
+            pattern.appendChild(stripe1);
+            pattern.appendChild(stripe2);
+            defs.appendChild(pattern);
+          }
+
+          // Style grid lines
+          const gridGroups = svg.querySelectorAll('g[stroke="#94a3b8"]');
+          gridGroups.forEach(group => {
+            group.setAttribute('stroke', '#000');
+            const polygons = group.querySelectorAll('polygon');
+            polygons.forEach(polygon => {
+              polygon.setAttribute('stroke', '#000');
+              polygon.setAttribute('fill', 'none');
+            });
+          });
+
+          // Find and style data polygons - try multiple selectors
+          let dataPolygons: NodeListOf<SVGPolygonElement> | SVGPolygonElement[] = svg.querySelectorAll('polygon[fill*="rgba"]');
+          if (dataPolygons.length === 0) {
+            // Try alternative selectors
+            dataPolygons = svg.querySelectorAll('polygon[stroke="#8b5cf6"], polygon[stroke="#10b981"], polygon[stroke="#f59e0b"]');
+          }
+          if (dataPolygons.length === 0) {
+            // Try finding all polygons that are not grid polygons
+            const allPolygons = Array.from(svg.querySelectorAll('polygon'));
+            const gridPolygons = Array.from(svg.querySelectorAll('g[stroke="#94a3b8"] polygon, g[stroke="#000"] polygon'));
+            dataPolygons = allPolygons.filter(p => !gridPolygons.includes(p));
+          }
+          
+          // If still no data polygons found, just take all polygons except the first 3 (which are usually grid)
+          if (dataPolygons.length === 0) {
+            const allPolygons = Array.from(svg.querySelectorAll('polygon'));
+            if (allPolygons.length > 3) {
+              dataPolygons = [allPolygons[allPolygons.length - 1]]; // Take the last polygon (usually the data)
+            }
+          }
+          
+          console.log(`Found ${dataPolygons.length} data polygons in SVG ${index}`);
+          
+          Array.from(dataPolygons).forEach((polygon, polyIndex) => {
+            console.log(`Applying pattern ${patternId} to polygon ${polyIndex}`, polygon);
+            polygon.setAttribute('fill', `url(#${patternId})`);
+            polygon.setAttribute('stroke', '#000');
+            polygon.setAttribute('stroke-width', '2');
+            polygon.removeAttribute('filter');
+            
+            // Force style update
+            polygon.style.fill = `url(#${patternId})`;
+            polygon.style.stroke = '#000';
+            polygon.style.strokeWidth = '2';
+          });
+
+          // Style text labels
+          const textElements = svg.querySelectorAll('text');
+          textElements.forEach(text => {
+            text.setAttribute('fill', '#000');
+          });
+        });
+      };
+
+      // Apply styles with multiple attempts
+      applyPrintStyles();
+      const timeoutId1 = setTimeout(applyPrintStyles, 100);
+      const timeoutId2 = setTimeout(applyPrintStyles, 500);
+      
+      return () => {
+        clearTimeout(timeoutId1);
+        clearTimeout(timeoutId2);
+      };
+    }
+  }, [isPrintTheme, chartType]);
 
   const workloadData: WorkloadData[] = [
     { workload: 'A', postgresql: 8.06, mongodb: 11.2, cassandra: 24.2 },
@@ -79,7 +263,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
   const cassandraData = workloadData.map(d => d.cassandra);
 
   return (
-    <div className={styles.mainResultsSlide}>
+    <div className={`${styles.mainResultsSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Header */}
       <div className={styles.slideHeader}>
         <h1 className={styles.slideTitle}>

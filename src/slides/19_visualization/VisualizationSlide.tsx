@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './VisualizationSlide.module.scss';
 
 // Animation variants
@@ -42,8 +43,10 @@ const slideInRight = {
 };
 
 const VisualizationSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.visualizationSlide}>
+    <div className={`${styles.visualizationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Header like slides 17 & 18 */}
       <motion.div 
         className={styles.slideHeader}

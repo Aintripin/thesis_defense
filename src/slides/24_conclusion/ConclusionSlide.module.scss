@@ -469,3 +469,174 @@
     font-size: 14px;
   }
 } 
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.slide.printTheme {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  box-shadow: none;
+  backdrop-filter: none;
+
+  &::before {
+    background: #000000;
+  }
+
+  .slideHeader {
+    .slideTitle {
+      color: #000000;
+      text-shadow: none;
+    }
+
+    .slideSubtitle {
+      color: #000000;
+
+      &::after {
+        background: #000000;
+      }
+    }
+  }
+
+  .contentGrid {
+    .sectionColumn {
+      .sectionBlock {
+        background: #ffffff;
+        border: 2px solid #000000;
+        box-shadow: none;
+        backdrop-filter: none;
+
+        &::before {
+          background: #000000;
+          box-shadow: none;
+        }
+
+        &.scientific::before,
+        &.practical::before,
+        &.future::before {
+          background: #000000;
+          box-shadow: none;
+        }
+
+        &:hover {
+          transform: none;
+          box-shadow: none;
+          backdrop-filter: none;
+        }
+
+        .sectionHeader {
+          .sectionIcon {
+            display: none;
+          }
+
+          .sectionTitle {
+            color: #000000;
+          }
+        }
+
+        .contributionList {
+          .contributionItem {
+            color: #000000;
+            border-bottom: 1px solid #000000;
+
+            &:before {
+              color: #000000;
+              background: #ffffff;
+              border: 1px solid #000000;
+            }
+
+            .scientific &:before,
+            .practical &:before,
+            .future &:before {
+              color: #000000;
+              background: #ffffff;
+              border: 1px solid #000000;
+            }
+
+            &:hover {
+              color: #000000;
+              background: #f5f5f5;
+
+              &:before {
+                transform: none;
+              }
+            }
+
+            .highlight {
+              color: #000000;
+              background: #f0f0f0;
+              border: 1px solid #000000;
+            }
+          }
+        }
+
+        .statsSection {
+          border-top: 1px solid #000000;
+
+          .statsHighlight {
+            background: #ffffff;
+            border: 2px solid #000000;
+
+            &::before {
+              display: none;
+            }
+
+            &:hover::before {
+              display: none;
+            }
+
+            .statsNumber {
+              color: #000000;
+              background: none;
+              -webkit-background-clip: unset;
+              -webkit-text-fill-color: unset;
+              background-clip: unset;
+            }
+
+            .statsLabel {
+              color: #000000;
+            }
+          }
+
+          .impactGrid {
+            .impactCard {
+              background: #ffffff;
+              border: 1px solid #000000;
+
+              &::before {
+                background: #000000;
+              }
+
+              &:hover::before {
+                transform: translateX(0);
+              }
+
+              &:hover {
+                transform: none;
+                box-shadow: none;
+              }
+
+              .impactNumber {
+                color: #000000;
+              }
+
+              .impactLabel {
+                color: #000000;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footerNote {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+} 

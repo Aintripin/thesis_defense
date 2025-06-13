@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TestExecutionSlide.module.scss';
 import {
   ProtocolSection,
@@ -48,8 +49,10 @@ const slideInRight = {
 };
 
 const TestExecutionSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.testExecutionSlide}>
+    <div className={`${styles.testExecutionSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* The correct header, at the top of the page */}
       <motion.div 
         className={styles.slideHeader}

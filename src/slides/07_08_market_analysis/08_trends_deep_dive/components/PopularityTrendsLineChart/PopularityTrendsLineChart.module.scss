@@ -6,8 +6,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px 10px;
-  padding: 4px 0 4px 0;
+  gap: 12px 20px;
+  padding: 8px 0;
   flex: 0 0 auto;
   flex-shrink: 0;
 
@@ -17,14 +17,13 @@
     font-size: 1.1em;
     color: #475569;
     font-weight: 500;
+  }
 
-    .legendColorS8 {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-      margin-right: 8px;
-      flex-shrink: 0;
-    }
+  .legendColorS8 {
+    width: 24px;
+    height: 16px;
+    border-radius: 4px;
+    margin-right: 8px;
   }
 }
 

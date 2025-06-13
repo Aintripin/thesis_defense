@@ -517,4 +517,221 @@ $white: #ffffff;
       }
     }
   }
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.ycsbConfigurationSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  .contentContainer {
+    .mainContentContainer {
+      background: $white;
+      box-shadow: none;
+      border: 1px solid #000;
+    }
+
+    // Header - convert blue gradient to white with black text
+    .slideTitleContainer {
+      background: $white;
+      color: #000;
+      border-bottom: 2px solid #000;
+
+      // Remove pattern overlay in print mode
+      &::before {
+        display: none;
+      }
+
+      .slideTitle {
+        color: #000;
+      }
+
+      .slideSubtitle {
+        color: #000;
+      }
+    }
+
+    // Config Blocks - convert all to white backgrounds with black borders
+    .configBlock {
+      background: $white;
+      border: 1px solid #000;
+      box-shadow: none;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      // Primary blocks - convert blue gradient to white with black text
+      &.primary {
+        background: $white;
+        color: #000;
+        border: 2px solid #000;
+      }
+
+      // Accent blocks - convert to white with black borders
+      &.accent {
+        background: $white;
+        border: 1px solid #000;
+      }
+
+      &.workloadsBlock {
+        background: $white;
+        border: 1px solid #000;
+      }
+    }
+
+    .blockHeader {
+      border-bottom: 1px solid #000;
+
+      .blockIcon {
+        background: $white;
+        border: 1px solid #000;
+        color: #000;
+        
+        // Hide emoji icons in print mode since they're colored
+        font-size: 0;
+        
+        // Add a simple black dot instead
+        &::after {
+          content: '●';
+          font-size: 16px;
+          color: #000;
+        }
+      }
+
+      .blockTitle {
+        color: #000;
+      }
+    }
+
+    // Config Items
+    .configItem {
+      border-bottom: 1px solid #ccc;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .configLabel {
+      color: #000;
+    }
+
+    .configValue {
+      background: $white;
+      color: #000;
+      border: 1px solid #000;
+    }
+
+    // Workload Cards - convert to white with black borders
+    .workloadCard {
+      background: $white;
+      border: 2px solid #000;
+      box-shadow: none;
+
+      // Remove blue gradient top border
+      &::before {
+        display: none;
+      }
+
+      &:hover {
+        border-color: #000;
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    .workloadTitle {
+      color: #000;
+    }
+
+    .workloadLetter {
+      background: #000;
+      color: $white;
+    }
+
+    .workloadDescription {
+      color: #000;
+    }
+
+    .workloadType {
+      color: #000;
+    }
+
+    .workloadDetail {
+      color: #333;
+    }
+
+    .workloadMetrics {
+      color: #000;
+      background: $white;
+      border: 1px solid #000;
+      border-left: 3px solid #000;
+    }
+
+    // Procedure Items
+    .procedureItem {
+      color: #000;
+
+      &:before {
+        color: #000;
+      }
+    }
+
+    // Driver Items
+    .driverItem {
+      background: $white;
+      border: 1px solid #000;
+
+      // Remove blue gradient left border
+      &::before {
+        background: #000;
+      }
+
+      &:hover {
+        border-color: #000;
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    .driverName {
+      color: #000;
+    }
+
+    .driverDesc {
+      color: #333;
+    }
+
+    // Stat Highlight - convert yellow badge to white with black border
+    .statHighlight {
+      background: $white;
+      color: #000;
+      border: 1px solid #000;
+    }
+
+    // Feature Items
+    .featureItem {
+      color: #000;
+    }
+
+    .featureIcon {
+      background: #000;
+      color: $white;
+      
+      // Hide emoji icons in print mode since they're colored
+      font-size: 0;
+      
+      // Add a simple white dot instead
+      &::after {
+        content: '●';
+        font-size: 12px;
+        color: $white;
+      }
+    }
+  }
 } 

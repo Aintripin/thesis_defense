@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Database, BarChart3, Settings } from 'lucide-react'
+import { useTheme } from '../../contexts/ThemeContext'
 import styles from './YCSBJustificationSlide.module.scss'
 
 interface JustificationCardProps {
@@ -54,8 +55,10 @@ const WorkloadItem: React.FC<WorkloadItemProps> = ({ workload, description, deta
 )
 
 export const YCSBJustificationSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme()
+
   return (
-    <div className={styles.ycsbJustificationSlide}>
+    <div className={`${styles.ycsbJustificationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container */}
       <motion.div 
         className={styles.slideTitleContainer}

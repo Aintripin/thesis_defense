@@ -2,6 +2,8 @@ import React from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import { useKeyboardNavigation } from './hooks/useKeyboardNavigation'
+import { ThemeProvider } from './contexts/ThemeContext'
+import ThemeSwitcher from './components/ThemeSwitcher/ThemeSwitcher'
 import { TitleSlide } from './slides/01_titleSlide'
 import { ProblemStatementSlide } from './slides/02_problemStatement'
 import { MarketAnalysisSlide } from './slides/03_marketAnalysis'
@@ -50,43 +52,46 @@ function App() {
   useKeyboardNavigation();
 
   return (
-    <div className="app">
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Navigate to="/title" replace />} />
-        <Route path="/title" element={<TitleSlide />} />
-        <Route path="/problem" element={<ProblemStatementSlide />} />
-        <Route path="/market" element={<MarketAnalysisSlide />} />
-        <Route path="/solution" element={<SolutionSlide />} />
-        <Route path="/testing" element={<TestingSlide />} />
-        <Route path="/ycsb" element={<YCSBJustificationSlide />} />
-        <Route path="/market-analysis" element={<MarketAnalysisLayout />}>
-          <Route index element={<MarketOverviewSlide />} />
-          <Route path="trends-deep-dive" element={<TrendsDeepDiveSlide />} />
-        </Route>
-        <Route path="/dataset-selection" element={<DatasetSelectionWrapper />}>
-          <Route index element={<DatasetSelectionWrapper />} />
-          <Route path="details" element={<DatasetSelectionWrapper />} />
-        </Route>
-        <Route path="/data-preparation" element={<DataPreparationWrapper />}>
-          <Route index element={<DataPreparationWrapper />} />
-          <Route path="cassandra" element={<DataPreparationWrapper />} />
-        </Route>
-        <Route path="/test-environment" element={<TestEnvironmentSlide />} />
-        <Route path="/technical-implementation" element={<TechnicalImplementationSlide />} />
-        <Route path="/technical-optimization" element={<TechnicalOptimizationSlide />} />
-        <Route path="/ycsb-configuration" element={<YcsbConfigurationSlide />} />
-        <Route path="/test-execution" element={<TestExecutionSlide />} />
-        <Route path="/automation" element={<AutomationSlide />} />
-        <Route path="/visualization" element={<VisualizationSlide />} />
-        <Route path="/main-results" element={<MainResultsBarsWrapper />} />
-        <Route path="/main-results/radar" element={<MainResultsRadarWrapper />} />
-        <Route path="/scalability-delays" element={<ScalabilityDelaysSlide />} />
-        <Route path="/publications" element={<PublicationsSlide />} />
-        <Route path="/conclusion" element={<ConclusionSlide />} />
-        <Route path="/goodbye" element={<GoodbyeSlide />} />
-      </Routes>
-    </div>
+    <ThemeProvider>
+      <div className="app">
+        <ThemeSwitcher />
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Navigate to="/title" replace />} />
+          <Route path="/title" element={<TitleSlide />} />
+          <Route path="/problem" element={<ProblemStatementSlide />} />
+          <Route path="/market" element={<MarketAnalysisSlide />} />
+          <Route path="/solution" element={<SolutionSlide />} />
+          <Route path="/testing" element={<TestingSlide />} />
+          <Route path="/ycsb" element={<YCSBJustificationSlide />} />
+          <Route path="/market-analysis" element={<MarketAnalysisLayout />}>
+            <Route index element={<MarketOverviewSlide />} />
+            <Route path="trends-deep-dive" element={<TrendsDeepDiveSlide />} />
+          </Route>
+          <Route path="/dataset-selection" element={<DatasetSelectionWrapper />}>
+            <Route index element={<DatasetSelectionWrapper />} />
+            <Route path="details" element={<DatasetSelectionWrapper />} />
+          </Route>
+          <Route path="/data-preparation" element={<DataPreparationWrapper />}>
+            <Route index element={<DataPreparationWrapper />} />
+            <Route path="cassandra" element={<DataPreparationWrapper />} />
+          </Route>
+          <Route path="/test-environment" element={<TestEnvironmentSlide />} />
+          <Route path="/technical-implementation" element={<TechnicalImplementationSlide />} />
+          <Route path="/technical-optimization" element={<TechnicalOptimizationSlide />} />
+          <Route path="/ycsb-configuration" element={<YcsbConfigurationSlide />} />
+          <Route path="/test-execution" element={<TestExecutionSlide />} />
+          <Route path="/automation" element={<AutomationSlide />} />
+          <Route path="/visualization" element={<VisualizationSlide />} />
+          <Route path="/main-results" element={<MainResultsBarsWrapper />} />
+          <Route path="/main-results/radar" element={<MainResultsRadarWrapper />} />
+          <Route path="/scalability-delays" element={<ScalabilityDelaysSlide />} />
+          <Route path="/publications" element={<PublicationsSlide />} />
+          <Route path="/conclusion" element={<ConclusionSlide />} />
+          <Route path="/goodbye" element={<GoodbyeSlide />} />
+        </Routes>
+      </div>
+    </ThemeProvider>
   )
 }
 

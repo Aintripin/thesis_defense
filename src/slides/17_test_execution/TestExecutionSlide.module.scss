@@ -107,17 +107,17 @@ $white: #ffffff;
   border-radius: 16px;
   border: 1px solid #e2e8f0;
   
-  // L-shape: proper L-shape that shows content but doesn't overlap with orange card
+  // L-shape: Correctly extended the RIGHT arm of the L-shape to prevent content cutoff.
   clip-path: polygon(
     0% 0%,      /* top-left */
     100% 0%,    /* top-right - FULL WIDTH */
-    100% 50%,   /* right side, 50% down */
-    50% 50%,    /* cut inward to 50% width */
-    50% 70%,    /* down to 70% height - stops before orange card */
+    100% 65%,   /* right side extended to 65% height */
+    50% 65%,    /* cut inward to 50% width at 65% height */
+    50% 70%,    /* down to 70% height on the left side */
     0% 70%      /* back to left at 70% height */
   );
   
-  padding: 25px;
+  padding: 25px; // Reverted to original padding
   box-sizing: border-box;
   overflow: visible;
   
@@ -128,15 +128,15 @@ $white: #ffffff;
 // Metrics card (Orange rectangle) - positioned absolutely
 .cardMetrics {
   position: absolute;
-  top: 52%;   /* Start after L-shape cuts inward */
-  left: 55%;  /* Start after L-shape cutback at 50% */
-  width: 45%; /* Width to fit remaining space */
-  height: 48%; /* Height to reach bottom at 100% */
+  top: 55%;   /* Moved down to fit into the new L-shape notch */
+  left: 53%;  /* Moved left to balance spacing with other cards */
+  width: 47%; /* Adjusted to fill remaining horizontal space */
+  bottom: 0;  /* Stretched to fill vertical space */
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: white;
   
   border-radius: 16px;
-  padding: 25px;
+  padding: 25px; // Reverted to original padding
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -177,16 +177,16 @@ $white: #ffffff;
   
   // 63 card - positioned normally in left container
   &.card63 {
-    flex: 0.7;
+    flex: 0.6;
   }
   
   // 189 card - better height and positioning
   &.card189 {
     position: absolute;
-    top: 75%;   /* Moved up to give more height */
+    top: 75%;   /* This ensures bottom alignment with the 63 card */
     left: 0%;   
     width: 50%; /* Full width available */
-    height: 25%; /* Increased height for better content fit */
+    height: 25%; /* Restored to original height */
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   }
 }
@@ -195,7 +195,7 @@ $white: #ffffff;
 .blockTitle {
   font-size: 32px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 20px; // Reverted to original margin
   color: #1e293b;
 }
 
@@ -316,7 +316,7 @@ $white: #ffffff;
 .statsContent { 
   display: grid; 
   grid-template-columns: 1fr 1fr; 
-  gap: 25px; 
+  gap: 25px; // Reverted to original gap
 }
 
 .statsGrid { 
@@ -329,7 +329,7 @@ $white: #ffffff;
 .statsItem { 
   background: $white; 
   border-radius: 10px; 
-  padding: 12px; 
+  padding: 12px; // Reverted to original padding
   text-align: center; 
   border: 1px solid #e2e8f0; 
 }
@@ -389,7 +389,7 @@ $white: #ffffff;
 }
 
 .reliabilitySection { 
-  margin-top: 20px; 
+  margin-top: 20px; // Reverted to original margin
 }
 
 // --- Metrics Card Specific Styles ---
@@ -438,18 +438,18 @@ $white: #ffffff;
 }
 
 .processFlow {
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent;
   border-radius: 16px;
   padding: 20px;
-  margin-top: 10px; // Reduced from 20px to move it higher
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 10px;
+  border: none;
   
   .flowStep {
     display: flex;
     align-items: center;
     margin-bottom: 12px;
-    font-size: 19px; // Increased from 15px
-    font-weight: bold; // Added back bold
+    font-size: 19px;
+    font-weight: bold;
     transition: all 0.2s ease;
     
     &:last-child { margin-bottom: 0; }
@@ -524,5 +524,234 @@ $white: #ffffff;
   
   .rightContainer {
     height: 500px;
+  }
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.testExecutionSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  // Header - convert to white with black text
+  .slideHeader {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+
+    .slideTitle {
+      color: #000;
+    }
+
+    .slideSubtitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    .mainGrid {
+      background: $white;
+      box-shadow: none;
+      border: 1px solid #000;
+    }
+
+    // Protocol Section - convert to white with black borders
+    .protocolSection {
+      background: $white;
+      border: 1px solid #000;
+    }
+
+    // Stats Section - convert L-shaped blue section to white
+    .statsMain {
+      background: $white;
+      border: 1px solid #000;
+      filter: none;
+      box-shadow: none;
+    }
+
+    // Number Cards - convert blue gradients to white with black borders
+    .numberCard {
+      background: $white;
+      color: #000;
+      border: 2px solid #000;
+      box-shadow: none;
+
+      // Remove shimmer effect in print mode
+      &::before {
+        display: none;
+      }
+
+      &:hover::before {
+        display: none;
+      }
+
+      &.card63,
+      &.card189 {
+        background: $white;
+        color: #000;
+        border: 2px solid #000;
+      }
+    }
+
+    // Metrics Card - convert orange gradient to white with black border
+    .cardMetrics {
+      background: $white;
+      color: #000;
+      border: 2px solid #000;
+    }
+
+    // Typography and Inner Elements
+    .blockTitle {
+      color: #000;
+    }
+
+    .sectionTitle {
+      color: #000;
+    }
+
+    // Protocol List Items
+    .protocolList .protocolItem {
+      color: #000;
+      border-bottom: 1px solid #ccc;
+
+      &::before {
+        background: #000;
+      }
+
+      &:hover {
+        color: #000;
+      }
+    }
+
+    // Control Grid Items
+    .controlGrid .controlItem {
+      background: $white;
+      border: 1px solid #000;
+
+      // Remove blue gradient top border
+      &::before {
+        display: none;
+      }
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+
+        &::before {
+          display: none;
+        }
+      }
+
+      .controlTitle {
+        color: #000;
+      }
+
+      .controlDesc {
+        color: #333;
+      }
+    }
+
+    // Number styling
+    .bigNumber {
+      color: #000;
+    }
+
+    .numberLabel {
+      color: #000;
+    }
+
+    .calculation {
+      background: $white;
+      border: 1px solid #000;
+      color: #000;
+    }
+
+    // Stats Items
+    .statsItem {
+      background: $white;
+      border: 1px solid #000;
+    }
+
+    .statsLabel {
+      color: #333;
+    }
+
+    .statsValue {
+      color: #000;
+    }
+
+    // Highlight Text - remove gradient, make black
+    .highlightText {
+      background: none;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: unset;
+      background-clip: unset;
+      color: #000;
+      font-weight: 700;
+    }
+
+    // Reliability Items - convert green to white with black borders
+    .reliabilityItem {
+      background: $white;
+      border: 1px solid #000;
+      border-left: 3px solid #000;
+
+      &:hover {
+        background: #f5f5f5;
+        transform: none;
+        box-shadow: none;
+      }
+    }
+
+    .reliabilityTitle {
+      color: #000;
+    }
+
+    .reliabilityDesc {
+      color: #333;
+    }
+
+    // Metrics Card Specific Styles
+    .metricsTitle {
+      color: #000;
+    }
+
+    .metricsList .metricItem {
+      color: #000;
+      border-bottom: 1px solid #ccc;
+
+      &::before {
+        color: #000;
+      }
+
+      &:hover {
+        color: #000;
+        background: none;
+      }
+    }
+
+    // Process Flow
+    .processFlow {
+      background: transparent;
+      border: none;
+
+      .flowStep {
+        color: #000;
+
+        &:hover {
+          transform: none;
+        }
+      }
+
+      .stepNumber {
+        background: $white;
+        color: #000;
+        border: 1px solid #000;
+        box-shadow: none;
+      }
+    }
   }
 } 

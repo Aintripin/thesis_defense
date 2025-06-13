@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './PublicationsSlide.module.scss';
 
 const PublicationsSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.slide}>
+    <div className={`${styles.slide} ${isPrintTheme ? styles.printTheme : ''}`}>
       <div className={styles.contentContainer}>
         <div className={styles.mainContentContainer}>
           <div className={styles.slideHeader}>

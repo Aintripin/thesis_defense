@@ -1,1 +1,1 @@
-export * from './IndustryAdoptionBarChart'; 
+export { IndustryAdoptionBarChart } from './IndustryAdoptionBarChart';

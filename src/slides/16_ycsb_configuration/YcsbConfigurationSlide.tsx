@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './YcsbConfigurationSlide.module.scss';
 
 // Animation variants
@@ -42,8 +43,10 @@ const slideInRight = {
 };
 
 const YcsbConfigurationSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.ycsbConfigurationSlide}>
+    <div className={`${styles.ycsbConfigurationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       <div className={styles.contentContainer}>
         <div className={styles.mainContentContainer}>
           

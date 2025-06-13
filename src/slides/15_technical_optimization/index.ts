@@ -1,1 +1,1 @@
-export { TechnicalOptimizationSlide } from './TechnicalOptimizationSlide'; 
+export { TechnicalOptimizationSlideWrapper as TechnicalOptimizationSlide } from './TechnicalOptimizationSlideWrapper'; 

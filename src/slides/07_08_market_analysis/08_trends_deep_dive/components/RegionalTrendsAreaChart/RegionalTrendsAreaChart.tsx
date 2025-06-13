@@ -3,9 +3,21 @@ import * as d3 from 'd3';
 import styles from './RegionalTrendsAreaChart.module.scss';
 import { regionTrendsData, regionalChartCategories } from '../../data';
 
-export const RegionalTrendsAreaChart: React.FC = () => {
+interface ChartProps {
+  isPrintTheme: boolean;
+}
+
+export const RegionalTrendsAreaChart: React.FC<ChartProps> = ({ isPrintTheme }) => {
   const regionalTrendsChartRef = useRef<HTMLDivElement>(null);
   const animationFrameId = useRef<number | null>(null);
+
+  // B&W Patterns for Print Mode
+  const bwPatterns = [
+    { id: 'horizontal-lines', d: 'M 0,2 L 8,2 M 0,6 L 8,6', stroke: '#000', width: 1 },
+    { id: 'diagonal-lines', d: 'M-2,2 l4,-4 M0,10 l10,-10 M8,12 l4,-4', stroke: '#000', width: 1.2 },
+    { id: 'vertical-lines', d: 'M 3,0 L 3,12 M 9,0 L 9,12', stroke: '#000', width: 1.5 },
+    { id: 'checkerboard', d: 'M0,0 L6,0 L6,6 L0,6 Z M6,6 L12,6 L12,12 L6,12 Z', fill: '#666' }
+  ];
 
   useEffect(() => {
     if (regionalTrendsChartRef.current && !regionalTrendsChartRef.current.hasAttribute('data-chart-initialized-s8-region-trends')) {
@@ -46,6 +58,28 @@ export const RegionalTrendsAreaChart: React.FC = () => {
       g.append("g").attr("class", "grid grid-s8")
         .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(() => ""));
 
+      const defs = svg.append("defs");
+
+      if (isPrintTheme) {
+        regionalChartCategories.forEach((_, i) => {
+          const p = bwPatterns[i % bwPatterns.length];
+          const pattern = defs.append("pattern")
+            .attr("id", `area-pattern-${i}`)
+            .attr("patternUnits", "userSpaceOnUse")
+            .attr("width", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8))
+            .attr("height", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8));
+          pattern.append("rect")
+            .attr("width", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8))
+            .attr("height", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8))
+            .attr("fill", "white");
+          if (p.fill) {
+            pattern.append("path").attr("d", p.d).attr("fill", p.fill);
+          } else {
+            pattern.append("path").attr("d", p.d).attr("stroke", p.stroke || "#000").attr("stroke-width", p.width || 1).attr("fill", "none");
+          }
+        });
+      }
+
       const areaGenerator = d3.area<any>()
         .x(d => xScale(d.data.year))
         .y0(d => yScale(d[0]))
@@ -56,8 +90,8 @@ export const RegionalTrendsAreaChart: React.FC = () => {
         .data(stackedData)
         .enter().append("path")
         .attr("class", "area-region")
-        .style("fill", (_d, i) => regionalChartCategories[i].color)
-        .style("stroke", (_d, i) => d3.color(regionalChartCategories[i].color)?.darker(0.7).toString() || regionalChartCategories[i].color)
+        .style("fill", (_d, i) => isPrintTheme ? `url(#area-pattern-${i})` : regionalChartCategories[i].color)
+        .style("stroke", (_d, i) => isPrintTheme ? '#000' : (d3.color(regionalChartCategories[i].color)?.darker(0.7).toString() || regionalChartCategories[i].color))
         .style("stroke-width", 1);
 
       // Enhanced animations with wavy effects and oscillation
@@ -153,26 +187,28 @@ export const RegionalTrendsAreaChart: React.FC = () => {
       const xAxisGroup = g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
-      xAxisGroup.selectAll("text").style("fill", "#475569").style("font-size", "14px");
-      xAxisGroup.selectAll(".domain").style("stroke", "#AEB8C4"); 
-      xAxisGroup.selectAll("line").style("stroke", "#AEB8C4");
+      xAxisGroup.selectAll("text").style("fill", isPrintTheme ? "#000" : "#475569").style("font-size", "14px");
+      xAxisGroup.selectAll(".domain").style("stroke", isPrintTheme ? "#000" : "#AEB8C4"); 
+      xAxisGroup.selectAll("line").style("stroke", isPrintTheme ? "#000" : "#AEB8C4");
       
       const yAxisGroup = g.append("g")
         .call(d3.axisLeft(yScale).ticks(5).tickFormat(d => `${d}%`));
-      yAxisGroup.selectAll("text").style("fill", "#475569").style("font-size", "14px");
-      yAxisGroup.selectAll(".domain").style("stroke", "#AEB8C4"); 
-      yAxisGroup.selectAll("line").style("stroke", "#AEB8C4");
+      yAxisGroup.selectAll("text").style("fill", isPrintTheme ? "#000" : "#475569").style("font-size", "14px");
+      yAxisGroup.selectAll(".domain").style("stroke", isPrintTheme ? "#000" : "#AEB8C4"); 
+      yAxisGroup.selectAll("line").style("stroke", isPrintTheme ? "#000" : "#AEB8C4");
 
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
         .attr("y", effectiveHeight + 8)
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .text("Год");
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("transform", "rotate(-90)")
         .attr("x", -(margin.top + height / 2))
         .attr("y", 15)
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .text("Доля рынка (%)");
     }
 
@@ -186,16 +222,31 @@ export const RegionalTrendsAreaChart: React.FC = () => {
         regionalTrendsChartRef.current.removeAttribute('data-chart-initialized-s8-region-trends');
       }
     };
-  }, []);
+  }, [isPrintTheme]);
+
+  // Helper function to create a data URI for an SVG pattern
+  const createSvgPatternDataUri = (pattern: { d: string, stroke?: string, fill?: string, width?: number }) => {
+    const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><rect width="12" height="12" fill="white" stroke="#ccc"/><path d="${pattern.d}" stroke="${pattern.stroke || 'none'}" fill="${pattern.fill || 'none'}" stroke-width="${pattern.width || 1}"/></svg>`;
+    // Use btoa to base64 encode the SVG. This is more robust than URL encoding.
+    return `url("data:image/svg+xml;base64,${btoa(svgString)}")`;
+  };
 
   return (
     <>
       <h3 className="chart-title-s8">Прогноз роста внедрения по регионам</h3>
       <div className={styles.chart} ref={regionalTrendsChartRef}></div>
       <div className={styles.legendS8Regional}>
-        {regionalChartCategories.map(cat => (
+        {regionalChartCategories.map((cat, i) => (
           <div key={cat.key} className={styles.legendItemS8}>
-            <div className={styles.legendColorS8} style={{ backgroundColor: cat.color }}></div>
+            <div 
+              className={styles.legendColorS8} 
+              style={
+                isPrintTheme ? {
+                  border: '1px solid black',
+                  backgroundImage: createSvgPatternDataUri(bwPatterns[i % bwPatterns.length])
+                } : { backgroundColor: cat.color }
+              }
+            ></div>
             <span>{cat.name}</span>
           </div>
         ))}

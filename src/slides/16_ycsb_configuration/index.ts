@@ -1,1 +1,1 @@
-export { default } from './YcsbConfigurationSlide'; 
+export { YcsbConfigurationSlideWrapper as default } from './YcsbConfigurationSlideWrapper'; 

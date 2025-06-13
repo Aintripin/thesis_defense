@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TechnicalImplementationSlide.module.scss';
 
 // Animation variants
@@ -33,8 +34,10 @@ const sectionVariants = {
 };
 
 export const TechnicalImplementationSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.technicalImplementationSlide}>
+    <div className={`${styles.technicalImplementationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container */}
       <motion.div
         className={styles.slideTitleContainer}

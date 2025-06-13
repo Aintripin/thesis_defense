@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from '../../contexts/ThemeContext'
 import styles from './MarketAnalysisSlide.module.scss'
 
 interface TaskItemProps {
@@ -57,6 +58,8 @@ const Phase: React.FC<PhaseProps> = ({ phaseClass, icon, title, subtitle, tasks,
 )
 
 export const MarketAnalysisSlide: React.FC = () => {
+  const { isPrintTheme } = useTheme()
+
   const phases = [
     {
       phaseClass: 'phase-1',
@@ -141,7 +144,7 @@ export const MarketAnalysisSlide: React.FC = () => {
   ]
 
   return (
-    <div className={styles.marketAnalysisSlide}>
+    <div className={`${styles.marketAnalysisSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container */}
       <motion.div 
         className={styles.slideTitleContainer}
@@ -174,7 +177,7 @@ export const MarketAnalysisSlide: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.8 }}
           >
             <div className={styles.summaryText}>
-              📈 ВСЕГО ВЫПОЛНЕНО: 12 задач | 4 этапа | 3 СУБД | 189 тестов
+              ВСЕГО ВЫПОЛНЕНО: 12 задач | 4 этапа | 3 СУБД | 189 тестов
             </div>
           </motion.div>
         </div>

@@ -377,4 +377,168 @@ $white: #ffffff;
   .performanceMetrics {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.visualizationSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  // Header - convert to white with black text
+  .slideHeader {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+
+    .slideTitle {
+      color: #000;
+    }
+
+    .slideSubtitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    .contentGrid {
+      background: $white;
+      box-shadow: none;
+      border: 1px solid #000;
+    }
+
+    // Section blocks - convert to white with black borders
+    .sectionBlock {
+      background: $white;
+      border: 1px solid #000;
+    }
+
+    // Superset header - convert blue gradient to white with black border
+    .supersetHeader {
+      background: $white;
+      border: 2px solid #000;
+
+      .supersetTitle {
+        color: #000;
+      }
+
+      .supersetDesc {
+        color: #000;
+      }
+    }
+
+    // Block titles - convert blue to black
+    .blockTitle {
+      color: #000;
+    }
+
+    // Visualization list items
+    .visualizationList .vizItem {
+      color: #000;
+      border-bottom: 1px solid #ccc;
+
+      &:before {
+        color: #000;
+      }
+
+      &:hover {
+        color: #000;
+      }
+    }
+
+    // Dashboard items - convert blue left border to black
+    .dashboardItem {
+      background: $white;
+      border: 1px solid #000;
+      border-left: 3px solid #000;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .dashboardName {
+        color: #000;
+      }
+
+      .dashboardDesc {
+        color: #333;
+      }
+    }
+
+    // Database sections - remove all color coding
+    .dbSection {
+      .dbTitle {
+        color: #000;
+        border-bottom: 2px solid #000;
+      }
+
+      .dbSubtitle {
+        color: #000;
+      }
+
+      .dbFeatures .dbFeature {
+        color: #000;
+
+        &:before {
+          color: #000;
+        }
+
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+
+    // Remove database-specific colors in print mode
+    .mongodbColor,
+    .cassandraColor,
+    .postgresqlColor {
+      color: #000 !important;
+    }
+
+    .dbMongodb .dbTitle,
+    .dbCassandra .dbTitle,
+    .dbPostgresql .dbTitle {
+      border-bottom-color: #000 !important;
+    }
+
+    // Performance metrics cards
+    .metricCard {
+      background: $white;
+      border: 2px solid #000;
+
+      &:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: #000;
+      }
+
+      .metricLabel {
+        color: #333;
+      }
+
+      .metricValue {
+        color: #000;
+      }
+    }
+
+    // Limitations box - convert red to black and white
+    .limitations {
+      background: $white;
+      border: 1px solid #000;
+      border-left: 3px solid #000;
+
+      .limitationsTitle {
+        color: #000;
+      }
+
+      .limitationsText {
+        color: #333;
+      }
+    }
+  }
 } 

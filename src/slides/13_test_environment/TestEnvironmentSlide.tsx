@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Settings, Monitor, Cloud, Layers } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TestEnvironmentSlide.module.scss';
 
 // Import SVG icons using path aliases
@@ -47,8 +48,10 @@ const itemVariants = {
 };
 
 export const TestEnvironmentSlide = () => {
+  const { isPrintTheme } = useTheme();
+
   return (
-    <div className={styles.testEnvironmentSlide}>
+    <div className={`${styles.testEnvironmentSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
       {/* Title Container */}
       <motion.div
         className={styles.slideTitleContainer}
@@ -175,25 +178,6 @@ export const TestEnvironmentSlide = () => {
                 </motion.div>
               </div>
             </motion.div>
-          </motion.div>
-
-          {/* BMSTU Logo Emblem */}
-          <motion.div 
-            className={styles.emblemContainer}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-          >
-            <img 
-              src="/assets/bmstu/bmstu-logo-white.png" 
-              alt="BMSTU Logo" 
-              className={styles.bmstuEmblem}
-              onError={(e) => {
-                // Fallback to SVG if PNG fails
-                const target = e.target as HTMLImageElement;
-                target.src = "/assets/bmstu/bmstu-logo-white.svg";
-              }}
-            />
           </motion.div>
         </div>
 

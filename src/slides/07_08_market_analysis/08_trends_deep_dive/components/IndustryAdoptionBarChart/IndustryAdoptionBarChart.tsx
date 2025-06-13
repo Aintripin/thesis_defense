@@ -3,7 +3,11 @@ import * as d3 from 'd3';
 import styles from './IndustryAdoptionBarChart.module.scss'; // Import as module
 import { industryData } from '../../data';
 
-export const IndustryAdoptionBarChart: React.FC = () => {
+interface ChartProps {
+  isPrintTheme: boolean;
+}
+
+export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme }) => {
   const industryAdoptionChartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,46 +47,79 @@ export const IndustryAdoptionBarChart: React.FC = () => {
         .style("opacity", 0.7);
       g.selectAll(".grid .domain").remove();
 
-      // Create gradient definitions for bars
+      // Create gradient definitions for bars or patterns for print
       const defs = svg.append("defs");
-      industryData.forEach((item, i) => {
-        const gradient = defs.append("linearGradient")
-          .attr("id", `bar-gradient-${i}`)
-          .attr("x1", "0%")
-          .attr("y1", "100%")
-          .attr("x2", "0%")
-          .attr("y2", "0%");
-        gradient.append("stop")
-          .attr("offset", "0%")
-          .attr("stop-color", d3.color(item.color || "#3B82F6")?.darker(0.3).toString() || item.color || "#3B82F6");
-        gradient.append("stop")
-          .attr("offset", "100%")
-          .attr("stop-color", d3.color(item.color || "#3B82F6")?.brighter(0.2).toString() || item.color || "#3B82F6");
-      });
+      
+      // B&W Patterns for Print Mode
+      const bwPatterns = [
+        { id: 'horizontal-lines', d: 'M 0,2 L 8,2 M 0,6 L 8,6', stroke: '#000', width: 1 },
+        { id: 'diagonal-lines', d: 'M-2,2 l4,-4 M0,10 l10,-10 M8,12 l4,-4', stroke: '#000', width: 1.2 },
+        { id: 'vertical-lines', d: 'M 3,0 L 3,12 M 9,0 L 9,12', stroke: '#000', width: 1.5 },
+        { id: 'checkerboard', d: 'M0,0 L6,0 L6,6 L0,6 Z M6,6 L12,6 L12,12 L6,12 Z', fill: '#666' },
+        { id: 'dots', d: 'M2,2 L4,2 L4,4 L2,4 Z M8,8 L10,8 L10,10 L8,10 Z', fill: '#555' }
+      ];
+
+      if (isPrintTheme) {
+        industryData.forEach((_, i) => {
+          const p = bwPatterns[i % bwPatterns.length];
+          const pattern = defs.append("pattern")
+            .attr("id", `bar-pattern-${i}`)
+            .attr("patternUnits", "userSpaceOnUse")
+            .attr("width", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8))
+            .attr("height", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8));
+          pattern.append("rect")
+            .attr("width", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8))
+            .attr("height", p.id === 'checkerboard' ? 12 : (p.id === 'vertical-lines' ? 12 : 8))
+            .attr("fill", "white");
+          if (p.fill) {
+            pattern.append("path").attr("d", p.d).attr("fill", p.fill);
+          } else {
+            pattern.append("path").attr("d", p.d).attr("stroke", p.stroke || "#000").attr("stroke-width", p.width || 1).attr("fill", "none");
+          }
+        });
+      } else {
+        industryData.forEach((item, i) => {
+          const gradient = defs.append("linearGradient")
+            .attr("id", `bar-gradient-${i}`)
+            .attr("x1", "0%")
+            .attr("y1", "100%")
+            .attr("x2", "0%")
+            .attr("y2", "0%");
+          gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", d3.color(item.color || "#3B82F6")?.darker(0.3).toString() || item.color || "#3B82F6");
+          gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", d3.color(item.color || "#3B82F6")?.brighter(0.2).toString() || item.color || "#3B82F6");
+        });
+      }
 
       const bars = g.selectAll(".bar-industry")
         .data(industryData)
         .enter().append("rect")
         .attr("class", "bar-industry")
         .attr("x", d => xScale(d.shortName)!)
-        .attr("y", height)
+        .attr("y", isPrintTheme ? d => yScaleInd(d.percent) : height)
         .attr("width", xScale.bandwidth())
-        .attr("height", 0)
-        .attr("fill", (d, i) => `url(#bar-gradient-${i})`)
+        .attr("height", isPrintTheme ? d => height - yScaleInd(d.percent) : 0)
+        .attr("fill", (d, i) => isPrintTheme ? `url(#bar-pattern-${i})` : `url(#bar-gradient-${i})`)
         .attr("rx", 4)
         .attr("ry", 4)
-        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.1))")
-        .style("stroke", "#ffffff")
-        .style("stroke-width", 1);
+        .style("filter", isPrintTheme ? "none" : "drop-shadow(0 2px 4px rgba(0,0,0,0.1))")
+        .style("stroke", isPrintTheme ? "#000" : "#ffffff")
+        .style("stroke-width", isPrintTheme ? 1 : 1);
 
-      // Enhanced elastic bar animation
-      bars.transition()
-        .duration(1400)
-        .delay((_d, i) => i * 150)
-        .ease(d3.easeElasticOut.amplitude(1).period(0.6))
-        .attr("y", d => yScaleInd(d.percent))
-        .attr("height", d => height - yScaleInd(d.percent))
-        .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2))");
+      // Conditional Animation
+      if (!isPrintTheme) {
+        // Enhanced elastic bar animation
+        bars.transition()
+          .duration(1400)
+          .delay((_d, i) => i * 150)
+          .ease(d3.easeElasticOut.amplitude(1).period(0.6))
+          .attr("y", d => yScaleInd(d.percent))
+          .attr("height", d => height - yScaleInd(d.percent))
+          .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2))");
+      }
 
       // Enhanced labels with bigger, bolder text and counting animation
       const labels = g.selectAll(".label-industry")
@@ -90,73 +127,78 @@ export const IndustryAdoptionBarChart: React.FC = () => {
         .enter().append("text")
         .attr("class", "label-industry")
         .attr("x", d => xScale(d.shortName)! + xScale.bandwidth() / 2)
-        .attr("y", height)
+        .attr("y", isPrintTheme ? d => yScaleInd(d.percent) : height)
         .attr("text-anchor", "middle")
         .attr("dy", "-0.8em")
         .style("font-size", "16px") // Much bigger font
-        .style("fill", "#1E293B")
+        .style("fill", isPrintTheme ? "#000" : "#1E293B")
         .style("font-weight", "800") // Extra bold
-        .style("text-shadow", "1px 1px 2px rgba(255,255,255,0.8)")
-        .style("opacity", 0)
-        .text("0%"); // Start with 0
+        .style("text-shadow", isPrintTheme ? "none" : "1px 1px 2px rgba(255,255,255,0.8)")
+        .style("opacity", isPrintTheme ? 1 : 0)
+        .text(isPrintTheme ? d => `${d.percent}%` : "0%"); // Start with 0 for animation or final value for print
 
-      // Animated number counting effect
-      labels.each(function(d, i) {
-        const label = d3.select(this);
-        const finalValue = d.percent;
-        
-        // Start counting animation after bar starts growing
-        setTimeout(() => {
-          let currentValue = 0;
-          const duration = 1200;
-          const startTime = Date.now();
+      if (!isPrintTheme) {
+        // Animated number counting effect
+        labels.each(function(d, i) {
+          const label = d3.select(this);
+          const finalValue = d.percent;
           
-          const countUp = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const easedProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+          // Start counting animation after bar starts growing
+          setTimeout(() => {
+            let currentValue = 0;
+            const duration = 1200;
+            const startTime = Date.now();
             
-            currentValue = Math.round(easedProgress * finalValue);
-            label.text(`${currentValue}%`);
+            const countUp = () => {
+              const elapsed = Date.now() - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              const easedProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+              
+              currentValue = Math.round(easedProgress * finalValue);
+              label.text(`${currentValue}%`);
+              
+              if (progress < 1) {
+                requestAnimationFrame(countUp);
+              }
+            };
             
-            if (progress < 1) {
-              requestAnimationFrame(countUp);
-            }
-          };
-          
-          // Start the label animation
-          label.transition()
-            .duration(800)
-            .ease(d3.easeBounceOut)
-            .attr("y", yScaleInd(d.percent))
-            .style("opacity", 1)
-            .on("start", () => {
-              requestAnimationFrame(countUp);
-            });
-            
-        }, 300 + i * 150); // Staggered start
-      });
+            // Start the label animation
+            label.transition()
+              .duration(800)
+              .ease(d3.easeBounceOut)
+              .attr("y", yScaleInd(d.percent))
+              .style("opacity", 1)
+              .on("start", () => {
+                requestAnimationFrame(countUp);
+              });
+              
+          }, 300 + i * 150); // Staggered start
+        });
+      } else {
+        // Static positioning for print
+        labels.attr("y", d => yScaleInd(d.percent));
+      }
 
       // Enhanced axes with better styling
       const xAxisGroupInd = g.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(xScale));
       xAxisGroupInd.selectAll("text")
-        .style("fill", "#475569")
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .style("font-size", "16px")
         .style("font-weight", "700")
-        .style("text-shadow", "0.5px 0.5px 1px rgba(255,255,255,0.8)")
+        .style("text-shadow", isPrintTheme ? "none" : "0.5px 0.5px 1px rgba(255,255,255,0.8)")
         .attr("transform", "rotate(-45)")
         .style("text-anchor", "end");
-      xAxisGroupInd.selectAll(".domain, line").style("stroke", "#94A3B8").style("stroke-width", 1.5);
+      xAxisGroupInd.selectAll(".domain, line").style("stroke", isPrintTheme ? "#000" : "#94A3B8").style("stroke-width", 1.5);
       
       const yAxisGroupInd = g.append("g")
         .call(d3.axisLeft(yScaleInd).ticks(4).tickFormat(d => `${d}%`));
       yAxisGroupInd.selectAll("text")
-        .style("fill", "#475569")
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .style("font-size", "14px")
         .style("font-weight", "600");
-      yAxisGroupInd.selectAll(".domain, line").style("stroke", "#94A3B8").style("stroke-width", 1.5);
+      yAxisGroupInd.selectAll(".domain, line").style("stroke", isPrintTheme ? "#000" : "#94A3B8").style("stroke-width", 1.5);
       yAxisGroupInd.select(".domain").remove();
 
       // Axis labels
@@ -164,27 +206,31 @@ export const IndustryAdoptionBarChart: React.FC = () => {
         .attr("text-anchor", "middle")
         .attr("x", margin.left + width / 2)
         .attr("y", effectiveHeight + 200)  // Positioned within the expanded SVG area
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .text("Отрасль");
       svg.append("text").attr("class", "axis-label-s8")
         .attr("text-anchor", "middle")
         .attr("transform", "rotate(-90)")
         .attr("x", -(margin.top + height / 2))
         .attr("y", 18)
+        .style("fill", isPrintTheme ? "#000" : "#475569")
         .text("Уровень внедрения (%)");
 
-      // Add subtle hover effects to bars
-      bars.on("mouseenter", function(event, d) {
-        d3.select(this)
-          .transition()
-          .duration(200)
-          .style("filter", "drop-shadow(0 6px 12px rgba(0,0,0,0.3)) brightness(1.1)");
-      })
-      .on("mouseleave", function() {
-        d3.select(this)
-          .transition()
-          .duration(200)
-          .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2)) brightness(1)");
-      });
+      // Add subtle hover effects to bars (disabled for print)
+      if (!isPrintTheme) {
+        bars.on("mouseenter", function(event, d) {
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .style("filter", "drop-shadow(0 6px 12px rgba(0,0,0,0.3)) brightness(1.1)");
+        })
+        .on("mouseleave", function() {
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2)) brightness(1)");
+        });
+      }
     }
 
     return () => {
@@ -193,7 +239,7 @@ export const IndustryAdoptionBarChart: React.FC = () => {
         industryAdoptionChartRef.current.removeAttribute('data-chart-initialized-s8-industry');
       }
     };
-  }, []);
+  }, [isPrintTheme]);
 
   return (
     <>

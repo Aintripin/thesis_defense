@@ -328,4 +328,73 @@
       text-shadow: 0 0.5px 1px rgba(0,0,0,0.05);
     }
   }
+}
+
+/* Print Theme Overrides */
+.trendsDeepDiveSlide.printTheme {
+  background: #ffffff;
+
+  // Global chart styles for print
+  :global {
+    .axis-label-s8 {
+      fill: #000000 !important;
+    }
+
+    .chart-title-s8 {
+      color: #000000 !important;
+    }
+
+    .grid-s8 .tick line {
+      stroke: #cccccc !important;
+    }
+  }
+
+  // All chart areas get white background and black borders
+  .fieldAdoptionArea,
+  .growthForecastArea,
+  .popularityTrendsArea,
+  .efficiencyTransactionCostArea,
+  .marketShareArea,
+  .keyMetrics1Area,
+  .keyMetrics2aArea,
+  .keyMetrics2bArea,
+  .conclusion2Area {
+    background: #ffffff;
+    border: 1px solid #000000;
+    box-shadow: none;
+    color: #000000;
+  }
+
+  .cardTitle {
+    color: #000000;
+  }
+
+  .keyFindingsTitle {
+    color: #000000 !important;
+  }
+
+  .keyInsightsListS8 li {
+    color: #000000;
+    border-left-color: #000000;
+    
+    strong {
+      color: #000000;
+    }
+  }
+
+  // Key metrics styling for print - with increased specificity
+  .metricItemS8,
+  .singleMetricS8 {
+    background: #ffffff;
+    border: 1px solid #000000;
+    color: #000000;
+    
+    // Nesting ensures these rules override the more specific color-theme rules
+    .metricIconS8,
+    .metricValueS8,
+    .metricLabelS8 {
+      color: #000000;
+      text-shadow: none; // Also remove text shadow in print mode
+    }
+  }
 } 
