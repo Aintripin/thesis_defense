@@ -46,8 +46,20 @@ const Navigation: React.FC = () => {
   ]
 
   const currentIndex = slides.findIndex(slide => {
-    if (slide.end) return location.pathname === slide.path;
-    return location.pathname.startsWith(slide.path);
+    // Use exact path matching for nested routes, similar to keyboard navigation
+    if (slide.path.includes('/market-analysis') && location.pathname.startsWith('/market-analysis')) {
+      return slide.path === location.pathname;
+    }
+    if (slide.path.includes('/dataset-selection') && location.pathname.startsWith('/dataset-selection')) {
+      return slide.path === location.pathname;
+    }
+    if (slide.path.includes('/data-preparation') && location.pathname.startsWith('/data-preparation')) {
+      return slide.path === location.pathname;
+    }
+    if (slide.path.includes('/main-results') && location.pathname.startsWith('/main-results')) {
+      return slide.path === location.pathname;
+    }
+    return slide.path === location.pathname;
   });
   const prevSlide = currentIndex > 0 ? slides[currentIndex - 1] : null
   const nextSlide = currentIndex < slides.length - 1 ? slides[currentIndex + 1] : null
@@ -138,7 +150,7 @@ const Navigation: React.FC = () => {
                     </div>
                     <span className={styles.slideLabel}>{slide.label}</span>
                   </div>
-                  {(location.pathname === slide.path || (slide.end !== true && location.pathname.startsWith(slide.path) && location.pathname !== slides[index-1]?.path && !slides.slice(0,index).some(s=>location.pathname.startsWith(s.path) && s.end))) && (
+                  {(location.pathname === slide.path) && (
                     <motion.div
                       className={styles.activeIndicator}
                       layoutId="activeIndicator"
