@@ -42,7 +42,7 @@ $white: #ffffff;
   }
   
   .contentContainer {
-    max-width: 1600px;
+    max-width: 1800px;
     margin: 20px auto;
     background: $white;
     border-radius: 20px;
@@ -224,7 +224,7 @@ $white: #ffffff;
     
     // Right panel
     .rightPanel {
-      width: 520px;
+      width: 620px;
       height: 100%;
       flex-shrink: 0;
       background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);

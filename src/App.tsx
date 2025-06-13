@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navigation from './components/Navigation'
+import { useKeyboardNavigation } from './hooks/useKeyboardNavigation'
 import { TitleSlide } from './slides/01_titleSlide'
 import { ProblemStatementSlide } from './slides/02_problemStatement'
 import { MarketAnalysisSlide } from './slides/03_marketAnalysis'
@@ -45,6 +46,9 @@ const MainResultsRadarWrapper = () => {
 }
 
 function App() {
+  // Enable keyboard navigation
+  useKeyboardNavigation();
+
   return (
     <div className="app">
       <Navigation />
