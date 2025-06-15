@@ -264,7 +264,7 @@ $print-border: #cccccc;
     }
 
     .conclusionTitle {
-      @include als-font(26px, 700, 1.3);
+      @include als-font(28px, 700, 1.3);
       color: $text-dark;
       margin: 0;
       text-transform: uppercase;
@@ -273,7 +273,7 @@ $print-border: #cccccc;
 
     .conclusionContent {
       p {
-        @include als-font(24px, 500, 1.6);
+        @include als-font(28px, 500, 1.6);
         color: $text-secondary;
         margin: 0;
         text-align: left;

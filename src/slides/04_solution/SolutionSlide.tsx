@@ -48,7 +48,7 @@ export const SolutionSlide: React.FC = () => {
 
   const databases = [
     {
-      title: 'PostgreSQL (реляционная СУБД)',
+      title: 'PostgreSQL (постреляционная СУБД)',
       subtitle: '',
       icon: Database,
       colorClass: 'postgres',

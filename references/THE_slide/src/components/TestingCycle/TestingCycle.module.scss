@@ -1,0 +1,234 @@
+.testingCycle {
+  width: 100%;
+  
+  .sectionTitle {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    background: var(--secondary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.cycleContainer {
+  background: var(--surface-hover);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--secondary-gradient);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+}
+
+.cycleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  
+  svg {
+    color: var(--text-secondary);
+  }
+}
+
+.cycleFlow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.phaseItem {
+  background: var(--phase-bg);
+  border: 2px solid var(--phase-color);
+  border-radius: var(--border-radius-sm);
+  padding: 16px;
+  min-width: 140px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  .phaseIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--phase-color);
+    color: white;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .phaseContent {
+    .phaseName {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--phase-color);
+      margin-bottom: 6px;
+    }
+    
+    .phaseDetail {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.3;
+      
+      div {
+        margin-bottom: 2px;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    
+    .phaseIcon {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.cycleArrow {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  margin: 0 4px;
+}
+
+.cycleLoop {
+  position: relative;
+  margin-top: 20px;
+  text-align: center;
+  
+  .loopLine {
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--text-secondary), transparent);
+    margin: 0 auto 8px;
+    border-radius: 1px;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: -3px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid var(--text-secondary);
+      border-top: 4px solid transparent;
+      border-bottom: 4px solid transparent;
+    }
+  }
+  
+  .loopText {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+}
+
+.cycleDetails {
+  margin-top: 32px;
+  
+  .detailGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    
+    .detailItem {
+      background: white;
+      border-radius: var(--border-radius-sm);
+      padding: 20px;
+      box-shadow: var(--shadow-light);
+      border-left: 4px solid var(--secondary-gradient);
+      
+      h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        background: var(--secondary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        li {
+          position: relative;
+          padding-left: 20px;
+          margin-bottom: 8px;
+          font-size: 0.85rem;
+          color: var(--text-primary);
+          line-height: 1.4;
+          
+          &::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+            font-weight: bold;
+          }
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cycleFlow {
+    flex-direction: column;
+    align-items: center;
+    
+    .phaseItem {
+      min-width: 200px;
+      max-width: 280px;
+    }
+    
+    .cycleArrow {
+      transform: rotate(90deg);
+      margin: 8px 0;
+    }
+  }
+  
+  .cycleDetails {
+    .detailGrid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+} 

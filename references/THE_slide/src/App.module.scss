@@ -1,0 +1,146 @@
+:root {
+  // Blue and white theme based on presentation screenshots
+  --primary-blue: #3b82f6;
+  --secondary-blue: #1e40af;
+  --light-blue: #93c5fd;
+  --accent-blue: #2563eb;
+  --dark-blue: #1d4ed8;
+  
+  // Gradients matching the presentation style
+  --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  --secondary-gradient: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  --accent-gradient: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
+  --light-gradient: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  
+  // Surface colors
+  --surface-color: #ffffff;
+  --surface-hover: #f8fafc;
+  --surface-light: #f1f5f9;
+  --surface-blue: #eff6ff;
+  
+  // Text colors
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-blue: #1e40af;
+  --text-light: #94a3b8;
+  
+  // Shadows with blue tint
+  --shadow-light: 0 4px 20px rgba(59, 130, 246, 0.08);
+  --shadow-medium: 0 8px 30px rgba(59, 130, 246, 0.12);
+  --shadow-heavy: 0 15px 50px rgba(59, 130, 246, 0.15);
+  --shadow-blue: 0 4px 20px rgba(37, 99, 235, 0.2);
+  
+  // Border radius
+  --border-radius: 16px;
+  --border-radius-sm: 8px;
+  --border-radius-lg: 24px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--primary-gradient);
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: 30px 10px 10px 10px; // Reduced top padding for auto-hiding navbar
+}
+
+.appContainer {
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  background: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-heavy);
+  padding: 20px;
+  position: relative;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--primary-gradient);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--light-gradient);
+    opacity: 0.6;
+  }
+}
+
+.appTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+  position: relative;
+  flex-shrink: 0;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 40px 5px 5px 5px; // Slightly more top padding on mobile
+  }
+  
+  .appContainer {
+    padding: 15px;
+    border-radius: var(--border-radius);
+    
+    &::before {
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+  }
+  
+  .appTitle {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+} 

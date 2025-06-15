@@ -77,7 +77,7 @@ export const MarketAnalysisSlide: React.FC = () => {
         },
         {
           number: 3,
-          text: 'Анализ рынка <strong>инструментов бенчмаркинга</strong> баз данных и исследование тенденций их использования'
+          text: 'Анализ <strong>технологий инструментов бенчмаркинга</strong> баз данных и исследование тенденций их использования'
         }
       ]
     },
@@ -153,7 +153,6 @@ export const MarketAnalysisSlide: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={styles.slideTitle}>П Е Р Е Ч Е Н Ь&nbsp;&nbsp;Р Е Ш Ё Н Н Ы Х&nbsp;&nbsp;З А Д А Ч</h1>
-        <p className={styles.slideSubtitle}>Этапы исследования и реализации</p>
       </motion.div>
 
       {/* Content Container */}

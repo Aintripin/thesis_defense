@@ -19,7 +19,6 @@ const ProblemStatementSlide: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={styles.slideTitle}>П О С Т А Н О В К А&nbsp;&nbsp;З А Д А Ч И</h1>
-        <p className={styles.slideSubtitle}>Проблема, цель и объекты исследования</p>
       </motion.div>
 
       <div className={styles.contentContainer}>

@@ -161,7 +161,7 @@ export const Slide10Content: React.FC<Slide10ContentProps> = ({ isPrintTheme }) 
       </div>
     </motion.div>
     
-    {/* Section 2: Вызовы для различных СУБД */}
+    {/* Section 2: Особенности импорта для различных СУБД */}
     <motion.div 
       className={styles.section}
       variants={sectionVariants}
@@ -170,7 +170,7 @@ export const Slide10Content: React.FC<Slide10ContentProps> = ({ isPrintTheme }) 
       transition={{ delay: isPrintTheme ? 0 : 1.0 }}
     >
       <div className={styles.sectionHeader}>
-        Вызовы для различных СУБД
+        Особенности импорта для различных СУБД
       </div>
       <div className={styles.sectionContent}>
         <motion.ul

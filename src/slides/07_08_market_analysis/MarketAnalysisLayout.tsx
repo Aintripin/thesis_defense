@@ -10,12 +10,20 @@ export const MarketAnalysisLayout: React.FC = () => {
 
   const isDeepDiveSlide = location.pathname === '/market-analysis/trends-deep-dive';
 
+  // Determine the appropriate title based on the current slide
+  const getSlideTitle = () => {
+    if (isDeepDiveSlide) {
+      return 'УГЛУБЛЕННЫЙ АНАЛИЗ ТРЕНДОВ И ПЕРСПЕКТИВ РАЗВИТИЯ';
+    }
+    return 'ПОДТВЕРЖДЕНИЕ АКТУАЛЬНОСТИ ИССЛЕДОВАНИЯ';
+  };
+
   const headerVisibleState = {
     opacity: 1,
     y: 0,
     height: 'auto',
     marginTop: 0,
-    marginBottom: 20,
+    marginBottom: 0,
   };
 
   const headerHiddenState = {
@@ -42,16 +50,15 @@ export const MarketAnalysisLayout: React.FC = () => {
         className="slide-title-container-shared"
         style={{ overflow: 'hidden' }}
         initial={headerVisibleState}
-        animate={isDeepDiveSlide ? headerHiddenState : headerVisibleState}
+        animate={headerVisibleState}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <h1 className="slide-title-shared">АНАЛИЗ РЫНКА ИНСТРУМЕНТОВ БЕНЧМАРКИНГА</h1>
-        <p className="slide-subtitle-shared">Глобальные тенденции и структурные изменения рынка СУБД</p>
+        <h1 className="slide-title-shared">{getSlideTitle()}</h1>
       </motion.div>
       <motion.main
         className="market-analysis-content-outlet"
         initial={contentOutletVisibleHeaderState}
-        animate={isDeepDiveSlide ? contentOutletHiddenHeaderState : contentOutletVisibleHeaderState}
+        animate={contentOutletVisibleHeaderState}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <Outlet />

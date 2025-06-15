@@ -448,10 +448,17 @@ $border-light: #f3f4f6;
   &.slide9 {
     .section {
       ul .infoItem {
-        @include als-font(26px, 400, 1.45);
+        @include als-font(32px, 400, 1.45);
         
-        span .value {
-          font-size: 32px;
+        span {
+          .label {
+            font-size: 36px;
+            font-weight: 700;
+          }
+          
+          .value {
+            font-size: 36px;
+          }
         }
       }
     }

@@ -1,0 +1,562 @@
+.integratedWorkflow {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  grid-template-rows: 280px 120px 1fr 180px;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.connectionsSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+// Section Headers
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    letter-spacing: -0.025em;
+  }
+}
+
+// Data Preparation Section
+.dataSection {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+  
+  .datasetInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    
+    .datasetIcon {
+      font-size: 1.5rem;
+    }
+    
+    .datasetDetails {
+      .datasetTitle {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 0.95rem;
+      }
+      
+      .datasetStats {
+        color: #64748b;
+        font-size: 0.8rem;
+        margin-top: 2px;
+      }
+    }
+  }
+  
+  .databaseList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .databaseItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    border-left: 4px solid var(--db-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .dbIcon {
+      font-size: 1.2rem;
+    }
+    
+    .dbInfo {
+      .dbName {
+        font-weight: 600;
+        color: var(--db-color);
+        font-size: 0.85rem;
+      }
+      
+      .dbProcess {
+        color: #64748b;
+        font-size: 0.75rem;
+        margin-top: 2px;
+      }
+    }
+  }
+}
+
+// Main Workflow Chain
+.workflowChain {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(30, 64, 175, 0.12));
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  z-index: 3;
+  box-shadow: 
+    0 12px 40px rgba(59, 130, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.workflowStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 16px 12px;
+  border-radius: 12px;
+  min-width: 90px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  
+  &.highlighted {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(30, 64, 175, 0.15));
+    border-color: var(--step-color);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+  }
+  
+  &:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .stepIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--step-color), color-mix(in srgb, var(--step-color) 80%, black));
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--step-color) 40%, transparent);
+  }
+  
+  .stepLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: center;
+    line-height: 1.2;
+  }
+}
+
+.workflowArrow {
+  font-size: 1.5rem;
+  color: #3b82f6;
+  font-weight: bold;
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+// YCSB Workloads Section
+.workloadsSection {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.04), rgba(147, 197, 253, 0.08));
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.08);
+  
+  .workloadGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .workloadCard {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border-left: 4px solid var(--workload-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--workload-color), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(59, 130, 246, 0.15);
+      
+      &::before {
+        opacity: 0.05;
+      }
+    }
+    
+    .workloadLetter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--workload-color), color-mix(in srgb, var(--workload-color) 80%, black));
+      color: white;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--workload-color) 30%, transparent);
+      flex-shrink: 0;
+      z-index: 1;
+      position: relative;
+    }
+    
+    .workloadContent {
+      flex: 1;
+      z-index: 1;
+      position: relative;
+      
+      .workloadName {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 4px;
+      }
+      
+      .workloadOps {
+        font-size: 0.75rem;
+        color: #64748b;
+        line-height: 1.3;
+      }
+    }
+  }
+  
+  .threadInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #64748b;
+    flex-wrap: wrap;
+    
+    .threadBadges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .threadBadge {
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    }
+  }
+}
+
+// Metrics Collection Section
+.metricsSection {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+  
+  .metricsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .metricCategory {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border-left: 4px solid var(--metric-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transform: translateX(4px);
+    }
+    
+    .metricHeader {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--metric-color);
+      margin-bottom: 8px;
+    }
+    
+    .metricItems {
+      .metricItem {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-bottom: 4px;
+        transition: color 0.2s ease;
+        
+        &:hover {
+          color: #475569;
+        }
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+// Statistics Panel
+.statsPanel {
+  grid-column: 3;
+  grid-row: 4;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(147, 197, 253, 0.12));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+  
+  .statsHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    padding: 12px 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    
+    &:hover {
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+      transform: translateY(-2px) scale(1.05);
+    }
+    
+    .statIcon {
+      color: #3b82f6;
+    }
+    
+    .statValue {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #1e293b;
+      line-height: 1;
+    }
+    
+    .statLabel {
+      font-size: 0.7rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+  }
+  
+  .calculation {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-style: italic;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1400px) {
+  .container {
+    grid-template-columns: 300px 1fr 300px;
+    gap: 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 280px 1fr 280px;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .workloadGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .dataSection {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  .workflowChain {
+    grid-column: 1;
+    grid-row: 2;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .workloadsSection {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  
+  .metricsSection {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  
+  .statsPanel {
+    grid-column: 1;
+    grid-row: 5;
+  }
+  
+  .connectionsSvg {
+    display: none;
+  }
+  
+  .workloadGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .integratedWorkflow {
+    padding: 0;
+  }
+  
+  .container {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .workloadGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .workflowChain {
+    flex-direction: column;
+    gap: 8px;
+    
+    .workflowArrow {
+      transform: rotate(90deg);
+    }
+  }
+} 

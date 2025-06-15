@@ -234,17 +234,17 @@ $print-border: #cccccc;
   // Text Styles
   .scopeText {
     color: $text-primary;
-    @include als-font(20px, 600, 1.4);
+    @include als-font(24px, 600, 1.4);
   }
 
   .featuresText {
     color: $text-secondary;
-    @include als-font(20px, 600, 1.6);
+    @include als-font(24px, 600, 1.6);
   }
 
   .limitationsText {
     color: $text-secondary;
-    @include als-font(20px, 600, 1.6);
+    @include als-font(24px, 600, 1.6);
   }
 
   // Conclusion - Separate Card

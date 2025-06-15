@@ -1,0 +1,161 @@
+.statsOverview {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 2px solid #e9ecef;
+  
+  .statsTitle {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    background: var(--secondary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.statsGrid {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  background: white;
+  border-radius: var(--border-radius-sm);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--shadow-light);
+  border: 2px solid #f1f3f4;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 140px;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--stat-color);
+  }
+  
+  &:hover {
+    border-color: var(--stat-color);
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .statIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--stat-color);
+    color: white;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .statContent {
+    .statNumber {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--stat-color);
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+    
+    .statLabel {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  &:hover .statIcon {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+.calculationNote {
+  text-align: center;
+  padding: 16px;
+  background: var(--surface-hover);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #e9ecef;
+  
+  .calculation {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 6px;
+    
+    span {
+      background: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .testDuration {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    gap: 16px;
+    
+    .statCard {
+      min-width: 120px;
+      padding: 16px;
+      
+      .statIcon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 8px;
+        
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      
+      .statContent {
+        .statNumber {
+          font-size: 1.5rem;
+        }
+        
+        .statLabel {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+  
+  .calculationNote {
+    padding: 12px;
+    
+    .calculation {
+      font-size: 0.8rem;
+    }
+    
+    .testDuration {
+      font-size: 0.75rem;
+    }
+  }
+} 

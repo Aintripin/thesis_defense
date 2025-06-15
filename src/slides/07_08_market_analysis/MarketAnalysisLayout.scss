@@ -15,7 +15,7 @@
   .slide-title-container-shared {
     text-align: center;
     width: 100%; 
-    padding: 25px 40px; // Internal padding for the title text
+    padding: 12px 40px; // Reduced from 25px to 12px
     background-color: #ffffff; // White background for the banner
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); // Subtle shadow
     border-radius: 0; // No rounded corners for a full-width banner
@@ -23,15 +23,15 @@
     flex-shrink: 0; // Prevent the title container from shrinking
 
     .slide-title-shared {
-      font-size: 2.1em;
+      font-size: 1.8em; // Reduced from 2.1em
       color: #1e3a8a;
       font-weight: 600;
       letter-spacing: 0.05em;
       margin-top: 0;
-      margin-bottom: 8px;
+      margin-bottom: 4px; // Reduced from 8px
     }
     .slide-subtitle-shared {
-      font-size: 2.05em;
+      font-size: 1.6em; // Reduced from 2.05em
       color: #475569;
       font-weight: 400;
       margin-top: 0;
@@ -44,7 +44,7 @@
     flex-grow: 1; // Allows the content area to take up remaining space
     display: flex; // To help manage the child slide component (which is usually a flex container too)
     flex-direction: column; // Assuming child slide content flows top-to-bottom
-    padding: 15px 0 20px 0; // Reduced vertical padding to save space
+    padding: 0; // Reduced from 2px 0
     box-sizing: border-box;
     overflow: hidden; // Prevent content from overflowing this container
     // The child slide (.content-container or .content-container-s8) will have its own horizontal padding.
@@ -69,21 +69,21 @@
     background-color: #ffffff;
     box-shadow: none;
     border-bottom: 2px solid #e5e7eb; // Use a simple border instead of shadow
-    padding: 15px 40px; // Reduce vertical padding to make it more compact
+    padding: 8px 40px; // Reduced from 15px to 8px
     margin-bottom: 0;
   }
   
   .slide-title-shared {
     color: #000000;
-    font-size: 1.8em; // Slightly smaller for a more compact feel
+    font-size: 1.6em; // Reduced from 1.8em
   }
   
   .slide-subtitle-shared {
     color: #333333; // Dark gray for subtitle
-    font-size: 1.2em; // Slightly smaller
+    font-size: 1.1em; // Reduced from 1.2em
   }
 
   .market-analysis-content-outlet {
-    padding: 20px 0; // Adjust padding for the content area
+    padding: 8px 0; // Reduced from 20px 0
   }
 } 

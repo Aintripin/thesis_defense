@@ -60,7 +60,7 @@ export const TechnicalImplementationSlide = () => {
             animate="visible"
           >
             <div className={styles.challengesContent}>
-              <h2 className={styles.sectionTitle}>Основные технические вызовы:</h2>
+              <h2 className={styles.sectionTitle}>Основные технические особенности:</h2>
               <motion.div className={styles.miniCardsContainer} variants={containerVariants}>
                 <motion.div className={styles.miniCard} variants={cardVariants}>
                   <div className={styles.miniCardIcon}></div>

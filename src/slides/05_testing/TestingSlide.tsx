@@ -74,7 +74,6 @@ export const TestingSlide: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={styles.slideTitle}>Т Е Х Н О Л О Г И И&nbsp;&nbsp;Т Е С Т И Р О В А Н И Я&nbsp;&nbsp;С У Б Д</h1>
-        <p className={styles.slideSubtitle}>Обзор инструментов бенчмаркинга</p>
       </motion.div>
 
       {/* Content Container */}

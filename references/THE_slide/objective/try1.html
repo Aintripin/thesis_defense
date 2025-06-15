@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Архитектура процесса тестирования СУБД</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px;
+            text-align: center;
+            min-width: 120px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .box:hover {
+            transform: translateY(-2px);
+        }
+        
+        .box.json {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+        }
+        
+        .box.database {
+            background: #d1ecf1;
+            border-color: #74b9ff;
+        }
+        
+        .box.postgres { background: #e8f4fd; border-color: #336791; }
+        .box.mongo { background: #e8f5e8; border-color: #4db33d; }
+        .box.cassandra { background: #fff0e6; border-color: #ff6b35; }
+        
+        .box.ycsb {
+            background: #f8d7da;
+            border-color: #e74c3c;
+        }
+        
+        .box.metrics {
+            background: #d4edda;
+            border-color: #27ae60;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #6c757d;
+            margin: 0 10px;
+        }
+        
+        .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .cycle-container {
+            background: #f1f3f4;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .cycle-title {
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .phase-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .phase {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .phase.start { background: #fff3cd; }
+        .phase.load { background: #d1ecf1; }
+        .phase.run { background: #d4edda; }
+        .phase.collect { background: #f8d7da; }
+        .phase.restart { background: #e2e3e5; }
+        
+        /* YCSB Details */
+        .ycsb-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+        
+        .ycsb-title {
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .table-structure {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .table-box {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .table-schema {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: left;
+        }
+        
+        /* Workload Tree */
+        .workload-tree {
+            background: #f1f3f4;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .tree-root {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .tree-root .box {
+            display: inline-block;
+            background: #d4edda;
+            border-color: #27ae60;
+        }
+        
+        .workload-branches {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .workload-node {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+            position: relative;
+        }
+        
+        .workload-node::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            width: 2px;
+            height: 25px;
+            background: #6c757d;
+            border-style: dashed;
+        }
+        
+        .workload-letter {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 8px;
+        }
+        
+        .workload-desc {
+            font-size: 10px;
+            color: #6c757d;
+            line-height: 1.3;
+        }
+        
+        .workload-ops {
+            font-size: 9px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Tree branches */
+        .tree-branches {
+            position: relative;
+        }
+        
+        .tree-branches::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 16.66%;
+            right: 16.66%;
+            height: 2px;
+            background: #6c757d;
+            border-style: dashed;
+        }
+        
+        .tree-branches::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 2px;
+            height: 30px;
+            background: #6c757d;
+            border-style: dashed;
+        }
+        
+        .threads-info {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .threads-values {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Архитектура процесса тестирования СУБД</div>
+        
+        <div class="workflow">
+            <!-- Подготовка данных -->
+            <div class="section">
+                <div class="box json">
+                    <span class="icon">📄</span>
+                    <div class="label">JSON Dataset<br>12 ГБ<br>4,894,081 записей</div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="box database postgres">
+                    <span class="icon">🐘</span>
+                    <div class="label">PostgreSQL<br>JSONB→Tables<br>Нормализация</div>
+                </div>
+                <div class="box database mongo">
+                    <span class="icon">🍃</span>
+                    <div class="label">MongoDB<br>Direct Import<br>mongoimport</div>
+                </div>
+                <div class="box database cassandra">
+                    <span class="icon">🗃️</span>
+                    <div class="label">Cassandra<br>NDJSON→DSBulk<br>Денормализация</div>
+                </div>
+                <span class="arrow">→</span>
+                <div class="box ycsb">
+                    <span class="icon">⚙️</span>
+                    <div class="label">YCSB-compatible<br>Tables</div>
+                </div>
+            </div>
+            
+            <!-- YCSB Table Structure -->
+            <div class="ycsb-details">
+                <div class="ycsb-title">📋 Структура YCSB-совместимых таблиц</div>
+                <div class="table-structure">
+                    <div class="table-box">
+                        <strong>Общая схема</strong>
+                        <div class="table-schema">
+CREATE TABLE usertable (
+  YCSB_KEY VARCHAR(255) PRIMARY KEY,
+  FIELD0 TEXT,
+  FIELD1 TEXT,
+  ...
+  FIELD9 TEXT
+);</div>
+                    </div>
+                    <div class="table-box">
+                        <strong>Данные</strong>
+                        <div class="table-schema">
+YCSB_KEY: user0, user1, user2...
+FIELD0: title, authors, abstract...
+FIELD1: venue, year, references...
+...
+FIELD9: indexed_abstract, fos...</div>
+                    </div>
+                    <div class="table-box">
+                        <strong>Маппинг</strong>
+                        <div class="table-schema">
+Реальные данные из:
+• PostgreSQL: publications_structured
+• MongoDB: dblp collection
+• Cassandra: papers_full table
+
+→ Копируются в usertable</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Цикл тестирования -->
+            <div class="cycle-container">
+                <div class="cycle-title">🔄 Цикл тестирования</div>
+                
+                <div class="phase-flow">
+                    <div class="phase start">
+                        <div>🔄 Холодный старт</div>
+                        <div style="font-size: 10px; margin-top: 5px;">VM Restart<br>Очистка кэшей</div>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="phase load">
+                        <div>📊 YCSB Load</div>
+                        <div style="font-size: 10px; margin-top: 5px;">Заполнение<br>usertable данными</div>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="phase run">
+                        <div>⚡ YCSB Run</div>
+                        <div style="font-size: 10px; margin-top: 5px;">Выполнение<br>Workload</div>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="phase collect">
+                        <div>📈 Сбор метрик</div>
+                        <div style="font-size: 10px; margin-top: 5px;">Throughput<br>Latency</div>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="phase restart">
+                        <div>🔄 Перезапуск</div>
+                        <div style="font-size: 10px; margin-top: 5px;">Cleanup<br>Next test</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Workload Tree -->
+            <div class="workload-tree">
+                <div class="tree-root">
+                    <div class="box">
+                        <span class="icon">⚡</span>
+                        <div class="label">YCSB Run Phase</div>
+                    </div>
+                </div>
+                
+                <div class="tree-branches">
+                    <div class="workload-branches">
+                        <div class="workload-node">
+                            <div class="workload-letter">A</div>
+                            <div class="workload-desc">Update Heavy</div>
+                            <div class="workload-ops">50% READ<br>50% UPDATE</div>
+                        </div>
+                        <div class="workload-node">
+                            <div class="workload-letter">B</div>
+                            <div class="workload-desc">Read Heavy</div>
+                            <div class="workload-ops">95% READ<br>5% UPDATE</div>
+                        </div>
+                        <div class="workload-node">
+                            <div class="workload-letter">C</div>
+                            <div class="workload-desc">Read Only</div>
+                            <div class="workload-ops">100% READ</div>
+                        </div>
+                        <div class="workload-node">
+                            <div class="workload-letter">D</div>
+                            <div class="workload-desc">Read Latest</div>
+                            <div class="workload-ops">95% READ<br>5% INSERT</div>
+                        </div>
+                        <div class="workload-node">
+                            <div class="workload-letter">E</div>
+                            <div class="workload-desc">Scan Heavy</div>
+                            <div class="workload-ops">95% SCAN<br>5% INSERT</div>
+                        </div>
+                        <div class="workload-node">
+                            <div class="workload-letter">F</div>
+                            <div class="workload-desc">Read-Modify-Write</div>
+                            <div class="workload-ops">50% READ<br>50% RMW</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="threads-info">
+                    <strong>Уровни параллелизма для каждого workload:</strong>
+                    <div class="threads-values">4, 8, 16, 32, 64, 128, 256 потоков</div>
+                </div>
+            </div>
+            
+            <!-- Метрики -->
+            <div class="section">
+                <div class="box metrics">
+                    <span class="icon">📊</span>
+                    <div class="label">YCSB Metrics<br>• Throughput (ops/sec)<br>• Latency (avg, P95, P99)</div>
+                </div>
+                <div class="box metrics">
+                    <span class="icon">💻</span>
+                    <div class="label">System Metrics<br>• vmstat, iostat<br>• CPU, Memory, Disk</div>
+                </div>
+                <div class="box metrics">
+                    <span class="icon">🔧</span>
+                    <div class="label">DB-specific<br>• GC logs (Cassandra)<br>• pg_stat (PostgreSQL)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Статистика -->
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">3</div>
+                <div class="stat-label">СУБД</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Workloads</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Thread Levels</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">126</div>
+                <div class="stat-label">Всего тестов</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">189</div>
+                <div class="stat-label">Часов тестирования</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

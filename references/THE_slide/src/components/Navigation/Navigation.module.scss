@@ -1,0 +1,224 @@
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.08);
+  transform: translateY(-70%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.7;
+  
+  &:hover {
+    transform: translateY(0);
+    opacity: 1;
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+  }
+  
+  // Show a small indicator when collapsed
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #1e40af);
+    border-radius: 0 0 4px 4px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+  }
+  
+  &:hover::after {
+    opacity: 0;
+  }
+}
+
+.navContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-decoration: none;
+  
+  .logoIcon {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    border-radius: 10px;
+    filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
+  }
+  
+  span {
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.navLinks {
+  display: flex;
+  gap: 8px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: inherit;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.navLinkContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  min-width: 180px;
+  
+  &:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+  }
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #f8fafc;
+  border-radius: 8px;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.navText {
+  flex: 1;
+  
+  .navLabel {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+  }
+  
+  .navDescription {
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.2;
+  }
+}
+
+// Active state
+.navLink.active {
+  .navLinkContent {
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    border-color: transparent;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    
+    .navIcon {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .navText {
+      .navLabel {
+        color: white;
+      }
+      
+      .navDescription {
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .navigation {
+    transform: translateY(-80%);
+    
+    &:hover {
+      transform: translateY(0);
+    }
+  }
+  
+  .navContainer {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .logo {
+    font-size: 1rem;
+    
+    .logoIcon {
+      width: 36px;
+      height: 36px;
+      font-size: 1.3rem;
+    }
+  }
+  
+  .navLinks {
+    width: 100%;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .navLinkContent {
+    min-width: 140px;
+    padding: 10px 16px;
+    
+    .navText {
+      .navLabel {
+        font-size: 0.85rem;
+      }
+      
+      .navDescription {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navLinks {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .navLinkContent {
+    min-width: auto;
+    width: 100%;
+  }
+} 

@@ -1,0 +1,320 @@
+.workloadBranches {
+  width: 100%;
+  
+  .sectionTitle {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.workloadTree {
+  position: relative;
+  padding-top: 20px;
+}
+
+.treeRoot {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  
+  .rootNode {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: var(--text-secondary);
+    }
+  }
+}
+
+.treeConnections {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60px;
+  pointer-events: none;
+  
+  .mainTrunk {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 30px;
+    background: var(--text-secondary);
+  }
+  
+  .branchLines {
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    height: 30px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--text-secondary);
+    }
+    
+    .branchLine {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 30px;
+      background: var(--text-secondary);
+      
+      &:nth-child(1) { left: calc(16.66% - 1px); }
+      &:nth-child(2) { left: calc(33.33% - 1px); }
+      &:nth-child(3) { left: calc(50% - 1px); }
+      &:nth-child(4) { left: calc(66.66% - 1px); }
+      &:nth-child(5) { left: calc(83.33% - 1px); }
+      &:nth-child(6) { left: calc(100% - 1px); }
+    }
+  }
+}
+
+.workloadGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+
+.workloadNode {
+  background: var(--workload-bg);
+  border: 2px solid var(--workload-color);
+  border-radius: var(--border-radius-sm);
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background: var(--text-secondary);
+  }
+  
+  .workloadHeader {
+    margin-bottom: 12px;
+    
+    .workloadLetter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--workload-color);
+      color: white;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0 auto 8px;
+    }
+    
+    .workloadName {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--workload-color);
+    }
+  }
+  
+  .workloadOperations {
+    .operationLine {
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 2px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--workload-color);
+  }
+}
+
+.threadLevels {
+  background: var(--surface-hover);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  text-align: center;
+  
+  .threadHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .threadValues {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    
+    .threadBadge {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 50px;
+      text-align: center;
+    }
+  }
+  
+  .threadLabel {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+}
+
+.workloadDetails {
+  margin-top: 40px;
+  
+  .detailsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    
+    .workloadDetailCard {
+      background: white;
+      border-radius: var(--border-radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-light);
+      
+      .detailHeader {
+        padding: 16px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-left: 4px solid;
+        
+        .detailLetter {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 1rem;
+        }
+        
+        h4 {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--text-primary);
+          margin: 0;
+        }
+      }
+      
+      .detailContent {
+        padding: 16px;
+        
+        .operationsBreakdown {
+          margin-bottom: 12px;
+          
+          .operationItem {
+            background: var(--surface-hover);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: inline-block;
+            margin-right: 8px;
+          }
+        }
+        
+        .workloadDescription {
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+          line-height: 1.4;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .treeConnections {
+    display: none;
+  }
+  
+  .workloadGrid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  
+  .workloadNode::before {
+    display: none;
+  }
+  
+  .threadValues .threadBadge {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    min-width: 40px;
+  }
+  
+  .workloadDetails .detailsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+} 
