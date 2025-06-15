@@ -55,7 +55,6 @@ const AutomationSlide = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={styles.slideTitle}>А В Т О М А Т И З А Ц И Я&nbsp;&nbsp;С Б О Р А&nbsp;&nbsp;Р Е З У Л Ь Т А Т О В</h1>
-        <p className={styles.slideSubtitle}>Python-скрипт для обработки данных</p>
       </motion.div>
 
       {/* Main content area */}

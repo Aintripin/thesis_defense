@@ -37,7 +37,6 @@ const Navigation: React.FC = () => {
     { path: '/technical-implementation', label: 'Техническая реализация', icon: Cog },
     { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
     { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
-    { path: '/test-execution', label: 'Проведение тестов', icon: Zap },
     { path: '/automation', label: 'Автоматизация сбора результатов', icon: Bot },
     { path: '/visualization', label: 'Визуализация и рекомендации', icon: PieChart },
     { path: '/main-results', label: 'Основные результаты: Столбчатая диаграмма', icon: Award, end: true },

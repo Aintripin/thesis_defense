@@ -35,6 +35,10 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
     }
   }, [chartType, navigate, location.pathname]);
 
+  const slideTitle = chartType === 'bars'
+    ? 'О С Н О В Н Ы Е\u00a0\u00a0Р Е З У Л Ь Т А Т Ы'
+    : 'Д Е Т А Л И З А Ц И Я\u00a0\u00a0П Р О И З В О Д И Т Е Л Ь Н О С Т И';
+
   // Apply print theme overrides to SVG elements
   useEffect(() => {
     if (isPrintTheme && chartType === 'radar') {
@@ -264,13 +268,16 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
 
   return (
     <div className={`${styles.mainResultsSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Header */}
-      <div className={styles.slideHeader}>
+      <motion.div
+        className={styles.slideHeader}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <h1 className={styles.slideTitle}>
-          О С Н О В Н Ы Е&nbsp;&nbsp;Р Е З У Л Ь Т А Т Ы&nbsp;&nbsp;И С С Л Е Д О В А Н И Я
+          {slideTitle}
         </h1>
-        <p className={styles.slideSubtitle}>Сравнительный анализ производительности</p>
-      </div>
+      </motion.div>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

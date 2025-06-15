@@ -322,7 +322,6 @@ const ScalabilityDelaysSlide: React.FC = () => {
         <h1 className={styles.slideTitle}>
           М А С Ш Т А Б И Р У Е М О С Т Ь&nbsp;&nbsp;И&nbsp;&nbsp;З А Д Е Р Ж К И
         </h1>
-        <p className={styles.slideSubtitle}>Поведение при увеличении параллелизма</p>
       </div>
 
       {/* Content Container */}

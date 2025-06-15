@@ -17,7 +17,6 @@ import { TestEnvironmentSlide } from './slides/13_test_environment'
 import { TechnicalImplementationSlide } from './slides/14_technical_implementation'
 import { TechnicalOptimizationSlide } from './slides/15_technical_optimization'
 import YcsbConfigurationSlide from './slides/16_ycsb_configuration'
-import TestExecutionSlide from './slides/17_test_execution'
 import AutomationSlide from './slides/18_automation/AutomationSlide'
 import VisualizationSlide from './slides/19_visualization/VisualizationSlide'
 import { MainResultsSlide } from './slides/20_main_results'
@@ -78,7 +77,6 @@ const AppContent = () => {
         <Route path="/technical-implementation" element={<TechnicalImplementationSlide />} />
         <Route path="/technical-optimization" element={<TechnicalOptimizationSlide />} />
         <Route path="/ycsb-configuration" element={<YcsbConfigurationSlide />} />
-        <Route path="/test-execution" element={<TestExecutionSlide />} />
         <Route path="/automation" element={<AutomationSlide />} />
         <Route path="/visualization" element={<VisualizationSlide />} />
         <Route path="/main-results" element={<MainResultsBarsWrapper />} />

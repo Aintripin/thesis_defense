@@ -19,7 +19,6 @@ const slides = [
   '/technical-implementation',
   '/technical-optimization',
   '/ycsb-configuration',
-  '/test-execution',
   '/automation',
   '/visualization',
   '/main-results',

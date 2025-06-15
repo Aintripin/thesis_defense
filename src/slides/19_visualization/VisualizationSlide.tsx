@@ -55,7 +55,6 @@ const VisualizationSlide = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className={styles.slideTitle}>В И З У А Л И З А Ц И Я&nbsp;&nbsp;И&nbsp;&nbsp;Р Е К О М Е Н Д А Ц И И</h1>
-        <p className={styles.slideSubtitle}>Apache Superset дашборды</p>
       </motion.div>
 
       {/* Main content area */}

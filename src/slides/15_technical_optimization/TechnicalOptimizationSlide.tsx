@@ -2,53 +2,65 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TechnicalOptimizationSlide.module.scss';
+import { Settings, Zap, Shield, ChevronUp } from 'lucide-react';
 
-// Import SVG icons for databases
-import PostgreSQLIcon from '@assets/postgresql.svg';
-import MongoDBIcon from '@assets/mongodb.svg';
-import CassandraIcon from '@assets/apachecassandra.svg';
+const optimizationData = [
+  {
+    category: 'Производительность',
+    parameter: 'shared_buffers',
+    database: 'PostgreSQL',
+    change: 'Увеличено до 4GB',
+    justification: 'Увеличение разделяемых буферов позволяет большему количеству данных кэшироваться в памяти, значительно сокращая дисковый ввод-вывод и ускоряя выполнение запросов.',
+    impact: 'positive',
+  },
+  {
+    category: 'Производительность',
+    parameter: 'WiredTiger Cache',
+    database: 'MongoDB',
+    change: 'Увеличено до 16GB',
+    justification: 'Расширение кэша WiredTiger обеспечивает хранение рабочего набора данных в RAM, что минимизирует задержки при чтении и повышает общую пропускную способность.',
+    impact: 'positive',
+  },
+  {
+    category: 'Производительность',
+    parameter: 'memtable_flush_writers',
+    database: 'Cassandra',
+    change: 'Увеличено до 4',
+    justification: 'Увеличение числа потоков для сброса memtable на диск повышает параллелизм операций записи и предотвращает замедление при высоких нагрузках.',
+    impact: 'positive',
+  },
+  {
+    category: 'Надежность',
+    parameter: 'wal_level',
+    database: 'PostgreSQL',
+    change: 'Установлено в "replica"',
+    justification: 'Обеспечивает запись достаточной информации в WAL для поддержки репликации и восстановления на определенный момент времени, повышая отказоустойчивость.',
+    impact: 'neutral',
+  },
+  {
+    category: 'Масштабируемость',
+    parameter: 'max_connections',
+    database: 'PostgreSQL',
+    change: 'Увеличено до 1000',
+    justification: 'Позволяет обслуживать большее количество одновременных клиентских подключений, что критически важно для масштабирования приложений.',
+    impact: 'neutral',
+  },
+  {
+    category: 'Масштабируемость',
+    parameter: 'maxIncomingConnections',
+    database: 'MongoDB',
+    change: 'Увеличено до 1000',
+    justification: 'Аналогично PostgreSQL, увеличивает лимит одновременных подключений для поддержки роста пользовательской базы и нагрузки.',
+    impact: 'neutral',
+  },
+];
 
-// Import Lucide icons for metrics
-import { Gauge, Scale, Target } from 'lucide-react';
+type Category = 'Производительность' | 'Надежность' | 'Масштабируемость';
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: "easeOut" }
-  }
-};
-
-const slideInScale = {
-  hidden: { opacity: 0, scale: 0.9, y: 40 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" }
-  }
-};
-
-const slideInLeft = {
-  hidden: { opacity: 0, x: -30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut" }
-  }
+const categoryInfo: Record<Category, { icon: React.ElementType; color: string }> = {
+  'Производительность': { icon: Zap, color: 'performance' },
+  'Надежность': { icon: Shield, color: 'reliability' },
+  'Масштабируемость': { icon: ChevronUp, color: 'scalability' },
 };
 
 export const TechnicalOptimizationSlide = () => {
@@ -56,7 +68,6 @@ export const TechnicalOptimizationSlide = () => {
 
   return (
     <div className={`${styles.technicalOptimizationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container - wrapped for sticky header */}
       <motion.div
         className={styles.slideTitleContainer}
         initial={{ opacity: 0, y: -20 }}
@@ -66,296 +77,61 @@ export const TechnicalOptimizationSlide = () => {
         <h1 className={styles.slideTitle}>ОПТИМИЗАЦИЯ КОНФИГУРАЦИЙ СУБД</h1>
       </motion.div>
       
-      {/* Content Container - wrapper for the main white card */}
       <div className={styles.contentContainer}>
-        {/* Main Content Container - now acts as the single white card */}
-        <div className={styles.mainContentContainer}>
-          {/* Left Side - Database Configurations */}
-          <div className={styles.databasesWrapper}>
-            
-            {/* PostgreSQL Configuration */}
-            <motion.div 
-              className={`${styles.dbConfigSection} ${styles.postgresqlSection}`}
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.8 }}
-            >
-              {/* Wrapper A - Horizontal flex container */}
-              <div className={styles.dbSectionWrapper}>
-                {/* Wrapper B - Icon and text column */}
-                <motion.div 
-                  className={styles.dbHeaderWrapper}
-                  variants={slideInLeft}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 0.8 }}
-                >
-                  <div className={`${styles.dbIcon} ${styles.postgresqlIcon}`}>
-                    <img src={PostgreSQLIcon} alt="PostgreSQL" className={styles.dbIconSvg} />
-                  </div>
-                  <div className={styles.dbInfo}>
-                    <h3>PostgreSQL</h3>
-                    
-                  </div>
-                </motion.div>
-                
-                {/* Wrapper C - Terminal card */}
-                <motion.div 
-                  className={styles.terminalWrapper}
-                  variants={slideInScale}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 0.9 }}
-                >
-                  <div className={styles.codeTerminal}>
-                    <div className={styles.terminalHeader}>
-                      <div className={styles.terminalDots}>
-                        {isPrintTheme ? (
-                          <>
-                            {/* Close Icon (X) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
-                            </svg>
-                            {/* Minimize Icon (-) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <path d="M4 6H8" stroke="black"/>
-                            </svg>
-                            {/* Maximize Icon (Square) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
-                            </svg>
-                          </>
-                        ) : (
-                          <>
-                            <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                            <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                            <div className={`${styles.terminalDot} ${styles.green}`}></div>
-                          </>
-                        )}
-                      </div>
-                      <div className={styles.terminalFilename}>postgresql.conf</div>
-                    </div>
-                    <div className={styles.terminalContent}>
-                      <span className={styles.comment}># Увеличение подключений для высокого параллелизма</span><br/>
-                      <span className={styles.configKey}>max_connections</span> = <span className={styles.configNumber}>500</span> <span className={styles.comment}># вместо 100</span><br/><br/>
-                      <span className={styles.comment}># аутентификация для тестирования</span><br/>
-                      <span className={styles.configKey}>local all all trust</span><br/>
-                      <span className={styles.configKey}>host all all</span> <span className={styles.configValue}>127.0.0.1/32</span> <span className={styles.configKey}>trust</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
+        <motion.div
+          className={styles.tableContainer}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
+          <table className={styles.optimizationTable}>
+            <thead>
+              <tr className={styles.headerRow}>
+                <th className={styles.headerCell}>Категория</th>
+                <th className={styles.headerCell}>Параметр</th>
+                <th className={styles.headerCell}>СУБД</th>
+                <th className={styles.headerCell}>Изменение</th>
+                <th className={styles.headerCell}>Обоснование и Влияние</th>
+              </tr>
+            </thead>
+            <tbody>
+              {optimizationData.map((item, index) => {
+                const category = item.category as Category;
+                const CategoryIcon = categoryInfo[category].icon;
+                const categoryColor = categoryInfo[category].color;
 
-            {/* MongoDB Configuration */}
-            <motion.div 
-              className={`${styles.dbConfigSection} ${styles.mongodbSection}`}
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 1.0 }}
-            >
-              {/* Wrapper A - Horizontal flex container */}
-              <div className={styles.dbSectionWrapper}>
-                {/* Wrapper B - Icon and text column */}
-                <motion.div 
-                  className={styles.dbHeaderWrapper}
-                  variants={slideInLeft}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 1.0 }}
-                >
-                  <div className={`${styles.dbIcon} ${styles.mongodbIcon}`}>
-                    <img src={MongoDBIcon} alt="MongoDB" className={styles.dbIconSvg} />
-                  </div>
-                  <div className={styles.dbInfo}>
-                    <h3>MongoDB</h3>
-                  </div>
-                </motion.div>
-                
-                {/* Wrapper C - Terminal card */}
-                <motion.div 
-                  className={styles.terminalWrapper}
-                  variants={slideInScale}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 1.1 }}
-                >
-                  <div className={styles.codeTerminal}>
-                    <div className={styles.terminalHeader}>
-                      <div className={styles.terminalDots}>
-                        {isPrintTheme ? (
-                          <>
-                            {/* Close Icon (X) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
-                            </svg>
-                            {/* Minimize Icon (-) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <path d="M4 6H8" stroke="black"/>
-                            </svg>
-                            {/* Maximize Icon (Square) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
-                            </svg>
-                          </>
-                        ) : (
-                          <>
-                            <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                            <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                            <div className={`${styles.terminalDot} ${styles.green}`}></div>
-                          </>
-                        )}
+                return (
+                  <motion.tr
+                    key={index}
+                    className={styles.dataRow}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  >
+                    <td className={`${styles.dataCell} ${styles.categoryCell}`}>
+                      <div className={`${styles.categoryBadge} ${styles[categoryColor]}`}>
+                        <CategoryIcon size={18} className={styles.categoryIcon} />
+                        <span>{item.category}</span>
                       </div>
-                      <div className={styles.terminalFilename}>mongod.conf</div>
-                    </div>
-                    <div className={styles.terminalContent}>
-                      <span className={styles.configKey}>cacheSizeGB:</span> <span className={styles.configNumber}>16</span> <span className={styles.comment}># увеличение кэша</span><br/>
-                      <span className={styles.configKey}>maxIncomingConnections:</span> <span className={styles.configNumber}>1000</span><br/><br/>
-                      <span className={styles.configKey}>wiredTigerConcurrentReadTransactions:</span> <span className={styles.configNumber}>1000</span><br/>
-                      <span className={styles.configKey}>wiredTigerConcurrentWriteTransactions:</span> <span className={styles.configNumber}>1000</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* Cassandra Configuration */}
-            <motion.div 
-              className={`${styles.dbConfigSection} ${styles.cassandraSection}`}
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 1.2 }}
-            >
-              {/* Wrapper A - Horizontal flex container */}
-              <div className={styles.dbSectionWrapper}>
-                {/* Wrapper B - Icon and text column */}
-                <motion.div 
-                  className={styles.dbHeaderWrapper}
-                  variants={slideInLeft}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 1.2 }}
-                >
-                  <div className={`${styles.dbIcon} ${styles.cassandraIcon}`}>
-                    <img src={CassandraIcon} alt="Cassandra" className={styles.dbIconSvg} />
-                  </div>
-                  <div className={styles.dbInfo}>
-                    <h3>Cassandra</h3>
-                  </div>
-                </motion.div>
-                
-                {/* Wrapper C - Terminal card */}
-                <motion.div 
-                  className={styles.terminalWrapper}
-                  variants={slideInScale}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{ delay: 1.3 }}
-                >
-                  <div className={styles.codeTerminal}>
-                    <div className={styles.terminalHeader}>
-                      <div className={styles.terminalDots}>
-                        {isPrintTheme ? (
-                          <>
-                            {/* Close Icon (X) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <path d="M4 8L8 4M4 4L8 8" stroke="black"/>
-                            </svg>
-                            {/* Minimize Icon (-) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <path d="M4 6H8" stroke="black"/>
-                            </svg>
-                            {/* Maximize Icon (Square) */}
-                            <svg className={styles.terminalIcon} viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="6" cy="6" r="5.5" stroke="black"/>
-                              <rect x="3.5" y="3.5" width="5" height="5" stroke="black"/>
-                            </svg>
-                          </>
-                        ) : (
-                          <>
-                            <div className={`${styles.terminalDot} ${styles.red}`}></div>
-                            <div className={`${styles.terminalDot} ${styles.yellow}`}></div>
-                            <div className={`${styles.terminalDot} ${styles.green}`}></div>
-                          </>
-                        )}
-                      </div>
-                      <div className={styles.terminalFilename}>cassandra.yaml</div>
-                    </div>
-                    <div className={styles.terminalContent}>
-                      <span className={styles.comment}># Увеличение подключений для высокого параллелизма</span><br/>
-                      <span className={styles.configKey}>concurrent_reads:</span> <span className={styles.configNumber}>256</span> <span className={styles.comment}># вместо 32</span><br/>
-                      <span className={styles.configKey}>concurrent_writes:</span> <span className={styles.configNumber}>256</span> <span className={styles.comment}># вместо 32</span><br/>
-                      <span className={styles.configKey}>concurrent_materialized_view_writes:</span> <span className={styles.configNumber}>256</span> <span className={styles.comment}># вместо 32</span>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Side - Results */}
-          <div className={styles.resultsWrapper}>
-            <motion.div 
-              className={styles.optimizationOverview}
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.3 }}
-            >
-              <div className={styles.overviewContent}>
-                <div className={styles.overviewText}>
-                  <h2 className={styles.overviewTitle}>Результаты оптимизации</h2>
-                  <p className={styles.overviewSubtitle}>
-                    Комплексная настройка конфигураций всех трех СУБД для обеспечения 
-                    максимальной производительности при высоких нагрузках
-                  </p>
-                </div>
-                
-                <motion.div 
-                  className={styles.metricsGrid}
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <motion.div className={styles.metricCard} variants={fadeInUp} transition={{ delay: 0.3 }}>
-                    <div className={styles.metricIcon}>
-                      <Gauge size={32} />
-                    </div>
-                    <div className={styles.metricTitle}>Производительность</div>
-                    <div className={styles.metricValue}>Минимизация узких мест при высоком параллелизме</div>
-                  </motion.div>
-                  
-                  <motion.div className={styles.metricCard} variants={fadeInUp} transition={{ delay: 0.5 }}>
-                    <div className={styles.metricIcon}>
-                      <Scale size={32} />
-                    </div>
-                    <div className={styles.metricTitle}>Стабильность</div>
-                    <div className={styles.metricValue}>Стабильная производительность на всех уровнях нагрузки</div>
-                  </motion.div>
-                  
-                  <motion.div className={styles.metricCard} variants={fadeInUp} transition={{ delay: 0.7 }}>
-                    <div className={styles.metricIcon}>
-                      <Target size={32} />
-                    </div>
-                    <div className={styles.metricTitle}>Эффективность</div>
-                    <div className={styles.metricValue}>Оптимальное использование аппаратных ресурсов</div>
-                  </motion.div>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+                    </td>
+                    <td className={`${styles.dataCell} ${styles.parameterCell}`}>
+                      <code>{item.parameter}</code>
+                    </td>
+                    <td className={`${styles.dataCell} ${styles.dbCell}`}>
+                      {item.database}
+                    </td>
+                    <td className={`${styles.dataCell} ${styles.changeCell}`}>
+                      {item.change}
+                    </td>
+                    <td className={`${styles.dataCell} ${styles.justificationCell}`}>
+                      {item.justification}
+                    </td>
+                  </motion.tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </motion.div>
       </div>
     </div>
   );

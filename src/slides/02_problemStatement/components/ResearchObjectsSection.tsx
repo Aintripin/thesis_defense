@@ -22,7 +22,7 @@ const ResearchObjectsSection: React.FC = () => {
           </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>PostgreSQL</div>
-            <div className={styles.dbType}>Реляционная СУБД</div>
+            <div className={styles.dbType}>Постреляционная СУБД</div>
           </div>
         </div>
 
