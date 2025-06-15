@@ -537,7 +537,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
             }}
           >
             <div className={`${styles.summaryCard} ${styles.leadersCard}`}>
-              <div className={styles.cardTitle}>Лидеры по workload'ам</div>
+              <div className={styles.cardTitle}>Лидеры по workloads</div>
               <div className={styles.performanceStats}>
                 {performanceLeaders.map((leader, index) => (
                   <div key={index} className={styles.statCard}>
