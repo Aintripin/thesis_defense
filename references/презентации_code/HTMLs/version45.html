@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .flow-container {
+            width: 800px;
+            height: 500px;
+            position: relative;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .box {
+            position: absolute;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 10px;
+            background: #f9f9f9;
+            text-align: center;
+        }
+        
+        .source-box {
+            width: 140px;
+            height: 60px;
+            background: #e3f2fd;
+            border-color: #1976d2;
+        }
+        
+        .target-box {
+            width: 140px;
+            height: 60px;
+            background: #f3e5f5;
+            border-color: #7b1fa2;
+        }
+        
+        .process-box {
+            width: 300px;
+            height: 280px;
+            background: #fff3e0;
+            border-color: #f57c00;
+        }
+        
+        .step-box {
+            width: 260px;
+            height: 35px;
+            margin: 5px auto;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        .arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+        
+        .arrow-down {
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #333;
+        }
+        
+        .arrow-right {
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid #333;
+        }
+        
+        .line {
+            position: absolute;
+            background: #333;
+        }
+        
+        .vertical-line {
+            width: 2px;
+        }
+        
+        .horizontal-line {
+            height: 2px;
+        }
+        
+        h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .small-text {
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="flow-container">
+        <!-- Источник данных -->
+        <div class="box source-box" style="top: 20px; left: 50px;">
+            <h3>Коллекция dblp</h3>
+            <div class="small-text">4.8M записей</div>
+        </div>
+        
+        <!-- Целевая коллекция -->
+        <div class="box target-box" style="top: 20px; right: 50px;">
+            <h3>Коллекция usertable</h3>
+            <div class="small-text">YCSB-структура</div>
+        </div>
+        
+        <!-- Основной процесс -->
+        <div class="box process-box" style="top: 150px; left: 250px;">
+            <h3>Python-скрипт</h3>
+            
+            <div class="step-box">
+                for i, doc in enumerate(dblp.find()):
+            </div>
+            
+            <div class="step-box">
+                user_key = f"user{i}"
+            </div>
+            
+            <div class="step-box">
+                <strong>Маппинг полей:</strong><br>
+                doc["title"] → field0<br>
+                doc["authors"] → field1<br>
+                doc["venue.raw"] → field2
+            </div>
+            
+            <div class="step-box">
+                usertable.update_one({"_id": user_key})
+            </div>
+        </div>
+        
+        <!-- Стрелки -->
+        <!-- От dblp к процессу -->
+        <div class="line vertical-line" style="top: 95px; left: 124px; height: 60px;"></div>
+        <div class="arrow arrow-down" style="top: 145px; left: 114px;"></div>
+        
+        <!-- От процесса к usertable -->
+        <div class="line horizontal-line" style="top: 290px; left: 560px; width: 110px;"></div>
+        <div class="arrow arrow-right" style="top: 280px; left: 655px;"></div>
+        <div class="line vertical-line" style="top: 95px; right: 124px; height: 200px;"></div>
+        
+        <!-- Результат -->
+        <div class="box target-box" style="bottom: 20px; left: 300px;">
+            <h3>Финальная usertable</h3>
+            <div class="small-text">YCSB-ключи + реальные данные</div>
+        </div>
+        
+        <!-- Стрелка к результату -->
+        <div class="line vertical-line" style="bottom: 110px; left: 399px; height: 25px;"></div>
+        <div class="arrow arrow-down" style="bottom: 95px; left: 389px;"></div>
+    </div>
+</body>
+</html>

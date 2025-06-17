@@ -1,0 +1,427 @@
+@import '../../styles/variables';
+
+// SCSS Variables
+$light-bg: #f5f5f5;
+$white: #ffffff;
+$text-primary: #374151;
+$text-dark: #1e293b;
+$text-secondary: #4b5563;
+$text-muted: #6b7280;
+$blue-primary: #4285f4;
+$blue-secondary: #1a73e8;
+$border-light: #e0e0e0;
+
+// Font mixins
+@mixin als-font($size: 16px, $weight: 400, $line-height: 1.5) {
+  font-family: 'ALS Sector Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+}
+
+.dataPreparationSlide {
+  @include als-font();
+  background: $light-bg;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.slideTitleContainer {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(224, 224, 224, 0.7);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 12px 32px;
+  text-align: center;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.slideTitle {
+  @include als-font(22px, 500, 1.2);
+  letter-spacing: 2px;
+  color: $text-dark;
+  margin: 0;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.titleIcon {
+  color: $blue-primary;
+  stroke-width: 2.5;
+}
+
+.contentContainer {
+  width: 1800px;
+  max-width: 1800px;
+  min-width: 1800px;
+  margin: 20px auto;
+  background: $white;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 90px);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  padding: 16px 25px;
+  background-color: $blue-primary;
+  color: white;
+  border-bottom: 1px solid $border-light;
+  flex-shrink: 0;
+}
+
+.cardIcon {
+  margin-right: 15px;
+}
+
+.cardTitle {
+  @include als-font(20px, 600);
+  margin: 0;
+}
+
+.cardHeaderAlt {
+  display: flex;
+  align-items: center;
+  padding: 16px 25px;
+  background-color: $white;
+  color: $text-dark;
+  border-bottom: 1px solid $border-light;
+  flex-shrink: 0;
+}
+
+.mainContentGrid {
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  gap: 15px;
+  padding: 15px;
+  flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+}
+
+.flowchartCard {
+  border: 1px solid $border-light;
+  border-radius: 12px;
+  background-color: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.flowchartContainer {
+  border: 1px solid $border-light;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  position: relative;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.detailsContainerWrapper {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.flowchartBox {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 2px solid #343a40;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-width: 180px;
+  text-align: center;
+  @include als-font(40px, 600, 1.3);
+  color: #1e293b;
+  transition: all 0.2s ease;
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.boxNumber {
+  position: absolute;
+  top: -24px;
+  right: -24px;
+  background: #343a40;
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include als-font(24px, 700);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detailStep {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid $border-light;
+  transition: all 0.3s ease;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.stepIcon {
+  color: $blue-primary;
+  flex-shrink: 0;
+}
+
+.stepTitle {
+  @include als-font(1.6rem, 700);
+  color: #333;
+  margin: 0 0 0.25rem;
+}
+
+.stepDescription {
+  @include als-font(1.15rem, 400, 1.4);
+  color: #555;
+  margin: 0;
+
+  b {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  code {
+    background-color: #e9ecef;
+    color: #343a40;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+  }
+
+  ul,
+  ol {
+    padding-left: 20px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.subheading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.codeBlock {
+  margin-top: 0.75rem;
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+
+  pre {
+    margin: 0;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 1rem;
+    white-space: pre-wrap;
+  }
+}
+
+.codeIcon {
+  color: #50fa7b;
+  flex-shrink: 0;
+}
+
+/* ======================================= */
+/*           Print Theme Overrides         */
+/* ======================================= */
+
+.dataPreparationSlide.printTheme {
+  background: $white;
+  color: #000;
+
+  .cardHeader, .cardHeaderAlt {
+    background: $white;
+    color: #000;
+    border-bottom: 2px solid #000;
+    .cardIcon {
+      color: #000;
+    }
+  }
+
+  .flowchartCard {
+    background: $white;
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+
+  .detailStep {
+      background: $white;
+      border: 1px solid #000 !important;
+  }
+
+  .codeBlock {
+    background: $white !important;
+    color: #000 !important;
+    border: 1px solid #000;
+    .codeIcon {
+        color: #000 !important;
+    }
+    pre {
+        color: #000 !important;
+    }
+  }
+
+  .slideTitleContainer {
+    background: $white;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-bottom: 2px solid #000;
+    position: static;
+
+    .slideTitle {
+      color: #000;
+    }
+  }
+
+  .contentContainer {
+    background: $white;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    height: auto;
+  }
+  
+  .emblemContainer {
+    .bmstuEmblem {
+      opacity: 1;
+      filter: none;
+    }
+  }
+
+  .flowchartSection,
+  .keyDifferencesSection {
+    box-shadow: none;
+    border: 1px solid #000;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .sectionHeader {
+      background: $white;
+      color: #000;
+      border-bottom: 2px solid #000;
+    }
+  }
+
+  .flowchartBox {
+    background: $white;
+    border: 2px solid #000;
+    box-shadow: none;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .boxNumber {
+      background: #000;
+      color: $white;
+      box-shadow: none;
+    }
+
+    .flowchartHighlight {
+      background: #000 !important;
+      color: $white !important;
+      border: 1px solid #000 !important;
+      box-shadow: none !important;
+      
+      * {
+        color: $white !important;
+      }
+    }
+  }
+
+  // Database badges in print mode
+  .differenceItem {
+    .dbBadge {
+      background: $white !important;
+      color: #000 !important;
+      border: 2px solid #000 !important;
+
+      &.mongodb,
+      &.postgresql,
+      &.cassandra {
+        background: $white !important;
+        color: #000 !important;
+        border: 2px solid #000 !important;
+      }
+    }
+
+    .differenceText {
+      color: #000 !important;
+    }
+  }
+
+  // Multiple levels of specificity for print theme highlights
+  .flowchartHighlight,
+  span.flowchartHighlight,
+  .flowchartBox .flowchartHighlight,
+  .flowchartBox span.flowchartHighlight {
+    background: #000 !important;
+    color: $white !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+
+  // Override any ReactFlow interference in print mode
+  .reactFlowNode .flowchartHighlight,
+  .reactFlowNode span.flowchartHighlight,
+  .reactFlowNodeCustom .flowchartHighlight,
+  .reactFlowNodeCustom span.flowchartHighlight {
+    background: #000 !important;
+    color: $white !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+} 

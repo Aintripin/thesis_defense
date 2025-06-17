@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Этап 3: Замещение реальными данными</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .flowchart {
+            position: relative;
+            width: 600px;
+            height: 700px;
+        }
+        
+        /* Овалы для начала/конца */
+        .oval {
+            position: absolute;
+            width: 160px;
+            height: 60px;
+            background: #e8f5e8;
+            border: 3px solid #28a745;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #155724;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Прямоугольники для процессов */
+        .rectangle {
+            position: absolute;
+            width: 200px;
+            height: 60px;
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #856404;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        /* Специальный стиль для детального процесса */
+        .detail-rectangle {
+            position: absolute;
+            width: 250px;
+            height: 120px;
+            background: #f8d7da;
+            border: 3px solid #dc3545;
+            border-radius: 8px;
+            color: #721c24;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        
+        .detail-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .detail-content {
+            font-size: 11px;
+            line-height: 1.3;
+        }
+        
+        /* Стрелки */
+        .arrow {
+            position: absolute;
+            background: #333;
+        }
+        
+        .arrow-vertical {
+            width: 3px;
+        }
+        
+        .arrow-horizontal {
+            height: 3px;
+        }
+        
+        .arrow-head {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #333;
+        }
+        
+        .arrow-head-right {
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 12px solid #333;
+            border-right: none;
+        }
+        
+        /* Позиционирование элементов */
+        .start { top: 20px; left: 220px; }
+        .source { top: 120px; left: 50px; }
+        .target { top: 120px; left: 400px; }
+        .iterate { top: 220px; left: 200px; }
+        .generate-key { top: 320px; left: 200px; }
+        .mapping { top: 420px; left: 175px; }
+        .update { top: 580px; left: 200px; }
+        .end { top: 680px; left: 220px; }
+        
+        /* Стрелки */
+        .arrow1 { top: 90px; left: 301px; height: 40px; }
+        .arrow1-head { top: 120px; left: 293px; }
+        
+        .arrow2 { top: 190px; left: 301px; height: 40px; }
+        .arrow2-head { top: 220px; left: 293px; }
+        
+        .arrow3 { top: 290px; left: 301px; height: 40px; }
+        .arrow3-head { top: 320px; left: 293px; }
+        
+        .arrow4 { top: 390px; left: 301px; height: 40px; }
+        .arrow4-head { top: 420px; left: 293px; }
+        
+        .arrow5 { top: 550px; left: 301px; height: 40px; }
+        .arrow5-head { top: 580px; left: 293px; }
+        
+        .arrow6 { top: 650px; left: 301px; height: 40px; }
+        .arrow6-head { top: 680px; left: 293px; }
+        
+        /* Боковые стрелки от источников */
+        .side-arrow-left { top: 149px; left: 170px; width: 40px; }
+        .side-arrow-left-head { top: 141px; left: 200px; }
+        
+        .side-arrow-right { top: 149px; left: 390px; width: 40px; }
+        .side-arrow-right-head { top: 141px; left: 382px; }
+    </style>
+</head>
+<body>
+    <div class="title">Этап 3: Замещение реальными данными</div>
+    
+    <div class="flowchart">
+        <!-- START -->
+        <div class="oval start">START</div>
+        
+        <!-- Источники данных -->
+        <div class="rectangle source">Коллекция dblp<br><small>4.8M записей</small></div>
+        <div class="rectangle target">Коллекция usertable<br><small>YCSB-структура</small></div>
+        
+        <!-- Процессы -->
+        <div class="rectangle iterate">Итерация по документам<br><code>enumerate(dblp.find())</code></div>
+        
+        <div class="rectangle generate-key">Генерация YCSB-ключа<br><code>user_key = f"user{i}"</code></div>
+        
+        <div class="detail-rectangle mapping">
+            <div class="detail-title">Маппинг полей</div>
+            <div class="detail-content">
+                doc["title"] → field0<br>
+                doc["authors"] → field1<br>
+                doc["venue.raw"] → field2<br>
+                doc["year"] → field3<br>
+                doc["n_citation"] → field4
+            </div>
+        </div>
+        
+        <div class="rectangle update">Обновление записи<br><code>usertable.update_one()</code></div>
+        
+        <!-- END -->
+        <div class="oval end">Финальная usertable<br><small>YCSB + реальные данные</small></div>
+        
+        <!-- Стрелки вертикальные -->
+        <div class="arrow arrow-vertical arrow1"></div>
+        <div class="arrow-head arrow1-head"></div>
+        
+        <div class="arrow arrow-vertical arrow2"></div>
+        <div class="arrow-head arrow2-head"></div>
+        
+        <div class="arrow arrow-vertical arrow3"></div>
+        <div class="arrow-head arrow3-head"></div>
+        
+        <div class="arrow arrow-vertical arrow4"></div>
+        <div class="arrow-head arrow4-head"></div>
+        
+        <div class="arrow arrow-vertical arrow5"></div>
+        <div class="arrow-head arrow5-head"></div>
+        
+        <div class="arrow arrow-vertical arrow6"></div>
+        <div class="arrow-head arrow6-head"></div>
+        
+        <!-- Боковые стрелки от источников -->
+        <div class="arrow arrow-horizontal side-arrow-left"></div>
+        <div class="arrow-head arrow-head-right side-arrow-left-head"></div>
+        
+        <div class="arrow arrow-horizontal side-arrow-right"></div>
+        <div class="arrow-head arrow-head-right side-arrow-right-head"></div>
+    </div>
+</body>
+</html>

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Settings, Monitor, Cloud, Layers } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TestEnvironmentSlide.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 // Import SVG icons using path aliases
 import CpuIcon from '@assets/cpu.svg';
@@ -52,15 +53,7 @@ export const TestEnvironmentSlide = () => {
 
   return (
     <div className={`${styles.testEnvironmentSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container */}
-      <motion.div
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>ТЕСТОВОЕ ОКРУЖЕНИЕ</h1>
-      </motion.div>
+      <SlideHeading size="small">ТЕСТОВОЕ ОКРУЖЕНИЕ</SlideHeading>
 
       {/* Content Container - White container with two direct children */}
       <div className={styles.contentContainer}>

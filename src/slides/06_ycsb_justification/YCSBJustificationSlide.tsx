@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Database, BarChart3, Settings } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './YCSBJustificationSlide.module.scss'
+import { SlideHeading } from '../../components/SlideHeading'
 
 interface JustificationCardProps {
   number: number
@@ -59,15 +60,7 @@ export const YCSBJustificationSlide: React.FC = () => {
 
   return (
     <div className={`${styles.ycsbJustificationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container */}
-      <motion.div 
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>О Б О С Н О В А Н И Е&nbsp;&nbsp;В Ы Б О Р А&nbsp;&nbsp;Y C S B</h1>
-      </motion.div>
+      <SlideHeading size="small">О Б О С Н О В А Н И Е&nbsp;&nbsp;В Ы Б О Р А&nbsp;&nbsp;Y C S B</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

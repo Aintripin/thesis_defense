@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './MainResultsSlide.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 interface WorkloadData {
   workload: string;
@@ -36,8 +37,8 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
   }, [chartType, navigate, location.pathname]);
 
   const slideTitle = chartType === 'bars'
-    ? 'О С Н О В Н Ы Е\u00a0\u00a0Р Е З У Л Ь Т А Т Ы'
-    : 'Д Е Т А Л И З А Ц И Я\u00a0\u00a0П Р О И З В О Д И Т Е Л Ь Н О С Т И';
+    ? 'ОСНОВНЫЕ РЕЗУЛЬТАТЫ'
+    : 'ДЕТАЛИЗАЦИЯ ПРОИЗВОДИТЕЛЬНОСТИ';
 
   // Apply print theme overrides to SVG elements
   useEffect(() => {
@@ -268,16 +269,7 @@ const MainResultsSlide: React.FC<MainResultsSlideProps> = ({ initialChartType = 
 
   return (
     <div className={`${styles.mainResultsSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      <motion.div
-        className={styles.slideHeader}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>
-          {slideTitle}
-        </h1>
-      </motion.div>
+      <SlideHeading size="small">{slideTitle}</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

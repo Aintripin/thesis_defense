@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Database } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './SolutionSlide.module.scss'
+import { SlideHeading } from '../../components/SlideHeading'
 
 interface DatabaseCardProps {
   title: string
@@ -102,15 +103,7 @@ export const SolutionSlide: React.FC = () => {
 
   return (
     <div className={`${styles.solutionSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container */}
-      <motion.div 
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>А Р Х И Т Е К Т У Р Н Ы Е&nbsp;&nbsp;Р Е Ш Е Н И Я&nbsp;&nbsp;С У Б Д</h1>
-      </motion.div>
+      <SlideHeading size="small">А Р Х И Т Е К Т У Р Н Ы Е&nbsp;&nbsp;Р Е Ш Е Н И Я&nbsp;&nbsp;С У Б Д</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

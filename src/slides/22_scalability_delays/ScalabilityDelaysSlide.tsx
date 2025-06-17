@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import * as d3 from 'd3';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './ScalabilityDelaysSlide.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 interface DataPoint {
   threads: number;
@@ -317,12 +318,7 @@ const ScalabilityDelaysSlide: React.FC = () => {
 
   return (
     <div className={`${styles.scalabilityDelaysSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Header */}
-      <div className={styles.slideHeader}>
-        <h1 className={styles.slideTitle}>
-          М А С Ш Т А Б И Р У Е М О С Т Ь&nbsp;&nbsp;И&nbsp;&nbsp;З А Д Е Р Ж К И
-        </h1>
-      </div>
+      <SlideHeading size="small">МАСШТАБИРУЕМОСТЬ И ЗАДЕРЖКИ</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

@@ -33,9 +33,7 @@ const DatasetSelectionWrapper = () => {
 }
 
 const DataPreparationWrapper = () => {
-  const location = useLocation();
-  const subSlide = location.pathname.includes('cassandra') ? 1 : 0;
-  return <DataPreparationSlides subSlide={subSlide} />;
+  return <DataPreparationSlides />;
 }
 
 const MainResultsBarsWrapper = () => {
@@ -71,6 +69,7 @@ const AppContent = () => {
         </Route>
         <Route path="/data-preparation" element={<DataPreparationWrapper />}>
           <Route index element={<DataPreparationWrapper />} />
+          <Route path="postgresql" element={<DataPreparationWrapper />} />
           <Route path="cassandra" element={<DataPreparationWrapper />} />
         </Route>
         <Route path="/test-environment" element={<TestEnvironmentSlide />} />

@@ -2,6 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './MarketAnalysisSlide.module.scss'
+import { SlideHeading } from '../../components/SlideHeading'
 
 interface TaskItemProps {
   number: number
@@ -145,15 +146,7 @@ export const MarketAnalysisSlide: React.FC = () => {
 
   return (
     <div className={`${styles.marketAnalysisSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container */}
-      <motion.div 
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>П Е Р Е Ч Е Н Ь&nbsp;&nbsp;Р Е Ш Ё Н Н Ы Х&nbsp;&nbsp;З А Д А Ч</h1>
-      </motion.div>
+      <SlideHeading size="small">П Е Р Е Ч Е Н Ь&nbsp;&nbsp;Р Е Ш Ё Н Н Ы Х&nbsp;&nbsp;З А Д А Ч</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

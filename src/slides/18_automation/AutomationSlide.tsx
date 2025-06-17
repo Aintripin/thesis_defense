@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './AutomationSlide.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 // Animation variants
 const containerVariants = {
@@ -47,15 +48,7 @@ const AutomationSlide = () => {
 
   return (
     <div className={`${styles.automationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Header like slide 17 */}
-      <motion.div 
-        className={styles.slideHeader}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>А В Т О М А Т И З А Ц И Я&nbsp;&nbsp;С Б О Р А&nbsp;&nbsp;Р Е З У Л Ь Т А Т О В</h1>
-      </motion.div>
+      <SlideHeading size="small">АВТОМАТИЗАЦИЯ СБОРА РЕЗУЛЬТАТОВ</SlideHeading>
 
       {/* Main content area */}
       <motion.div 

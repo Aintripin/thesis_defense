@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Этап 3: Замещение реальными данными</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            height: 600px;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .box {
+            position: absolute;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .source-box {
+            width: 160px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            top: 50px;
+            left: 50px;
+        }
+        
+        .target-box {
+            width: 160px;
+            height: 100px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            top: 50px;
+            right: 50px;
+        }
+        
+        .process-box {
+            width: 350px;
+            height: 320px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #2c3e50;
+            top: 200px;
+            left: 325px;
+            transform: translateX(-50%);
+        }
+        
+        .result-box {
+            width: 200px;
+            height: 80px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2c3e50;
+            bottom: 50px;
+            left: 400px;
+            transform: translateX(-50%);
+        }
+        
+        .box-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .box-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+            text-align: center;
+        }
+        
+        .step {
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-size: 11px;
+            border-left: 4px solid #e74c3c;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .step-header {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .mapping {
+            font-size: 10px;
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+        
+        .arrow {
+            position: absolute;
+            z-index: 10;
+        }
+        
+        .arrow-path {
+            fill: none;
+            stroke: #34495e;
+            stroke-width: 3;
+            marker-end: url(#arrowhead);
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .arrow-curved {
+            fill: none;
+            stroke: #e74c3c;
+            stroke-width: 3;
+            marker-end: url(#arrowhead-red);
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Этап 3: Замещение реальными данными</div>
+    
+    <div class="container">
+        <!-- SVG для стрелок -->
+        <svg>
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                        refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#34495e" />
+                </marker>
+                <marker id="arrowhead-red" markerWidth="10" markerHeight="7" 
+                        refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+                </marker>
+            </defs>
+            
+            <!-- Стрелка от dblp к процессу -->
+            <path d="M 210 120 Q 250 120 280 180" class="arrow-path"/>
+            
+            <!-- Стрелка от usertable к процессу -->
+            <path d="M 790 120 Q 750 120 720 180" class="arrow-path"/>
+            
+            <!-- Стрелка от процесса к результату -->
+            <path d="M 500 520 L 500 560" class="arrow-curved"/>
+        </svg>
+        
+        <!-- Коллекция dblp -->
+        <div class="box source-box">
+            <div class="icon">🗄️</div>
+            <div class="box-title">Коллекция dblp</div>
+            <div class="box-subtitle">4,894,081 записей</div>
+        </div>
+        
+        <!-- Коллекция usertable (исходная) -->
+        <div class="box target-box">
+            <div class="icon">📋</div>
+            <div class="box-title">Коллекция usertable</div>
+            <div class="box-subtitle">YCSB-структура</div>
+        </div>
+        
+        <!-- Python-скрипт -->
+        <div class="box process-box">
+            <div class="box-title">🐍 Python-скрипт</div>
+            
+            <div class="step">
+                <div class="step-header">1. Итерация по данным</div>
+                <code>for i, doc in enumerate(dblp.find()):</code>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">2. Генерация YCSB-ключа</div>
+                <code>user_key = f"user{i}"</code>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">3. Маппинг полей</div>
+                <div class="mapping">
+                    <code>doc["title"] → field0</code><br>
+                    <code>doc["authors"] → field1</code><br>
+                    <code>doc["venue.raw"] → field2</code><br>
+                    <code>doc["year"] → field3</code><br>
+                    <code>...</code>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">4. Обновление записи</div>
+                <code>usertable.update_one({"_id": user_key})</code>
+            </div>
+        </div>
+        
+        <!-- Финальный результат -->
+        <div class="box result-box">
+            <div class="icon">✅</div>
+            <div class="box-title">Финальная usertable</div>
+            <div class="box-subtitle">YCSB-ключи + реальные данные</div>
+        </div>
+    </div>
+</body>
+</html>

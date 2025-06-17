@@ -1,13 +1,21 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { DataPreparationSlide as MongoPostgresSlide } from './11_data_preparation/DataPreparationSlide';
-import { DataPreparationSlide as CassandraSlide } from './12_data_preparation/DataPreparationSlide';
+import { DataPreparationSlide as MongoDbSlide } from './11_data_preparation';
+import { DataPreparationSlide as PostgresDbSlide } from './12_data_preparation';
+import { DataPreparationSlide as CassandraDbSlide } from '../13_cassandra_preparation';
 
-export const DataPreparationSlides: React.FC<{ subSlide: number }> = ({ subSlide }) => {
-  if (subSlide === 1) {
-    return <CassandraSlide />;
+export const DataPreparationSlides: React.FC = () => {
+  const location = useLocation();
+
+  if (location.pathname.includes('postgresql')) {
+    return <PostgresDbSlide />;
   }
-  return <MongoPostgresSlide />;
+  
+  if (location.pathname.includes('cassandra')) {
+    return <CassandraDbSlide />;
+  }
+
+  return <MongoDbSlide />;
 };
 
 export default DataPreparationSlides; 

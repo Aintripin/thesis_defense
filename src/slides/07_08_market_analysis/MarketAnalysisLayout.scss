@@ -12,33 +12,6 @@
   overflow: hidden; // Prevent scrolling - content must fit
   box-sizing: border-box;
 
-  .slide-title-container-shared {
-    text-align: center;
-    width: 100%; 
-    padding: 12px 40px; // Reduced from 25px to 12px
-    background-color: #ffffff; // White background for the banner
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); // Subtle shadow
-    border-radius: 0; // No rounded corners for a full-width banner
-    box-sizing: border-box;
-    flex-shrink: 0; // Prevent the title container from shrinking
-
-    .slide-title-shared {
-      font-size: 1.8em; // Reduced from 2.1em
-      color: #1e3a8a;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      margin-top: 0;
-      margin-bottom: 4px; // Reduced from 8px
-    }
-    .slide-subtitle-shared {
-      font-size: 1.6em; // Reduced from 2.05em
-      color: #475569;
-      font-weight: 400;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
   .market-analysis-content-outlet {
     width: 100%;
     flex-grow: 1; // Allows the content area to take up remaining space
@@ -64,24 +37,6 @@
 // ADDED: Print Theme Overrides for the entire Layout
 .market-analysis-layout.print-theme {
   background-color: #ffffff; // Make sure entire page background is white
-
-  .slide-title-container-shared {
-    background-color: #ffffff;
-    box-shadow: none;
-    border-bottom: 2px solid #e5e7eb; // Use a simple border instead of shadow
-    padding: 8px 40px; // Reduced from 15px to 8px
-    margin-bottom: 0;
-  }
-  
-  .slide-title-shared {
-    color: #000000;
-    font-size: 1.6em; // Reduced from 1.8em
-  }
-  
-  .slide-subtitle-shared {
-    color: #333333; // Dark gray for subtitle
-    font-size: 1.1em; // Reduced from 1.2em
-  }
 
   .market-analysis-content-outlet {
     padding: 8px 0; // Reduced from 20px 0

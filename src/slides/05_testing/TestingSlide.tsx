@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './TestingSlide.module.scss'
+import { SlideHeading } from '../../components/SlideHeading'
 
 export const TestingSlide: React.FC = () => {
   const { isPrintTheme } = useTheme()
@@ -66,15 +67,7 @@ export const TestingSlide: React.FC = () => {
 
   return (
     <div className={`${styles.testingSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container */}
-      <motion.div 
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>Т Е Х Н О Л О Г И И&nbsp;&nbsp;Т Е С Т И Р О В А Н И Я&nbsp;&nbsp;С У Б Д</h1>
-      </motion.div>
+      <SlideHeading size="small">Т Е Х Н О Л О Г И И&nbsp;&nbsp;Т Е С Т И Р О В А Н И Я&nbsp;&nbsp;С У Б Д</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

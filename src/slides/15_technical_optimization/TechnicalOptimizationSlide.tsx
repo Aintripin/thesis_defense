@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TechnicalOptimizationSlide.module.scss';
 import { Settings, Zap, Shield, ChevronUp } from 'lucide-react';
+import { SlideHeading } from '../../components/SlideHeading';
 
 const optimizationData = [
   {
@@ -68,14 +69,7 @@ export const TechnicalOptimizationSlide = () => {
 
   return (
     <div className={`${styles.technicalOptimizationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      <motion.div
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>ОПТИМИЗАЦИЯ КОНФИГУРАЦИЙ СУБД</h1>
-      </motion.div>
+      <SlideHeading size="small">ОПТИМИЗАЦИЯ КОНФИГУРАЦИЙ СУБД</SlideHeading>
       
       <div className={styles.contentContainer}>
         <motion.div

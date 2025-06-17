@@ -8,6 +8,7 @@ import {
   NumberCard,
   MetricsCard
 } from './components';
+import { SlideHeading } from '../../components/SlideHeading';
 
 // Animation variants
 const containerVariants = {
@@ -53,16 +54,7 @@ const TestExecutionSlide = () => {
 
   return (
     <div className={`${styles.testExecutionSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* The correct header, at the top of the page */}
-      <motion.div 
-        className={styles.slideHeader}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>П Р О В Е Д Е Н И Е&nbsp;&nbsp;Т Е С Т О В</h1>
-        <p className={styles.slideSubtitle}>Методология и контроль качества</p>
-      </motion.div>
+      <SlideHeading size="small">ПРОВЕДЕНИЕ ТЕСТОВ</SlideHeading>
 
       {/* The main content area, separate from the header */}
       <motion.div 

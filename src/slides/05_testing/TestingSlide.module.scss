@@ -41,36 +41,6 @@ $print-border: #cccccc;
   flex-direction: column;
   gap: 0;
 
-  // Title container styled consistently with other slides
-  .slideTitleContainer {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 12px 32px;
-    text-align: center;
-    width: 100vw;
-    margin: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    .slideTitle {
-      @include als-font(32px, 600, 1.2);
-      letter-spacing: 4px;
-      color: $text-dark;
-      margin-bottom: 3px;
-      text-transform: uppercase;
-    }
-
-    .slideSubtitle {
-      @include als-font(16px, 500, 1.3);
-      color: $blue-primary;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-  }
-
   .contentContainer {
     max-width: 1800px;
     margin: 10px auto;
@@ -312,21 +282,6 @@ $print-border: #cccccc;
   background: $print-background;
   color: $print-text-primary;
 
-  .slideTitleContainer {
-    background: $print-background;
-    border-bottom: 2px solid $print-text-primary;
-    box-shadow: none;
-    backdrop-filter: none;
-
-    .slideTitle {
-      color: $print-text-primary;
-    }
-
-    .slideSubtitle {
-      color: $print-text-secondary;
-    }
-  }
-
   .contentContainer {
     background: $print-background;
     box-shadow: none;
@@ -437,15 +392,6 @@ $print-border: #cccccc;
       padding: 25px;
     }
 
-    .slideTitleContainer .slideTitle {
-      font-size: 28px;
-      letter-spacing: 3px;
-    }
-
-    .slideTitleContainer .slideSubtitle {
-      font-size: 14px;
-    }
-
     .headerCell {
       padding: 18px 24px;
       font-size: 20px;
@@ -489,15 +435,6 @@ $print-border: #cccccc;
   .testingSlide {
     .contentContainer {
       padding: 20px;
-    }
-
-    .slideTitleContainer .slideTitle {
-      font-size: 24px;
-      letter-spacing: 2px;
-    }
-
-    .slideTitleContainer .slideSubtitle {
-      font-size: 12px;
     }
 
     .headerCell {

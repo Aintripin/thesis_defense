@@ -29,35 +29,6 @@ $border-light: #f3f4f6;
   flex-direction: column;
   gap: 0;
 
-  // Title container styled like YCSB slide
-  .slideTitleContainer {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 10px 32px;
-    text-align: center;
-    width: 100vw;
-    margin: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    .slideTitle {
-      @include als-font(24px, 300, 1.2);
-      letter-spacing: 3px;
-      color: $text-dark;
-      margin-bottom: 0;
-      text-transform: uppercase;
-    }
-
-    .slideSubtitle {
-      @include als-font(20px, 400, 1.3);
-      color: $text-secondary;
-      margin: 0;
-    }
-  }
-
   .contentContainer {
     max-width: 1800px;
     margin: 20px auto;
@@ -624,11 +595,6 @@ $border-light: #f3f4f6;
     .sidebar {
       width: 220px;
     }
-
-    .slideTitleContainer .slideTitle {
-      font-size: 20px;
-      letter-spacing: 2px;
-    }
   }
 }
 
@@ -650,11 +616,6 @@ $border-light: #f3f4f6;
     .mainContentAreaWrapper {
       padding: 30px;
       padding-left: 30px;
-    }
-
-    .slideTitleContainer .slideTitle {
-      font-size: 18px;
-      letter-spacing: 1px;
     }
 
     .section {
@@ -689,18 +650,6 @@ $border-light: #f3f4f6;
 .datasetSelectionSlide.printTheme {
   background: $white;
   color: #000;
-
-  .slideTitleContainer {
-    background: $white;
-    backdrop-filter: none;
-    box-shadow: none;
-    border-bottom: 2px solid #000;
-    position: static;
-
-    .slideTitle, .slideSubtitle {
-      color: #000;
-    }
-  }
 
   .contentContainer {
     background: $white;

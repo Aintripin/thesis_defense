@@ -4,6 +4,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { Slide9Content } from './09_dataset_selection/_Slide9Content';
 import { Slide10Content } from './10_dataset_selection/_Slide10Content';
 import styles from './DatasetSlides.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 interface SharedLayoutProps {
   subSlide: number;
@@ -22,15 +23,7 @@ export const SharedDatasetSlideLayout: React.FC<SharedLayoutProps> = ({ subSlide
 
   return (
     <div className={layoutClasses}>
-      {/* Title Container */}
-      <motion.div
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>В Ы Б О Р&nbsp;&nbsp;И&nbsp;&nbsp;А Н А Л И З&nbsp;&nbsp;Д А Т А С Е Т А</h1>
-      </motion.div>
+      <SlideHeading size="small">В Ы Б О Р&nbsp;&nbsp;И&nbsp;&nbsp;А Н А Л И З&nbsp;&nbsp;Д А Т А С Е Т А</SlideHeading>
 
       {/* Content Container - No sidebar, full width */}
       <div className={styles.contentContainer}>

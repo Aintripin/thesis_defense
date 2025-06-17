@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TechnicalImplementationSlide.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 // Animation variants
 const containerVariants = {
@@ -38,15 +39,7 @@ export const TechnicalImplementationSlide = () => {
 
   return (
     <div className={`${styles.technicalImplementationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Title Container */}
-      <motion.div
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>ТЕХНИЧЕСКАЯ РЕАЛИЗАЦИЯ ЗАГРУЗКИ</h1>
-      </motion.div>
+      <SlideHeading size="small">ТЕХНИЧЕСКАЯ РЕАЛИЗАЦИЯ ЗАГРУЗКИ</SlideHeading>
 
       {/* Content Container */}
       <div className={styles.contentContainer}>

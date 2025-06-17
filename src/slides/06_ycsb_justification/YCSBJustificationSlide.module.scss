@@ -38,29 +38,6 @@ $print-border: #cccccc;
   flex-direction: column;
   gap: 0;
 
-  // Title container styled like other slides
-  .slideTitleContainer {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 12px 32px;
-    text-align: center;
-    width: 100vw;
-    margin: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    .slideTitle {
-      @include als-font(32px, 600, 1.2);
-      letter-spacing: 4px;
-      color: $text-dark;
-      margin-bottom: 0;
-      text-transform: uppercase;
-    }
-  }
-
   .contentContainer {
     max-width: 1800px;
     margin: 20px auto;
@@ -287,17 +264,6 @@ $print-border: #cccccc;
   background: $print-background;
   color: $print-text-primary;
 
-  .slideTitleContainer {
-    background: $print-background;
-    border-bottom: 2px solid $print-text-primary;
-    box-shadow: none;
-    backdrop-filter: none;
-
-    .slideTitle {
-      color: $print-text-primary;
-    }
-  }
-
   .contentContainer {
     background: $print-background;
     box-shadow: none;
@@ -386,11 +352,6 @@ $print-border: #cccccc;
 // Responsive Design
 @media (max-width: 1400px) {
   .ycsbJustificationSlide {
-    .slideTitleContainer .slideTitle {
-      font-size: 28px;
-      letter-spacing: 2px;
-    }
-
     .justificationCard {
       .cardTitle {
         font-size: 24px;
@@ -463,11 +424,6 @@ $print-border: #cccccc;
       height: 120px;
       bottom: 1rem;
       right: 1rem;
-    }
-
-    .slideTitleContainer .slideTitle {
-      font-size: 24px;
-      letter-spacing: 1px;
     }
   }
 } 

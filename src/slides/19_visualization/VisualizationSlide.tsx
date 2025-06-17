@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './VisualizationSlide.module.scss';
+import { SlideHeading } from '../../components/SlideHeading';
 
 // Animation variants
 const containerVariants = {
@@ -47,15 +48,7 @@ const VisualizationSlide = () => {
 
   return (
     <div className={`${styles.visualizationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      {/* Header like slides 17 & 18 */}
-      <motion.div 
-        className={styles.slideHeader}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={styles.slideTitle}>В И З У А Л И З А Ц И Я&nbsp;&nbsp;И&nbsp;&nbsp;Р Е К О М Е Н Д А Ц И И</h1>
-      </motion.div>
+      <SlideHeading size="small">ВИЗУАЛИЗАЦИЯ И РЕКОМЕНДАЦИИ</SlideHeading>
 
       {/* Main content area */}
       <motion.div 
