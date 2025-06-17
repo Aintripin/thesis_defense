@@ -1,1 +1,1 @@
-export { DataPreparationSlide as Slide13 } from './DataPreparationSlide'; 
+export { DataPreparationSlide } from './DataPreparationSlide'; 
