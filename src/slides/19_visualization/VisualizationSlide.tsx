@@ -2,7 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './VisualizationSlide.module.scss';
-import { Image } from 'lucide-react';
+
+import img15 from '../../imgs/Picture15.png';
+import img6 from '../../imgs/Picture6.png';
+import img4 from '../../imgs/Picture4.png';
+import img14 from '../../imgs/Picture14.png';
+import img1 from '../../imgs/Picture1.png';
+import img2 from '../../imgs/Picture2.png';
 
 // Animation variants
 const containerVariants = {
@@ -58,7 +64,7 @@ const placeholderVariants = {
 
 const VisualizationSlide = () => {
   const { isPrintTheme } = useTheme();
-  const placeholders = Array.from({ length: 6 });
+  const images = [img15, img6, img4, img14, img1, img2];
 
   return (
     <div className={`${styles.visualizationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
@@ -146,20 +152,18 @@ const VisualizationSlide = () => {
             variants={slideInRight}
           >
             <div className={styles.screenshotGrid}>
-              {placeholders.map((_, index) => (
+              {images.map((imgSrc, index) => (
                 <motion.div
                   key={index}
                   className={styles.screenshotPlaceholder}
                   custom={index}
                   variants={placeholderVariants}
                 >
-                  <div className={styles.placeholderIcon}>
-                    <Image size={48} />
-                  </div>
-                  <div className={styles.placeholderText}>
-                    <div className={styles.placeholderTitle}>{`Дашборд ${index + 1}`}</div>
-                    <div className={styles.placeholderDesc}>Место для скриншота</div>
-                  </div>
+                  <img 
+                    src={imgSrc} 
+                    alt={`Superset Dashboard ${index + 1}`} 
+                    className={styles.screenshotImage} 
+                  />
                 </motion.div>
               ))}
             </div>
