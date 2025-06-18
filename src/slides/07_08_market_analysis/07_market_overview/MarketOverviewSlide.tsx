@@ -185,7 +185,7 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
       // Animated dashed line for color theme
       const totalLinePath = g.append("path").datum(data).attr("d", line).style("fill", "none").style("stroke", "#1E293B").style("stroke-width", 3).style("visibility", "hidden");
 
-      animationTimeoutId.current = setTimeout(() => {
+      animationTimeoutId.current = window.setTimeout(() => {
         console.log("[MarketOverviewSlide] Starting line and dot animation after 4s delay...");
         const pathNode = totalLinePath.node() as SVGPathElement;
         if (!pathNode) { console.error("[MarketOverviewSlide] totalLinePath.node() is null!"); return; }
@@ -323,7 +323,7 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
           }
         }
         animationFrameId.current = requestAnimationFrame(animateLineAndDots);
-      }, 4000);
+      }, 4000) as number;
 
       const yearMarkerPoints = g.selectAll(".total-point").data(data).enter().append("circle")
         .attr("class", "total-point")
@@ -355,7 +355,7 @@ export const MarketOverviewSlide: React.FC = () => { // Component name updated
     }
 
     return () => {
-      if (animationTimeoutId.current) clearTimeout(animationTimeoutId.current);
+      if (animationTimeoutId.current) window.clearTimeout(animationTimeoutId.current);
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
       d3.select(container).selectAll("*").remove(); // Ensure cleanup
     };
