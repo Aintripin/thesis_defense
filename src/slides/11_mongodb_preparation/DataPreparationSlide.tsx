@@ -14,10 +14,10 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
 import { Database, GitBranch } from 'lucide-react';
-import { useTheme } from '../../../contexts/ThemeContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './DataPreparationSlide.module.scss';
-import { DetailedMongoDbFlow } from './DetailedMongoDbFlow';
-import { Step3Flowchart } from './Step3Flowchart';
+import { DetailedMongoDbFlow } from './DetailedMongoDbFlow.tsx';
+import { SlideHeading } from '../../components/SlideHeading';
 
 interface CustomNodeData {
   num: string;
@@ -76,11 +76,11 @@ const sectionVariants = {
 };
 
 const initialMongoNodes: Node<CustomNodeData>[] = [
-  { id: 'mongo-0', position: { x: -200, y: -150 }, data: { num: 'O', label: 'предварительный анализ структуры' }, type: 'custom' },
-  { id: 'mongo-1', position: { x: 540, y: -150 }, data: { num: '1', label: 'импорт данных' }, type: 'custom' },
-  { id: 'mongo-2', position: { x: -150, y: -30 }, data: { num: '2', label: 'создание таблицы ч/з YCSB' }, type: 'custom' },
-  { id: 'mongo-3', position: { x: 430, y: -15 }, data: { num: '3', label: 'заполнение реальными данными' }, type: 'custom' },
-  { id: 'mongo-4', position: { x: 300, y: 75 }, data: { num: '4', label: 'создание индексов' }, type: 'custom' },
+  { id: 'mongo-0', position: { x: -200, y: -250 }, data: { num: 'O', label: 'предварительный анализ структуры' }, type: 'custom' },
+  { id: 'mongo-1', position: { x: 640, y: -250 }, data: { num: '1', label: 'импорт данных' }, type: 'custom' },
+  { id: 'mongo-2', position: { x: -150, y: -100 }, data: { num: '2', label: 'создание таблицы ч/з YCSB' }, type: 'custom' },
+  { id: 'mongo-3', position: { x: 550, y: -50 }, data: { num: '3', label: 'заполнение реальными данными' }, type: 'custom' },
+  { id: 'mongo-4', position: { x: 350, y: 100 }, data: { num: '4', label: 'создание индексов' }, type: 'custom' },
 ];
 
 const initialMongoEdges: Edge[] = [
@@ -133,6 +133,11 @@ export const _DataPreparationSlide = () => {
           .${styles.boxNumber} {
             background: #343a40 !important;
             color: white !important;
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 24px !important;
+            top: -20px !important;
+            right: -20px !important;
           }
           .printTheme .${styles.stepDescription} code {
             background: white !important;
@@ -146,70 +151,28 @@ export const _DataPreparationSlide = () => {
           .${styles.stepTitle} {
             font-size: 1.8rem !important;
           }
+          .${styles.flowchartBox} {
+            font-size: 36px !important;
+          }
+          .${styles.codeBlock} {
+            align-items: flex-start !important;
+          }
+          .${styles.codeBlock} pre {
+            font-size: 1.4rem !important;
+          }
         `}
       </style>
       <style
         dangerouslySetInnerHTML={{
           __html: `
-            .react-flow__edges {
-              overflow: visible !important;
-              z-index: 1 !important;
-            }
-            .react-flow__edge-path {
-              stroke: #343a40 !important;
-              stroke-width: 3px !important;
-              fill: none !important;
-            }
-            .react-flow__arrowhead {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            /* Nuclear option for stubborn arrowheads */
-            svg defs marker polygon {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            svg defs marker path {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            marker * {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            /* Target all possible arrowhead selectors */
-            [id*="arrowclosed"] * {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            .react-flow__edge.selected .react-flow__edge-path {
-              stroke: #343a40 !important;
-            }
-            /* Override any default marker colors */
-            svg marker {
-              color: #343a40 !important;
-            }
-            svg marker polygon,
-            svg marker path {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            .react-flow__edge {
-              pointer-events: all !important;
-            }
-            svg.react-flow__edges {
-              overflow: visible !important;
-            }
-            
-            /* FORCE HIGHLIGHT TEXT TO BE VISIBLE */
-            .flowchartHighlight,
-            span.flowchartHighlight,
-            .flowchart-box .flowchartHighlight,
-            .flowchart-box span.flowchartHighlight,
-            .react-flow__node .flowchartHighlight,
-            .react-flow__node span.flowchartHighlight,
-            .react-flow__node-custom .flowchartHighlight,
-            .react-flow__node-custom span.flowchartHighlight {
+            .${styles.flowchartHighlight},
+            span.${styles.flowchartHighlight},
+            .${styles.flowchartBox} .${styles.flowchartHighlight},
+            .${styles.flowchartBox} span.${styles.flowchartHighlight},
+            .react-flow__node .${styles.flowchartHighlight},
+            .react-flow__node span.${styles.flowchartHighlight},
+            .react-flow__node-custom .${styles.flowchartHighlight},
+            .react-flow__node-custom span.${styles.flowchartHighlight} {
               background: ${isPrintTheme ? '#000' : '#4285f4'} !important;
               color: ${isPrintTheme ? '#fff' : '#ffffff'} !important;
               padding: 4px 8px !important;
@@ -229,8 +192,7 @@ export const _DataPreparationSlide = () => {
               z-index: 999 !important;
             }
             
-            /* Debug: Make highlight super obvious */
-            .flowchartHighlight::before {
+            .${styles.flowchartHighlight}::before {
               content: '' !important;
               position: absolute !important;
               top: 0 !important;
@@ -244,17 +206,7 @@ export const _DataPreparationSlide = () => {
         }}
       />
 
-      {/* Title Container */}
-      <motion.div
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h2 className={styles.slideTitle}>
-          Стратегии подготовки данных
-        </h2>
-      </motion.div>
+      <SlideHeading size="small">Стратегии подготовки данных MongoDB</SlideHeading>
 
       {/* Main Content Area */}
       <div className={styles.contentContainer}>
@@ -287,14 +239,14 @@ export const _DataPreparationSlide = () => {
                     <h3 className={styles.cardTitle}>Этап 3: Замещение реальными данными</h3>
                 </div>
                 <div className={styles.flowchartContainer}>
-                    <Step3Flowchart />
+                    <DetailedMongoDbFlow stepsToShow={['3']} />
                 </div>
             </motion.div>
           </div>
           
           {/* Right Column */}
           <motion.div variants={sectionVariants} className={styles.detailsContainerWrapper}>
-            <DetailedMongoDbFlow />
+            <DetailedMongoDbFlow stepsToShow={['1', '2', '4']} />
           </motion.div>
         </motion.div>
       </div>
@@ -306,4 +258,4 @@ export const DataPreparationSlide = forwardRef<HTMLDivElement>((props, ref) => (
   <div ref={ref}>
     <_DataPreparationSlide />
   </div>
-));
+)); 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer, HelpCircle, Maximize, Minimize } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer, HelpCircle, Maximize, Minimize, PlayCircle } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation'
 import KeyboardShortcutsHelp from '../KeyboardShortcutsHelp'
@@ -17,7 +17,7 @@ interface SlideEntry {
 const Navigation: React.FC = () => {
   const location = useLocation()
   const [isNavVisible, setIsNavVisible] = useState(false)
-  const { theme, toggleTheme, isColorTheme } = useTheme()
+  const { toggleTheme, isColorTheme } = useTheme()
   const { isHelpVisible, toggleHelp, closeHelp, isFullscreen, toggleFullscreen } = useKeyboardNavigation()
   
   const slides: SlideEntry[] = [
@@ -25,18 +25,20 @@ const Navigation: React.FC = () => {
     { path: '/problem', label: 'Постановка задачи', icon: Target },
     { path: '/market', label: 'Решённые задачи', icon: CheckSquare },
     { path: '/solution', label: 'Архитектурные решения', icon: Lightbulb },
-    { path: '/testing', label: 'Технологии тестирования', icon: Zap },
+    { path: '/testing', label: 'Технологии тестирования', icon: CheckSquare },
     { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
     { path: '/market-analysis', label: 'Анализ рынка: Обзор', icon: BarChart3, end: true },
     { path: '/market-analysis/trends-deep-dive', label: 'Анализ рынка: Детали', icon: BarChart3 },
     { path: '/dataset-selection', label: 'Выбор и анализ датасета', icon: Database, end: true },
     { path: '/dataset-selection/details', label: 'Выбранный датасет', icon: Database },
-    { path: '/data-preparation', label: 'Стратегии подготовки данных', icon: Zap, end: true },
-    { path: '/data-preparation/cassandra', label: 'Подготовка данных для Cassandra', icon: Zap },
+    { path: '/mongodb-preparation', label: 'Подготовка данных MongoDB', icon: CheckSquare },
+    { path: '/postgresql-preparation', label: 'Подготовка данных PostgreSQL', icon: CheckSquare },
+    { path: '/cassandra-preparation', label: 'Подготовка данных Cassandra', icon: CheckSquare },
     { path: '/test-environment', label: 'Тестовое окружение', icon: Settings },
     { path: '/technical-implementation', label: 'Техническая реализация', icon: Cog },
     { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
     { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
+    { path: '/test-execution', label: 'Исполнение тестов', icon: PlayCircle },
     { path: '/automation', label: 'Автоматизация сбора результатов', icon: Bot },
     { path: '/visualization', label: 'Визуализация и рекомендации', icon: PieChart },
     { path: '/main-results', label: 'Основные результаты: Столбчатая диаграмма', icon: Award, end: true },
@@ -54,9 +56,6 @@ const Navigation: React.FC = () => {
       return slide.path === location.pathname;
     }
     if (slide.path.includes('/dataset-selection') && location.pathname.startsWith('/dataset-selection')) {
-      return slide.path === location.pathname;
-    }
-    if (slide.path.includes('/data-preparation') && location.pathname.startsWith('/data-preparation')) {
       return slide.path === location.pathname;
     }
     if (slide.path.includes('/main-results') && location.pathname.startsWith('/main-results')) {

@@ -12,28 +12,27 @@ import { TestingSlide } from './slides/05_testing'
 import { YCSBJustificationSlide } from './slides/06_ycsb_justification/YCSBJustificationSlide'
 import { MarketAnalysisLayout, MarketOverviewSlide, TrendsDeepDiveSlide } from './slides/07_08_market_analysis'
 import { DatasetSlides } from './slides/09_10_dataset_selection'
-import { DataPreparationSlides } from './slides/11_12_data_preparation'
-import { TestEnvironmentSlide } from './slides/13_test_environment'
-import { TechnicalImplementationSlide } from './slides/14_technical_implementation'
-import { TechnicalOptimizationSlide } from './slides/15_technical_optimization'
-import YcsbConfigurationSlide from './slides/16_ycsb_configuration'
-import AutomationSlide from './slides/18_automation/AutomationSlide'
-import VisualizationSlide from './slides/19_visualization/VisualizationSlide'
-import { MainResultsSlide } from './slides/20_main_results'
-import { ScalabilityDelaysSlide } from './slides/22_scalability_delays'
-import { PublicationsSlide } from './slides/23_publications'
-import { ConclusionSlide } from './slides/24_conclusion'
-import { GoodbyeSlide } from './slides/25_goodbye'
+import MongoDbPreparationSlide from './slides/11_mongodb_preparation/index.tsx'
+import PostgresqlPreparationSlide from './slides/12_postgresql_preparation/index.tsx'
+import CassandraPreparationSlide from './slides/13_cassandra_preparation/index.tsx'
+import { TestEnvironmentSlide } from './slides/14_test_environment'
+import { TechnicalImplementationSlide } from './slides/15_technical_implementation'
+import { TechnicalOptimizationSlide } from './slides/16_technical_optimization'
+import YcsbConfigurationSlide from './slides/17_ycsb_configuration'
+import TestExecutionSlide from './slides/18_test_execution/index.tsx'
+import AutomationSlide from './slides/19_automation/AutomationSlide'
+import VisualizationSlide from './slides/20_visualization/VisualizationSlide'
+import { MainResultsSlide } from './slides/21_main_results'
+import { ScalabilityDelaysSlide } from './slides/23_scalability_delays'
+import { PublicationsSlide } from './slides/24_publications'
+import { ConclusionSlide } from './slides/25_conclusion'
+import { GoodbyeSlide } from './slides/26_goodbye'
 import './App.css'
 
 const DatasetSelectionWrapper = () => {
   const location = useLocation();
   const subSlide = location.pathname.includes('details') ? 1 : 0;
   return <DatasetSlides subSlide={subSlide} />;
-}
-
-const DataPreparationWrapper = () => {
-  return <DataPreparationSlides />;
 }
 
 const MainResultsBarsWrapper = () => {
@@ -67,15 +66,14 @@ const AppContent = () => {
           <Route index element={<DatasetSelectionWrapper />} />
           <Route path="details" element={<DatasetSelectionWrapper />} />
         </Route>
-        <Route path="/data-preparation" element={<DataPreparationWrapper />}>
-          <Route index element={<DataPreparationWrapper />} />
-          <Route path="postgresql" element={<DataPreparationWrapper />} />
-          <Route path="cassandra" element={<DataPreparationWrapper />} />
-        </Route>
+        <Route path="/mongodb-preparation" element={<MongoDbPreparationSlide />} />
+        <Route path="/postgresql-preparation" element={<PostgresqlPreparationSlide />} />
+        <Route path="/cassandra-preparation" element={<CassandraPreparationSlide />} />
         <Route path="/test-environment" element={<TestEnvironmentSlide />} />
         <Route path="/technical-implementation" element={<TechnicalImplementationSlide />} />
         <Route path="/technical-optimization" element={<TechnicalOptimizationSlide />} />
         <Route path="/ycsb-configuration" element={<YcsbConfigurationSlide />} />
+        <Route path="/test-execution" element={<TestExecutionSlide />} />
         <Route path="/automation" element={<AutomationSlide />} />
         <Route path="/visualization" element={<VisualizationSlide />} />
         <Route path="/main-results" element={<MainResultsBarsWrapper />} />

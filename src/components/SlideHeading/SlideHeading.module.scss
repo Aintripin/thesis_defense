@@ -39,4 +39,16 @@
       color: #000000;
     }
   }
+}
+
+.small {
+  h1 {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+}
+
+.printTheme {
+  // ... existing code ...
 } 

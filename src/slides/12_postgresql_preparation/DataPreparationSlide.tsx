@@ -15,7 +15,7 @@ import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './DataPreparationSlide.module.scss';
-import { DetailedCassandraDbFlow } from './DetailedCassandraDbFlow.tsx';
+import { DetailedPostgresDbFlow } from './DetailedPostgresDbFlow.tsx';
 import { SlideHeading } from '../../components/SlideHeading';
 
 interface CustomNodeData {
@@ -61,25 +61,25 @@ const sectionVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
 };
 
-const initialCassandraNodes: Node<CustomNodeData>[] = [
-  { id: 'cassandra-0', position: { x: 0, y: 50 }, data: { num: 'O', label: <>предварительный<br/>анализ<br/>структуры</> }, type: 'custom' },
-  { id: 'cassandra-1', position: { x: 300, y: -100 }, data: { num: '1', label: <>JSON → NDJSON</> }, type: 'custom' },
-  { id: 'cassandra-2', position: { x: 750, y: -150 }, data: { num: '2', label: <>NDJSON<br/>flattening</> }, type: 'custom' },
-  { id: 'cassandra-3', position: { x: 680, y: 30 }, data: { num: '3', label: <>создание таблицы <span className="flowchartHighlight">A</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
-  { id: 'cassandra-4', position: { x: 1260, y: -150 }, data: { num: '4', label: <>заполнение таблицы<br/><span className="flowchartHighlight">A</span> реальными<br/>данными<br/>через DSBulk</> }, type: 'custom' },
-  { id: 'cassandra-5', position: { x: 300, y: 300 }, data: { num: '5', label: <>создание таблицы <span className="flowchartHighlight">B</span><br/>через YCSB</> }, type: 'custom' },
-  { id: 'cassandra-6', position: { x: 1250, y: 250 }, data: { num: '6', label: <>заполнение таблицы<br/><span className="flowchartHighlight">B</span> реальными<br/>данными</> }, type: 'custom' },
+const initialPostgresNodes: Node<CustomNodeData>[] = [
+    { id: 'pg-0', position: { x: -350, y: 220 }, data: { num: 'O', label: <>предварительный<br/>анализ структуры</> }, type: 'custom' },
+    { id: 'pg-1', position: { x: -20, y: -80 }, data: { num: '1', label: <>создание первичной<br/>таблицы <span className={styles.flowchartHighlight}>A</span> с колонками<br/><span className={styles.flowchartHighlight}>_id</span> и <span className={styles.flowchartHighlight}>data</span> (JSONB)</> }, type: 'custom' },
+    { id: 'pg-2', position: { x: 50, y: 350 }, data: { num: '2', label: <>создание таблицы <span className={styles.flowchartHighlight}>B</span><br/>через YCSB</> }, type: 'custom' },
+    { id: 'pg-3', position: { x: 350, y: 100}, data: { num: '3', label: <>создание таблицы <span className={styles.flowchartHighlight}>C</span> со<br/>структурированными<br/>колонками</> }, type: 'custom' },
+    { id: 'pg-4', position: { x: 550, y: -50 }, data: { num: '4', label: <>импорт данных<br/>из mongoDB</> }, type: 'custom' },
+    { id: 'pg-5', position: { x: 900, y: 100 }, data: { num: '5', label: <>парсинг данных и<br/>заполнение<br/>таблицы <span className={styles.flowchartHighlight}>C</span></> }, type: 'custom' },
+    { id: 'pg-6', position: { x: 650, y: 350 }, data: { num: '6', label: <>заполнение таблицы<br/><span className={styles.flowchartHighlight}>B</span> реальными<br/>данными</> }, type: 'custom' },
 ];
-  
-const initialCassandraEdges: Edge[] = [
-  { id: 'e-c-0-1', source: 'cassandra-0', target: 'cassandra-1', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-1-2', source: 'cassandra-1', target: 'cassandra-2', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-0-3', source: 'cassandra-0', target: 'cassandra-3', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-2-4', source: 'cassandra-2', target: 'cassandra-4', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-3-4', source: 'cassandra-3', target: 'cassandra-4', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-0-5', source: 'cassandra-0', target: 'cassandra-5', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-5-6', source: 'cassandra-5', target: 'cassandra-6', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
-  { id: 'e-c-4-6', source: 'cassandra-4', target: 'cassandra-6', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+
+const initialPostgresEdges: Edge[] = [
+    { id: 'e-p-0-1', source: 'pg-0', target: 'pg-1', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-0-2', source: 'pg-0', target: 'pg-2', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-0-3', source: 'pg-0', target: 'pg-3', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-1-4', source: 'pg-1', target: 'pg-4', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-2-6', source: 'pg-2', target: 'pg-6', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-3-5', source: 'pg-3', target: 'pg-5', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-4-5', source: 'pg-4', target: 'pg-5', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
+    { id: 'e-p-5-6', source: 'pg-5', target: 'pg-6', type: 'smoothstep', markerEnd: darkGreyMarker, style: { strokeWidth: 3, stroke: '#343a40' } },
 ];
 
 interface FlowchartProps {
@@ -118,7 +118,7 @@ export const _DataPreparationSlide = () => {
 
   return (
     <div className={`${styles.dataPreparationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      <SlideHeading size="small">Подготовка данных для Cassandra</SlideHeading>
+      <SlideHeading size="small">Стратегии подготовки данных PostgreSQL</SlideHeading>
       <div className={styles.contentContainer}>
         <motion.div
           className={styles.mainContentGrid}
@@ -130,27 +130,30 @@ export const _DataPreparationSlide = () => {
             <motion.div
               variants={sectionVariants}
               className={styles.flowchartCard}
-              style={{ height: '50vh', minHeight: '400px' }}
+              style={{ height: '50vh', minHeight: '450px' }}
             >
               <div className={styles.cardHeader}>
-                <h3 className={styles.cardTitle}>Общая схема подготовки</h3>
+                <h3 className={styles.cardTitle}>Схема загрузки датасета в PostgreSQL</h3>
               </div>
               <div className={styles.flowchartContainer}>
-                <Flowchart initialNodes={initialCassandraNodes} initialEdges={initialCassandraEdges} />
+                <Flowchart initialNodes={initialPostgresNodes} initialEdges={initialPostgresEdges} />
               </div>
             </motion.div>
             <motion.div
               variants={sectionVariants}
               className={styles.flowchartCard}
             >
+              <div className={styles.cardHeader}>
+                  <h3 className={styles.cardTitle}>Этапы 5-6: Трансформация и замещение</h3>
+              </div>
               <div className={styles.flowchartContainer} style={{ overflowY: 'auto', padding: '1rem' }}>
-                  <DetailedCassandraDbFlow stepsToShow={['4', '5']} />
+                  <DetailedPostgresDbFlow stepsToShow={['5', '6']} />
               </div>
             </motion.div>
           </div>
           
           <motion.div variants={sectionVariants} className={styles.detailsContainerWrapper}>
-            <DetailedCassandraDbFlow stepsToShow={['1', '2', '3']} />
+            <DetailedPostgresDbFlow stepsToShow={['1', '2', '3', '4']} />
           </motion.div>
         </motion.div>
       </div>
@@ -162,4 +165,4 @@ export const DataPreparationSlide = forwardRef<HTMLDivElement>((props, ref) => (
   <div ref={ref}>
     <_DataPreparationSlide />
   </div>
-)); 
+));

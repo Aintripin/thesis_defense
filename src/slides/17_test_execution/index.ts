@@ -1,1 +1,0 @@
-export { TestExecutionSlideWrapper as default } from './TestExecutionSlideWrapper'; 
