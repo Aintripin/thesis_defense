@@ -2,6 +2,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import styles from '../ProblemStatementSlide.module.scss'
 
+// Import SVG icons properly
+import PostgreSQLIcon from '../../../assets/postgresql.svg'
+import MongoDBIcon from '../../../assets/mongodb.svg'
+import CassandraIcon from '../../../assets/apachecassandra.svg'
+
 const ResearchObjectsSection: React.FC = () => {
   return (
     <motion.div 
@@ -18,7 +23,7 @@ const ResearchObjectsSection: React.FC = () => {
       <div className={styles.dbGrid}>
         <div className={styles.dbItem}>
           <div className={`${styles.dbIcon} ${styles.dbPostgresql}`}>
-            <img src="/src/assets/postgresql.svg" alt="PostgreSQL" />
+            <img src={PostgreSQLIcon} alt="PostgreSQL" />
           </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>PostgreSQL</div>
@@ -28,7 +33,7 @@ const ResearchObjectsSection: React.FC = () => {
 
         <div className={styles.dbItem}>
           <div className={`${styles.dbIcon} ${styles.dbMongodb}`}>
-            <img src="/src/assets/mongodb.svg" alt="MongoDB" />
+            <img src={MongoDBIcon} alt="MongoDB" />
           </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>MongoDB</div>
@@ -38,7 +43,7 @@ const ResearchObjectsSection: React.FC = () => {
 
         <div className={styles.dbItem}>
           <div className={`${styles.dbIcon} ${styles.dbCassandra}`}>
-            <img src="/src/assets/apachecassandra.svg" alt="Cassandra" />
+            <img src={CassandraIcon} alt="Cassandra" />
           </div>
           <div className={styles.dbInfo}>
             <div className={styles.dbName}>Cassandra</div>
