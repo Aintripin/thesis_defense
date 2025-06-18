@@ -5,12 +5,12 @@ import {
   ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, 
   BarChart3, CheckCircle, Database, Settings, Cog, Wrench, 
   Settings2, Bot, PieChart, Award, Activity, BookOpen, 
-  Handshake, Monitor, Printer, Maximize, Minimize, Star 
+  Handshake, Maximize, Minimize, Star 
 } from 'lucide-react'
-import { useTheme } from '../../contexts/ThemeContext'
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation'
-import KeyboardShortcutsHelp from '../KeyboardShortcutsHelp'
+import KeyboardShortcutsHelp from '../KeyboardShortcutsHelp/KeyboardShortcutsHelp'
 import styles from './Navigation.module.scss'
+import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher'
 
 interface SlideEntry {
   path: string;
@@ -19,101 +19,60 @@ interface SlideEntry {
   end?: boolean;
 }
 
+const slides: SlideEntry[] = [
+    { path: '/title', label: 'Титульный слайд', icon: Home, end: true },
+    { path: '/problem', label: 'Постановка задачи', icon: Target, end: true },
+    { path: '/market', label: 'Решённые задачи', icon: CheckSquare, end: true },
+    { path: '/solution', label: 'Архитектурные решения', icon: Lightbulb, end: true },
+    { path: '/testing', label: 'Технологии тестирования', icon: CheckSquare, end: true },
+    { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: Star, end: true },
+    { path: '/market-analysis', label: 'Анализ рынка: Обзор', icon: BarChart3, end: false },
+    { path: '/market-analysis/trends-deep-dive', label: 'Анализ рынка: Детали', icon: PieChart, end: true },
+    { path: '/dataset-selection', label: 'Выбор и анализ датасета', icon: Database, end: false },
+    { path: '/dataset-selection/details', label: 'Выбранный датасет', icon: Database, end: true },
+    { path: '/mongodb-preparation', label: 'Подготовка MongoDB', icon: Cog, end: true },
+    { path: '/postgresql-preparation', label: 'Подготовка PostgreSQL', icon: Cog, end: true },
+    { path: '/cassandra-preparation', label: 'Подготовка Cassandra', icon: Cog, end: true },
+    { path: '/test-environment', label: 'Тестовое окружение', icon: Settings, end: true },
+    { path: '/technical-implementation', label: 'Техническая реализация', icon: Wrench, end: true },
+    { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Settings2, end: true },
+    { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2, end: true },
+    { path: '/automation', label: 'Автоматизация сбора', icon: Bot, end: true },
+    { path: '/visualization', label: 'Визуализация', icon: PieChart, end: true },
+    { path: '/main-results', label: 'Основные результаты', icon: Award, end: false },
+    { path: '/scalability-delays', label: 'Масштабируемость', icon: Activity, end: true },
+    { path: '/publications', label: 'Публикации', icon: BookOpen, end: true },
+    { path: '/recommendations', label: 'Рекомендации', icon: Star, end: true },
+    { path: '/conclusion', label: 'Заключение', icon: CheckCircle, end: true },
+    { path: '/goodbye', label: 'Спасибо за внимание', icon: Handshake, end: true },
+];
+
 const Navigation: React.FC = () => {
   const location = useLocation()
   const [isNavVisible, setIsNavVisible] = useState(false)
-  const { toggleTheme, isColorTheme } = useTheme()
-  const { isHelpVisible, toggleHelp, closeHelp, isFullscreen, toggleFullscreen } = useKeyboardNavigation()
+  const { isFullscreen, toggleFullscreen, currentSlideIndex } = useKeyboardNavigation()
   
-  const slides: SlideEntry[] = [
-    { path: '/title', label: 'Титульный слайд', icon: Home },
-    { path: '/problem', label: 'Постановка задачи', icon: Target },
-    { path: '/market', label: 'Решённые задачи', icon: CheckSquare },
-    { path: '/solution', label: 'Архитектурные решения', icon: Lightbulb },
-    { path: '/testing', label: 'Технологии тестирования', icon: CheckSquare },
-    { path: '/ycsb', label: 'Обоснование выбора YCSB', icon: CheckSquare },
-    { path: '/market-analysis', label: 'Анализ рынка: Обзор', icon: BarChart3, end: true },
-    { path: '/market-analysis/trends-deep-dive', label: 'Анализ рынка: Детали', icon: BarChart3 },
-    { path: '/dataset-selection', label: 'Выбор и анализ датасета', icon: Database, end: true },
-    { path: '/dataset-selection/details', label: 'Выбранный датасет', icon: Database },
-    { path: '/mongodb-preparation', label: 'Подготовка данных MongoDB', icon: CheckSquare },
-    { path: '/postgresql-preparation', label: 'Подготовка данных PostgreSQL', icon: CheckSquare },
-    { path: '/cassandra-preparation', label: 'Подготовка данных Cassandra', icon: CheckSquare },
-    { path: '/test-environment', label: 'Тестовое окружение', icon: Settings },
-    { path: '/technical-implementation', label: 'Техническая реализация', icon: Cog },
-    { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
-    { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
-    { path: '/automation', label: 'Автоматизация сбора результатов', icon: Bot },
-    { path: '/visualization', label: 'Визуализация и рекомендации', icon: PieChart },
-    { path: '/main-results', label: 'Основные результаты: Столбчатая диаграмма', icon: Award, end: true },
-    { path: '/main-results/radar', label: 'Основные результаты: Радарные диаграммы', icon: Award },
-    { path: '/scalability-delays', label: 'Масштабируемость и задержки', icon: Activity },
-    { path: '/publications', label: 'Публикации', icon: BookOpen },
-    { path: '/recommendations', label: 'Рекомендации', icon: Star },
-    { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
-    { path: '/goodbye', label: 'Спасибо за внимание', icon: Handshake },
-  ]
+  const prevSlide = currentSlideIndex > 0 ? slides[currentSlideIndex - 1] : null;
+  const nextSlide = currentSlideIndex < slides.length - 1 ? slides[currentSlideIndex + 1] : null;
 
-
-  const currentIndex = slides.findIndex(slide => {
-    // Use exact path matching for nested routes, similar to keyboard navigation
-    if (slide.path.includes('/market-analysis') && location.pathname.startsWith('/market-analysis')) {
-      return slide.path === location.pathname;
-    }
-    if (slide.path.includes('/dataset-selection') && location.pathname.startsWith('/dataset-selection')) {
-      return slide.path === location.pathname;
-    }
-    if (slide.path.includes('/main-results') && location.pathname.startsWith('/main-results')) {
-      return slide.path === location.pathname;
-    }
-    return slide.path === location.pathname;
-  });
-  const prevSlide = currentIndex > 0 ? slides[currentIndex - 1] : null
-  const nextSlide = currentIndex < slides.length - 1 ? slides[currentIndex + 1] : null
-
-  // Handle mouse movement for nav trigger - MUST be called on every render
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Show nav when mouse is near the left edge of the screen
-      if (e.clientX <= 80) {
-        setIsNavVisible(true)
-      } else if (e.clientX > 350) {
-        // Hide when mouse is far from the nav area
-        setIsNavVisible(false)
-      }
+      if (e.clientX <= 80) setIsNavVisible(true)
+      else if (e.clientX > 350) setIsNavVisible(false)
     }
-
-    const handleMouseLeave = () => {
-      // Hide nav when mouse leaves the window
-      setIsNavVisible(false)
-    }
-
     window.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseleave', handleMouseLeave)
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseleave', handleMouseLeave)
-    }
+    return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  // Hide navigation on title slide to keep it clean - AFTER all hooks
-  if (location.pathname === '/title') {
-    return null
-  }
+  if (location.pathname === '/title') return null
 
   return (
     <>
-      {/* Invisible trigger area at left of screen */}
-      <div 
-        className={styles.navTrigger}
-        onMouseEnter={() => setIsNavVisible(true)}
-      />
+      <div className={styles.topRightControls}>
+        <ThemeSwitcher />
+      </div>
       
-      <KeyboardShortcutsHelp 
-        isVisible={isHelpVisible} 
-        onClose={closeHelp} 
-      />
+      <KeyboardShortcutsHelp />
       
       <motion.nav 
         className={`${styles.navigation} ${isNavVisible ? styles.show : ''}`}
@@ -124,56 +83,33 @@ const Navigation: React.FC = () => {
         onMouseLeave={() => setIsNavVisible(false)}
       >
         <div className={styles.navContent}>
-          {/* Logo/Title */}
           <div className={styles.navBrand}>
             <div className={styles.navBrandTop}>
               <span className={styles.bmstuLogo}>МГТУ</span>
               <div className={styles.navButtons}>
                 <button
-                  className={`${styles.navHelpButton} ${isHelpVisible ? styles.active : ''}`}
-                  onClick={toggleHelp}
-                  title="Show keyboard shortcuts (H)"
-                >
-                  ?
-                </button>
-                <button
                   className={`${styles.navFullscreenButton} ${isFullscreen ? styles.active : ''}`}
                   onClick={toggleFullscreen}
                   title={`${isFullscreen ? 'Exit' : 'Enter'} fullscreen (F)`}
                 >
-                  {isFullscreen ? (
-                    <Minimize size={16} />
-                  ) : (
-                    <Maximize size={16} />
-                  )}
-                </button>
-                <button
-                  className={`${styles.navThemeSwitcher} ${isColorTheme ? styles.colorTheme : styles.printTheme}`}
-                  onClick={toggleTheme}
-                  title={`Switch to ${isColorTheme ? 'Print' : 'Color'} mode (P)`}
-                >
-                  {isColorTheme ? (
-                    <Printer size={16} />
-                  ) : (
-                    <Monitor size={16} />
-                  )}
+                  {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
                 </button>
               </div>
             </div>
             <span className={styles.navTitle}>Дипломная презентация</span>
           </div>
 
-          {/* Slide indicators */}
           <div className={styles.slideIndicators}>
             {slides.map((slide, index) => {
               const IconComponent = slide.icon
+              const isActive = location.pathname.startsWith(slide.path) && (slide.end === false || location.pathname === slide.path)
               return (
                 <NavLink
                   key={slide.path}
                   to={slide.path}
-                  className={({ isActive }) => `${styles.slideIndicator} ${isActive ? styles.active : ''}`}
+                  className={`${styles.slideIndicator} ${isActive ? styles.active : ''}`}
                   title={slide.label}
-                  end={slide.end}
+                  end={slide.end !== false}
                 >
                   <div className={styles.slideIndicatorContent}>
                     <div className={styles.slideIconWrapper}>
@@ -182,7 +118,7 @@ const Navigation: React.FC = () => {
                     </div>
                     <span className={styles.slideLabel}>{slide.label}</span>
                   </div>
-                  {(location.pathname === slide.path) && (
+                  {isActive && (
                     <motion.div
                       className={styles.activeIndicator}
                       layoutId="activeIndicator"
@@ -194,7 +130,6 @@ const Navigation: React.FC = () => {
             })}
           </div>
 
-          {/* Navigation controls */}
           <div className={styles.navControls}>
             <div className={styles.navArrows}>
               {prevSlide && (
@@ -202,16 +137,14 @@ const Navigation: React.FC = () => {
                   <ChevronLeft size={20} />
                 </NavLink>
               )}
-              
               {nextSlide && (
                 <NavLink to={nextSlide.path} className={`${styles.navArrow} ${styles.next}`} end>
                   <ChevronRight size={20} />
                 </NavLink>
               )}
             </div>
-            
             <div className={styles.slideCounter}>
-              {currentIndex !== -1 ? currentIndex + 1 : '-'} / {slides.length}
+              {currentSlideIndex !== -1 ? currentSlideIndex + 1 : '-'} / {slides.length}
             </div>
           </div>
         </div>
@@ -220,4 +153,4 @@ const Navigation: React.FC = () => {
   )
 }
 
-export default Navigation 
+export default Navigation

@@ -28,7 +28,10 @@ const DatabaseCard: React.FC<DatabaseCardProps> = ({
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay }}
   >
-    <h3 className={styles.cardTitle}>{title}</h3>
+    <div className={styles.cardHeader}>
+      <Icon className={styles.cardIcon} />
+      <h3 className={styles.cardTitle}>{title}</h3>
+    </div>
     <ul className={styles.featuresList}>
       {features.map((feature, index) => (
         <li key={index} className={styles.featureItem}>
