@@ -284,37 +284,23 @@ const ScalabilityDelaysSlide: React.FC = () => {
           (key === 'mongodb' ? "3" : "1") : 
           "1"
         )
-        .on("mouseenter", function(event, d) {
-          const [x, y] = d3.pointer(event, chartRef.current);
+        .on('mouseover', (event, d) => {
+          if (!isActive) return;
+          if (!chartRef.current) return;
+          const rect = chartRef.current.getBoundingClientRect();
           setTooltip({
             visible: true,
-            x: x,
-            y: y - 60,
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top - 60, // Position above the cursor
             content: `${db.name}: ${d.threads} потоков - ${d.value}k ops/sec`
           });
         })
-        .on("mouseleave", () => {
-          setTooltip(prev => ({ ...prev, visible: false }));
+        .on('mouseout', () => {
+          setTooltip({ ...tooltip, visible: false });
         });
     });
 
   }, [activeDBs, isPrintTheme, databases, xScale, yScale, line, plotWidth, plotHeight]);
-
-  const handlePointHover = (event: React.MouseEvent, db: string, point: DataPoint) => {
-    if (!chartRef.current) return;
-    
-    const rect = chartRef.current.getBoundingClientRect();
-    setTooltip({
-      visible: true,
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top - 60,
-      content: `${databases[db].name}: ${point.threads} потоков - ${point.value}k ops/sec`
-    });
-  };
-
-  const handlePointLeave = () => {
-    setTooltip({ ...tooltip, visible: false });
-  };
 
   return (
     <div className={`${styles.scalabilityDelaysSlide} ${isPrintTheme ? styles.printTheme : ''}`}>

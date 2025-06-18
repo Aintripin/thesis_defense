@@ -13,9 +13,9 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
-import { Database, GitBranch } from 'lucide-react';
-import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './DataPreparationSlide.module.scss';
+import { useTheme } from '../../../contexts/ThemeContext';
+import DetailedPostgresDbFlow from './DetailedPostgresDbFlow.tsx';
 
 interface CustomNodeData {
   num: string;
@@ -135,7 +135,7 @@ const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
   );
 };
 
-export const DataPreparationSlide = () => {
+const DataPreparationSlide: React.FC = () => {
   const { isPrintTheme } = useTheme();
 
   return (
@@ -308,3 +308,5 @@ export const DataPreparationSlide = () => {
     </div>
   );
 };
+
+export default DataPreparationSlide;

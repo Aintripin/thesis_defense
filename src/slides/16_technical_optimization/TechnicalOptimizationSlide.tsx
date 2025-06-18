@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TechnicalOptimizationSlide.module.scss';
-import { Settings, Zap, Shield, ChevronUp } from 'lucide-react';
+import { Zap, Shield, ChevronUp } from 'lucide-react';
 import { SlideHeading } from '../../components/SlideHeading';
 
 const optimizationData = [

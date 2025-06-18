@@ -4,7 +4,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import styles from './ThemeSwitcher.module.scss';
 
 const ThemeSwitcher: React.FC = () => {
-  const { theme, toggleTheme, isColorTheme } = useTheme();
+  const { toggleTheme, isColorTheme } = useTheme();
 
   return (
     <button

@@ -158,7 +158,7 @@ export const _DataPreparationSlide = () => {
   );
 };
 
-export const DataPreparationSlide = forwardRef<HTMLDivElement>((props, ref) => (
+export const DataPreparationSlide = forwardRef<HTMLDivElement>((_props, ref) => (
   <div ref={ref}>
     <_DataPreparationSlide />
   </div>

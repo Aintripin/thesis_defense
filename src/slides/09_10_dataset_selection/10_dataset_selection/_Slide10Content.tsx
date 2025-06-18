@@ -93,11 +93,10 @@ const sectionVariants = {
 
 interface InfoItemProps {
   item: { label: string; value: string; isHighlighted: boolean; isLongText?: boolean };
-  index: number;
   isPrintTheme: boolean;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ item, index, isPrintTheme }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ item, isPrintTheme }) => (
   <motion.li
     variants={itemVariants}
     className={styles.infoItem}
@@ -155,7 +154,7 @@ export const Slide10Content: React.FC<Slide10ContentProps> = ({ isPrintTheme }) 
           transition={{ delay: isPrintTheme ? 0 : 0.8 }}
         >
           {dataStructureInfo.map((item, index) => (
-            <InfoItem key={index} item={item} index={index} isPrintTheme={isPrintTheme} />
+            <InfoItem key={index} item={item} isPrintTheme={isPrintTheme} />
           ))}
         </motion.ul>
       </div>
@@ -180,7 +179,7 @@ export const Slide10Content: React.FC<Slide10ContentProps> = ({ isPrintTheme }) 
           transition={{ delay: isPrintTheme ? 0 : 1.4 }}
         >
           {dbmsChallenges.map((item, index) => (
-            <InfoItem key={index} item={item} index={index} isPrintTheme={isPrintTheme} />
+            <InfoItem key={index} item={item} isPrintTheme={isPrintTheme} />
           ))}
         </motion.ul>
       </div>
@@ -205,7 +204,7 @@ export const Slide10Content: React.FC<Slide10ContentProps> = ({ isPrintTheme }) 
           transition={{ delay: isPrintTheme ? 0 : 2.0 }}
         >
           {testingSignificance.map((item, index) => (
-            <InfoItem key={index} item={item} index={index} isPrintTheme={isPrintTheme} />
+            <InfoItem key={index} item={item} isPrintTheme={isPrintTheme} />
           ))}
         </motion.ul>
       </div>

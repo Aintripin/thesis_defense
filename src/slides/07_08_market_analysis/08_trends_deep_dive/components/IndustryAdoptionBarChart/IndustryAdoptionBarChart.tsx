@@ -7,6 +7,13 @@ interface ChartProps {
   isPrintTheme: boolean;
 }
 
+interface IndustryData {
+  industry: string;
+  shortName: string;
+  percent: number;
+  color?: string;
+}
+
 export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme }) => {
   const industryAdoptionChartRef = useRef<HTMLDivElement>(null);
 
@@ -98,11 +105,11 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
         .data(industryData)
         .enter().append("rect")
         .attr("class", "bar-industry")
-        .attr("x", d => xScale(d.shortName)!)
-        .attr("y", isPrintTheme ? d => yScaleInd(d.percent) : height)
+        .attr("x", (d: IndustryData) => xScale(d.shortName)!)
+        .attr("y", (d: IndustryData) => isPrintTheme ? yScaleInd(d.percent) : height)
         .attr("width", xScale.bandwidth())
-        .attr("height", isPrintTheme ? d => height - yScaleInd(d.percent) : 0)
-        .attr("fill", (d, i) => isPrintTheme ? `url(#bar-pattern-${i})` : `url(#bar-gradient-${i})`)
+        .attr("height", (d: IndustryData) => isPrintTheme ? height - yScaleInd(d.percent) : 0)
+        .attr("fill", (_d, i) => isPrintTheme ? `url(#bar-pattern-${i})` : `url(#bar-gradient-${i})`)
         .attr("rx", 4)
         .attr("ry", 4)
         .style("filter", isPrintTheme ? "none" : "drop-shadow(0 2px 4px rgba(0,0,0,0.1))")
@@ -116,8 +123,8 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
           .duration(1400)
           .delay((_d, i) => i * 150)
           .ease(d3.easeElasticOut.amplitude(1).period(0.6))
-          .attr("y", d => yScaleInd(d.percent))
-          .attr("height", d => height - yScaleInd(d.percent))
+          .attr("y", (d: any) => yScaleInd(d.percent))
+          .attr("height", (d: any) => height - yScaleInd(d.percent))
           .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2))");
       }
 
@@ -126,8 +133,8 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
         .data(industryData)
         .enter().append("text")
         .attr("class", "label-industry")
-        .attr("x", d => xScale(d.shortName)! + xScale.bandwidth() / 2)
-        .attr("y", isPrintTheme ? d => yScaleInd(d.percent) : height)
+        .attr("x", (d: IndustryData) => xScale(d.shortName)! + xScale.bandwidth() / 2)
+        .attr("y", (d: IndustryData) => isPrintTheme ? yScaleInd(d.percent) : height)
         .attr("text-anchor", "middle")
         .attr("dy", "-0.8em")
         .style("font-size", "16px") // Much bigger font
@@ -135,11 +142,11 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
         .style("font-weight", "800") // Extra bold
         .style("text-shadow", isPrintTheme ? "none" : "1px 1px 2px rgba(255,255,255,0.8)")
         .style("opacity", isPrintTheme ? 1 : 0)
-        .text(isPrintTheme ? d => `${d.percent}%` : "0%"); // Start with 0 for animation or final value for print
+        .text((d: IndustryData) => isPrintTheme ? `${d.percent}%` : "0%"); // Start with 0 for animation or final value for print
 
       if (!isPrintTheme) {
         // Animated number counting effect
-        labels.each(function(d, i) {
+        labels.each(function(d: any, i) {
           const label = d3.select(this);
           const finalValue = d.percent;
           
@@ -172,11 +179,11 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
                 requestAnimationFrame(countUp);
               });
               
-          }, 300 + i * 150); // Staggered start
-        });
+        }, 300 + i * 150); // Staggered start
+      });
       } else {
         // Static positioning for print
-        labels.attr("y", d => yScaleInd(d.percent));
+        labels.attr("y", (d: any) => yScaleInd(d.percent));
       }
 
       // Enhanced axes with better styling
@@ -193,7 +200,7 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
       xAxisGroupInd.selectAll(".domain, line").style("stroke", isPrintTheme ? "#000" : "#94A3B8").style("stroke-width", 1.5);
       
       const yAxisGroupInd = g.append("g")
-        .call(d3.axisLeft(yScaleInd).ticks(4).tickFormat(d => `${d}%`));
+        .call(d3.axisLeft(yScaleInd).ticks(4).tickFormat((d: any) => `${d}%`));
       yAxisGroupInd.selectAll("text")
         .style("fill", isPrintTheme ? "#000" : "#475569")
         .style("font-size", "14px")
@@ -218,7 +225,7 @@ export const IndustryAdoptionBarChart: React.FC<ChartProps> = ({ isPrintTheme })
 
       // Add subtle hover effects to bars (disabled for print)
       if (!isPrintTheme) {
-        bars.on("mouseenter", function(event, d) {
+        bars.on("mouseenter", function() {
           d3.select(this)
             .transition()
             .duration(200)

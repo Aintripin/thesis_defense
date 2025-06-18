@@ -1,21 +1,23 @@
-import React, { useCallback } from 'react';
+import React, { forwardRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import ReactFlow, {
-  useNodesState,
-  useEdgesState,
   addEdge,
-  MarkerType,
   Handle,
+  MarkerType,
   Position,
-  type Node,
-  type Edge,
+  useEdgesState,
+  useNodesState,
   type Connection,
+  type Edge,
+  type Node,
   type NodeProps,
 } from 'reactflow';
+
 import 'reactflow/dist/style.css';
-import { motion } from 'framer-motion';
-import { Database, GitBranch } from 'lucide-react';
+import { SlideHeading } from '../../../components/SlideHeading';
 import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './DataPreparationSlide.module.scss';
+import DetailedMongoDbFlow from './DetailedMongoDbFlow.tsx';
 
 interface CustomNodeData {
   num: string;
@@ -118,7 +120,7 @@ interface FlowchartProps {
 const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const onConnect = useCallback((params: Connection) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+  const onConnect = useCallback((params: Connection) => setEdges(eds => addEdge(params, eds)), [setEdges]);
 
   return (
     <ReactFlow
@@ -137,173 +139,53 @@ const Flowchart = ({ initialNodes, initialEdges }: FlowchartProps) => {
       nodesDraggable={false}
       nodesConnectable={false}
       elementsSelectable={false}
-    >
-    </ReactFlow>
+    />
   );
 };
 
-export const _DataPreparationSlide = () => {
+// This is the main component that will be exported and used in App.tsx
+// It uses forwardRef to pass the ref down to the main div
+export const DataPreparationSlide = forwardRef<HTMLDivElement>((_props, ref) => {
   const { isPrintTheme } = useTheme();
 
   return (
-    <div className={`${styles.dataPreparationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            .react-flow__edges {
-              overflow: visible !important;
-              z-index: 1 !important;
-            }
-            .react-flow__edge-path {
-              stroke: #343a40 !important;
-              stroke-width: 3px !important;
-              fill: none !important;
-            }
-            .react-flow__arrowhead {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            /* Nuclear option for stubborn arrowheads */
-            svg defs marker polygon {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            svg defs marker path {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            marker * {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            /* Target all possible arrowhead selectors */
-            [id*="arrowclosed"] * {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            .react-flow__edge.selected .react-flow__edge-path {
-              stroke: #343a40 !important;
-            }
-            /* Override any default marker colors */
-            svg marker {
-              color: #343a40 !important;
-            }
-            svg marker polygon,
-            svg marker path {
-              fill: #343a40 !important;
-              stroke: #343a40 !important;
-            }
-            .react-flow__edge {
-              pointer-events: all !important;
-            }
-            svg.react-flow__edges {
-              overflow: visible !important;
-            }
-            
-            /* FORCE HIGHLIGHT TEXT TO BE VISIBLE */
-            .flowchartHighlight,
-            span.flowchartHighlight,
-            .flowchart-box .flowchartHighlight,
-            .flowchart-box span.flowchartHighlight,
-            .react-flow__node .flowchartHighlight,
-            .react-flow__node span.flowchartHighlight,
-            .react-flow__node-custom .flowchartHighlight,
-            .react-flow__node-custom span.flowchartHighlight {
-              background: ${isPrintTheme ? '#000' : '#4285f4'} !important;
-              color: ${isPrintTheme ? '#fff' : '#ffffff'} !important;
-              padding: 4px 8px !important;
-              border-radius: 6px !important;
-              font-weight: 700 !important;
-              font-size: 18px !important;
-              display: inline-block !important;
-              font-family: 'ALS Sector Regular', sans-serif !important;
-              line-height: 1.2 !important;
-              opacity: 1 !important;
-              visibility: visible !important;
-              text-shadow: none !important;
-              border: ${isPrintTheme ? '1px solid #000' : 'none'} !important;
-              box-shadow: ${isPrintTheme ? 'none' : '0 2px 4px rgba(66, 133, 244, 0.3)'} !important;
-              text-decoration: none !important;
-              position: relative !important;
-              z-index: 999 !important;
-            }
-            
-            /* Debug: Make highlight super obvious */
-            .flowchartHighlight::before {
-              content: '' !important;
-              position: absolute !important;
-              top: 0 !important;
-              left: 0 !important;
-              right: 0 !important;
-              bottom: 0 !important;
-              background: ${isPrintTheme ? '#000' : '#4285f4'} !important;
-              z-index: -1 !important;
-            }
-          `,
-        }}
-      />
-
-      {/* Title Container */}
-      <motion.div
-        className={styles.slideTitleContainer}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+    <div ref={ref} className={`${styles.dataPreparationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
+      <SlideHeading>Стратегии подготовки данных</SlideHeading>
+      
+      <motion.div 
+        className={styles.contentGrid}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        <h1 className={styles.slideTitle}>СТРАТЕГИИ ПОДГОТОВКИ ДАННЫХ</h1>
+        {/* MongoDB Section */}
+        <motion.div className={styles.section} variants={sectionVariants}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>MongoDB</h2>
+          </div>
+          <div className={styles.flowchartContainer}>
+            <Flowchart initialNodes={initialMongoNodes} initialEdges={initialMongoEdges} />
+          </div>
+        </motion.div>
+
+        {/* PostgreSQL Section */}
+        <motion.div className={styles.section} variants={sectionVariants}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>PostgreSQL</h2>
+          </div>
+          <div className={styles.flowchartContainer}>
+            <Flowchart initialNodes={initialPostgresNodes} initialEdges={initialPostgresEdges} />
+          </div>
+        </motion.div>
+        
+        {/* Detailed Description Section */}
+        <motion.div className={`${styles.section} ${styles.detailedSection}`} variants={sectionVariants}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Детальное описание этапов (PostgreSQL)</h2>
+          </div>
+          <DetailedMongoDbFlow isPrintTheme={isPrintTheme} />
+        </motion.div>
       </motion.div>
-
-      {/* Content Container */}
-      <div className={styles.contentContainer}>
-        {/* Main Content */}
-        <div className={styles.mainContentAreaWrapper}>
-          <motion.div 
-            className={styles.mainContent}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* MongoDB Section */}
-            <motion.div 
-              className={styles.flowchartSection}
-              variants={sectionVariants}
-              transition={{ delay: 0.4 }}
-            >
-              <div className={styles.sectionHeader}>
-                Схема загрузки датасета в mongoDB
-              </div>
-              <div className={styles.sectionContent}>
-                <div className={styles.flowchartContainer}>
-                  <Flowchart initialNodes={initialMongoNodes} initialEdges={initialMongoEdges} />
-                </div>
-              </div>
-            </motion.div>
-
-            {/* PostgreSQL Section */}
-            <motion.div 
-              className={styles.flowchartSection}
-              variants={sectionVariants}
-              transition={{ delay: 0.7 }}
-            >
-              <div className={styles.sectionHeader}>
-                Схема загрузки датасета в PostgreSQL
-              </div>
-              <div className={styles.sectionContent}>
-                <div className={styles.flowchartContainer}>
-                  <Flowchart initialNodes={initialPostgresNodes} initialEdges={initialPostgresEdges} />
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
     </div>
   );
-};
-
-// Wrapper component that provides theme context
-export const DataPreparationSlide = () => {
-  const { isPrintTheme } = useTheme();
-  
-  return <_DataPreparationSlide />;
-};
+});

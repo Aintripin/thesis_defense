@@ -1,4 +1,4 @@
-import React from 'react'
+import styles from './App.module.scss';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import SlideIndicator from './components/SlideIndicator'
@@ -27,7 +27,6 @@ import { PublicationsSlide } from './slides/23_publications'
 import RecommendationsSlide from './slides/24_recommendations'
 import { ConclusionSlide } from './slides/25_conclusion'
 import { GoodbyeSlide } from './slides/26_goodbye'
-import './App.css'
 
 const DatasetSelectionWrapper = () => {
   const location = useLocation();
@@ -48,7 +47,7 @@ const AppContent = () => {
   useKeyboardNavigation();
 
   return (
-    <div className="app">
+    <div className={styles.app}>
       <Navigation />
       <Routes>
         <Route path="/" element={<Navigate to="/title" replace />} />

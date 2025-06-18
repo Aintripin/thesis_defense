@@ -73,15 +73,6 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: "easeOut" }
-  }
-};
-
 const sectionVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -93,12 +84,10 @@ const sectionVariants = {
 
 interface InfoItemProps {
   item: { label: string; value: string; isHighlighted: boolean; isLongText?: boolean };
-  index: number;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ item, index }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ item }) => (
   <motion.li
-    variants={itemVariants}
     className="info-item"
   >
     <div className="bullet" />
@@ -151,7 +140,7 @@ export const DatasetSelectionSlide: React.FC = () => (
                 transition={{ delay: 0.8 }}
               >
                 {dataStructureInfo.map((item, index) => (
-                  <InfoItem key={index} item={item} index={index} />
+                  <InfoItem key={index} item={item} />
                 ))}
               </motion.ul>
             </div>
@@ -172,7 +161,7 @@ export const DatasetSelectionSlide: React.FC = () => (
                 transition={{ delay: 1.4 }}
               >
                 {dbmsChallenges.map((item, index) => (
-                  <InfoItem key={index} item={item} index={index} />
+                  <InfoItem key={index} item={item} />
                 ))}
               </motion.ul>
             </div>
@@ -193,7 +182,7 @@ export const DatasetSelectionSlide: React.FC = () => (
                 transition={{ delay: 2.0 }}
               >
                 {testingSignificance.map((item, index) => (
-                  <InfoItem key={index} item={item} index={index} />
+                  <InfoItem key={index} item={item} />
                 ))}
               </motion.ul>
             </div>

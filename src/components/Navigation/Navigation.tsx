@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer, Maximize, Minimize, Star } from 'lucide-react'
+import { 
+  ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, 
+  BarChart3, CheckCircle, Database, Settings, Cog, Wrench, 
+  Settings2, Bot, PieChart, Award, Activity, BookOpen, 
+  Handshake, Monitor, Printer, Maximize, Minimize, Star 
+} from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation'
 import KeyboardShortcutsHelp from '../KeyboardShortcutsHelp'

@@ -1,6 +1,8 @@
-import React from 'react';
 import YcsbConfigurationSlide from './YcsbConfigurationSlide';
+import { SlideWrapper } from '../../components/SlideWrapper';
 
-export const YcsbConfigurationSlideWrapper = () => {
-  return <YcsbConfigurationSlide />;
-}; 
+export const YcsbConfigurationSlideWrapper = () => (
+    <SlideWrapper>
+        <YcsbConfigurationSlide />
+    </SlideWrapper>
+); 

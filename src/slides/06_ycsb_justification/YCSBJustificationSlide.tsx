@@ -1,6 +1,5 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Database, BarChart3, Settings } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './YCSBJustificationSlide.module.scss'
 import { SlideHeading } from '../../components/SlideHeading'

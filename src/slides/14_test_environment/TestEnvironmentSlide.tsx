@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Settings, Monitor, Cloud, Layers } from 'lucide-react';
+import { Monitor, Cloud, Layers } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TestEnvironmentSlide.module.scss';
 import { SlideHeading } from '../../components/SlideHeading';

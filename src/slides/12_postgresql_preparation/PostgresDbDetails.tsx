@@ -1,6 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import styles from './DataPreparationSlide.module.scss';
+import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const sectionVariants = {

@@ -101,7 +101,7 @@ export const MarketShareDonutChart: React.FC<DonutChartProps> = ({ isPrintTheme 
 
       // Enhanced path animations with elastic effect
       const paths = arcs.append("path")
-        .style("fill", (d: any, i: number) => isPrintTheme ? `url(#donut-pattern-${i})` : `url(#donut-gradient-${i})`)
+        .style("fill", (_d: any, i: number) => isPrintTheme ? `url(#donut-pattern-${i})` : `url(#donut-gradient-${i})`)
         .style("stroke", isPrintTheme ? '#000' : "#ffffff")
         .style("stroke-width", isPrintTheme ? 1 : 3)
         .style("opacity", isPrintTheme ? 1 : 0)
@@ -111,14 +111,14 @@ export const MarketShareDonutChart: React.FC<DonutChartProps> = ({ isPrintTheme 
       // Conditional Animation
       if (!isPrintTheme) {
         // Add hover effects
-        paths.on("mouseenter", function(event, d: any) {
+        paths.on("mouseenter", function(this: any, _event: any, d: any) {
           d3.select(this)
             .transition()
             .duration(200)
             .attr("d", hoverArc(d))
             .style("filter", "drop-shadow(0 4px 8px rgba(0,0,0,0.2))");
         })
-        .on("mouseleave", function(event, d: any) {
+        .on("mouseleave", function(this: any, _event: any, d: any) {
           d3.select(this)
             .transition()
             .duration(200)

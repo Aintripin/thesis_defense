@@ -1,15 +1,13 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Database } from 'lucide-react'
+import { Database, FileJson, Columns, TestTube2 } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './SolutionSlide.module.scss'
 import { SlideHeading } from '../../components/SlideHeading'
 
 interface DatabaseCardProps {
   title: string
-  subtitle: string
   features: string[]
-  subItems?: string[]
   icon: React.ElementType
   colorClass: string
   isFullWidth?: boolean
@@ -18,9 +16,7 @@ interface DatabaseCardProps {
 
 const DatabaseCard: React.FC<DatabaseCardProps> = ({ 
   title, 
-  subtitle, 
   features, 
-  subItems,
   icon: Icon, 
   colorClass, 
   isFullWidth = false,
@@ -44,62 +40,71 @@ const DatabaseCard: React.FC<DatabaseCardProps> = ({
   </motion.div>
 )
 
+interface SolutionStep {
+  title: string,
+  description: string,
+  icon: React.ElementType,
+  colorClass: string;
+  features: string[];
+  isFullWidth?: boolean;
+}
+
+const solutionSteps: SolutionStep[] = [
+  {
+    title: 'PostgreSQL (постреляционная СУБД)',
+    icon: Database,
+    description: '',
+    colorClass: styles.postgresql,
+    features: [
+      'Реляционная модель данных с определенной схемой',
+      'MVCC (Multiversion Concurrency Control) для изоляции транзакций',
+      'Полная поддержка ACID-свойств (Atomicity, Consistency, Isolation, Durability)',
+      'JSON-поддержка для работы с полуструктурированными данными',
+      'Расширяемость через пользовательские типы данных и функции'
+    ]
+  },
+  {
+    title: 'MongoDB (документо-ориентированная СУБД)',
+    icon: FileJson,
+    description: '',
+    colorClass: styles.mongodb,
+    features: [
+      'Колоночная модель данных для эффективности определенных типов запросов',
+      'Распределенная архитектура без единой точки отказа',
+      'Линейная масштабируемость при добавлении узлов',
+      'Настраиваемая консистентность для каждой операции',
+      'Оптимизация для записи - архитектура, ориентированная на высокую производительность операций записи'
+    ]
+  },
+  {
+    title: 'Apache Cassandra (колоночная СУБД)',
+    icon: Columns,
+    description: '',
+    colorClass: styles.cassandra,
+    features: [
+      'Колоночная модель данных для эффективности определенных типов запросов',
+      'Распределенная архитектура без единой точки отказа',
+      'Линейная масштабируемость при добавлении узлов',
+      'Настраиваемая консистентность для каждой операции',
+      'Оптимизация для записи - архитектура, ориентированная на высокую производительность операций записи'
+    ]
+  },
+  {
+    title: 'Тестовый фреймворк YCSB',
+    icon: TestTube2,
+    description: '',
+    colorClass: styles.ycsb,
+    isFullWidth: true,
+    features: [
+      'Реляционный подход (PostgreSQL): строгая схема, нормализация, SQL, транзакционность',
+      'Документоориентированный подход (MongoDB): гибкая схема, вложенные документы, горизонтальное масштабирование',
+      'Колоночный подход (Cassandra): денормализация, широкие строки, распределение данных'
+    ]
+  }
+]
+
 export const SolutionSlide: React.FC = () => {
   const { isPrintTheme } = useTheme()
-
-  const databases = [
-    {
-      title: 'PostgreSQL (постреляционная СУБД)',
-      subtitle: '',
-      icon: Database,
-      colorClass: 'postgres',
-      features: [
-        'Реляционная модель данных с определенной схемой',
-        'MVCC (Multiversion Concurrency Control) для изоляции транзакций',
-        'Полная поддержка ACID-свойств (Atomicity, Consistency, Isolation, Durability)',
-        'JSON-поддержка для работы с полуструктурированными данными',
-        'Расширяемость через пользовательские типы данных и функции'
-      ]
-    },
-    {
-      title: 'MongoDB (документоориентированная СУБД)',
-      subtitle: '',
-      icon: Database,
-      colorClass: 'mongo',
-      features: [
-        'Колоночная модель данных для эффективности определенных типов запросов',
-        'Распределенная архитектура без единой точки отказа',
-        'Линейная масштабируемость при добавлении узлов',
-        'Настраиваемая консистентность для каждой операции',
-        'Оптимизация для записи - архитектура, ориентированная на высокую производительность операций записи'
-      ]
-    },
-    {
-      title: 'Cassandra (колоночная СУБД)',
-      subtitle: '',
-      icon: Database,
-      colorClass: 'cassandra',
-      features: [
-        'Колоночная модель данных для эффективности определенных типов запросов',
-        'Распределенная архитектура без единой точки отказа',
-        'Линейная масштабируемость при добавлении узлов',
-        'Настраиваемая консистентность для каждой операции',
-        'Оптимизация для записи - архитектура, ориентированная на высокую производительность операций записи'
-      ]
-    },
-    {
-      title: 'Сравнение подходов к обработке данных',
-      subtitle: '',
-      icon: Database,
-      colorClass: 'comparison',
-      isFullWidth: true,
-      features: [
-        'Реляционный подход (PostgreSQL): строгая схема, нормализация, SQL, транзакционность',
-        'Документоориентированный подход (MongoDB): гибкая схема, вложенные документы, горизонтальное масштабирование',
-        'Колоночный подход (Cassandra): денормализация, широкие строки, распределение данных'
-      ]
-    }
-  ]
 
   return (
     <div className={`${styles.solutionSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
@@ -120,10 +125,14 @@ export const SolutionSlide: React.FC = () => {
             </motion.div>
 
             <div className={styles.cardsGrid}>
-              {databases.map((db, index) => (
+              {solutionSteps.map((db, index) => (
                 <DatabaseCard
                   key={db.title}
-                  {...db}
+                  title={db.title}
+                  features={db.features}
+                  icon={db.icon}
+                  colorClass={db.colorClass}
+                  isFullWidth={db.isFullWidth}
                   delay={0.3 + index * 0.1}
                 />
               ))}

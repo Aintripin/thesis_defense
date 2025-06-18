@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ArrowLeft, ArrowRight, Space, Printer, Monitor, Hash, Maximize } from 'lucide-react'
+import { X, ArrowLeft, ArrowRight, Printer, Monitor, Hash, Maximize } from 'lucide-react'
 import styles from './KeyboardShortcutsHelp.module.scss'
+import { useHotkeys } from 'react-hotkeys-hook'
 
-interface KeyboardShortcutsHelpProps {
-  isVisible: boolean
-  onClose: () => void
-}
+const KeyboardShortcutsHelp = () => {
+  const [isOpen, setIsOpen] = useState(false)
 
-const KeyboardShortcutsHelp: React.FC<KeyboardShortcutsHelpProps> = ({ isVisible, onClose }) => {
+  useHotkeys('h', () => setIsOpen(prev => !prev), { preventDefault: true })
+  useHotkeys('esc', () => setIsOpen(false), { preventDefault: true, enabled: isOpen })
+
   const shortcuts = [
     {
       category: 'Navigation',
@@ -36,7 +37,7 @@ const KeyboardShortcutsHelp: React.FC<KeyboardShortcutsHelpProps> = ({ isVisible
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isOpen && (
         <>
           {/* Backdrop with blur */}
           <motion.div
@@ -45,7 +46,7 @@ const KeyboardShortcutsHelp: React.FC<KeyboardShortcutsHelpProps> = ({ isVisible
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            onClick={onClose}
+            onClick={() => setIsOpen(false)}
           >
             {/* Help Modal */}
             <motion.div
@@ -64,7 +65,7 @@ const KeyboardShortcutsHelp: React.FC<KeyboardShortcutsHelpProps> = ({ isVisible
                 <h2 className={styles.title}>Keyboard Shortcuts</h2>
                 <button 
                   className={styles.closeButton}
-                  onClick={onClose}
+                  onClick={() => setIsOpen(false)}
                   aria-label="Close help"
                 >
                   <X size={24} />

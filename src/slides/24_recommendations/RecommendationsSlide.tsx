@@ -1,11 +1,10 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../../contexts/ThemeContext';
 import styles from './RecommendationsSlide.module.scss';
 import CassandraLogo from '../../assets/apachecassandra.svg';
 import PostgresLogo from '../../assets/postgresql.svg';
 import MongoLogo from '../../assets/mongodb.svg';
 import { Target, BarChart3, Key } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },

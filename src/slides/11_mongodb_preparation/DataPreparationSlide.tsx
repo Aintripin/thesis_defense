@@ -13,7 +13,6 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { motion } from 'framer-motion';
-import { Database, GitBranch } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './DataPreparationSlide.module.scss';
 import { DetailedMongoDbFlow } from './DetailedMongoDbFlow.tsx';
@@ -254,8 +253,12 @@ export const _DataPreparationSlide = () => {
   );
 };
 
-export const DataPreparationSlide = forwardRef<HTMLDivElement>((props, ref) => (
-  <div ref={ref}>
-    <_DataPreparationSlide />
-  </div>
-)); 
+// This is the main component that will be exported and used in App.tsx
+// It uses forwardRef to pass the ref down to the main div
+export const DataPreparationSlide = forwardRef<HTMLDivElement>((_props, ref) => {
+  return (
+    <div ref={ref}>
+      <_DataPreparationSlide />
+    </div>
+  );
+}); 
