@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './TitleSlide.module.scss'
 
+// Import BMSTU logo assets
+import BMSTULogoPNG from '../../assets/bmstu-logo-white.png'
+import BMSTULogoSVG from '../../assets/bmstu-logo-white.svg'
+
 const TitleSlide: React.FC = () => {
   const navigate = useNavigate()
   const { isColorTheme, isPrintTheme } = useTheme()
+  const logoRef = useRef<HTMLImageElement>(null)
 
   const handleStartPresentation = () => {
     navigate('/problem')
@@ -36,14 +41,24 @@ const TitleSlide: React.FC = () => {
             }
           }}
         >
-          <img 
-            src="/assets/bmstu/bmstu-logo-white.png" 
-            alt="BMSTU Logo" 
+          <motion.img 
+            ref={logoRef}
             className={styles.bmstuLogoBackground}
-            onError={(e) => {
-              // Fallback to SVG if PNG fails
-              const target = e.target as HTMLImageElement;
-              target.src = "/assets/bmstu/bmstu-logo-white.svg";
+            src={BMSTULogoPNG}
+            alt="BMSTU Logo"
+            onLoad={() => {
+              // Try switching to SVG after PNG loads
+              if (logoRef.current) {
+                const target = logoRef.current;
+                target.src = BMSTULogoSVG;
+              }
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.15 }}
+            transition={{ 
+              duration: 1.5, 
+              delay: 0.8,
+              ease: "easeOut"
             }}
           />
         </motion.div>

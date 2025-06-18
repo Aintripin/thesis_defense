@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import './DatasetSelectionSlide.scss';
+
+// Import BMSTU logo assets
+import BMSTULogoPNG from '../../../assets/bmstu-logo-white.png';
+import BMSTULogoSVG from '../../../assets/bmstu-logo-white.svg';
 
 const dataStructureInfo = [
   {
@@ -113,111 +117,126 @@ const InfoItem: React.FC<InfoItemProps> = ({ item, index }) => (
   </motion.li>
 );
 
-export const DatasetSelectionSlide: React.FC = () => (
-  <div className="dataset-selection-slide">
-    {/* Title Container */}
-    <motion.div
-      className="slide-title-container"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <h1 className="slide-title">В Ы Б О Р&nbsp;&nbsp;И&nbsp;&nbsp;А Н А Л И З&nbsp;&nbsp;Д А Т А С Е Т А</h1>
-    </motion.div>
+export const DatasetSelectionSlide: React.FC = () => {
+  const logoRef = useRef<HTMLImageElement>(null);
 
-    {/* Content Container */}
-    <div className="content-container">
-      {/* Main Content Area */}
-      <div className="main-content-area-wrapper">
-        <motion.div
-          className="main-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          exit={{ opacity: 0 }}
-        >
-          {/* Section 1: Структура и особенности данных */}
-          <motion.div 
-            className="section"
-            variants={sectionVariants}
-            transition={{ delay: 0.4 }}
+  return (
+    <div className="dataset-selection-slide">
+      {/* Title Container */}
+      <motion.div
+        className="slide-title-container"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="slide-title">В Ы Б О Р&nbsp;&nbsp;И&nbsp;&nbsp;А Н А Л И З&nbsp;&nbsp;Д А Т А С Е Т А</h1>
+      </motion.div>
+
+      {/* Content Container */}
+      <div className="content-container">
+        {/* Main Content Area */}
+        <div className="main-content-area-wrapper">
+          <motion.div
+            className="main-content"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0 }}
           >
-            <div className="section-header">
-              Структура и особенности данных
-            </div>
-            <div className="section-content">
-              <motion.ul
-                variants={containerVariants}
-                transition={{ delay: 0.8 }}
-              >
-                {dataStructureInfo.map((item, index) => (
-                  <InfoItem key={index} item={item} index={index} />
-                ))}
-              </motion.ul>
-            </div>
-          </motion.div>
-          
-          {/* Section 2: Вызовы для различных СУБД */}
-          <motion.div 
-            className="section"
-            variants={sectionVariants}
-            transition={{ delay: 1.0 }}
-          >
-            <div className="section-header">
-              Вызовы для различных СУБД
-            </div>
-            <div className="section-content">
-              <motion.ul
-                variants={containerVariants}
-                transition={{ delay: 1.4 }}
-              >
-                {dbmsChallenges.map((item, index) => (
-                  <InfoItem key={index} item={item} index={index} />
-                ))}
-              </motion.ul>
-            </div>
+            {/* Section 1: Структура и особенности данных */}
+            <motion.div 
+              className="section"
+              variants={sectionVariants}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="section-header">
+                Структура и особенности данных
+              </div>
+              <div className="section-content">
+                <motion.ul
+                  variants={containerVariants}
+                  transition={{ delay: 0.8 }}
+                >
+                  {dataStructureInfo.map((item, index) => (
+                    <InfoItem key={index} item={item} index={index} />
+                  ))}
+                </motion.ul>
+              </div>
+            </motion.div>
+            
+            {/* Section 2: Вызовы для различных СУБД */}
+            <motion.div 
+              className="section"
+              variants={sectionVariants}
+              transition={{ delay: 1.0 }}
+            >
+              <div className="section-header">
+                Вызовы для различных СУБД
+              </div>
+              <div className="section-content">
+                <motion.ul
+                  variants={containerVariants}
+                  transition={{ delay: 1.4 }}
+                >
+                  {dbmsChallenges.map((item, index) => (
+                    <InfoItem key={index} item={item} index={index} />
+                  ))}
+                </motion.ul>
+              </div>
+            </motion.div>
+
+            {/* Section 3: Значение для тестирования */}
+            <motion.div 
+              className="section"
+              variants={sectionVariants}
+              transition={{ delay: 1.6 }}
+            >
+              <div className="section-header">
+                Значение для тестирования
+              </div>
+              <div className="section-content">
+                <motion.ul
+                  variants={containerVariants}
+                  transition={{ delay: 2.0 }}
+                >
+                  {testingSignificance.map((item, index) => (
+                    <InfoItem key={index} item={item} index={index} />
+                  ))}
+                </motion.ul>
+              </div>
+            </motion.div>
           </motion.div>
 
-          {/* Section 3: Значение для тестирования */}
-          <motion.div 
-            className="section"
-            variants={sectionVariants}
-            transition={{ delay: 1.6 }}
+          {/* BMSTU Logo Emblem */}
+          <motion.div
+            className="emblem-container"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
           >
-            <div className="section-header">
-              Значение для тестирования
-            </div>
-            <div className="section-content">
-              <motion.ul
-                variants={containerVariants}
-                transition={{ delay: 2.0 }}
-              >
-                {testingSignificance.map((item, index) => (
-                  <InfoItem key={index} item={item} index={index} />
-                ))}
-              </motion.ul>
-            </div>
+            <motion.img 
+              ref={logoRef}
+              className="bmstu-emblem"
+              src={BMSTULogoPNG}
+              alt="BMSTU Logo"
+              onLoad={() => {
+                // Try switching to SVG after PNG loads
+                if (logoRef.current) {
+                  const target = logoRef.current;
+                  target.src = BMSTULogoSVG;
+                }
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ 
+                duration: 1.5, 
+                delay: 0.8,
+                ease: "easeOut"
+              }}
+            />
           </motion.div>
-        </motion.div>
-
-        {/* BMSTU Logo Emblem */}
-        <motion.div
-          className="emblem-container"
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-        >
-          <img 
-            src="/assets/bmstu/bmstu-logo-white.png" 
-            alt="BMSTU Logo" 
-            className="bmstu-emblem"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = "/assets/bmstu/bmstu-logo-white.svg";
-            }}
-          />
-        </motion.div>
+        </div>
       </div>
     </div>
-  </div>
-); 
+  );
+}; 

@@ -1,22 +1,24 @@
+import React from 'react';
+import { Card, Row, Col, Typography, Descriptions, Tag } from 'antd';
+import { Server, Cpu, HardDrive, MemoryStick, Monitor, Database, Code } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Settings, Monitor, Cloud, Layers } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import styles from './TestEnvironmentSlide.module.scss';
 import { SlideHeading } from '../../components/SlideHeading';
 
 // Import SVG icons using path aliases
-import CpuIcon from '@assets/cpu.svg';
-import MemoryIcon from '@assets/memory-stick.svg';
-import HardDriveIcon from '@assets/hard-drive.svg';
-import LinuxIcon from '@assets/linux-svgrepo-com.svg';
-import MongoDBIcon from '@assets/mongodb.svg';
-import PostgreSQLIcon from '@assets/postgresql.svg';
-import CassandraIcon from '@assets/apachecassandra.svg';
-import PythonIcon from '@assets/python.svg';
-import JavaIcon from '@assets/openjdk.svg';
-import YCSBIcon from '@assets/yahoo-svgrepo-com.svg';
-import ToolsIcon from '@assets/screwdriver-wrench-svgrepo-com.svg';
-import VMwareIcon from '@assets/vmware.svg';
+import CpuIcon from '../../assets/cpu.svg';
+import MemoryIcon from '../../assets/memory-stick.svg';
+import HardDriveIcon from '../../assets/hard-drive.svg';
+import LinuxIcon from '../../assets/linux-svgrepo-com.svg';
+import MongoDBIcon from '../../assets/mongodb.svg';
+import PostgreSQLIcon from '../../assets/postgresql.svg';
+import CassandraIcon from '../../assets/apachecassandra.svg';
+import PythonIcon from '../../assets/python.svg';
+import JavaIcon from '../../assets/openjdk.svg';
+import YCSBIcon from '../../assets/yahoo-svgrepo-com.svg';
+import ToolsIcon from '../../assets/screwdriver-wrench-svgrepo-com.svg';
+import VMwareIcon from '../../assets/vmware.svg';
 
 // Animation variants
 const containerVariants = {
@@ -97,7 +99,7 @@ export const TestEnvironmentSlide = () => {
             {/* Virtualization */}
             <motion.div className={styles.configSection} variants={sectionVariants}>
               <h2 className={styles.sectionTitle}>
-                <Cloud className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
+                <Monitor className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
                 Виртуализация
               </h2>
               <div className={styles.specGrid}>
@@ -113,7 +115,7 @@ export const TestEnvironmentSlide = () => {
             {/* Software Environment */}
             <motion.div className={styles.configSection} variants={sectionVariants}>
               <h2 className={styles.sectionTitle}>
-                <Layers className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
+                <Monitor className={`${styles.sectionIcon} ${styles.lucideIcon}`} />
                 Программное окружение
               </h2>
               <div className={styles.softwareGrid}>

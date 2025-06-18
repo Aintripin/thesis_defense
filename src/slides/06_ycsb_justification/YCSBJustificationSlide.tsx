@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Database, BarChart3, Settings } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import styles from './YCSBJustificationSlide.module.scss'
 import { SlideHeading } from '../../components/SlideHeading'
+
+// Import BMSTU logo assets
+import BMSTULogoPNG from '../../assets/bmstu-logo-white.png'
+import BMSTULogoSVG from '../../assets/bmstu-logo-white.svg'
 
 interface JustificationCardProps {
   number: number
@@ -57,6 +61,7 @@ const WorkloadItem: React.FC<WorkloadItemProps> = ({ workload, description, deta
 
 export const YCSBJustificationSlide: React.FC = () => {
   const { isPrintTheme } = useTheme()
+  const logoRef = useRef<HTMLImageElement>(null)
 
   return (
     <div className={`${styles.ycsbJustificationSlide} ${isPrintTheme ? styles.printTheme : ''}`}>
@@ -163,14 +168,24 @@ export const YCSBJustificationSlide: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
           >
-            <img 
-              src="/assets/bmstu/bmstu-logo-white.png" 
-              alt="BMSTU Logo" 
+            <motion.img 
+              ref={logoRef}
               className={styles.bmstuEmblem}
-              onError={(e) => {
-                // Fallback to SVG if PNG fails
-                const target = e.target as HTMLImageElement;
-                target.src = "/assets/bmstu/bmstu-logo-white.svg";
+              src={BMSTULogoPNG}
+              alt="BMSTU Logo"
+              onLoad={() => {
+                // Try switching to SVG after PNG loads
+                if (logoRef.current) {
+                  const target = logoRef.current;
+                  target.src = BMSTULogoSVG;
+                }
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ 
+                duration: 1.5, 
+                delay: 0.8,
+                ease: "easeOut"
               }}
             />
           </motion.div>
