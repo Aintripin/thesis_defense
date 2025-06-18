@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer, HelpCircle, Maximize, Minimize, PlayCircle } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Target, CheckSquare, Lightbulb, Zap, BarChart3, TrendingUp, CheckCircle, Database, Settings, Cog, Wrench, Settings2, Bot, PieChart, Award, Activity, BookOpen, Handshake, Monitor, Printer, Maximize, Minimize, Star } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation'
 import KeyboardShortcutsHelp from '../KeyboardShortcutsHelp'
@@ -38,13 +38,13 @@ const Navigation: React.FC = () => {
     { path: '/technical-implementation', label: 'Техническая реализация', icon: Cog },
     { path: '/technical-optimization', label: 'Оптимизация конфигураций', icon: Wrench },
     { path: '/ycsb-configuration', label: 'Конфигурация YCSB', icon: Settings2 },
-    { path: '/test-execution', label: 'Исполнение тестов', icon: PlayCircle },
     { path: '/automation', label: 'Автоматизация сбора результатов', icon: Bot },
     { path: '/visualization', label: 'Визуализация и рекомендации', icon: PieChart },
     { path: '/main-results', label: 'Основные результаты: Столбчатая диаграмма', icon: Award, end: true },
     { path: '/main-results/radar', label: 'Основные результаты: Радарные диаграммы', icon: Award },
     { path: '/scalability-delays', label: 'Масштабируемость и задержки', icon: Activity },
     { path: '/publications', label: 'Публикации', icon: BookOpen },
+    { path: '/recommendations', label: 'Рекомендации', icon: Star },
     { path: '/conclusion', label: 'Заключение', icon: CheckCircle },
     { path: '/goodbye', label: 'Спасибо за внимание', icon: Handshake },
   ]

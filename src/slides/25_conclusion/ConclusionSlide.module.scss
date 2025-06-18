@@ -90,7 +90,7 @@
 
 .contentGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 30px;
   height: calc(100% - 160px);
   z-index: 4;
@@ -135,11 +135,6 @@
   &.practical::before {
     background: linear-gradient(90deg, #059669, #10b981, #34d399);
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
-  }
-
-  &.future::before {
-    background: linear-gradient(90deg, #d97706, #f59e0b, #fbbf24);
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
   }
 
   &:hover {
@@ -196,11 +191,6 @@
   .practical & {
     background: linear-gradient(135deg, #059669, #10b981);
     box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-  }
-
-  .future & {
-    background: linear-gradient(135deg, #d97706, #f59e0b);
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
   }
 }
 

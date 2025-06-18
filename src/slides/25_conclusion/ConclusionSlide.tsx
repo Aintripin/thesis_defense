@@ -139,62 +139,6 @@ const ConclusionSlide: React.FC = () => {
             </div>
           </motion.div>
         </div>
-
-        {/* Направления развития */}
-        <div className={styles.sectionColumn}>
-          <motion.div 
-            className={`${styles.sectionBlock} ${styles.future}`}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.4, 0, 0.2, 1] }}
-          >
-            <div className={styles.sectionHeader}>
-              <div className={styles.sectionTitle}>Направления развития</div>
-              <div className={styles.sectionIcon}>{isPrintTheme ? '' : '🚀'}</div>
-            </div>
-            
-            <ul className={styles.contributionList}>
-              <li className={styles.contributionItem}>
-                Тестирование в <span className={styles.highlight}>распределенных конфигурациях</span>
-              </li>
-              <li className={styles.contributionItem}>
-                Исследование влияния <span className={styles.highlight}>различных типов данных</span>
-              </li>
-              <li className={styles.contributionItem}>
-                Анализ поведения при <span className={styles.highlight}>отказах и восстановлении</span>
-              </li>
-              <li className={styles.contributionItem}>
-                Оценка <span className={styles.highlight}>энергоэффективности</span> различных СУБД
-              </li>
-            </ul>
-
-            <div className={styles.statsSection}>
-              <div className={styles.statsHighlight}>
-                <div className={styles.statsNumber}>∞</div>
-                <div className={styles.statsLabel}>Потенциал развития</div>
-              </div>
-
-              <div className={styles.impactGrid}>
-                <div className={styles.impactCard}>
-                  <div className={styles.impactNumber}>Кластеры</div>
-                  <div className={styles.impactLabel}>Распределенность</div>
-                </div>
-                <div className={styles.impactCard}>
-                  <div className={styles.impactNumber}>Fault Tolerance</div>
-                  <div className={styles.impactLabel}>Отказоустойчивость</div>
-                </div>
-                <div className={styles.impactCard}>
-                  <div className={styles.impactNumber}>Green IT</div>
-                  <div className={styles.impactLabel}>Экологичность</div>
-                </div>
-                <div className={styles.impactCard}>
-                  <div className={styles.impactNumber}>Big Data</div>
-                  <div className={styles.impactLabel}>Масштаб данных</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
       </div>
 
       <motion.div 

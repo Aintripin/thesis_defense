@@ -13,8 +13,9 @@ const slides = [
   '/market-analysis/trends-deep-dive',
   '/dataset-selection',
   '/dataset-selection/details',
-  '/data-preparation',
-  '/data-preparation/cassandra',
+  '/mongodb-preparation',
+  '/postgresql-preparation',
+  '/cassandra-preparation',
   '/test-environment',
   '/technical-implementation',
   '/technical-optimization',
@@ -25,6 +26,7 @@ const slides = [
   '/main-results/radar',
   '/scalability-delays',
   '/publications',
+  '/recommendations',
   '/conclusion',
   '/goodbye'
 ];
@@ -42,9 +44,6 @@ export const useKeyboardNavigation = () => {
         return slide === location.pathname;
       }
       if (slide.includes('/dataset-selection') && location.pathname.startsWith('/dataset-selection')) {
-        return slide === location.pathname;
-      }
-      if (slide.includes('/data-preparation') && location.pathname.startsWith('/data-preparation')) {
         return slide === location.pathname;
       }
       if (slide.includes('/main-results') && location.pathname.startsWith('/main-results')) {
